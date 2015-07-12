@@ -11,7 +11,7 @@ and open the template in the editor.
     </head>
     <body>
         <?php
-        // put your code here是大的撒大声地
+        // put your code here
         ?>
     </body>
 </html>
