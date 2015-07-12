@@ -1,0 +1,60 @@
+<section class="content-header">
+    <h1>
+        部门管理
+        <small>编辑部门</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{:U('Admin/Index/index')}"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="{:U('index')}">部门管理</a></li>
+        <li class="active">编辑部门</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <i class="fa fa-inbox"></i>
+                    <h3 class="box-title">编辑部门</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive">
+                    <div class="panel-body">
+    <button type="button" class="btn btn-info" onclick="javascript:history.back(-1);">返回</button>
+    </div>
+
+    <form class="form-horizontal" action="{:U('saveOk')}">
+            <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">部门名称
+            </label>
+            <div class="col-sm-4">
+            <input class="form-control" id="inputEmail3" placeholder="部门">
+            </div>
+            </div>
+
+            <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">上级部门</label>
+            <div class="col-sm-4">
+            <input class="form-control" id="inputEmail3" placeholder="根部门">
+            </div>
+
+            </div>
+
+            <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">部门描述</label>
+            <div class="col-sm-4">
+            <textarea class="form-control" rows="3"></textarea>
+            </div>
+
+            </div>
+            <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-open"></i>保存修改</button>
+            </div>
+            </div>
+            </form>
+                </div>
+            </div>
+        </div>
+    </div>    
+</section>
+

@@ -1,0 +1,16 @@
+<meta charset="UTF-8">
+<title><block name="title">{$title}</block></title>
+<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+<block name="cssArr">
+    <foreach name="cssArr" item="css">
+        <link href="{$css|add_root_path}" rel="stylesheet" type="text/css" />
+    </foreach>    
+</block>
+<block name="ie9CdnJsArr">
+    <!--[if lt IE 9]>
+      <foreach name="ie9CdnJsArr" item="ie9CdnJs">
+        <script src="{$ie9CdnJs}"></script>
+    
+      </foreach>
+    <![endif]-->
+</block>

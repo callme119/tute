@@ -1,0 +1,89 @@
+<html>
+  <head>
+    <title>登陆</title>
+    <meta charset="UTF-8">
+    <script src="__PUBLIC__/Js/jQuery.js"></script>
+    <link href="<php>echo add_root_path('/Public/css/bootstrap.min.css');</php>" rel="stylesheet">
+    <script src='__PUBLIC__/Bootstrap/js/bootstrap.js'></script>
+    <!-- 弹出窗口特效资源加载 -->
+    <script src='__PUBLIC__/HubSpot-messenger/build/js/messenger.min.js'></script>
+    <script src='__PUBLIC__/HubSpot-messenger/build/js/messenger-theme-future.js'></script>
+    <link rel="stylesheet" href="__PUBLIC__/HubSpot-messenger/build/css/messenger.css">
+    <link rel="stylesheet" href="__PUBLIC__/HubSpot-messenger/build/css/messenger-theme-future.css">   
+  </head>
+  <body style="background-image:url('__PUBLIC__/Images/3535.jpg')">
+      <div style="margin-top:100px;">
+          <div class="container" >
+              <div class="row">
+                  <div class="col-md-4 col-md-offset-4 well">
+                  <h3>Please Login</h3><hr>
+                      <form action="__URL__/login" role='form' class="form-horizontal">
+                          <div class="form-group">
+                              <div class="col-md-3">
+                              <label for="username" class="control-label">Username:</label>
+                              </div>
+                              <div class="col-md-9">
+                                  <input type="text" class="form-control" name="username" id="username" placeholder='Enter The Username'>
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <div class="col-md-3">
+                              <label for="password" class="control-label">Password:</label>
+                              </div>
+                              <div class="col-md-9">
+                                  <input type="password" class="form-control" name="password" id="password" placeholder='Enter The Password'>
+                              </div>
+                          </div>
+                        <div class="form-group">
+                            <div class="col-md-9 col-md-offset-3">
+                                <input type="checkbox" name="Remember_me" >Remember Me
+                            </div>
+                        </div>
+                          <div class="form-group">
+                              <div class="col-md-3 col-md-offset-3">
+                                  <button class="btn btn-info" type="submit">Submit</button>
+                              </div>
+                              <div class="col-md-3 col-md-offset-3">
+                                  <button class="btn btn-default" type="reset">Reset</button>
+                              </div>
+                          </div>
+                      </form>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </body>
+</html>
+
+<script>
+    
+    Messenger.options = {
+        extraClasses: 'messenger-fixed messenger-on-top',
+        theme: 'block'
+    }
+
+    function alert_info(info){
+        Messenger().post({
+              message: info,
+              hideAfter: 2,
+              id: "Only-one-message"
+        });
+    }
+
+    $('form').submit(function(event){
+        event.preventDefault();
+        $.post('__URL__/login',$(this).serialize(),function(data){
+            if (data == 'success') {
+                alert_info('success');
+            };
+            if (data == 'forbiden') {
+                alert_info('该用户已被冻结');
+            };
+            if (data == 'error') {
+                alert_info('用户名或密码错误');
+            };
+        });
+    });
+
+
+</script> 

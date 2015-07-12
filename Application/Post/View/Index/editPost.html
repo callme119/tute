@@ -1,0 +1,59 @@
+<section class="content-header">
+    <h1>
+        岗位管理
+        <small>编辑岗位</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{:U('Admin/Index/index')}"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="{:U('index')}">岗位管理</a></li>
+        <li class="active">编辑岗位</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <i class="fa fa-inbox"></i>
+                    <h3 class="box-title">编辑岗位</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive">
+                    <div class="panel-body">
+                        <button type="button" class="btn btn-info" onclick="javascript:history.back(-1);">返回</button>
+                    </div>
+                    <form class="form-horizontal" action="{:U('saveOk')}">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">岗位名称
+                            </label>
+                            <div class="col-sm-4">
+                            <input class="form-control" id="inputEmail3" placeholder="岗位">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">是否参与审批</label>
+                            <div class="col-sm-4">
+                                <div class="col-md-6 form-group">
+                                    <select class="selectpicker form-control">
+                                        <option>是</option>
+                                        <option>否</option>
+                                    </select><!-- /.input group -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">岗位描述</label>
+                            <div class="col-sm-4">
+                            <textarea class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-open"></i>保存修改</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>    
+</section>

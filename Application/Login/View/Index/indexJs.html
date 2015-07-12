@@ -1,0 +1,30 @@
+<script>
+    $(document).ready(function(){
+        $("#loginform").validate({
+            rules:{
+                username:{
+                    required:true,
+                    minlength:2,
+                    maxlength:10
+                },
+               password:{
+                    required:true,
+                    minlength:2,
+                    maxlength:16
+               }
+            }
+            message:{
+                username:{
+                    required:"必须填写用户名",
+                    minlength:"用户名最小为2位",
+                    maxlength:"用户名最大为10为"
+                },
+               password:{
+                    required:"必须填写密码",
+                    minlength:"密码最小为2位",
+                    maxlength:"密码最小为16位"
+               }
+            }
+        });
+    });
+</script>

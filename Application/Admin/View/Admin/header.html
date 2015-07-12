@@ -1,0 +1,60 @@
+<block name="header">
+    <header class="header">
+        <a href="{:U('Admin/Index/index')}" class="logo">
+            <!-- Add the class icon to your logo image or logo icon to add the margining -->
+            经管绩效管理系统
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">
+                <span class="sr-only">切换导航栏</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <div class="navbar-right">
+                <ul class="nav navbar-nav">
+                    <!-- Tasks: style can be found in dropdown.less -->
+                    <!--<li class="dropdown tasks-menu">
+                        <a href="" class="dropdown-toggle" data-toggle="dropdown"></a>
+                    </li>-->
+                    <li>
+                        <a href="{:U('Myjob/Index/index')}">
+                            <i class="fa fa-tasks"></i>
+                            <span class="label label-danger">12</span>
+                        </a>
+                    </li>
+                        
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li class="dropdown user user-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="glyphicon glyphicon-user"></i>
+                            <span>王小红 <i class="caret"></i></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <!-- User image -->
+                            <li class="user-header bg-light-blue">
+                                <img src='{:add_root_path("/img/avatar3.png")}' class="img-circle" alt="User Image" />
+                                <p>
+                                    王小红 - 教工
+                                    <small>用户名</small>
+                                </p>
+                            </li>
+                            <!-- Menu Body -->
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="{:U('PersonalCenter/Index/index')}" class="btn btn-default btn-flat">个人中心</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="{:U('Login/Index/index')}" class="btn btn-default btn-flat">退出</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+</block>

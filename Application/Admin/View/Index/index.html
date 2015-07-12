@@ -1,0 +1,250 @@
+<section class="content-header">
+    <h1>
+        首页
+        <small>总览</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li class="active">总览</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>
+                        4
+                    </h3>
+                    <p>
+                        我的审批
+                    </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-ios7-pricetag-outline"></i>
+                </div>
+                <a href="{:U('Myjob/Index/index')}" class="small-box-footer">
+                    更多信息<i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-green">
+                <div class="inner">
+                    <h3>
+                        800
+                    </h3>
+                    <p>
+                        已得分
+                    </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-ios7-briefcase-outline"></i>
+                </div>
+                <a href="{:U('ScientificResearch/Index/audited')}" class="small-box-footer">
+                    更多信息<i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-yellow">
+                <div class="inner">
+                    <h3>
+                        1200
+                    </h3>
+                    <p>
+                        预期得分
+                    </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                    
+                </div>
+                <a href="{:U('ScientificResearch/Index/saved')}" class="small-box-footer">
+                    更多信息 <i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div><!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-red">
+                <div class="inner">
+                    <h3>
+                        66<sup style="font-size: 20px">%</sup>
+                    </h3>
+                    <p>
+                        完成率
+                    </p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                    
+                </div>
+                <a href="#" class="small-box-footer">
+                    更多信息<i class="fa fa-arrow-circle-right"></i>
+                </a>
+            </div>
+        </div><!-- ./col -->
+    </div><!-- /.row -->
+    
+    <div class="row">
+            <div class="col-xs-4 connectedSortable">
+                 
+            </div><!-- /.col -->
+    </div>
+    
+    <div class="row">
+            <!-- Left col -->
+            <section class="col-lg-6 connectedSortable"> 
+                <!-- Box (with bar chart) -->
+                <div class="box box-danger" id="loading-example">
+                    <div class="box-header">
+                        <!-- tools box -->
+                        <div class="pull-right box-tools">
+                            <button class="btn btn-danger btn-sm" data-widget='collapse' data-toggle="tooltip" title="最小化"><i class="fa fa-minus"></i></button>
+                            <button class="btn btn-danger btn-sm" data-widget='remove' data-toggle="tooltip" title="关闭"><i class="fa fa-times"></i></button>
+                        </div><!-- /. tools -->
+                        <i class="fa fa-bar-chart-o"></i>
+                        <h3 class="box-title">绩效总览</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body no-padding">
+                        <div class="row">
+                            <!--
+                                <div class="col-lg-12">
+                                    bar chart 
+                                    可以插入图表
+                                </div>
+                            -->
+                            <div class="col-lg-12">
+                                <div class="pad">
+                                    <!-- Progress bars -->
+                                    <div class="clearfix">
+                                        <span class="pull-left">基础科研</span>
+                                            <small class="pull-right">100/200 分</small>
+                                        </div>
+                                        <div class="progress xs">
+                                            <div class="progress-bar progress-bar-green" style="width: 50%;"></div>
+                                        </div>
+                                        <div class="clearfix">
+                                            <span class="pull-left">岗位科研</span>
+                                            <small class="pull-right">500分</small>
+                                        </div>
+                                        <div class="progress xs">
+                                            <div class="progress-bar progress-bar-red" style="width: 80%;"></div>
+                                        </div>
+
+                                        <div class="clearfix">
+                                            <span class="pull-left">已审批</span>
+                                            <small class="pull-right">3/4</small>
+                                        </div>
+                                        <div class="progress xs">
+                                            <div class="progress-bar progress-bar-light-blue" style="width: 75%;"></div>
+                                        </div>
+
+                                        <!-- Buttons -->
+                                        <div class="row">
+                                            <div class="col-xs-12">
+                                                <p>
+                                                    <button class="btn btn-info pull-right"><i class="fa fa-download"></i> 下载绩效文档</button>
+                                                </p>
+                                            </div>
+                                        </div>
+                                </div><!-- /.pad -->
+                            </div><!-- /.col -->
+                        </div><!-- /.row - inside box -->
+                    </div><!-- /.box-body -->
+                    <div class="box-footer">
+                                    <div class="row">
+                                        <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
+                                            <input type="text" class="knob" data-readonly="true" value="50" data-width="60" data-height="60" data-fgColor="#f56954"/>
+                                            <div class="knob-label">基础完成率</div>
+                                        </div><!-- ./col -->
+                                        <div class="col-xs-4 text-center" style="border-right: 1px solid #f4f4f4">
+                                            <input type="text" class="knob" data-readonly="true" value="80" data-width="60" data-height="60" data-fgColor="#00a65a"/>
+                                            <div class="knob-label">超额完成率</div>
+                                        </div><!-- ./col -->
+                                        <div class="col-xs-4 text-center">
+                                            <input type="text" class="knob" data-readonly="true" value="60" data-width="60" data-height="60" data-fgColor="#3c8dbc"/>
+                                            <div class="knob-label">总完成率</div>
+                                        </div><!-- ./col -->
+                                    </div><!-- /.row -->
+                    </div><!-- /.box-footer -->
+                </div>
+            </section><!-- /.Left col -->
+            <section class="col-lg-6 connectedSortable">
+                <div class="box box-primary">
+                    <div class="box-header">
+                        <div class="pull-right box-tools">
+                            <button class="btn btn-primary btn-sm" data-widget='collapse' data-toggle="tooltip" title="最小化"><i class="fa fa-minus"></i></button>
+                            <button class="btn btn-primary btn-sm" data-widget='remove' data-toggle="tooltip" title="关闭"><i class="fa fa-times"></i></button>
+                        </div><!-- /. tools -->
+                        <i class="ion ion-clipboard"></i>
+                        <h3 class="box-title">通知公告</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <ul class="todo-list">
+                            <li>
+                                <!-- drag handle -->
+                                <span class="handle">
+                                    <i class="fa fa-map-marker"></i> 
+                                </span>  
+                                <!-- todo text -->
+                                <span class="text"><a href="#">公告公告公告...公告   </a></span>
+                                <!-- Emphasis label -->
+                                <small class="label label-success pull-right"><i class="fa fa-clock-o"></i> 2015/7/2</small>
+                            </li>
+                            <li>
+                                <!-- drag handle -->
+                                <span class="handle">
+                                    <i class="fa fa-envelope"></i>
+                                </span>  
+                                <!-- todo text -->
+                                <span class="text"><a href="#">通知通知通知...通知   </a></span>
+                                <!-- Emphasis label -->
+                                <small class="label label-success pull-right"><i class="fa fa-clock-o"></i> 2015/7/2</small>
+                            </li>
+                            <li>
+                                <!-- drag handle -->
+                                <span class="handle">
+                                    <i class="fa fa-map-marker"></i>
+                                </span>  
+                                <!-- todo text -->
+                                <span class="text"><a href="#">公告公告公告...公告  </a></span>
+                                <!-- Emphasis label -->
+                                <small class="label label-success pull-right"><i class="fa fa-clock-o"></i>  2015/7/2</small>
+                            </li>
+                            <li>
+                                <!-- drag handle -->
+                                <span class="handle">
+                                    <i class="fa fa-envelope"></i>
+                                </span>  
+                                <!-- todo text -->
+                                <span class="text"><a href="#">通知通知通知...通知   </a></span>
+                                <!-- Emphasis label -->
+                                <small class="label label-success pull-right"><i class="fa fa-clock-o"></i> 2015/7/2</small>
+                            </li>
+                            <li>
+                                <!-- drag handle -->
+                                <span class="handle">
+                                    <i class="fa fa-map-marker"></i>
+                                </span>  
+                                <!-- todo text -->
+                                <span class="text"><a href="#">公告公告公告...公告  </a></span>
+                                <!-- Emphasis label -->
+                                <small class="label label-success pull-right"><i class="fa fa-clock-o"></i>  2015/7/2</small>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                    <div class="box-footer clearfix no-border">
+                        <a href="{:U('Information/Index/index')}"><button class="btn btn-info pull-right"> more...</button></a>
+                    </div>
+                </div>
+            </section><!-- right col -->
+            
+    </div>
+   
+</section>

@@ -1,0 +1,170 @@
+<section class="content-header">
+    <h1>我的项目<small>添加项目</small></h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>我的项目</a></li>
+        <li class="active">添加项目</li>
+    </ol>
+</section>
+<div class="row ">
+            <div class="col-md-12">
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs pull-right">
+                        <li class="active"><a href="#tab_1-1" data-toggle="tab">论文</a></li>
+                        <li><a href="#tab_2-2" data-toggle="tab">成果转化</a></li>
+
+                        <li class="pull-left header"><i class="fa fa-th"></i>添加项目</li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tab_1-1">
+                            <div class="row">
+        <div class="col-md-3 form-group">
+           <select class="selectpicker form-control">    
+            <option>添加教研项目</option>
+            <option onclick="add1()">添加科研项目</option>
+            </select><!-- /.input group -->
+        </div><!-- /.form group -->
+        </div>
+        
+        <div  id="paper" class="row">
+            <div class="col-md-3 form-group">
+           <select class="selectpicker form-control">
+               <option onclick="add2()">论文</option>
+                <option>纵向科研项目</option>
+                <option>专利或软件著作权</option>
+                <option>成果转化</option>
+                <option>学术专著</option>
+                <option>科研经费</option>
+                <option>学术会议</option>
+    </select><!-- /.input group -->
+        </div><!-- /.form group -->
+        </div>
+        
+        <div id="type" class="row">
+        <div class="col-md-3 form-group">
+           <select class="selectpicker form-control">
+                <option onclick="add3()">论文A类</option>
+                <option>论文B类</option>
+                <option>论文C类</option>
+                <option>论文D类</option>
+                <option>论文E类</option>
+    </select><!-- /.input group -->
+        </div><!-- /.form group -->
+        </div>
+        
+        <div id="project" class="row">
+        <div class="col-md-3 form-group">
+           <select class="selectpicker form-control">
+                <option>期刊被《SCI》I区收录的论文</option>
+                <option onclick="add4()">期刊被《SCI》II区收录的论文</option>
+                <option>期刊被《SCI》III区收录的论文</option>
+                <option>期刊被《A&HCI》收录的论文</option>
+                <option>期刊被《A&HCI》收录的论文</option>
+            </select> 
+        </div> 
+        </div>
+                <div id="model1">    
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">项目名称</span>
+                        <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">发表时间</span>
+                        <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div> 
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">发表位置</span>
+                        <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+                </div>
+        </div>
+                        <div class="tab-pane" id="tab_2-2">
+                            <div class="row">
+        <div class="col-md-3 form-group">
+           <select class="selectpicker form-control">    
+            <option>添加教研项目</option>
+            <option onclick="add11()">添加科研项目</option>
+            </select><!-- /.input group -->
+        </div><!-- /.form group -->
+        </div>
+        
+        <div  id="transform" class="row">
+            <div class="col-md-3 form-group">
+           <select class="selectpicker form-control">
+               <option>论文</option>
+                <option>纵向科研项目</option>
+                <option>专利或软件著作权</option>
+                <option onclick="add12()">成果转化</option>
+                <option>学术专著</option>
+                <option>科研经费</option>
+                <option>学术会议</option>
+    </select><!-- /.input group -->
+        </div><!-- /.form group -->
+        </div>
+                <div id="model2">    
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">项目名称</span>
+                        <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+                    <div class="row">
+                    <div class="col-md-3">
+                        <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">学校获利</span>
+                        <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+                </div>
+                        </div>
+                    <div class="row">
+            <div class="col-md-1 col-md-offset-3"><a href="" class="btn btn-primary" ><i class="glyphicon glyphicon-saved"></i>保存</a></div>
+            <div class="col-md-1"><a href="" class="btn btn-warning" ><i class="glyphicon glyphicon-repeat"></i>重置</a></div>
+        </div>
+                    </div>
+                    
+                </div>
+                
+            </div>         
+        </div> 
+<script>
+    $("#paper").hide(); 
+    $("#type").hide();
+    $("#project").hide();
+    $("#model1").hide();
+    $("#transform").hide();
+    $("#model2").hide();
+   function add1(){
+        $("#paper").show();  
+    }
+    function add2(){
+        $("#type").show();  
+    }
+    function add3(){
+        $("#project").show();  
+    }
+    function add4(){
+        $("#model1").show();  
+    }
+    function add11(){
+        $("#transform").show();  
+    }
+    function add12(){
+        $("#model2").show();  
+    }
+   
+</script>

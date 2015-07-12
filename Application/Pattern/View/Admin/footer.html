@@ -1,0 +1,10 @@
+<block name="jsArr">
+    <foreach name="jsArr" item="js">
+        <script src="{$js|add_root_path}" type="text/javascript"></script>
+    </foreach>
+</block>
+<block name="cdnJsArr">
+    <foreach name="cdnJsArr" item="cdnJs">
+        <script src="{$cdnJs}"></script>      
+    </foreach>
+</block>    
