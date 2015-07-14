@@ -32,7 +32,30 @@ class IndexController extends AdminController
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
+    /**
+     * 调用添加，编辑菜单界面
+     * 根据get的a的值判断具体操作是什么，并传入title和相应的数据
+     * 无参数，无返回值
+     * 2015年7月14日20:56:29
+     */
     public function addOrEditAction(){
+        $action = I('get.a');
+        switch ($action){
+            case "add":
+                $title = "添加子菜单";
+                break;
+            case "addroot":
+                $title = "添加根菜单";
+                break;
+            case "edit":
+                $title = "编辑菜单";
+                $id = I('get.id');
+                $menuModel = new MenuModel();
+                $data = $menuModel->getMenuById($id);
+                $this->assign('data',$data);
+                break;
+        }
+        $this->assign('title',"添加根菜单低调低调");
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }

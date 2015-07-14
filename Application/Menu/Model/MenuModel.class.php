@@ -14,13 +14,13 @@ class MenuModel extends Model{
      * 
      * @return array
      */
-    public function getMenuTree(){
-        $data = $this->select();
-        foreach ($data as $key => $value) {
-            $map['parent_id'] = $value['id'];
-            $res = $this->where($map)->select();
-            $data[$key]['_son'] = $res;
-        }
+    public function getMenuTree($parentId,$isDevelop,$isShow,$layer){
+        $map = array();
+        $level = isset($layer)?$layer:1;
+        $map['parent_id'] = isset($parentId)?$parentId:0;
+        $map['development'] = isset($isDevelop)?$isDevelop:0;
+        $map['show'] = isset($isShow)?$isShow:1;
+        $data = $this->_getMenuList($map, $level);
         return $data;
     }
     /**
@@ -64,5 +64,22 @@ class MenuModel extends Model{
         }
         $state = "success";
         return $state;
+    }
+    private function _getMenuList($where,$layer){
+        $menuList = $this->where($where)->select();
+        if($layer--)
+        {
+            foreach($menuList as $key => $value)
+            {
+                $map = $where;
+                $map['parent_id'] = $value['id'];
+                $son = $this->_getMenuList($map,$layer);
+                if(count($son)>0)
+                {
+                    $menuList[$key]['_son'] = $son;
+                }
+            }
+        }
+        return $menuList;
     }
 }
