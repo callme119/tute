@@ -74,7 +74,7 @@ class AdminController extends Controller{
         $url = $this->_getUrl();
         $isjump = $this->_checkUrl($url);
         if(!$isjump){
-            
+            $this->_jumpUrl();
         }        
         $headerTpl = T('Admin@Admin/header');
         $this->assign('header',$this->fetch($headerTpl));
@@ -94,6 +94,10 @@ class AdminController extends Controller{
     }
     private function _checkUrl($url){
         return true;
+    }
+    private function _jumpUrl(){
+        $url = U('Admin/Index/fail');
+        redirect($url);
     }
 }
 
