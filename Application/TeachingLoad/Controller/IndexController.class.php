@@ -5,7 +5,7 @@
  * create date:2015.07.15
  */
 namespace TeachingLoad\Controller;
-use Think\Controller\AdminController;
+use Admin\Controller\AdminController;
 class IndexController extends AdminController {
     public function indexAction(){
         $this->assign('YZBODY',$this->fetch());
