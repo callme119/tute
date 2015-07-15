@@ -20,13 +20,13 @@ class IndexController extends AdminController
         $data = $menuModel->getMenuTree();
         foreach ($data as $key => $value) {
             $data['_url'] = array(
-                'add'=>U('addOrEdit?a=add&id='.$value['id']),
-                'edit'=>U('addOrEdit?a=edit&id='.$value['id']),
-                'delete'=>U('delete?a=add&id='.$value['id']),);
+                'add'=>U('addOrEdit?a='.'add'.'id=' . $value['id']),
+                'edit'=>U('addOrEdit?a='.'edit'.'id=' . $value['id']),
+                'delete'=>U('delete?a='.'delete'.'id=' . $value['id']));
         }
         //var_dump($data);
         //从数据库中取出菜单信息，加在这，与下边的url的id对应
-        $url = U('addOrEdit?a=addroot');
+        $url = U('addOrEdit?act=' . 'addroot');
         $this->assign('url',$url);
         $this->assign('data',$data);
         $this->assign('YZBODY',$this->fetch());
@@ -39,7 +39,7 @@ class IndexController extends AdminController
      * 2015年7月14日20:56:29
      */
     public function addOrEditAction(){
-        $action = I('get.a');
+        $action = I('get.act');
         switch ($action){
             case "add":
                 $title = "添加子菜单";
@@ -55,7 +55,7 @@ class IndexController extends AdminController
                 $this->assign('data',$data);
                 break;
         }
-        $this->assign('title',"添加根菜单低调低调");
+        $this->assign('title',$title);
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }

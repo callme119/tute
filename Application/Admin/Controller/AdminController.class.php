@@ -70,10 +70,23 @@ class AdminController extends Controller{
         $this->assign('jsArr',$jsArr);
         $this->assign('YZBodyClass','skin-blue wysihtml5-supported  pace-done');
         
+        //开始进行菜单访问权限判断
+        $url = $this->_getUrl();
         $headerTpl = T('Admin@Admin/header');
         $this->assign('header',$this->fetch($headerTpl));
         $tpl = T("Admin@Admin/index");
         define('YZTemplate', $tpl);
+    }
+    /**
+     * 获取当前的url
+     * @return 数组类型 返回$url，包括模块名，控制器名，和方法名
+     */
+    private function _getUrl(){
+        $url = array();
+        $url['module'] = C('MODULE_NAME');
+        $url['controller'] = C('COTROLLER_NAME');
+        $url['action'] = C('ACTION_NAME');
+        return $url;
     }
 }
 
