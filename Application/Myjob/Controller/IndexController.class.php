@@ -1,9 +1,8 @@
 <?php
 /*
- * 本模块实现我的工作管理
- * author：邓浩洋
- * 275111108@qq.com
- * 
+ * 我的工作初始化模块
+ * creat by 邓浩洋 2015年7月15日14:44:26
+ * 2751111108@qq.com
  */
 
 namespace Myjob\Controller;
