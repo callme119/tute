@@ -72,6 +72,10 @@ class AdminController extends Controller{
         
         //开始进行菜单访问权限判断
         $url = $this->_getUrl();
+        $isjump = $this->_checkUrl($url);
+        if(!$isjump){
+            
+        }        
         $headerTpl = T('Admin@Admin/header');
         $this->assign('header',$this->fetch($headerTpl));
         $tpl = T("Admin@Admin/index");
@@ -87,6 +91,9 @@ class AdminController extends Controller{
         $url['controller'] = C('COTROLLER_NAME');
         $url['action'] = C('ACTION_NAME');
         return $url;
+    }
+    private function _checkUrl($url){
+        return true;
     }
 }
 
