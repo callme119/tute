@@ -1,16 +1,125 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<section class="content-header">
+    <h1>服务育人<small>添加服务育人业绩</small></h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i>服务育人</a></li>
+        <li class="active">添加服务育人业绩</li>
+    </ol>
+</section>
+<div class="container">
+<div class="row box box-primary">
+    <div class="col-md-12 box-header">
+        <i class="fa fa-inbox"></i>
+        <h3 class="box-title">添加服务育人业绩</h3>
+    </div><!-- /.box-header -->
+    <div class="col-md-12 box-body">
+        <!-- Date range -->
+        <div class="row">
+        <div class="col-md-3 form-group">
+           <select class="selectpicker form-control">
+        <option>学生管理</option>
+        <option>教学科研管理公益任务</option>
+        <option>兼职管理</option>
+        <option>服务社会</option>
+        <option>其他项目</option>
+    </select><!-- /.input group -->
+        </div><!-- /.form group -->
+        </div>
+    
+        <div class="row height-control"></div>
+        <div class="row">
+<div class="col-md-3 form-group">
+           <select class="selectpicker form-control">
+        <option>担任一个班的班主任</option>
+        <option>担任两个班的班主任</option>
+        <option>为大学生做各类课外报告</option>
+        <option>提供用人单位信息且学生签约</option>
+        <option>担任社团指导教师</option>
+        <option>担任大学生各类竞赛的指导教师</option>
+        <option>培养方案制定和修订</option>
+    </select><!-- /.input group -->
+        </div><!-- /.form group -->
+        </div>
+        <div class="row">
+            <div class="col-md-3 form-group">
+            <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">明细</span>
+            <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+            </div>
+            </div>
+        </div>
+        <div class="row"> 
+            <div class="col-md-2 form-group">
+            <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">次数</span>
+
+            <select class="selectpicker form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+            </div> 
+        </div>
+        <div class="row"> 
+            <div class="col-md-2 form-group">
+            <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">项数</span>
+
+            <select class="selectpicker form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+            </div> 
+        </div>
+        <div class="row"> 
+            <div class="col-md-2 form-group">
+            <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">人数</span>
+
+            <select class="selectpicker form-control">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </div>
+            </div> 
+        </div>
+        <div class="row">
+                       <div class="col-md-3 form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">团队人员姓名</span>
+                                <select class="selectpicker form-control js-example-basic-multiple">
+                                    <option>张三</option>
+                                    <option>李四</option>
+                                    <option>王五</option>
+                                    <option>张四</option>
+                                    <option>张五</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon" id="basic-addon1">团队分数占比</span>
+                                <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                            </div>
+                        </div>
+                    </div>
+        <div class="row">
+            <div class="col-md-1 col-md-offset-3"><a href="" class="btn btn-primary" ><i class="glyphicon glyphicon-saved"></i>保存</a></div>
+            <div class="col-md-1"><a href="" class="btn btn-warning" ><i class="glyphicon glyphicon-repeat"></i>重置</a></div>
+        </div>
+    </div>
+    </div>
+</div>
+<script>
+    $(".js-example-basic-multiple").select2();
+</script>
+
