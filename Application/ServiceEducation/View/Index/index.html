@@ -1,16 +1,95 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>TODO write content</div>
-    </body>
-</html>
+<section class="content-header">
+    <h1>
+        服务于育人
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{:U('Admin/Index/index')}"><i class="fa fa-dashboard"></i> 首页</a></li>
+        
+        <li class="active">教学工作量</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title"></h3>
+                </div><!-- /.box-header -->
+                <div class="row">  
+                    <div class="col-md-2">
+                        <a href="{:U('ServiceEducation/Index/add')}" class="btn btn-block btn-primary"><i class="glyphicon glyphicon-plus"></i>添加服务育人业绩</a>
+                    </div>
+                </div>
+                <div class="box-body table-responsive">
+                    <!-- Table -->
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>项目类别</th>
+                                <th>内容</th>
+                                <th>学期</th>
+                                <th>分值</th>
+                                <th>明细</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="success">
+                                <td>1</td>
+                                <td>学生管理</td>
+                                <td>担任班主任</td>
+                                <td>2014.3-2014.7</td>
+                                <td>30</td>
+                                <td>两个班 </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>学生管理</td>
+                                <td>提供用人单位信息且学生签约</td>
+                                <td>2014.3-2014.7</td>
+                                <td>100</td>
+                                <td>5分/人共20人</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>教学科研管理公益任务</td>
+                                <td>学院年度教学大纲修订</td>
+                                <td>2014.3-2014.7</td>
+                                <td>100</td>
+                                <td>2分/门/人</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>其他</td>
+                                <td>积极联系校企合作并达成合作协议</td>
+                                <td>2014.3-2014.7</td>
+                                <td>100</td>
+                                <td>10分/项 共10项</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav style="text-align: center">
+                    <ul class="pagination">
+                        <li>
+                        <a href="#" aria-label="Previous">
+                          <span aria-hidden="true">«</span>
+                        </a>
+                        </li>
+                        <li><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li>
+                            <a href="#" aria-label="Next">
+                              <span aria-hidden="true">»</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
