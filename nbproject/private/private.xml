@@ -3,13 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/xampp/htdocs/tute/tute/Application/Menu/View/Index/addOrEdit.html</file>
-            <file>file:/F:/xampp/htdocs/tute/tute/Application/Admin/Controller/AdminController.class.php</file>
+            <file>file:/F:/xampp/htdocs/tute/tute/Application/Admin/Controller/IndexController.class.php</file>
             <file>file:/F:/xampp/htdocs/tute/tute/Application/Menu/Controller/IndexController.class.php</file>
             <file>file:/F:/xampp/htdocs/tute/tute/Application/Menu/Model/MenuModel.class.php</file>
-            <file>file:/F:/xampp/htdocs/tute/tute/ThinkPHP/Conf/convention.php</file>
-            <file>file:/F:/xampp/htdocs/tute/tute/Application/Menu/View/Index/index.html</file>
-            <file>file:/F:/xampp/htdocs/tute/tute/Application/Common/Conf/config.php</file>
         </group>
     </open-files>
 </project-private>

@@ -36,62 +36,22 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="success">
+                            <foreach name="data" item="value" key="key">
+                                <tr>
                                 <td>1</td>
-                                <td>编辑菜单</td>
-                                <td>副编辑菜单</td>
-                                <td>Menu/Index/editMenu</td>
+                                <td>{$value.title}</td>
+                                <td>{$value.subhead}</td>
+                                <td>{$value.url}</td>
                                 <td>否</td>
                                 <td>0</td>
                                 <td>否</td>
                                 <td>
-                                <button class="btn btn-sm btn-success"  onclick="location='{:U('addOrEdit')}'" ><i class="glyphicon glyphicon-plus"></i>添加子菜单</button>
-                                <button class="btn btn-sm btn-primary"  onclick="location='{:U('addOrEdit')}'"><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn btn-sm btn-danger"  onclick="location='{}'"><i class="glyphicon glyphicon-remove"></i>删除</button>
+                                <button class="btn btn-sm btn-success"  onclick="location='{$value._url.add}'" ><i class="glyphicon glyphicon-plus"></i>添加子菜单</button>
+                                <button class="btn btn-sm btn-primary"  onclick="location='{$value._url.edit}'"><i class="fa fa-pencil"></i>编辑</button>
+                                <button class="btn btn-sm btn-danger"  onclick="location='{$value._url.delete}'"><i class="glyphicon glyphicon-remove"></i>删除</button>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>删除菜单</td>
-                                <td>删除菜单</td>
-                                <td>Menu/Index/deleteMenu</td>
-                                <td>否</td>
-                                <td>0</td>
-                                <td>否</td>
-                                <td>
-                                <button class="btn btn-sm btn-success"  onclick="location='{:U('addOrEdit')}'" ><i class="glyphicon glyphicon-plus"></i>添加子菜单</button>
-                                <button class="btn btn-sm btn-primary"  onclick="location='{:U('addOrEdit')}'"><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn btn-sm btn-danger"  onclick="location='{}'"><i class="glyphicon glyphicon-remove"></i>删除</button>
-                                </td>
-                            </tr>
-                            <tr class="warning">
-                                <td>3</td>
-                                <td>添加根菜单</td>
-                                <td>添加根菜单</td>
-                                <td>Menu/Index/addRoot</td>
-                                <td>否</td>
-                                <td>0</td>
-                                <td>否</td>
-                                <td>
-                                <button class="btn btn-sm btn-success"  onclick="location='{:U('addOrEdit')}'" ><i class="glyphicon glyphicon-plus"></i>添加子菜单</button>
-                                <button class="btn btn-sm btn-primary"  onclick="location='{:U('addOrEdit')}'"><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn btn-sm btn-danger"  onclick="location='{}'"><i class="glyphicon glyphicon-remove"></i>删除</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>添加子菜单</td>
-                                <td>添加子菜单</td>
-                                <td>Menu/Index/addSon</td>
-                                <td>否</td>
-                                <td>0</td>
-                                <td>否</td>
-                                <td>
-                                <button class="btn btn-sm btn-success"  onclick="location='{:U('addOrEdit')}'" ><i class="glyphicon glyphicon-plus"></i>添加子菜单</button>
-                                <button class="btn btn-sm btn-primary"  onclick="location='{:U('addOrEdit')}'"><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn btn-sm btn-danger"  onclick="location='{}'"><i class="glyphicon glyphicon-remove"></i>删除</button>
-                                </td>
-                            </tr>
+                            </foreach>
                         </tbody>
                     </table>
                 </div>
