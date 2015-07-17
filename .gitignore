@@ -4,3 +4,7 @@
 *.tmp
 
 Runtime/
+nbproject/
+~
+~
+*.xml
