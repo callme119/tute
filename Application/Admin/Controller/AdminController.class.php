@@ -7,6 +7,7 @@
 
 namespace Admin\Controller;
 use Think\Controller;
+use Menu\Model\MenuModel;
 class AdminController extends Controller{
     private $cssArr = null; //css
     private $jsArr = null; //js
@@ -75,6 +76,12 @@ class AdminController extends Controller{
         if(!$isjump){
             $this->_jumpUrl();
         }
+        //传递菜单信息给Left菜单栏
+        $menu = new MenuModel();
+        $data = $menu->getMenuTree(null, null, 1, 2);
+        //var_dump($data);
+        $this->assign('leftMenu',$data);
+        
         $headerTpl = T('Admin@Admin/header');
         $this->assign('header',$this->fetch($headerTpl));
         $tpl = T("Admin@Admin/index");
