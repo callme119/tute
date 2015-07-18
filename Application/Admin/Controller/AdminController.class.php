@@ -95,6 +95,12 @@ class AdminController extends Controller{
         $tpl = T("Admin@Admin/index");
         define('YZTemplate', $tpl);
     }
+    /**
+     * 获取url信息
+     * 无参数值
+     * @return type 返回值是数组类型，包括module,controller,action
+     * 2015年7月18日19:20:06
+     */
     private function _getUrl(){
         //获取url
         $url = array();
@@ -103,12 +109,22 @@ class AdminController extends Controller{
         $url['action'] = C('ACTION_NAME');
         return $url;
     }
-
-    private function _checkUrl($url){
+    /**
+     * 验证该用户是否有权限
+     * @param type $url 获取到的url信息
+     * @param type $userId 用户id
+     * @return boolean 是否有权限进行跳转
+     * 2015年7月18日19:29:51
+     */
+    private function _checkUrl($url,$userId){
         //进行url判断
         return true;
     }
-    private function _jumpUrl(){
+    /**
+     * 跳转url
+     * @param type $url 
+     */
+    private function _jumpUrl($url){
         $url = U('Admin/Index/fail');
         redirect($url);
     }
