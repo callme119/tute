@@ -74,14 +74,20 @@ class AdminController extends Controller{
         //开始进行菜单访问权限判断
         //1.获取用户点击或输入的url
         $url = $this->_getUrl();
+        //2.判读该用户是否有该权限
         $isjump = $this->_checkUrl($url);
+        //3.判读该url是否有该菜单
         if(!$isjump){
+        //4.进行跳转
             $this->_jumpUrl();
         }
+        
         //传递菜单信息给Left菜单栏
+        //1.new菜单Model
         $menu = new MenuModel();
+        //2.获取菜单的信息
         $data = $menu->getMenuTree(null, null, 1, 2);
-        //var_dump($data);
+        //3.将获取到的信息传递给V层
         $this->assign('leftMenu',$data);
         
         $headerTpl = T('Admin@Admin/header');
