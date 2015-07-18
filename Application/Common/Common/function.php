@@ -770,6 +770,5 @@ function get_server_ip() {
     } else { 
         $server_ip = getenv('SERVER_ADDR');
     } 
-    return $server_ip; 
-    
+    return $server_ip;   
 }
