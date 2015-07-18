@@ -34,7 +34,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <foreach name="value._son" item="val" key="key">
-                    <li><a href="{:U('&val.url')}"><i class="fa fa-angle-double-right"></i>{$val.title}</a></li>
+                    <li><a href="{:U('$val.url')}"><i class="fa fa-angle-double-right"></i>{$val.title}</a></li>
                     </foreach>
                 </ul>
             </li>
