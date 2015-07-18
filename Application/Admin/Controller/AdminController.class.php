@@ -72,7 +72,9 @@ class AdminController extends Controller{
         $this->assign('YZBodyClass','skin-blue wysihtml5-supported  pace-done');
         
         //开始进行菜单访问权限判断
-        $isjump = $this->_checkUrl();
+        //1.获取用户点击或输入的url
+        $url = $this->_getUrl();
+        $isjump = $this->_checkUrl($url);
         if(!$isjump){
             $this->_jumpUrl();
         }
@@ -87,13 +89,16 @@ class AdminController extends Controller{
         $tpl = T("Admin@Admin/index");
         define('YZTemplate', $tpl);
     }
-    
-    private function _checkUrl(){
+    private function _getUrl(){
         //获取url
         $url = array();
         $url['module'] = C('MODULE_NAME');
         $url['controller'] = C('COTROLLER_NAME');
         $url['action'] = C('ACTION_NAME');
+        return $url;
+    }
+
+    private function _checkUrl($url){
         //进行url判断
         return true;
     }
