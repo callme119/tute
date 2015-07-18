@@ -23,116 +23,24 @@
         </form>
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
+        
         <ul class="sidebar-menu">
+            <foreach name="leftMenu" item="value" key="key">
             <li class="treeview">
                 <a href="#">
-                    <i class="fa  fa-tasks"></i>
-                    <span>我的项目</span>
+                    <i class="$value.class"></i>
+                    <span>{$value.title}</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="{:U('ScientificResearch/Index/index')}"><i class="fa fa-angle-double-right"></i>添加项目</a></li>
-                    <li><a href="{:U('ScientificResearch/Index/saved')}"><i class="fa fa-angle-double-right"></i>已保存项目</a></li>
-                    <li><a href="{:U('ScientificResearch/Index/submitted')}"><i class="fa fa-angle-double-right"></i>已提交项目</a></li>
-                    <li><a href="{:U('ScientificResearch/Index/audited')}"><i class="fa fa-angle-double-right"></i>已审核项目</a></li>
+                    <foreach name="value._son" item="val" key="key">
+                    <li><a href="{:U('&val.url')}"><i class="fa fa-angle-double-right"></i>{$val.title}</a></li>
+                    </foreach>
                 </ul>
             </li>
-            <li class="treeview">
-                <a href="{:U('Pattern/Index/index')}">
-                    <i class="fa fa-desktop"></i>
-                    <span>我的工作</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{:U('Myjob/Index/index')}"><i class="fa fa-angle-double-right"></i>待办工作<small class="badge pull-right bg-yellow">12</small></a></li>
-                    <li><a href="{:U('Myjob/Index/doing')}"><i class="fa fa-angle-double-right"></i>在办工作<small class="badge pull-right bg-red">20</small></a></li>
-                    <li><a href="{:U('Myjob/Index/unfinished')}"><i class="fa fa-angle-double-right"></i>搁置工作<small class="badge pull-right bg-blue">12</small></a></li>
-                    <li><a href="{:U('Myjob/Index/finished')}"><i class="fa fa-angle-double-right"></i>已办工作</a></li>
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-flag-o"></i> <span>审批流程管理</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{:U('Examine/Index/examinelist')}"><i class="fa fa-angle-double-right"></i>审批流程</a></li>
-                   
-                </ul>
-            </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-sitemap"></i> <span>教科研设置</span>
-                    <i class="fa fa-angle-left pull-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="{:U('Pattern/Index/index')}"><i class="fa fa-angle-double-right"></i>教工模块管理</a></li>
-                    <li><a href="{:U('Pattern/Index/edit')}"><i class="fa fa-angle-double-right"></i>职称任务设置</a></li>
-                    <li><a href="{:U('ScientificParameter/Index/add')}"><i class="fa fa-angle-double-right"></i>类别管理</a></li>
-                     <li><a href="{:U('ScientificParameter/Index/projectManage')}"><i class="fa fa-angle-double-right"></i>项目管理</a></li>
-                   <li><a href="{:U('ScientificParameter/Index/projectSet')}"><i class="fa fa-angle-double-right"></i>教科研项目设置</a></li>
-                                      <li><a href="{:U('ScientificParameter/DataModel/index')}"><i class="fa fa-angle-double-right"></i>数据模型设置</a></li>
-                </ul>
-                <ul class="treeview-menu">
-                    <li><a href="{:U('Pattern/Index/index')}"><i class="fa fa-angle-double-right"></i>教科研类别设置</a></li>
-                    <li><a href="{:U('Pattern/Index/index')}"><i class="fa fa-angle-double-right"></i>教科研项目设置</a></li>
-                    <li><a href="{:U('Pattern/Index/index')}"><i class="fa fa-angle-double-right"></i>参数设置</a></li>
-                </ul>
-            </li>
-            <li>
-                <a href="{:U('ScoreTrail/Index/index')}">
-                    <i class="fa fa-keyboard-o"></i> <span>分值试算</span>
-                    
-                </a>
-            </li>
-            <li>
-                <a href="{:U('SystemSettings/Index/index')}">
-                    <i class="fa  fa-cog"></i> <span>系统设置</span>
-                    
-                </a>
-            </li>
-            <li>
-                <a href="{:U('ReportManagement/Index/index')}">
-                    <i class="fa fa-bar-chart-o"></i> <span>报表管理</span>
-                </a>
-            </li>
-            <li>
-                <a href="{:U('Menu/Index/index')}">
-                    <i class="fa fa-list"></i> <span>菜单管理</span>
-                </a>
-            </li>
-            <li>
-                <a href="{:U('Information/Index/index')}">
-                    <i class="fa fa-envelope-o"></i>
-                    <span>通知公告</span>
-                </a>
-            </li>
-            <li>
-                <a href="{:U('PersonalCenter/Index/index')}">
-                    <i class="fa fa-user"></i> <span>个人中心</span>
-                </a>
-            </li>
-            <li>
-                <a href="{:U('Role/Index/index')}">
-                    <i class="fa fa-smile-o"></i> <span>角色管理</span>
-                </a>
-            </li>
-            <li>
-                <a href="{:U('Department/Index/index')}">
-                    <i class="fa fa-calendar"></i> <span>部门管理</span>
-                </a>
-            </li>
-            <li>
-                <a href="{:U('Post/Index/index')}">
-                    <i class="fa fa-gears"></i> <span>岗位管理</span>
-                </a>
-            </li>
-            <li>
-                <a href="{:U('User/Index/index')}">
-                    <i class="fa fa-users"></i> <span>用户管理</span>
-                </a>
-            </li>
+            </foreach>
         </ul>
+        
     </section>
     <!-- /.sidebar -->
 </aside>
