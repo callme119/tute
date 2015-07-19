@@ -3,7 +3,7 @@
 /*
  * 我的工作的Model类
  *
- * @autho denghapoyang
+ * @author denghaoyang
  * 275111108@qq.com
  */
 namespace Myjob\Model;
@@ -17,15 +17,7 @@ class JobModel extends Model{
     public function setMap($map) {
         $this->map = $map;
     }
-    /**
-     * 根据传入的userid初始化待办工作数据
-     * @param int $id
-     * @return array
-     */
-    public function getJobIdByUserId() {   
-        $relation = D('user_job');
-        return $relation->where($this->map)->select();
-    }
+    
      /**
      * 根据map取项目数据
      * @param int $id
@@ -40,7 +32,7 @@ class JobModel extends Model{
        $map = array();
        $map['userid'] = $id;
        $this->setMap($map);
-       $Jobid = $this->getJobIdByUserId();
+       $Jobid = $this->getJobIdByUserId($id);
        var_dump($Jobid);
        
     }  
