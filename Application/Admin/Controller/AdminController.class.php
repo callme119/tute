@@ -71,7 +71,9 @@ class AdminController extends Controller{
         $this->assign('jsArr',$jsArr);
         $this->assign('YZBodyClass','skin-blue wysihtml5-supported  pace-done');
         
-        //传递菜单信息给Left菜单栏
+        //判断是否已经登录
+        
+        //获取该用户可见的菜单列表并传递给给Left菜单栏
         //1.new菜单Model
         $menu = new MenuModel();
         //2.获取菜单的信息
@@ -84,7 +86,7 @@ class AdminController extends Controller{
         $url = $this->_getUrl();
         //2.判读该用户是否有该权限
         $isjump = $this->_checkUrl($url);
-        //3.判读该url是否有该菜单
+        //3.判读该url是否有该菜单（判断应用位运算）
         if(!$isjump){
         //4.进行跳转
             $this->_jumpUrl();

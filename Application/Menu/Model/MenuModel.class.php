@@ -48,6 +48,7 @@ class MenuModel extends Model{
     public function getMenuById($id){
         $map['id'] = $id;
         $menu = $this->where($map)->find();
+        $menu['edit'] = 1;
         return $menu;
     }
     /**
@@ -59,7 +60,7 @@ class MenuModel extends Model{
     public function saveMenu($data){
         //拼接url信息
         $data['url'] = $data['module'].'/'.$data['controller'].'/'.$data['action'];
-        if($data['id'] == null||$data['id'] == ''){
+        if($data['edit'] == null || $data['edit'] == ''){
             $this->add($data);
         }else {
             $this->save($data);

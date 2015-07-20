@@ -69,7 +69,6 @@ class IndexController extends AdminController
         $title = "编辑菜单";
         $menuModel = new MenuModel();
         $data = $menuModel->getMenuById($id);
-        $data['edit'] = 1;
         $this->assign('data',$data);
         $this->assign('title',$title);
         $this->assign('YZBODY',$this->fetch('add'));
@@ -80,15 +79,20 @@ class IndexController extends AdminController
      * 将获取到的Post数据传递给M层
      */
     public function saveAction(){
+        //获取post数据
         $data = I('post.');
-        if($data['edit'] == null || $data['edit'] == ''){
-            $data['id'] = null;
-        }
         $menuModel = new MenuModel();
         $state = $menuModel->saveMenu($data);
         if($state == "success"){
             $this->success('新增成功', 'index');
-            
+        }
+    }
+    public function deleteAction(){
+        $id = I('get.id');
+        $menuModel = new MenuModel();
+        $state = $menuModel->deleteMenu($id);
+        if($state == "success"){
+            $this->success('删除成功', 'index');
         }
     }
 }
