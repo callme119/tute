@@ -28,7 +28,7 @@
             <foreach name="leftMenu" item="value" key="key">
             <li <gt name="value._son" value="null">class="treeview"</gt>>
                 <a href="{:U($value[url])}">
-                    <i class="$value.class"></i>
+                    <i class="{$value.icon}"></i>
                     <span>{$value.title}</span>
                     <gt name="value._son" value="null"><i class="fa fa-angle-left pull-right"></i></gt>
                 </a>
