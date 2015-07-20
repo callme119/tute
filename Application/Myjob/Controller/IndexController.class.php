@@ -10,7 +10,7 @@ use Admin\Controller\AdminController;
 use Myjob\Model\JobModel;
 class IndexController extends AdminController{
     /**
-     * 调用我的工作中待办工作界面
+     * 我的工作中待办工作界面
      * 初始化界面
      * 无参数，无返回值
      * 2015年7月16日09:36:08
@@ -22,8 +22,9 @@ class IndexController extends AdminController{
         
         //调用model中的初始化方法
         $jobModel = new JobModel();
-        $data = $jobModel->index(1);
-        var_dump($data);
+        $jobModel->setUserId(1);
+        $data = $jobModel->getUnfinishedInfoByUserId();
+        //var_dump($data);
 //        $tpl = T("Admin@Admin/index");
 //        define('YZTemplate', $tpl);
 //        $this->assign('YZBODY',$this->fetch('index'));
