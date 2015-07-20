@@ -1,32 +1,41 @@
 <?php
 /*
- * 所有controller都需要继承该类
- * 在本类中，将进行用户的权限验主，统一设置模板等操作。
- * author:panjie joinpan@gmail.com
+ * 
  */
 
 namespace Examine\Controller;
 use Admin\Controller\AdminController;
+use Post\Model\PostModel;
+use Examine\Model\ExamineModel;
 class IndexController extends AdminController{
-    
+     /**
+      * 通过post模块取所有岗位信息传给用户点选
+      * 无返回值
+      */
      public function  newexamineAction(){
+        //调用post模块中的getPostInfo方法
+        //传给V层
         $tpl = T("Admin@Admin/index");
         define('YZTemplate', $tpl);
-       $this->assign('YZBODY',$this->fetch('newexamine'));
+        $this->assign('YZBODY',$this->fetch('newexamine'));
         $this->display(YZTemplate);
+    }
+    //
+    public function saveAction() {
+        //保存用户点选的岗位信息
+        $model = new ExamineModel;
+        $model->saveExamine();
     }
     
+    //初始化审批列表
     public function  examinelistAction(){
-        $tpl = T("Admin@Admin/index");
-        define('YZTemplate', $tpl);
-       $this->assign('YZBODY',$this->fetch('examinelist'));
-        $this->display(YZTemplate);
+        $model = new ExamineModel;
+        $data = $model->index();
+//        $tpl = T("Admin@Admin/index");
+//        define('YZTemplate', $tpl);
+//        $this->assign('YZBODY',$this->fetch('examinelist'));
+//        $this->display(YZTemplate);
     }
-     public function  editexamineAction(){
-        $tpl = T("Admin@Admin/index");
-        define('YZTemplate', $tpl);
-       $this->assign('YZBODY',$this->fetch('editexamine'));
-        $this->display(YZTemplate);
-    }
+    
 }
     

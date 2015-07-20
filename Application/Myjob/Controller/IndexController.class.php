@@ -19,7 +19,6 @@ class IndexController extends AdminController{
     public function indexAction() {
         //取用户id
         $id = I('get.userid');
-        
         //调用model中的初始化方法
         $jobModel = new JobModel();
         $jobModel->setUserId(1);

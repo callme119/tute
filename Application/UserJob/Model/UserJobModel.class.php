@@ -13,7 +13,7 @@ class UserJobModel extends Model{
     /**
      * 
      * @param 无返回值
-     */
+     */private $userid = null;
     public function setUserId($id) {
         $this->userid = $id;
     }
