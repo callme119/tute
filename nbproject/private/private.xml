@@ -6,7 +6,8 @@
             <file>file:/F:/xampp/htdocs/tute/tute/Application/Admin/Controller/AdminController.class.php</file>
             <file>file:/F:/xampp/htdocs/tute/tute/Application/Menu/Model/MenuModel.class.php</file>
             <file>file:/F:/xampp/htdocs/tute/tute/Application/Menu/Controller/IndexController.class.php</file>
-            <file>file:/F:/xampp/htdocs/tute/tute/Application/Menu/View/Index/index.html</file>
+            <file>file:/F:/xampp/htdocs/tute/tute/Application/Common/Common/function.php</file>
+            <file>file:/F:/xampp/htdocs/tute/tute/Application/Common/Conf/config.php</file>
         </group>
     </open-files>
 </project-private>

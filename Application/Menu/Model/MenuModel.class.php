@@ -57,6 +57,8 @@ class MenuModel extends Model{
      * 2015年7月13日20:25:05
      */
     public function saveMenu($data){
+        //拼接url信息
+        $data['url'] = $data['module'].'/'.$data['controller'].'/'.$data['action'];
         if($data['id'] == null||$data['id'] == ''){
             $this->add($data);
         }else {
