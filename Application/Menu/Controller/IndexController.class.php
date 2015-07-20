@@ -23,7 +23,7 @@ class IndexController extends AdminController
     {
         $menuModel = new MenuModel();
         $data = $menuModel->getMenuTree(null,null,null,2);
-        $menuList = $this->_treeToList($data);
+        $menuList = treeToList($data);
         foreach ($menuList as $key => $value) {
             $menuList[$key]['_url'] = array(
                 'add'=>U('addSon?id=' . $value['id']),
@@ -41,15 +41,25 @@ class IndexController extends AdminController
      * 添加根菜单
      */
     public function addAction(){
+        $id = I('get.id',0);
+        $data['id'] = $id;
         $title = "添加根菜单";
-        $this->_assignTitle($title, $arr);
+        $this->assign('data',$data);
+        $this->assign('title',$title);
+        $this->assign('YZBODY',$this->fetch('add'));
+        $this->display(YZTemplate);
     }
     /**
      * 添加子菜单，调用的是根菜单的界面
      */
     public function addSonAction(){
+        $id = I('get.id',0);
+        $data['id'] = $id;
         $title = "编辑菜单";
-        $this->_assignTitle($title, $arr);
+        $this->assign('data',$data);
+        $this->assign('title',$title);
+        $this->assign('YZBODY',$this->fetch('add'));
+        $this->display(YZTemplate);
     }
     /**
      * 编辑菜单，调用的是添加根菜单的界面
@@ -60,7 +70,10 @@ class IndexController extends AdminController
         $menuModel = new MenuModel();
         $data = $menuModel->getMenuById($id);
         $data['edit'] = 1;
-        $this->_assignTitle($title, $data);
+        $this->assign('data',$data);
+        $this->assign('title',$title);
+        $this->assign('YZBODY',$this->fetch('add'));
+        $this->display(YZTemplate);
     }
     /***
      * 保存，添加或修改之后，提交到该方法
@@ -75,46 +88,7 @@ class IndexController extends AdminController
         $state = $menuModel->saveMenu($data);
         if($state == "success"){
             $this->success('新增成功', 'index');
+            
         }
     }
-    /**
-     * 传递标题信息，调用界面方法
-     * @param type $title 界面的标题，是添加还是编辑
-     * @param type $arr 界面中需要的数据
-     * xuao
-     * 2015年7月16日18:21:36
-     */
-    private function _assignTitle($title,$arr){
-        $id = I('get.id',0);
-        $data = $arr;
-        $data['id'] = $id;
-        $this->assign('data',$data);
-        $this->assign('title',$title);
-        $this->assign('YZBODY',$this->fetch('add'));
-        $this->display(YZTemplate);
-    }
-    /**
-     * 将树形结构转化为list列表
-     * @param type $tree 数组，要转化成List的树
-     * @param type $i  树的层级
-     * @return type 返回list列表
-     * creat by pan
-     */
-    private function _treeToList($tree,$i = 0){
-        $list = array();
-        foreach($tree as $key => $value)
-        {
-            $value['level'] = $i;
-            $list[] = $value;
-            if(is_array($value['_son']))
-            {
-                $i++;
-                $list = array_merge($list,$this->_treeToList($value['_son'],$i));
-                $i--;
-            }
-        }
-        return $list;
-    }
-    
 }
-

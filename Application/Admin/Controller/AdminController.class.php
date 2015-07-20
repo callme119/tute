@@ -71,6 +71,14 @@ class AdminController extends Controller{
         $this->assign('jsArr',$jsArr);
         $this->assign('YZBodyClass','skin-blue wysihtml5-supported  pace-done');
         
+        //传递菜单信息给Left菜单栏
+        //1.new菜单Model
+        $menu = new MenuModel();
+        //2.获取菜单的信息
+        $data = $menu->getMenuTree(null, null, 1, 2);
+        //3.将获取到的信息传递给V层
+        $this->assign('leftMenu',$data);
+        
         //开始进行菜单访问权限判断
         //1.获取用户点击或输入的url
         $url = $this->_getUrl();
@@ -81,14 +89,8 @@ class AdminController extends Controller{
         //4.进行跳转
             $this->_jumpUrl();
         }
-        
-        //传递菜单信息给Left菜单栏
-        //1.new菜单Model
-        $menu = new MenuModel();
-        //2.获取菜单的信息
-        $data = $menu->getMenuTree(null, null, 1, 2);
-        //3.将获取到的信息传递给V层
-        $this->assign('leftMenu',$data);
+        //5.传递你点击的url（也就是按钮）给v层
+        $this->assign('button',$url);
         
         $headerTpl = T('Admin@Admin/header');
         $this->assign('header',$this->fetch($headerTpl));
