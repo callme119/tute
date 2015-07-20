@@ -2,9 +2,9 @@
 *.svn-base
 .svn/
 *.tmp
-
-Runtime/
-nbproject/
-~
-~
 *.xml
+Runtime/*
+nbproject/*
+~
+~
+
