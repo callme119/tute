@@ -1,14 +1,14 @@
 <?php
 
 /*
- * 审批管理的Model类
+ * 审批链表对应的Model类
  *
  * @author denghaoyang
  * 275111108@qq.com
  */
 namespace Examine\Model;
 use Think\Model;
-use Examine\Model\ChainModel;
+use Chain\Model\ChainModel;
 class ExamineModel extends Model{
     //保存create信息
     public function saveExamine(){

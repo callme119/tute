@@ -12,7 +12,7 @@ class IndexController extends AdminController{
       * 通过post模块取所有岗位信息传给用户点选
       * 无返回值
       */
-     public function  newexamineAction(){
+     public function  newExamineAction(){
         //调用post模块中的getPostInfo方法
         //传给V层
         $tpl = T("Admin@Admin/index");
@@ -28,7 +28,7 @@ class IndexController extends AdminController{
     }
     
     //初始化审批列表
-    public function  examinelistAction(){
+    public function  indexAction(){
         $model = new ExamineModel;
         $data = $model->index();
 //        $tpl = T("Admin@Admin/index");

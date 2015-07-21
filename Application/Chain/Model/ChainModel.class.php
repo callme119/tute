@@ -7,7 +7,7 @@
  * 275111108@qq.com
  */
 
-namespace Examine\Model;
+namespace Chain\Model;
 
 use Think\Model;
 use Post\Model\PostModel;
@@ -54,6 +54,7 @@ class ChainModel extends Model {
     }
 
     //根据上一结点寻找下一结点
+    //id为空时设置id为0作为开始结点，一直递推到结果再为0
     public function getNextPost($id) {
         if ($id == null) {
             $id = 0;
