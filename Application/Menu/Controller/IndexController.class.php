@@ -22,8 +22,8 @@ class IndexController extends AdminController
     public function indexAction()
     {
         $menuModel = new MenuModel();
-        $data = $menuModel->getMenuTree(null,null,null,2);
-        $menuList = treeToList($data);
+        $data = $menuModel->getMenuTree(null, null, 1, 2);
+        $menuList = treeToList($data,2,'_son');
         foreach ($menuList as $key => $value) {
             $menuList[$key]['_url'] = array(
                 'add'=>U('addSon?id=' . $value['id']),

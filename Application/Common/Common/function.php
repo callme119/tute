@@ -777,20 +777,21 @@ function get_server_ip() {
      * 将树形结构转化为list列表
      * @param type $tree 数组，要转化成List的树
      * @param type $i  树的层级
+     * @param type $type  子集数组的下标
      * @return type 返回list列表
      * creat by pan
      */
     
-function treeToList($tree,$i = 0,$son){
+function treeToList($tree,$i,$type){
     $list = array();
     foreach($tree as $key => $value)
     {
         $value['level'] = $i;
         $list[] = $value;
-        if(is_array($value[$son]))
+        if(is_array($value[$type]))
         {
             $i++;
-            $list = array_merge($list,$this->_treeToList($value[$son],$i));
+            $list = array_merge($list,treeToList($value[$type],$i));
             $i--;
         }
     }

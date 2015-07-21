@@ -61,6 +61,7 @@ class MenuModel extends Model{
         //拼接url信息
         $data['url'] = $data['module'].'/'.$data['controller'].'/'.$data['action'];
         if($data['edit'] == null || $data['edit'] == ''){
+            $data['id'] = null;
             $this->add($data);
         }else {
             $this->save($data);
