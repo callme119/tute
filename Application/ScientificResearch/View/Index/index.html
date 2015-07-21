@@ -16,7 +16,11 @@
                 <div class="box-header">
                     <h3 class="box-title"></h3>
                 </div><!-- /.box-header -->
-                
+                <div class="row">  
+                    <div class="col-md-2">
+                        <a href="{:U('ScientificResearch/Index/add')}" class="btn btn-block btn-primary"><i class="glyphicon glyphicon-plus"></i>添加教科研项目</a>
+                    </div>
+                </div>
                 <div class="box-body table-responsive">
                     <!-- Table -->
                     <table class="table table-bordered table-striped table-hover">
@@ -25,6 +29,8 @@
                                 <th>序号</th>
                                 <th>类别</th>
                                 <th>内容</th>
+                                <th>时间</th>
+                                <th>状态</th>
                                 <th>分值</th>
                             </tr>
                         </thead>
@@ -33,24 +39,32 @@
                                 <td>1</td>
                                 <td>论文\论文A类\期刊被《SCI》I区收录的论文</td>
                                 <td>《SCI》</td>
+                                <td>2015.03-2015.07</td>
+                                <td><a href="{:U('ScientificResearch/Index/saved')}">已保存</a></td>
                                 <td>600</td>
                             </tr>
                             <tr>
                                 <td>2</td>
                                 <td>论文\论文A类\期刊被《SCI》I区收录的论文</td>
                                 <td>《SCI》</td>
+                                <td>2015.03-2015.07</td>
+                                <td><a href="{:U('ScientificResearch/Index/submitted')}">已提交</a></td>
                                 <td>600</td>
                             </tr>
                             <tr>
                                 <td>3</td>
                                 <td>论文\论文A类\期刊被《SCI》I区收录的论文</td>
                                 <td>《SCI》</td>
+                                <td>2015.03-2015.07</td>
+                                <td><a href="{:U('ScientificResearch/Index/auditprocess')}">待审核</a></td>
                                 <td>600</td>
                             </tr>
                             <tr>
                                 <td>4</td>
                                 <td>论文\论文A类\期刊被《SCI》I区收录的论文</td>
                                 <td>《SCI》</td>
+                                <td>2015.03-2015.07</td>
+                                <td><a href="{:U('ScientificResearch/Index/audited')}">已审核</a></td>
                                 <td>600</td>
                             </tr>
                         </tbody>

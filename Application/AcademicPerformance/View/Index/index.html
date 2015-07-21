@@ -12,219 +12,185 @@
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">研究生教学工作量</h3>
-                </div><!-- /.box-header -->
-                <div class="row">  
-                    <div class="col-md-2">
-                        <a href="{:U('AcademicPerformance/Index/graduateAdd')}" class="btn btn-block btn-primary"><i class="glyphicon glyphicon-plus"></i>添加研究生教学</a>
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#tab_1-1" data-toggle="tab">研究生教学工作量</a></li>
+                    <li><a href="#tab_1-2" data-toggle="tab">学科与科研平台建设</a></li>
+                    <li><a href="#tab_1-3" data-toggle="tab">科研奖励</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1-1">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <a href="{:U('AcademicPerformance/Index/graduateAdd')}" class="btn btn-block btn-primary"><i class="glyphicon glyphicon-plus"></i>添加研究生教学</a>
+                            </div>
+                        </div>
+                        <div class="box-body table-responsive">
+                            <!-- Table -->
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>课程名称</th>
+                                        <th>学期</th>
+                                        <th>工作量</th>
+                                        <th>明细</th>
+                                        <th>状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="success">
+                                        <td>1</td>
+                                        <td>理论教学</td>
+                                        <td>2014.3-2014.7</td>
+                                        <td>30</td>
+                                        <td></td>
+                                        <td><a href="{:U('ScientificResearch/Index/auditprocess')}">待审核</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>实训教学</td>
+                                        <td>2014.3-2014.7</td>
+                                        <td>100</td>
+                                        <td></td>
+                                        <td><a href="{:U('ScientificResearch/Index/auditprocess')}">待审核</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>考试工作</td>
+                                        <td>2014.3-2014.7</td>
+                                        <td>100</td>
+                                        <td></td>
+                                        <td><a href="{:U('ScientificResearch/Index/auditprocess')}">待审核</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div class="box-body table-responsive">
-                    <!-- Table -->
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>序号</th>
-                                <th>课程名称</th>
-                                <th>学期</th>
-                                <th>工作量</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="success">
-                                <td>1</td>
-                                <td>理论教学</td>
-                                <td>2014.3-2014.7</td>
-                                <td>30</td>
-                                <td>
-                                    <a href="{:U('AcademicPerformance/Index/add')}"><button class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i>修改</button></a>
-                                    <a href=""><button class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i>删除</button></a>
-                                    <a href=""><button class="btn btn-sm btn-primary"><i class="fa fa-sign-in"></i>提交</button></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>实训教学</td>
-                                <td>2014.3-2014.7</td>
-                                <td>100</td>
-                                <td>
-                                    <a href="{:U('AcademicPerformance/Index/add')}"><button class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i>修改</button></a>
-                                    <a href=""><button class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i>删除</button></a>
-                                    <a href=""><button class="btn btn-sm btn-primary"><i class="fa fa-sign-in"></i>提交</button></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>考试工作</td>
-                                <td>2014.3-2014.7</td>
-                                <td>100</td>
-                                <td>
-                                    <a href="{:U('AcademicPerformance/Index/add')}"><button class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i>修改</button></a>
-                                    <a href=""><button class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i>删除</button></a>
-                                    <a href=""><button class="btn btn-sm btn-primary"><i class="fa fa-sign-in"></i>提交</button></a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">学科与科研平台建设</h3>
-                </div><!-- /.box-header -->
-                <div class="row">  
-                    <div class="col-md-2">
-                        <a href="{:U('AcademicPerformance/Index/platformAdd')}" class="btn btn-block btn-primary"><i class="glyphicon glyphicon-plus"></i>添加学科与教研平台建设</a>
+                    <div class="tab-pane" id="tab_1-2">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <a href="{:U('AcademicPerformance/Index/platformAdd')}" class="btn btn-block btn-primary"><i class="glyphicon glyphicon-plus"></i>添加学科与教研平台建设</a>
+                            </div>
+                        </div>
+                        <div class="box-body table-responsive">
+                            <!-- Table -->
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>项目类别</th>
+                                        <th>内容</th>
+                                        <th>学期</th>
+                                        <th>分值</th>
+                                        <th>明细</th>
+                                        <th>状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="success">
+                                        <td>1</td>
+                                        <td>学科平台建设</td>
+                                        <td>完成年度学科建设任务</td>
+                                        <td>2014.3-2014.7</td>
+                                        <td>50</td>
+                                        <td> </td>
+                                        <td><a href="{:U('ScientificResearch/Index/auditprocess')}">待审核</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>研究生指导</td>
+                                        <td>完成研究生指导</td>
+                                        <td>2014.3-2014.7</td>
+                                        <td>600</td>
+                                        <td></td>
+                                        <td><a href="{:U('ScientificResearch/Index/auditprocess')}">待审核</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>科研平台建设</td>
+                                        <td>协同创新中心</td>
+                                        <td>2014.3-2014.7</td>
+                                        <td>10</td>
+                                        <td></td>
+                                        <td><a href="{:U('ScientificResearch/Index/auditprocess')}">待审核</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div class="box-body table-responsive">
-                    <!-- Table -->
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>序号</th>
-                                <th>项目类别</th>
-                                <th>内容</th>
-                                <th>学期</th>
-                                <th>分值</th>
-                                <th>明细</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="success">
-                                <td>1</td>
-                                <td>学科平台建设</td>
-                                <td>完成年度学科建设任务</td>
-                                <td>2014.3-2014.7</td>
-                                <td>50</td>
-                                <td> </td>
-                                <td>
-                                    <a href="{:U('AcademicPerformance/Index/platformAdd')}"><button class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i>修改</button></a>
-                                    <a href=""><button class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i>删除</button></a>
-                                    <a href=""><button class="btn btn-sm btn-primary"><i class="fa fa-sign-in"></i>提交</button></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>研究生指导</td>
-                                <td>完成研究生指导</td>
-                                <td>2014.3-2014.7</td>
-                                <td>600</td>
-                                <td></td>
-                                <td>
-                                    <a href="{:U('AcademicPerformance/Index/add')}"><button class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i>修改</button></a>
-                                    <a href=""><button class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i>删除</button></a>
-                                    <a href=""><button class="btn btn-sm btn-primary"><i class="fa fa-sign-in"></i>提交</button></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>科研平台建设</td>
-                                <td>协同创新中心</td>
-                                <td>2014.3-2014.7</td>
-                                <td>10</td>
-                                <td></td>
-                                <td>
-                                    <a href="{:U('AcademicPerformance/Index/add')}"><button class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i>修改</button></a>
-                                    <a href=""><button class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i>删除</button></a>
-                                    <a href=""><button class="btn btn-sm btn-primary"><i class="fa fa-sign-in"></i>提交</button></a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">科研奖励</h3>
-                </div><!-- /.box-header -->
-                <div class="row">  
-                    <div class="col-md-2">
-                        <a href="{:U('AcademicPerformance/Index/add')}" class="btn btn-block btn-primary"><i class="glyphicon glyphicon-plus"></i>添加研究生教学</a>
+                    <div class="tab-pane" id="tab_1-3">
+                        <div class="row">  
+                            <div class="col-md-2">
+                                <a href="{:U('AcademicPerformance/Index/add')}" class="btn btn-block btn-primary"><i class="glyphicon glyphicon-plus"></i>添加研究生教学</a>
+                            </div>
+                        </div>
+                        <div class="box-body table-responsive">
+                            <!-- Table -->
+                            <table class="table table-bordered table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>项目类别</th>
+                                        <th>内容</th>
+                                        <th>学期</th>
+                                        <th>分值</th>
+                                        <th>明细</th>
+                                        <th>状态</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="success">
+                                        <td>1</td>
+                                        <td>论文</td>
+                                        <td>CSSCI扩展版目录期刊经济类核心、人文社科核心</td>
+                                        <td>2014.3-2014.7</td>
+                                        <td>20</td>
+                                        <td> </td>
+                                        <td><a href="{:U('ScientificResearch/Index/auditprocess')}">待审核</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>著作</td>
+                                        <td>译著</td>
+                                        <td>2014.3-2014.7</td>
+                                        <td>200</td>
+                                        <td></td>
+                                        <td><a href="{:U('ScientificResearch/Index/auditprocess')}">待审核</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>获奖</td>
+                                        <td>省部级调研成果奖</td>
+                                        <td>2014.3-2014.7</td>
+                                        <td>50</td>
+                                        <td>一等奖</td>
+                                        <td><a href="{:U('ScientificResearch/Index/auditprocess')}">待审核</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-                </div>
-                <div class="box-body table-responsive">
-                    <!-- Table -->
-                    <table class="table table-bordered table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th>序号</th>
-                                <th>项目类别</th>
-                                <th>内容</th>
-                                <th>学期</th>
-                                <th>分值</th>
-                                <th>明细</th>
-                                <th>操作</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="success">
-                                <td>1</td>
-                                <td>论文</td>
-                                <td>CSSCI扩展版目录期刊经济类核心、人文社科核心</td>
-                                <td>2014.3-2014.7</td>
-                                <td>20</td>
-                                <td> </td>
-                                <td>
-                                    <a href="{:U('AcademicPerformance/Index/add')}"><button class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i>修改</button></a>
-                                    <a href=""><button class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i>删除</button></a>
-                                    <a href=""><button class="btn btn-sm btn-primary"><i class="fa fa-sign-in"></i>提交</button></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>著作</td>
-                                <td>译著</td>
-                                <td>2014.3-2014.7</td>
-                                <td>200</td>
-                                <td></td>
-                                <td>
-                                    <a href="{:U('AcademicPerformance/Index/add')}"><button class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i>修改</button></a>
-                                    <a href=""><button class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i>删除</button></a>
-                                    <a href=""><button class="btn btn-sm btn-primary"><i class="fa fa-sign-in"></i>提交</button></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>获奖</td>
-                                <td>省部级调研成果奖</td>
-                                <td>2014.3-2014.7</td>
-                                <td>50</td>
-                                <td>一等奖</td>
-                                <td>
-                                    <a href="{:U('AcademicPerformance/Index/add')}"><button class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i>修改</button></a>
-                                    <a href=""><button class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-remove"></i>删除</button></a>
-                                    <a href=""><button class="btn btn-sm btn-primary"><i class="fa fa-sign-in"></i>提交</button></a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-                <nav style="text-align: center">
-                    <ul class="pagination">
-                        <li>
-                        <a href="#" aria-label="Previous">
-                          <span aria-hidden="true">«</span>
-                        </a>
-                        </li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li>
-                            <a href="#" aria-label="Next">
-                              <span aria-hidden="true">»</span>
+                    <nav style="text-align: center">
+                        <ul class="pagination">
+                            <li>
+                            <a href="#" aria-label="Previous">
+                              <span aria-hidden="true">«</span>
                             </a>
-                        </li>
-                    </ul>
-                </nav>
+                            </li>
+                            <li><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                                <a href="#" aria-label="Next">
+                                  <span aria-hidden="true">»</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
-        </div>
     
 </section>
