@@ -87,7 +87,9 @@ class AdminController extends Controller{
         //2.判读该用户是否有该权限
         $isjump = $this->_checkUrl($url);
         //3.判读该url是否有该菜单（判断应用位运算）
-        if(!$isjump){
+        $menuMo = new MenuModel();
+        $isHave = $menuMo->checkMenu($url);
+        if(!($isjump && $isHave)){
         //4.进行跳转
             $this->_jumpUrl();
         }
@@ -108,9 +110,9 @@ class AdminController extends Controller{
     private function _getUrl(){
         //获取url
         $url = array();
-        $url['module'] = C('MODULE_NAME');
-        $url['controller'] = C('COTROLLER_NAME');
-        $url['action'] = C('ACTION_NAME');
+        $url['module'] = MODULE_NAME;
+        $url['controller'] = CONTROLLER_NAME;
+        $url['action'] = ACTION_NAME;
         return $url;
     }
     /**
@@ -128,9 +130,10 @@ class AdminController extends Controller{
      * 跳转url
      * @param type $url 
      */
-    private function _jumpUrl($url){
-        $url = U('Admin/Index/fail');
+    private function _jumpUrl(){
+        $url = U('Fail/Index/fail');
         redirect($url);
+        exit();
     }
 }
 

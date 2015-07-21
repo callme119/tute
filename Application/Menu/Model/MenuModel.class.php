@@ -86,4 +86,13 @@ class MenuModel extends Model{
         }
         return $menuList;
     }
+    public function checkMenu($url) {
+        $boolean = $this->where($url)->count();
+        if($boolean){
+            return TRUE;
+        }  else {
+            return FALSE;
+        }
+       
+    }
 }
