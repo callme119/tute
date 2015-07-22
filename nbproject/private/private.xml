@@ -3,11 +3,32 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/xampp/htdocs/tute/tute/Application/Admin/Controller/AdminController.class.php</file>
-            <file>file:/F:/xampp/htdocs/tute/tute/Application/Menu/Model/MenuModel.class.php</file>
-            <file>file:/F:/xampp/htdocs/tute/tute/Application/Menu/Controller/IndexController.class.php</file>
-            <file>file:/F:/xampp/htdocs/tute/tute/Application/Common/Common/function.php</file>
-            <file>file:/F:/xampp/htdocs/tute/tute/Application/Common/Conf/config.php</file>
+            <file>file:/F:/xampp/htdocs/tute/ThinkPHP/Conf/debug.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Login/View/Index/index.html</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Login/View/index.html</file>
+            <file>file:/F:/xampp/htdocs/tute/ThinkPHP/Common/functions.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Login/View/Index/indexCss.html</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Admin/Controller/IndexController.class.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Myjob/Controller/IndexController.class.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Admin/View/Admin/body.html</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Chain/Model/ChainModel.class.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/UserJob/Controller/IndexController.class.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Examine/Model/ExamineModel.class.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Public/index.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Menu/Controller/IndexController.class.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Myjob/Model/JobModel.class.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Login/Controller/IndexController.class.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Examine/Controller/IndexController.class.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Post/Model/PostModel.class.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Public/css/AdminLTE.css</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Menu/Model/MenuModel.class.php</file>
+            <file>file:/F:/xampp/htdocs/tute/ThinkPHP/Conf/convention.php</file>
+            <file>file:/F:/xampp/htdocs/tute/ThinkPHP/Library/Think/Db/Driver.class.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/UserJob/Model/UserJobModel.class.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Post/Controller/IndexController.class.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Admin/Controller/AdminController.class.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Common/Conf/config.php</file>
+            <file>file:/F:/xampp/htdocs/tute/Application/Admin/View/Admin/left.html</file>
         </group>
     </open-files>
 </project-private>

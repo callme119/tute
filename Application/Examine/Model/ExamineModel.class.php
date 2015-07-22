@@ -9,9 +9,10 @@
 namespace Examine\Model;
 use Think\Model;
 use Chain\Model\ChainModel;
+use Post\Model\PostModel;
 class ExamineModel extends Model{
     //保存create信息
-    public function saveExamine(){
+    public function save(){
         $this->create();
         $this->add();
     }
@@ -33,6 +34,18 @@ class ExamineModel extends Model{
 //            $chain->setExamineId($value['id']);
 //            $examine = $chain->getExamine();
 //        }
+    }
+    
+    //取出所有post名称供V层选择
+    public function add(){
+        //取岗位名称
+        $post = new PostModel;
+        $Info = $post->getPostInfo();
+        $postname = array();
+        foreach ($Info as $value) {
+            $postname[] = $value['name'];
+        }
+        return $postname;
     }
     
 }
