@@ -23,8 +23,9 @@ class IndexController extends AdminController{
     //
     public function saveAction() {
         //保存用户点选的岗位信息
+        //&未完成 从界面中取出用户点选数据信息及总数
         $model = new ExamineModel;
-        $model->save();
+        $model->save($array,$num);
     }
     
     //初始化审批列表
@@ -43,6 +44,9 @@ class IndexController extends AdminController{
         $data = $model->add();
         var_dump($data);
         //将岗位名称传入V层的select中
+        $this->assign('name', $data);
+        $this->assign('YZBODY',$this->fetch('newexamine'));
+        $this->display(YZTemplate);
     }
     
 }

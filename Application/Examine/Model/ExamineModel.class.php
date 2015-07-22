@@ -12,9 +12,24 @@ use Chain\Model\ChainModel;
 use Post\Model\PostModel;
 class ExamineModel extends Model{
     //保存create信息
-    public function save(){
-        $this->create();
-        $this->add();
+    /**
+     * 根据传入的用户点击的信息存入数组再加上从界面上获取的岗位数量进行存库
+     * @param array $array
+     * @param int $num
+     * 无返回值
+     */
+    public function save($array,$num){
+        //先存入examine信息
+        $name = I('post.name');
+        $data = array();
+        $data['name'] = $name;
+        //自动生成随机数作为审批编号
+        $id = createRand();
+        $data['id'] = $id;
+        $this->add($data);
+        //传值，再存入examine对应的chain信息
+        $chain = new ChainModel;
+        $chain->save($array,$num,$id);
     }
     
     //根据审批表与审批链表取的审理流程信息
@@ -46,6 +61,20 @@ class ExamineModel extends Model{
             $postname[] = $value['name'];
         }
         return $postname;
+    }
+    
+    //生成随机数作为Examineid并与数据库中的id值比较
+    public function createRand() {
+        //生成从0到9999的随机数
+        $data = array();
+        $data = $this->select();
+        //将生成数与数据库中编号数据对比
+        foreach ($data as $value) {
+            do{
+                $id = rand(0000,9999);
+            }while ($id != $value['id']);
+        }
+        return $id;
     }
     
 }

@@ -71,4 +71,34 @@ class ChainModel extends Model {
             return $data['now_post'];
         }
     }
+    
+    /**
+     * 根据传入的数组、总数、审批的id值存储链表信息
+     * @param array $array
+     * @param int $num
+     * @param int $examineid
+     * 无返回值
+     */
+    public function save($array,$num,$examineid) {
+        for($i=0;$i<$num;$i++){
+            $data = array();
+            //进行判断，看是否是初始链表与结束链表，初始链表头结点为0，结束链表尾结点为0
+            if($i==0){
+                $data[pre_post] = 0;
+                $data[now_post] = $array[0];
+                $data[next_post] = $array[1];
+            }else if($i == $num-1){
+                $data[pre_post] = $array[$i-1];
+                $data[now_post] = $array[$i];
+                $data[next_post] = 0;
+            }else{
+                $data[pre_post] = $array[$i-1];
+                $data[now_post] = $array[$i];
+                $data[next_post] = $array[$i+1];
+            }
+            //存入链表信息
+            $data[examine_id] = $examineid;
+            $this->add($data);        
+        }
+    }
 }    

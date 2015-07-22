@@ -26,17 +26,18 @@
 				</div>
                             <br/>
                             <!-- 添加按钮 -->
-                            <div class="form-group"><label for="inputEmail3" class="col-sm-2 control-label">审批流顺序：</label><input  id="btnMian" type="button" value="添加审批岗位" /> <button>取消</button></div>
+                            <div class="form-group"><label for="inputEmail3" class="col-sm-2 control-label">审批流顺序：</label>
+                                <input  id="btnMian" type="button" value="添加审批岗位" /> 
+                                <button>取消</button></div>
                             
                             
                             <div id="mian" style="width:450px">
                                 <div class="btn-group col-sm-offset-1">
                                                        <select type="button" class="btn btn-default btn-sm btn-flat dropdown-toggle" data-toggle="dropdown">
-                                                           <option>请选择</option> 
-                                                           <option><a href="#">系主任</option>
-                                                            <option><a href="#">院长</option>
-                                                            <option><a href="#">科研秘书</option>
-                                                             <option><a href="#">普通教职工</option>
+                                                           <option>请选择</option>
+                                                            <foreach name="name" item="value" key="key">
+                                                            <option>{$value}</option>
+                                                            </foreach>>
                                                        </select>
                                                     </div>
                              </div>
@@ -45,7 +46,7 @@
                             <div class="col-md-3 col-md-offset-4" >
                                 <a class="btn btn-block btn-primary" data-toggle="modal" data-target="#compose-modal"><i class="glyphicon glyphicon-ok"></i>&nbsp;确认添加</a>
                             </div>
-                            </div >
+                            </div>
                            </div> 
                 </div>
 			</form>
@@ -63,7 +64,7 @@ var maxNumber = 100000;
 var randomNumber = Math.round(maxNumber * Math.random()); 
 // alert(randomNumber); 
 var $parent = $("#mian"); 
-$parent.append("<span class='glyphicon glyphicon-arrow-right'></span><div id='div' class='btn-group'><select type='button' class='btn btn-default btn-sm btn-flat dropdown-toggle' data-toggle='dropdown'><option>请选择</option> <option>系主任</option><option>院长</option><option>科研秘书</option><option>普通教职工</option></select></div>"); 
+$parent.append("<span class='glyphicon glyphicon-arrow-right'></span><div id='div' class='btn-group'><select type='button' class='btn btn-default btn-sm btn-flat dropdown-toggle' data-toggle='dropdown'><option>请选择</option><foreach name='name' item='value' key='key'><option>{$value}</option></foreach>></select></div>"); 
 }) 
 $("button").click(function(){
     $("#div").remove();
