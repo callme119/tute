@@ -133,7 +133,6 @@ class AdminController extends Controller{
     private function _jumpUrl(){
         $url = U('Fail/Index/fail');
         redirect($url);
-        exit();
     }
 }
 
