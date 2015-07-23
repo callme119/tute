@@ -132,11 +132,11 @@ class AdminController extends Controller{
      * @param string $type 数组下级数组下标值
      * @return arr 添加了active的数组
      */
-<<<<<<< HEAD
+
     private function _jumpUrl(){
         $url = U('Fail/Index/fail');
         redirect($url);
-=======
+    }
     private function _addMenuActive($arr,$url,$type){
         //$arr = change_key($arr, 'id');
         $menuModel = new MenuModel();
@@ -154,6 +154,5 @@ class AdminController extends Controller{
             }
         }
         return $arr;
->>>>>>> parent of bb77fd5... Revert "整体修改"
     }
 }
