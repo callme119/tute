@@ -93,12 +93,6 @@ class MenuModel extends Model{
         }  else {
             return FALSE;
         }
-    }
-    public function getParentMenuById($id){
-        $map['id'] = $id;
-        $pid = $this->field('parent_id')->where($map)->find();
-        $map1['id'] = $pid;
-        $data = $this->where($map1)->find();
-        return $data;
+       
     }
 }
