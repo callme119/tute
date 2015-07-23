@@ -73,28 +73,27 @@ class AdminController extends Controller{
         
         //判断是否已经登录
         
+        //开始进行菜单访问权限判断
+        //1.获取用户点击或输入的url
+        $url = $this->_getUrl();
+        //2.判读该用户是否有该权限
+        $isJump = $this->_checkUrl($url);
+        //3.判读该url是否有该菜单（判断应用位运算）
+        $menuMo = new MenuModel();
+        $isHave = $menuMo->checkMenu($url);
+        if(!($isJump && $isHave)){
+            $this->redirect( 'Fail/Index/fail');
+            exit();
+        }
+        
         //获取该用户可见的菜单列表并传递给给Left菜单栏
         //1.new菜单Model
         $menu = new MenuModel();
         //2.获取菜单的信息
         $data = $menu->getMenuTree(null, null, 1, 2);
+        $data = $this->_addMenuActive($data, $url, '_son');
         //3.将获取到的信息传递给V层
         $this->assign('leftMenu',$data);
-        
-        //开始进行菜单访问权限判断
-        //1.获取用户点击或输入的url
-        $url = $this->_getUrl();
-        //2.判读该用户是否有该权限
-        $isjump = $this->_checkUrl($url);
-        //3.判读该url是否有该菜单（判断应用位运算）
-        $menuMo = new MenuModel();
-        $isHave = $menuMo->checkMenu($url);
-        if(!($isjump && $isHave)){
-        //4.进行跳转
-            $this->_jumpUrl();
-        }
-        //5.传递你点击的url（也就是按钮）给v层
-        $this->assign('button',$url);
         
         $headerTpl = T('Admin@Admin/header');
         $this->assign('header',$this->fetch($headerTpl));
@@ -127,12 +126,34 @@ class AdminController extends Controller{
         return true;
     }
     /**
-     * 跳转url
-     * @param type $url 
+     * 
+     * @param array $arr 传入数组
+     * @param array $url url数组
+     * @param string $type 数组下级数组下标值
+     * @return arr 添加了active的数组
      */
+<<<<<<< HEAD
     private function _jumpUrl(){
         $url = U('Fail/Index/fail');
         redirect($url);
+=======
+    private function _addMenuActive($arr,$url,$type){
+        //$arr = change_key($arr, 'id');
+        $menuModel = new MenuModel();
+        $res = $menuModel->getMenuByUrl($url);
+        $id = $res[0]['id'];
+        $parentId = $res['parent_id'];
+        foreach (arr as $key => $value) {
+            if($value['id'] == $id || $value['id'] == $parentId){
+                $arr['isActive'] = [1];
+            }
+            foreach ($value[$type] as $k => $v) {
+                if($value['id'] == $id || $value['id'] == $parentId){
+                $value[$type]['isActive'] = [1];
+                }
+            }
+        }
+        return $arr;
+>>>>>>> parent of bb77fd5... Revert "整体修改"
     }
 }
-

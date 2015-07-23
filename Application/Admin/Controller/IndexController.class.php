@@ -10,10 +10,6 @@ class IndexController extends AdminController
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
-    public function failAction(){
-        $this->assign('YZBODY',$this->fetch());
-        $this->display(YZTemplate);
-    }
    
 }
 
