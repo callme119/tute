@@ -13,7 +13,7 @@ class UserJobModel extends Model{
     /**
      * 
      * @param 无返回值
-     */private $userid = null;
+     */
     public function setUserId($id) {
         $this->userid = $id;
     }
@@ -22,7 +22,7 @@ class UserJobModel extends Model{
         $map = array();
         $map[id] = $id;        
         $data = $this->where($map)->select();
-        var_dump($data);
+        //var_dump($data);
     }
     /**
      * 根据传入的userid初始化待办工作数据
