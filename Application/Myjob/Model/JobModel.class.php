@@ -9,6 +9,7 @@
 namespace Myjob\Model;
 use Think\Model;
 use UserJob\Model\UserJobModel;
+use ScientificResearch\Model\ResearchModel;
 class JobModel extends Model{
      private $jobid = null;
      private $userid = null;
@@ -48,7 +49,7 @@ class JobModel extends Model{
        $userjob = new UserJobModel;
        $userjob->setUserId($this->userid);
        $data = $userjob->getJobIdByUserId();
-       var_dump($data);
+       //var_dump($data);
        //根据取出的jobid再取出researchid
        $researchid = array();
        foreach($data as $value){
@@ -58,11 +59,14 @@ class JobModel extends Model{
                $researchid[] = $id;
            }
        }
-       var_dump($researchid);
-       //根据取出的researchid取出research信息
-       //getResearchInfoById;
-       //输出图像
-       
+       //根据取出的researchid取research信息
+       $researchInfo = array();
+       $researchModel = new ResearchModel;
+       foreach($researchid as $value){
+           $researchInfo[] = $researchModel->getResarchInfoById($value);
+       }
+       //var_dump($researchInfo);
+       return $researchInfo;
        
     }  
 }

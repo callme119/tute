@@ -26,96 +26,18 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <foreach name="data" item="value" key="key">
                                 <tr>
-                                    <td class="id">1</td>
-                                    <td class="name"><a href="{:U('Myjob/Index/taskdetail')}">《智能及其技术》</a></td>
-                                    <td class="type">论文</td>
-                                    <td class="subject">张三</td>
-                                     <td class="subject">2015/6/24 10:47</td>
+                                    <td class="id">{$value.id}</td>
+                                    <td class="name"><a href="{:U('Myjob/Index/taskdetail')}">{$value.name}</a></td>
+                                    <td class="type">{$value.tyoe}</td>
+                                    <td class="subject">{$value.subscriber}</td>
+                                     <td class="subject">{$value.time}</td>
                                     <td>
                                         <a href="{:U('Myjob/Index/taskdetail')}"><button class="btn btn-primary" ><i class="fa fa-pencil"></i>审批</button></a>
                                     </td>
                                 </tr>
-                                 <tr>
-                                    <td class="id">2</td>
-                                    <td class="name"><a href="{:U('Myjob/Index/projectdetail')}">《纯智能化经济系统》</a></td>
-                                    <td class="type">论文</td>
-                                    <td class="subject">张三</td>
-                                     <td class="subject">2015/6/24 10:47</td>
-                                    <td>
-                                        <a href="{:U('Myjob/Index/projectdetail')}"><button class="btn btn-primary" ><i class="fa fa-pencil"></i>审批</button></a>
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    <td class="id">3</td>
-                                    <td class="name"><a href="{:U('Myjob/Index/taskdetail')}">《智能及其技术》</a></td>
-                                    <td class="type">论文</td>
-                                    <td class="subject">张三</td>
-                                     <td class="subject">2015/6/24 10:47</td>
-                                    <td>
-                                        <a href="{:U('Myjob/Index/taskdetail')}"><button class="btn btn-primary" ><i class="fa fa-pencil"></i>审批</button></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="id">4</td>
-                                    <td class="name"><a href="{:U('Myjob/Index/projectdetail')}">《纯智能化经济系统》</a></td>
-                                    <td class="type">论文</td>
-                                    <td class="subject">张三</td>
-                                     <td class="subject">2015/6/24 10:47</td>
-                                    <td>
-                                        <a href="{:U('Myjob/Index/projectdetail')}"><button class="btn btn-primary" ><i class="fa fa-pencil"></i>审批</button></a>
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    <td class="id">5</td>
-                                    <td class="name"><a href="{:U('Myjob/Index/taskdetail')}">《智能及其技术》</a></td>
-                                    <td class="type">论文</td>
-                                    <td class="subject">张三</td>
-                                     <td class="subject">2015/6/24 10:47</td>
-                                    <td>
-                                        <a href="{:U('Myjob/Index/taskdetail')}"><button class="btn btn-primary" ><i class="fa fa-pencil"></i>审批</button></a>
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    <td class="id">6</td>
-                                    <td class="name"><a href="{:U('Myjob/Index/taskdetail')}">《智能及其技术》</a></td>
-                                    <td class="type">论文</td>
-                                    <td class="subject">张三</td>
-                                     <td class="subject">2015/6/24 10:47</td>
-                                    <td>
-                                        <a href="{:U('Myjob/Index/taskdetail')}"><button class="btn btn-primary" ><i class="fa fa-pencil"></i>审批</button></a>
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    <td class="id">7</td>
-                                   <td class="name"><a href="{:U('Myjob/Index/taskdetail')}">《智能及其技术》</a></td>
-                                    <td class="type">论文</td>
-                                    <td class="subject">张三</td>
-                                     <td class="subject">2015/6/24 10:47</td>
-                                    <td>
-                                        <a href="{:U('Myjob/Index/taskdetail')}"><button class="btn btn-primary" ><i class="fa fa-pencil"></i>审批</button></a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="id">8</td>
-                                    <td class="name"><a href="{:U('Myjob/Index/projectdetail')}">《纯智能化经济系统》</a></td>
-                                    <td class="type">论文</td>
-                                    <td class="subject">张三</td>
-                                     <td class="subject">2015/6/24 10:47</td>
-                                    <td>
-                                        <a href="{:U('Myjob/Index/projectdetail')}"><button class="btn btn-primary" ><i class="fa fa-pencil"></i>审批</button></a>
-                                    </td>
-                                </tr>
-                                 <tr>
-                                    <td class="id">9</td>
-                                    <td class="name"><a href="{:U('Myjob/Index/taskdetail')}">《智能及其技术》</a></td>
-                                    <td class="type">论文</td>
-                                    <td class="subject">张三</td>
-                                     <td class="subject">2015/6/24 10:47</td>
-                                    <td>
-                                        <a href="{:U('Myjob/Index/taskdetail')}"><button class="btn btn-primary" ><i class="fa fa-pencil"></i>审批</button></a>
-                                    </td>
-                                </tr>
+                            </foreach>     
                             </tbody>
                         </table>
                                      <nav style="text-align: center">

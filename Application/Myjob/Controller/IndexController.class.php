@@ -18,16 +18,14 @@ class IndexController extends AdminController{
     
     public function indexAction() {
         //取用户id
-        $id = I('get.userid');
+        //$id = I('get.userid');
         //调用model中的初始化方法
         $jobModel = new JobModel();
         $jobModel->setUserId(1);
         $data = $jobModel->getUnfinishedInfoByUserId();
-        //var_dump($data);
-//        $tpl = T("Admin@Admin/index");
-//        define('YZTemplate', $tpl);
-//        $this->assign('YZBODY',$this->fetch('index'));
-//        $this->display(YZTemplate);
+        $this->assign('data', $data);
+        $this->assign('YZBODY',$this->fetch('index'));
+        $this->display(YZTemplate);
         
     }
      
