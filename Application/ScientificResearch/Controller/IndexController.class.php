@@ -21,7 +21,7 @@ class IndexController extends AdminController {
             $this->assign('YZBODY',$this->fetch());
             $this->display(YZTemplate);
         }
-        public function audit_processAction() {
+        public function auditprocessAction() {
             $this->assign('YZBODY',$this->fetch());
             $this->display(YZTemplate);
         }
@@ -29,7 +29,7 @@ class IndexController extends AdminController {
             $this->assign('YZBODY',$this->fetch());
             $this->display(YZTemplate);
         }
-        public function audit_suggestionAction() {
+        public function auditsuggestionAction() {
             $this->assign('YZBODY',$this->fetch());
             $this->display(YZTemplate);
         }
