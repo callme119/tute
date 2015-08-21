@@ -8,8 +8,13 @@ namespace StaffManagement\Controller;
 use Admin\Controller\AdminController;
 class IndexController extends AdminController {
     public function indexAction(){
+        $url=array(
+            "add"=>U('add'),
+            "edit"=>U('edit'),
+            );
+        $this->assign('url',$url);
         $this->assign('YZBODY',$this->fetch());
-        $this->display(YZTemplate);  
+        $this->display(YZTemplate); 
     }
     //教工管理编辑
     public function editAction(){
