@@ -1,0 +1,112 @@
+<section class="content-header">
+    <h1>
+        教工管理
+        <small></small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{:U('Admin/Index/index')}"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="{:U('index')}">教工管理</a></li>
+        <li class="active"></li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <i class="fa fa-inbox"></i>
+                    <h3 class="box-title">教工列表</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive">
+                    <div class="panel-body">
+                        <button type="button" class="btn btn-info" onclick="location='{$url['add']}'">添加教工</button>
+                    </div>
+                    <table class="table table-bordered table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>序号</th>
+                                <th>教工名</th>
+                                <th>部门</th>
+                                <th>岗位</th>
+                                <th>密码</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="success">
+                                <td>1</td>
+                                <td>教工一</td>
+                                <td>计算机学院</td>
+                                <td>学生处</td>
+                                <td>12345678</td>
+                                <td>
+                                <button class="btn btn-sm btn-primary" onclick="location='{$url['edit']}'"><i class="fa fa-pencil"></i>编辑</button>
+                                <button class="btn-sm btn-danger" onclick="location=''"><i class="glyphicon glyphicon-remove"></i>删除</button>
+                                </td>
+                            </tr>
+                            <tr class="success">
+                                <td>2</td>
+                                <td>教工二</td>
+                                <td>计算机学院</td>
+                                <td>学生处</td>
+                                <td>12345678</td>
+                                <td>
+                                <button class="btn btn-sm btn-primary" onclick="location='{$url['edit']}'"><i class="fa fa-pencil"></i>编辑</button>
+                                <button class="btn-sm btn-danger" onclick="location=''"><i class="glyphicon glyphicon-remove"></i>删除</button>
+                                </td>
+                            </tr>
+                            <tr class="success">
+                                <td>3</td>
+                                <td>教工三</td>
+                                <td>计算机学院</td>
+                                <td>学生处</td>
+                                <td>12345678</td>
+                                <td>
+                                <button class="btn btn-sm btn-primary" onclick="location='{$url['edit']}'"><i class="fa fa-pencil"></i>编辑</button>
+                                <button class="btn-sm btn-danger" onclick="location=''"><i class="glyphicon glyphicon-remove"></i>删除</button>
+                                </td>
+                            </tr>
+                            <tr class="success">
+                                <td>4</td>
+                                <td>教工四</td>
+                                <td>计算机学院</td>
+                                <td>学生处</td>
+                                <td>12345678</td>
+                                <td>
+                                <button class="btn btn-sm btn-primary" onclick="location='{$url['edit']}'"><i class="fa fa-pencil"></i>编辑</button>
+                                <button class="btn-sm btn-danger" onclick="location=''"><i class="glyphicon glyphicon-remove"></i>删除</button>
+                                </td>
+                            </tr>
+                            <tr class="success">
+                                <td>5</td>
+                                <td>教工五 </td>
+                                <td>计算机学院</td>
+                                <td>学生处</td>
+                                <td>12345678</td>
+                                <td>
+                                <button class="btn btn-sm btn-primary" onclick="location='{$url['edit']}'"><i class="fa fa-pencil"></i>编辑</button>
+                                <button class="btn-sm btn-danger" onclick="location=''"><i class="glyphicon glyphicon-remove"></i>删除</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav>
+                    <ul class="pagination">
+                    <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
+                    <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
+                    <li><a href="#">2 <span class="sr-only"></span></a></li>
+                    <li><a href="#">3 <span class="sr-only"></span></a></li>
+                    <li><a href="#">4 <span class="sr-only"></span></a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>    
+</section>
+
