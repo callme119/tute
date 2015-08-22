@@ -89,12 +89,12 @@ class IndexController extends AdminController
             $this->success('新增成功', 'index');
         }
     }
-    public function deleteAction(){
+    public function deleteAction(){    
         $id = I('get.id');
         $menuModel = new MenuModel();
         $state = $menuModel->deleteMenu($id);
-        if($state == "success"){
-            $this->success('删除成功', 'index');
+        if($state){
+           $this->success('删除成功', U("Menu/Index/index")); 
         }
     }
 }
