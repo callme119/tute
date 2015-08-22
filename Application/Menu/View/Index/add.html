@@ -39,13 +39,13 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">上级菜单</label>
+                            <label for="inputEmail3" class="col-sm-2 control-label">上级菜单ID</label>
                             <div class="col-sm-4">
                                 <input class="form-control" id="inputEmail3" name="parent_id" value="<php>
                                        if($data['edit'] == null || $data['edit'] == '')
                                         echo $data['id'];
                                     else
-                                        echo $value['parent_id'];</php>">
+                                        echo $data['parent_id'];</php>">
                             </div>
                         </div>
                         <div class="form-group">
