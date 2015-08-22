@@ -14,15 +14,18 @@ class MenuModel extends Model{
      * 
      * @return array
      */
-    public function getMenuTree($parentId,$isDevelop,$isShow,$layer){
+    public function getMenuTree($parentId,$isDevelop,$isShow = 1,$layer){
         $map = array();
         $level = isset($layer)?$layer:1;
         $map['parent_id'] = isset($parentId)?$parentId:0;
         if(APP_DEBUG == false)
         {
-            $map['development'] = 0;
+            $map['development'] = 1;
         }
-        $map['show'] = isset($isShow)?$isShow:1;
+        if($isShow == 1)
+        {
+            $map['show'] = $isShow;
+        }
         $data = $this->_getMenuList($map, $level);
         return $data;
     }
