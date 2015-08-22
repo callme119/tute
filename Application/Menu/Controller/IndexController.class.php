@@ -22,10 +22,10 @@ class IndexController extends AdminController
     public function indexAction()
     {
         $menuModel = new MenuModel();
-        $data = $menuModel->getMenuTree(null, null, 1, 2);
+        $data = $menuModel->getMenuTree(null, null, 0, 2);
 
         $menuList = tree_to_list($data,0,'_son');
-        
+
         foreach ($menuList as $key => $value) {
             $menuList[$key]['_url'] = array(
                 'add'=>U('addSon?id=' . $value['id']),
