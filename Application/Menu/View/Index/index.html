@@ -36,10 +36,17 @@
                             </tr>
                         </thead>
                         <tbody>
+                        {:dump($data)}
                             <foreach name="data" item="value" key="key">
                                 <tr>
                                 <td>{$key+1}</td>
-                                <td>{$value.title}</td>
+                                <td>
+                                    <php> 
+                                    for( $level = 0; $level< $value['_level']; $level++)
+                                    echo "|----";
+                                    </php>
+                                    {$value.title}
+                                </td>
                                 <td>{$value.subhead}</td>
                                 <td>{$value.url}</td>
                                 <td>否</td>
