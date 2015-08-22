@@ -36,7 +36,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                        {:dump($data)}
                             <foreach name="data" item="value" key="key">
                                 <tr>
                                 <td>{$key+1}</td>
@@ -49,9 +48,9 @@
                                 </td>
                                 <td>{$value.subhead}</td>
                                 <td>{$value.url}</td>
-                                <td>否</td>
+                                <td><eq name="value.development" value="0">否<else />是</eq></td>
                                 <td>0</td>
-                                <td>否</td>
+                                <td><eq name="value.show" value="1">否<else />是</eq></td>
                                 <td>
                                 <button class="btn btn-sm btn-success"  onclick="location='{$value._url.add}'" ><i class="glyphicon glyphicon-plus"></i>添加子菜单</button>
                                 <button class="btn btn-sm btn-primary"  onclick="location='{$value._url.edit}'"><i class="fa fa-pencil"></i>编辑</button>
