@@ -122,15 +122,17 @@ function tree_to_list($tree,$i = 0,$key = '_child',$level = '_level'){
     $list = array();
     foreach($tree as $k => $value)
     {
-        $value[$level] = $i;       
-        if(is_array($value[$key]))
-        {
-            $i++;
-            $list = array_merge($list,tree_to_list($value[$key],$i));
-            $i--;
-        }
+        $value[$level] = $i;  
+        $temp = $value[$key];
         unset($value[$key]);
         $list[] = $value;
+        if(is_array($temp))
+        {
+            $i++;
+            $list = array_merge($list,tree_to_list($temp,$i));
+            $i--;
+        }
+        
     }
     return $list;
 }
