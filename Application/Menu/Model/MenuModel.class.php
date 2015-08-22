@@ -75,6 +75,11 @@ class MenuModel extends Model{
         $state = "success";
         return $state;
     }
+    public function deleteMenu($id)
+    {
+        $map['id'] = $id;
+        return $this->where($map)->delete();
+    }
     /**
      * @param  [array] $where查询条件
      * @param  [int] $layer 查询层级
