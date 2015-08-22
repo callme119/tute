@@ -93,9 +93,9 @@
                             <label for="inputEmail3" class="col-sm-2 control-label">是否显示</label>
                             <div class="col-sm-4">
                             <div class="col-md-6 form-group">
-                                <select class="selectpicker form-control">
-                                    <option>是</option>
-                                    <option>否</option>
+                                <select class="selectpicker form-control" name="show">
+                                    <option value="1">是</option>
+                                    <option value="0" <eq name="data.show" value="0">selected="selected"</eq>>否</option>
                                 </select><!-- /.input group -->
                             </div>
                             </div>
@@ -104,9 +104,9 @@
                             <label for="inputEmail3" class="col-sm-2 control-label">是否开发模式</label>
                             <div class="col-sm-4">
                                 <div class="col-md-6 form-group">
-                                    <select class="selectpicker form-control">
-                                        <option>是</option>
-                                        <option>否</option>
+                                    <select class="selectpicker form-control" name="development">
+                                        <option value="1">是</option>
+                                        <option value="0" <eq name="data.development" value="0">selected="selected"</eq>>否</option>
                                     </select><!-- /.input group -->
                                 </div>
                             </div>
