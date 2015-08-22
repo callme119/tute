@@ -118,18 +118,18 @@ function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root 
  * 
  */
 
-function tree_to_list($tree,$i = 0){
+function tree_to_list($tree,$i = 0,$key = '_child',$level = '_level'){
     $list = array();
-    foreach($tree as $key => $value)
+    foreach($tree as $k => $value)
     {
-        $value['level'] = $i;       
-        if(is_array($value['_child']))
+        $value[$level] = $i;       
+        if(is_array($value[$key]))
         {
             $i++;
-            $list = array_merge($list,tree_to_list($value['_child'],$i));
+            $list = array_merge($list,tree_to_list($value[$key],$i));
             $i--;
         }
-        unset($value['_child']);
+        unset($value[$key]);
         $list[] = $value;
     }
     return $list;
