@@ -69,8 +69,20 @@ class MenuModel extends Model{
         $state = "success";
         return $state;
     }
+    /**
+     * @param  [array] $where查询条件
+     * @param  [int] $layer 查询层级
+     * @param  integer 用于返回第几层
+     * @return [type] 带有数据信息的数组
+     */
     private function _getMenuList($where,$layer){
         $menuList = $this->where($where)->select();
+
+        //如果结果为空,则返回false
+        if( $menuList == null)
+            return false;
+
+        //判断层级
         if($layer--)
         {
             foreach($menuList as $key => $value)
@@ -78,12 +90,13 @@ class MenuModel extends Model{
                 $map = $where;
                 $map['parent_id'] = $value['id'];
                 $son = $this->_getMenuList($map,$layer);
-                if(count($son)>0)
+                if($son !== false)
                 {
                     $menuList[$key]['_son'] = $son;
                 }
             }
-        }
+        }   
+
         return $menuList;
     }
     public function checkMenu($url) {
