@@ -79,12 +79,13 @@ class AdminController extends Controller{
         //2.判读该用户是否有该权限
         $isJump = $this->_checkUrl($url);
         //3.判读该url是否有该菜单（判断应用位运算）
-        $menuMo = new MenuModel();
-        $isHave = $menuMo->checkMenu($url);
-        if(!($isJump && $isHave)){
-            $this->redirect( 'Fail/Index/fail');
-            exit();
-        }
+        
+        // $menuMo = new MenuModel();
+        // $isHave = $menuMo->checkMenu($url);
+        // if(!($isJump && $isHave)){
+        //     $this->redirect( 'Fail/Index/fail');
+        //     exit();
+        // }
         
         //获取该用户可见的菜单列表并传递给给Left菜单栏
         //1.new菜单Model
