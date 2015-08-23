@@ -1,12 +1,12 @@
 <section class="content-header">
     <h1>
         菜单管理
-        <small>添加根菜单</small>
+        <small>添加菜单</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="{:U('Admin/Index/index')}"><i class="fa fa-dashboard"></i> 首页</a></li>
         <li><a href="{:U('index')}">菜单管理</a></li>
-        <li class="active">添加根菜单</li>
+        <li class="active">添加菜单</li>
     </ol>
 </section>
 <section class="content">
@@ -39,13 +39,19 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">上级菜单ID</label>
+                            <label for="inputEmail3" class="col-sm-2 control-label">上级菜单</label>
                             <div class="col-sm-4">
-                                <input class="form-control" id="inputEmail3" name="parent_id" value="<php>
-                                       if($data['edit'] == null || $data['edit'] == '')
-                                        echo $data['id'];
-                                    else
-                                        echo $data['parent_id'];</php>">
+                            <select class="selectpicker form-control" name="parent_id">
+                                <option value="0">根菜单</option>
+                                <foreach name="menuList" item="menu">
+                                    <option value="{$menu.id}" <if condition="$menu['id'] eq $data['parent_id']"> selected="selected"</if> >
+                                    <php>
+                                    for($level = 0; $level < $menu['_level']; $level++)
+                                        echo "|--";
+                                    </php>
+                                    {$menu.title}</option>
+                                </foreach>
+                            </select>
                             </div>
                         </div>
                         <div class="form-group">
