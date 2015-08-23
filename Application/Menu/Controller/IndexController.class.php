@@ -46,6 +46,8 @@ class IndexController extends AdminController
         $id = I('get.id',0);
         $data['id'] = $id;
         $title = "添加根菜单";
+
+        $this->assign('menuList',$this->_fetchMenuList());
         $this->assign('data',$data);
         $this->assign('title',$title);
         $this->assign('YZBODY',$this->fetch('add'));
@@ -56,8 +58,10 @@ class IndexController extends AdminController
      */
     public function addSonAction(){
         $id = I('get.id',0);
-        $data['id'] = $id;
+        $data['parent_id'] = $id;
         $title = "编辑菜单";
+
+        $this->assign('menuList',$this->_fetchMenuList());
         $this->assign('data',$data);
         $this->assign('title',$title);
         $this->assign('YZBODY',$this->fetch('add'));
@@ -71,6 +75,8 @@ class IndexController extends AdminController
         $title = "编辑菜单";
         $menuModel = new MenuModel();
         $data = $menuModel->getMenuById($id);
+
+        $this->assign('menuList',$this->_fetchMenuList());        
         $this->assign('data',$data);
         $this->assign('title',$title);
         $this->assign('YZBODY',$this->fetch('add'));
@@ -96,5 +102,16 @@ class IndexController extends AdminController
         if($state){
            $this->success('删除成功', U("Menu/Index/index")); 
         }
+    }
+    /**
+     * 取系统菜单列表,用于显示在上级菜单的OPTION
+     * @return ARRAY 包括有所有菜单信息的二级数组
+     * author:panjie 3792535@qq.com
+     */
+    private function _fetchMenuList()
+    {
+        $menuModel = new MenuModel();
+        $data = $menuModel->getMenuTree(null, null, 0, 2);
+        return tree_to_list($data,0,'_son');
     }
 }
