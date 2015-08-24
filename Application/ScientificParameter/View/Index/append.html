@@ -1,0 +1,10 @@
+<div class="row select">
+	<div class="col-md-3 form-group">
+		<select class="selectpicker form-control project">
+			<option>请选择</option>
+			<foreach name="data" item="data">
+				<option data-id="{$data.id}">{$data.name}</option>
+			</foreach>
+		</select><!-- /.input group -->
+	</div><!-- /.form group -->
+</div>
