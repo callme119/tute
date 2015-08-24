@@ -328,7 +328,7 @@ class Dispatcher {
                 return   ucfirst($maps[MODULE_ALIAS]);
             }elseif(array_search(strtolower($module),$maps)){
                 // 禁止访问原始模块
-                     return   '';
+                return   '';
             }
         }
         return strip_tags(ucfirst($module));
