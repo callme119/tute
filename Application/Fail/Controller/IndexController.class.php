@@ -9,8 +9,9 @@ class IndexController extends AdminController
      */
     public function failAction()
     {
+    	$this->assign('url',U('Admin/Index/index'));
     	$this->assign('YZBODY',$this->fetch());
-        $this->display(YZTemplate);
+    	$this->display(YZTemplate);
        // $this->display('fail'); 
     }
 }
