@@ -26,7 +26,7 @@ and open the template in the editor.
                 </div>
                 <div class="row select">
                     <div class="col-md-3 form-group">
-                     <select class="selectpicker form-control project">
+                       <select class="selectpicker form-control project">
                         <option>请选择</option>
                         <foreach name="project" item="project">
                             <option data-id="{$project.id}">{$project.name}</option>
@@ -84,22 +84,25 @@ and open the template in the editor.
 </div>
 
 </div>
-<script>         
-$('.project').change(function(){
-//alert($(this).children('option:selected').attr('data-id'));
-var id = $(this).children('option:selected').attr('data-id');//获取点击select下拉菜单的id
-$("#pid").attr('value',id);//获取最后一次点击所选的id（作为添加的项目的pid存库）
-//alert($("#pid").attr('value'));
-var url = "{$url}?id="+id;
-alert(url);  
-$.get(
-    url,
-    function(data){
-        $(".select:last").append(data);
-    }
+<script>       
+    //使用on事件,将整个document做为选择器.
+    //注意,在这里的选择器,必须是已经存在的,不能是后期生成的.
+    //.project做为document的子元素出现,绑定了change事件.等同于onChange 
+    $(document).on("change",".project",function(){
+    //alert($(this).children('option:selected').attr('data-id'));
+    //获取最后一次点击所选的id（作为添加的项目的pid存库）
+    //alert($("#pid").attr('value'));
+    var url = "{$url}?id=1";
+    alert(url);  
+    $.get(
+        url,
+        function(data){
+            $(".select:last").append(data);
+        }
 
-    );
-}) 
+        );
+    }); 
+
 
 </script>
 
