@@ -29,7 +29,14 @@ class AdminController extends Controller{
     public function addIe9CdnJs($ie9CdnJs){
         $this->ie9CdnJsArr[] = $ie9CdnJs;
     }
-    
+     /**
+     * 判读是否存在该菜单
+     * 如果不存在，跳转404界面
+     */
+    public function _empty(){
+        $this->redirect( 'Fail/Index/fail');
+        exit();
+    }
     public function __construct() {
         parent::__construct();
         $cssArr[] = '/css/bootstrap.min.css';
