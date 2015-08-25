@@ -1,6 +1,6 @@
 <?php
 
-*
+/**
  * 角色的Model类
  *
  * @author xuao
@@ -8,7 +8,7 @@
  */
 namespace Role\Model;
 use Think\Model;
-class MenuModel extends Model{
+class RoleModel extends Model{
     /**
      * 获取角色列表方法
      * 

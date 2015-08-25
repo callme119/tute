@@ -5,10 +5,10 @@ return array(
     /* 数据库配置 */
     'DB_TYPE'   => 'mysqli', // 数据库类型
     'DB_HOST'   => 'localhost', // 服务器地址www.callme119.com
-    'DB_HOST'   => '127.0.0.1', 
-    'DB_NAME'   => 'performance', // 数据库名performancems
-    'DB_USER'   => 'root', // 用户名performancems
-    'DB_PWD'    => '',  // 密码b2408cac49ed15d67c390dd08a8b0158
+    'DB_HOST'   => 'callme119.com', 
+    'DB_NAME'   => 'performancems', // 数据库名performancems
+    'DB_USER'   => 'performancems', // 用户名performancems
+    'DB_PWD'    => 'b2408cac49ed15d67c390dd08a8b0158',  // 密码b2408cac49ed15d67c390dd08a8b0158
     'DB_PORT'   => '3306', // 端口3306
     'DB_PREFIX' => 'yunzhi_', // 数据库表前缀
     'UPLOAD_ROOT_PATH' => '/Uploads',//附件上传根路径
