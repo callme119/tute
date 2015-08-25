@@ -17,7 +17,7 @@ class IndexController extends AdminController
 {
     public function indexAction()
     {
-        $page = I('get.id',0);
+        $page = I('get.id',1);
         $url=array(
             "addRole"=>U('addRole'),
             "editRole"=>U('editRole'),
