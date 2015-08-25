@@ -49,8 +49,10 @@ class IndexController extends AdminController {
     $projectM = new \PublicProject\Model\PublicProjectModel();
     $res = $projectM->append($pid);
     $this->assign('data',$res);
+    
     $data = $this->fetch();
     echo $data;
+    
     
   }
 }

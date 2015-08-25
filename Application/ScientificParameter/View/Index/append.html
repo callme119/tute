@@ -2,9 +2,8 @@
 	<div class="col-md-3 form-group">
 		<select class="selectpicker form-control project">
 			<option>请选择</option>
-			<option value="0">test</option>
 			<foreach name="data" item="data">
-				<option data-id="{$data.id}">{$data.name}</option>
+				<option value="{$data.id}">{$data.name}</option>
 			</foreach>
 		</select><!-- /.input group -->
 	</div><!-- /.form group -->

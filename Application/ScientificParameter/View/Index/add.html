@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <section class="content-header">
     <h1>教科研设置<small>添加类别</small></h1>
     <ol class="breadcrumb">
@@ -29,7 +23,7 @@ and open the template in the editor.
                        <select class="selectpicker form-control project">
                         <option>请选择</option>
                         <foreach name="project" item="project">
-                            <option data-id="{$project.id}">{$project.name}</option>
+                            <option value="{$project.id}">{$project.name}</option>
                         </foreach>
                     </select><!-- /.input group -->
                 </div><!-- /.form group -->
@@ -75,7 +69,15 @@ and open the template in the editor.
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-1 col-md-offset-3"><button type="submit" class="btn btn btn-success"><i class="glyphicon glyphicon-open"></i>保存</button></div>
+                <div class="col-md-3 text-right">
+                <span id="custom" data-toggle="popover" title="数据模型一的说明" data-placement="right" data-content="<tr><td>科研类个人模型</td>
+                            <td>分/项</td>
+                            <td>运用该模型来构建只与“分/项”有关的项目，与附件1中的α4，α5和β4对应</td>
+                        </tr>">数据模型一</span>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-1 col-md-offset-3"><button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-open"></i>保存</button></div>
                 <div class="col-md-1"><a href="" class="btn btn-warning" ><i class="glyphicon glyphicon-repeat"></i>重置</a></div>
             </div>
         </form>
@@ -84,24 +86,34 @@ and open the template in the editor.
 </div>
 
 </div>
-<script>       
+<script> 
+ 
+     $("#custom").click(function() {
+        $("[data-toggle='popover']").popover({
+            html:true,
+        });
+     });
+      
     //使用on事件,将整个document做为选择器.
     //注意,在这里的选择器,必须是已经存在的,不能是后期生成的.
     //.project做为document的子元素出现,绑定了change事件.等同于onChange 
     $(document).on("change",".project",function(){
+    var id = $(this).children('option:selected').attr('value');//获取点击select下拉菜单的idis
+    var $this = $(this);
     //alert($(this).children('option:selected').attr('data-id'));
+    $("#pid").attr('value',id);
     //获取最后一次点击所选的id（作为添加的项目的pid存库）
     //alert($("#pid").attr('value'));
-    var url = "{$url}?id=1";
-    alert(url);  
+    var url = "{$url}?id="+id;
     $.get(
         url,
-        function(data){
-            $(".select:last").append(data);
-        }
-
-        );
+        function(data){ 
+        var index = $this.parents(".select:eq(0)").index()-1;
+        $(".select:gt("+index+")").remove();
+        $this.parents(".select").after(data);
+            //$(".select:last").after(data);
     }); 
+});
 
 
 </script>

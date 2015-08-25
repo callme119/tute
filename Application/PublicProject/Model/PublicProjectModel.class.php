@@ -27,10 +27,15 @@ class PublicProjectModel extends Model{
 		$state = "success";
         return $state;
 	}
+	/*
+	*从数据库去数据，追加到页面
+	*/
 	public function append($pid)
 	{
+
 		$map['pid'] = $pid;
 		$res = $this->where($map)->select();
 		return $res;
 	}
+	
 }
