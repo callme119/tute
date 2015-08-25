@@ -1,10 +1,6 @@
 <?php
 
-<<<<<<< HEAD
 /*
-=======
-/**
->>>>>>> origin/master
  * 角色的Model类
  *
  * @author xuao
