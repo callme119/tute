@@ -12,15 +12,21 @@
  */
 namespace Role\Controller;
 use Admin\Controller\AdminController;
+use Role\Model\RoleModel;
 class IndexController extends AdminController
 {
     public function indexAction()
     {
+        $page = I('get.id',0);
         $url=array(
             "addRole"=>U('addRole'),
             "editRole"=>U('editRole'),
+            "deleteRole"=>U('deleteRole'),
             "people"=>U('people'),
             );
+        $roleModel = new RoleModel();
+        $roleList = $roleModel->getRoleList($page);
+        $this->assign('roleLIst',$roleLIst);
         $this->assign('url',$url);
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
@@ -32,6 +38,9 @@ class IndexController extends AdminController
     public function peopleAction(){
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
+    }
+    public function deleteRoleAction(){
+
     }
     public function editRoleAction(){
         $this->assign('YZBODY',$this->fetch());

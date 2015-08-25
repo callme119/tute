@@ -13,4 +13,5 @@ return array(
     'DB_PREFIX' => 'yunzhi_', // 数据库表前缀
     'UPLOAD_ROOT_PATH' => '/Uploads',//附件上传根路径
     'SESSION_AUTO_START' => true, //开启session
+    'PAGE_SIZE' => '20',//分页中，每页显示的条数使用C(PAGE_SIZE)读取;
 );
