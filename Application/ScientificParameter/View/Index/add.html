@@ -20,7 +20,7 @@
                 </div>
                 <div class="row select">
                     <div class="col-md-3 form-group">
-                       <select class="selectpicker form-control project">
+                     <select class="selectpicker form-control project">
                         <option>请选择</option>
                         <foreach name="project" item="project">
                             <option value="{$project.id}">{$project.name}</option>
@@ -39,14 +39,6 @@
             <div class="row">
                 <div class="col-md-3 form-group">
                     <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">对应分值</span>
-                        <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3 form-group">
-                    <div class="input-group">
                         <span class="input-group-addon" id="basic-addon1">审核流程</span>
                         <select class="selectpicker form-control">
                             <option>审核流程一</option>
@@ -59,22 +51,23 @@
             <div class="row">
                 <div class="col-md-3 form-group">
                     <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">数据模型</span>
-                        <select class="selectpicker form-control">
-                            <option>数据模型一</option>
-                            <option>数据模型二</option>
-                            <option>数据模型三</option>
+                        <span class="input-group-addon">数据模型</span>
+                        <select name="type" id="dataModel" class="selectpicker form-control">
+                            <option onclick="hide()">请选择</option>
+                            <option data-value="tab_1" value="1">数据模型一</option>
+                            <option data-value="tab_2" value="2">数据模型二</option>
+                            <option data-value="tab_3" value="3">数据模型三</option>
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3 text-right">
-                <span id="custom" data-toggle="popover" title="数据模型一的说明" data-placement="right" data-content="<tr><td>科研类个人模型</td>
-                            <td>分/项</td>
-                            <td>运用该模型来构建只与“分/项”有关的项目，与附件1中的α4，α5和β4对应</td>
-                        </tr>">数据模型一</span>
-            </div>
+            <div class="row tab_1" style=" display:none;">
+                <div class="col-md-3">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">分值</span>
+                        <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-md-1 col-md-offset-3"><button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-open"></i>保存</button></div>
@@ -87,13 +80,13 @@
 
 </div>
 <script> 
- 
-     $("#custom").click(function() {
-        $("[data-toggle='popover']").popover({
-            html:true,
-        });
-     });
-      
+
+//    $("#custom").click(function() {
+//     $("[data-toggle='popover']").popover({
+//         html:true,
+//     });
+// });
+
     //使用on事件,将整个document做为选择器.
     //注意,在这里的选择器,必须是已经存在的,不能是后期生成的.
     //.project做为document的子元素出现,绑定了change事件.等同于onChange 
@@ -108,14 +101,27 @@
     $.get(
         url,
         function(data){ 
-        var index = $this.parents(".select:eq(0)").index()-1;
-        $(".select:gt("+index+")").remove();
-        $this.parents(".select").after(data);
+            var index = $this.parents(".select:eq(0)").index()-1;
+            $(".select:gt("+index+")").remove();
+            if (data.status=="success") {
+                // console.log("success");
+                $this.parents(".select").after(data.data);
+            } 
+
             //$(".select:last").after(data);
-    }); 
+        }); 
 });
 
+    $("#dataModel").change(function(){
+        //获取点击的value值
+        //给对应的数据模型标签添加active
 
+        var id = $(this).children('option:selected').attr('data-value');
+        $("."+id).show(100);
+    });
+    function hide(){
+        $(".tab_1").hide(100);
+    }
 </script>
 
 

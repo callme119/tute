@@ -37,5 +37,13 @@ class PublicProjectModel extends Model{
 		$res = $this->where($map)->select();
 		return $res;
 	}
-	
+	/**
+	 * 判断type的方法
+	 */		
+	public function getTypeById($id)
+	{
+		$map['id'] = $id;
+		$res = $this->where($map)->field('type')->find();
+		return $res;
+	}
 }
