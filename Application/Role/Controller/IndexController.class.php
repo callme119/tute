@@ -7,6 +7,7 @@
 namespace Role\Controller;
 use Admin\Controller\AdminController;
 use Role\Model\RoleModel;
+use Menu\Model\MenuModel;
 class IndexController extends AdminController
 {
     //初始化方法
@@ -40,6 +41,12 @@ class IndexController extends AdminController
     }
     //编辑角色
     public function editRoleAction(){
+        //获取该角色具体信息
+        $id = I('get.id');
+        $roleModel = new RoleModel();
+        $roleInfo = $roleModel->getRoleById($id);
+        //页面显示
+        $this->assign('roleInfo',$roleInfo);
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
@@ -69,9 +76,9 @@ class IndexController extends AdminController
     }
     /**
      * 添加url信息
-     * @param  [type]
-     * @param  [type]
-     * @return [type]
+     * @param  [type] 要添加的数组
+     * @param  [type] 要填写的下标名
+     * @return [type] 拼接好url信息的数组
      */
     private function _addurl($array,$string){
         $data = $array;
@@ -83,5 +90,9 @@ class IndexController extends AdminController
                 );
         }
         return $data;
+    }
+    private funcction _permissionList(){
+        $menuModel = new MenuModel();
+        $permissionList = $menuModel ->getMenuTree();
     }
 }

@@ -18,4 +18,14 @@ class RoleModel extends Model{
     	$res = $this->page($page,C(PAGE_SIZE))->select();
     	return $res;
     }
+    /**
+     * [getRoleById description] 通过id获取角色信息
+     * @param  [type] $id [description] 角色id
+     * @return [type]     [description] 角色信息
+     */
+    public function getRoleById($id){
+    	$map['id'] = $id;
+    	$res = $this->where($map)->find();
+    	return $res;
+    }
 }
