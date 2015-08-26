@@ -28,4 +28,24 @@ class RoleModel extends Model{
     	$res = $this->where($map)->find();
     	return $res;
     }
+    /**
+     * [updateRole 更新角色信息，把角色的基本信息添加到数据库中]
+     * @return [boolean] 正确
+     */
+    public function updateRole(){
+	$data = I('post.');
+	//截取角色信息
+	$roleData = array('id' =>I('get.id'),'name' => $data['name'],'remarks' => $data['remarks'],);
+	$this->save($roleData);
+	//给角色权限提供角色id
+	$_POST['id'] = $roleData['id'];
+	return true;
+    }
+
+    public function saveRole(){
+    	$roleData = array('name' => $data['name'],'remarks' => $data['remarks'],);
+	$id = $this->add($roleData);
+	$_POST['id'] = $id;
+	return true;
+    }
 }
