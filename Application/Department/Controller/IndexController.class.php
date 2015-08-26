@@ -27,10 +27,12 @@ class IndexController extends AdminController
         $this->display(YZTemplate);
     }
     public function addDepartAction(){
+        $this->assign('css',$this->fetch("departCss"));
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
     public function editDepartAction(){
+        $this->assign('css',$this->fetch("departCss"));
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }

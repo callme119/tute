@@ -1,4 +1,4 @@
 <?php
 return array(
-	'SHOW_PAGE_TRACE' => true,
+	'SHOW_PAGE_TRACE' => false,
 	);

@@ -46,7 +46,7 @@ class IndexController extends AdminController
         $id = I('get.id',0);
         $data['id'] = $id;
         $title = "添加根菜单";
-
+        $this->assign("js",$this->fetch("addJs"));
         $this->assign('menuList',$this->_fetchMenuList());
         $this->assign('data',$data);
         $this->assign('title',$title);
