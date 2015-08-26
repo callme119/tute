@@ -27,12 +27,15 @@ class IndexController extends AdminController
     }
     //添加角色
     public function addRoleAction(){
+
         //获取权限信息
         $permissionList = $this->_getPermissionList();
         //$permissionList = tree_to_list($permissionList,0,'_son','_level');
         //var_dump($permissionList);
         //页面显示
         $this->assign('permissionList',$permissionList);
+
+        $this->assign("js",$this->fetch("addRoleJs"));
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }

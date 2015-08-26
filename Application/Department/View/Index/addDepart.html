@@ -32,7 +32,12 @@
                         <div class="form-group">
                         <label for="inputEmail3" class="col-sm-2 control-label">上级部门</label>
                             <div class="col-sm-4">
-                            <input class="form-control" id="inputEmail3" placeholder="根部门">
+                            <select class="selectpicker form-control" name="parent_id">
+                                <option value="0">经管学院</option>
+                                <option value="0">经济系</option>
+                                <option value="0">管理系</option>
+                                <option value="0">办公室部</option>
+                            </select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -42,8 +47,46 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">岗位</label>
+                            <div class="col-sm-6">
+                                    <div class="row role">
+                                        <div class=col-sm-4>
+                                            <input type="checkbox"  class="menu"/>
+                                            <lable>院长</lable>
+                                        </div>
+                                        <div class=col-sm-4>
+                                            <input type="checkbox"  class="menu"/>
+                                            <lable>副院长</lable>
+                                        </div>
+                                        <div class=col-sm-4>
+                                            <input type="checkbox" />
+                                            <lable>团委书记</lable>
+                                        </div>
+                                        <div class=col-sm-4>
+                                            <input type="checkbox" />
+                                            <lable>团委副书记</lable>
+                                        </div>
+                                        <div class=col-sm-4>
+                                            <input type="checkbox" />
+                                            <lable>经济系主任</lable>
+                                        </div>
+                                        <div class=col-sm-4>
+                                            <input type="checkbox" />
+                                            <lable>经济系副主任</lable>
+                                        </div>
+                                        <div class=col-sm-4>
+                                            <input type="checkbox" />
+                                            <lable>办公室主任</lable>
+                                        </div>
+                                        <div class=col-sm-4>
+                                            <input type="checkbox" />
+                                            <lable>办公室副主任</lable>
+                                        </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                                <button type="submit" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-open"></i>确认添加</button>
+                                <button type="submit" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-saved"></i>确认</button>
                             </div>
                         </div>
                     </form>
@@ -52,4 +95,11 @@
         </div>
     </div>    
 </section>
-
+<style>
+    .role{
+        border: 1px #cccccc solid;
+        margin-bottom: 10px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+</style>
