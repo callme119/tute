@@ -34,20 +34,21 @@
                                 <textarea name = "remarks" class="form-control" rows="3">{$roleInfo.remarks}</textarea>
                             </div>
                         </div>
+
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">权限</label>
                             <div class="col-sm-6 role">
                                     <div class="row title ">
-                                        <input type="checkbox" />
+                                       <input type="checkbox" onclick="hello()" />
                                         <lable>菜单管理</lable>
                                     </div>
                                     <div class="row subtitle">
                                         <div class=col-sm-4>
-                                            <input type="checkbox" />
+                                            <input type="checkbox"  class="menu"/>
                                             <lable>删除</lable>
                                         </div>
                                         <div class=col-sm-4>
-                                            <input type="checkbox" />
+                                            <input type="checkbox"  class="menu"/>
                                             <lable>编辑</lable>
                                         </div>
                                         <div class=col-sm-4>
@@ -247,3 +248,4 @@
         margin-bottom: 5px;
     }
 </style>
+{$js}

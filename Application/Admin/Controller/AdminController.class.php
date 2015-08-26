@@ -52,6 +52,7 @@ class AdminController extends Controller{
         
         $jsArr[] = '/js/jquery-2.1.4.min.js';
         $jsArr[] = '/js/jquery-ui-1.10.3.min.js';   
+        $jsArr[] = '/js/jquery.validate.js';  
         $jsArr[] = '/js/bootstrap.min.js';
         $jsArr[] = '/js/plugins/morris/morris.min.js';
         $jsArr[] = '/js/plugins/sparkline/jquery.sparkline.min.js';

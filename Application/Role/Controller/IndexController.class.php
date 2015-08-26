@@ -27,6 +27,7 @@ class IndexController extends AdminController
     }
     //添加角色
     public function addRoleAction(){
+        $this->assign("js",$this->fetch("addRoleJs"));
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
