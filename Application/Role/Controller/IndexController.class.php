@@ -27,8 +27,33 @@ class IndexController extends AdminController
     }
     //添加角色
     public function addRoleAction(){
+
+        //获取权限信息
+        $permissionList = $this->_getPermissionList();
+        //$permissionList = tree_to_list($permissionList,0,'_son','_level');
+        //var_dump($permissionList);
+        //页面显示
+        $this->assign('permissionList',$permissionList);
+
         $this->assign("js",$this->fetch("addRoleJs"));
         $this->assign('YZBODY',$this->fetch());
+        $this->display(YZTemplate);
+    }
+
+    //编辑角色
+    public function editRoleAction(){
+        //获取该角色具体信息
+        $id = I('get.id');
+        $roleModel = new RoleModel();
+        $roleInfo = $roleModel->getRoleById($id);
+
+        //获取权限信息
+        $permissionList = $this->_getPermissionList();
+        $this->assign('permissionList',$permissionList);
+
+        //页面显示
+        $this->assign('roleInfo',$roleInfo);
+        $this->assign('YZBODY',$this->fetch('addRole'));
         $this->display(YZTemplate);
     }
     //显示角色人员信息
@@ -40,17 +65,6 @@ class IndexController extends AdminController
     public function deleteRoleAction(){
 
     }
-    //编辑角色
-    public function editRoleAction(){
-        //获取该角色具体信息
-        $id = I('get.id');
-        $roleModel = new RoleModel();
-        $roleInfo = $roleModel->getRoleById($id);
-        //页面显示
-        $this->assign('roleInfo',$roleInfo);
-        $this->assign('YZBODY',$this->fetch());
-        $this->display(YZTemplate);
-    }
     //保存
      public function saveOkAction(){
         $url = U('index');
@@ -58,8 +72,11 @@ class IndexController extends AdminController
     }
     //添加
     public function addOkAction(){
-        $url = U('index');
-        $this->success('保存成功',$url);
+        $data = I('post.');
+        var_dump($data);
+
+        //$url = U('index');
+        //$this->success('保存成功',$url);
     }
     //移除用户
     public function movePeopleOkAction(){
@@ -92,8 +109,12 @@ class IndexController extends AdminController
         }
         return $data;
     }
-    private funcction _permissionList(){
+    /**
+     * 获取角色对应的权限列表（也就是菜单列表）
+     */
+    private function _getPermissionList(){
         $menuModel = new MenuModel();
-        $permissionList = $menuModel ->getMenuTree();
+        $permissionList = $menuModel ->getMenuTree(null, null, 0, 3); 
+        return $permissionList;
     }
 }
