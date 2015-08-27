@@ -12,6 +12,7 @@ class IndexController extends AdminController {
             "add"=>U('add'),
             "edit"=>U('edit'),
             );
+        $this->assign('css',$this->fetch("addCss"));
         $this->assign('url',$url);
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate); 
