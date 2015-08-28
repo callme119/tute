@@ -28,9 +28,8 @@ class RoleMenuModel extends Model{
 	 */
 	public function updateMenuAndRole(){
 		$data = I('post.');
-		//获取原有数据
-		$originalData = $this->getMenuByRoleId($data['id']);
 		//清空原有数据
+		$map['role_id'] = $data['id'];
 		$this-> where($map)->delete();
 
 		//获取新的数据
@@ -45,6 +44,15 @@ class RoleMenuModel extends Model{
 		return true;
 	}
 	public function saveMenuAndRole(){
+		$data = I('post.');
+		$permissionInfo = array();
+		foreach ($data as $key => $value) {
+			if($value == 'on'){
+				$permissionInfo[] = array('role_id' => $data['id'],'menu_id' => $key,'value' => 1);
+			}
+		}
+		//更新
+		$this->addAll($permissionInfo);
 		return true;
 
 	}
