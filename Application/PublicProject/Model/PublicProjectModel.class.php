@@ -20,12 +20,17 @@ class PublicProjectModel extends Model{
 	}
 	/*
 	*保存
+	*判断一下有没有相同的名称
 	*/
-	public function saveProject($data)
+	public function saveProject()
 	{
-		$this->add($data);
-		$state = "success";
-        return $state;
+		$data = I('post.');
+		$msg = $this->where($map)->select();
+		$id = $this->add($data);
+		if($id)
+        	return $id;
+        else
+        	return false;
 	}
 	/*
 	*从数据库去数据，追加到页面

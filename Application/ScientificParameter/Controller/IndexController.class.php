@@ -2,6 +2,7 @@
 namespace ScientificParameter\Controller;
 use Admin\Controller\AdminController;
 use PublicProject\Model\PublicProjectModel;
+use DatamodelOne\Model\DatamodelOneModel;
 class IndexController extends AdminController {
   public function indexAction(){
 
@@ -10,12 +11,7 @@ class IndexController extends AdminController {
   }
   //管理员进行公共项目添加的界面
   public function addAction() {
-    // $projectM = new \PublicProject\Model\PublicProjectModel();
-    // $type = $projectM->getTypeById($id="3");
-    // var_dump($type['type']);
-    $append = U('append');
-    $this->assign('url',$append);
-    $projectM = new \PublicProject\Model\PublicProjectModel();
+    $projectM = new PublicProjectModel();
     $project = $projectM->init();
     $this->assign('project',$project);
     $this->assign('YZBODY',$this->fetch());
@@ -39,12 +35,35 @@ class IndexController extends AdminController {
  */
  public function saveAction()
  {
-   $data = I('post.');
-   $projectM = new \PublicProject\Model\PublicProjectModel();
-   $state = $projectM->saveProject($data);
-   if($state == "success"){
-    $this->success('新增成功','add');
-  }
+
+    $projectM = new PublicProjectModel();
+    if(!$projectM->saveProject())
+    {
+      $this->error('操作失败','add');
+      return;
+    }
+    $id = $projectM->saveProject();//返回存公共库成功的id
+
+   //判断使用的数据模型
+   switch(I('post.type')){
+    case 1:
+      $dataModel = new DatamodelOneModel();
+      break;
+      default:
+        //TODO error
+      $this->error('操作失败','add');
+      break;
+   }
+   if($dataModel->save($id))
+   {
+    $this->success('操作成功','add');
+   }
+    else
+    $this->error('操作失败','add');
+
+
+    
+      
 }
 /**
  *  通过js传过来id，追加select的内容
@@ -56,7 +75,7 @@ class IndexController extends AdminController {
     $return = array('status' =>"success" ,'data'=>"" );
     $pid = I('get.id');
 
-    $projectM = new \PublicProject\Model\PublicProjectModel();
+    $projectM = new PublicProjectModel();
     $res = $projectM->append($pid);
     $this->assign('data',$res);
     $return['data'] = $this->fetch();

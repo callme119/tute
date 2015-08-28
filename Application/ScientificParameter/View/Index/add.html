@@ -17,6 +17,7 @@
             <form action="{:U('save')}" method = 'post'>
                 <div style="display:none">
                     <input id="pid" name="pid" value="0">
+                    {:$url=U('append');}
                 </div>
                 <div class="row select">
                     <div class="col-md-3 form-group">
@@ -65,7 +66,7 @@
                 <div class="col-md-3">
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon1">分值</span>
-                        <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                        <input type="text" name="score" value="{$data.score}" class="form-control" placeholder="" aria-describedby="basic-addon1">
                     </div>
                 </div>
             </div>
@@ -114,7 +115,7 @@
 
     $("#dataModel").change(function(){
         //获取点击的value值
-        //给对应的数据模型标签添加active
+        //显示对应的数据模型
 
         var id = $(this).children('option:selected').attr('data-value');
         $("."+id).show(100);
@@ -123,7 +124,5 @@
         $(".tab_1").hide(100);
     }
 </script>
-
-
 
 
