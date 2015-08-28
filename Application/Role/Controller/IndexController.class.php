@@ -56,6 +56,7 @@ class IndexController extends AdminController
         $roleMenuModel = new RoleMenuModel();
         $originalPermission = $roleMenuModel->getMenuByRoleId($id);
         $this->assign('originalPermission',$originalPermission);
+        //dump($originalPermission);
 
         //定义提交url
         $submitUrl = U('saveOk?id='.$id);
