@@ -25,7 +25,6 @@ class PublicProjectModel extends Model{
 	public function saveProject()
 	{
 		$data = I('post.');
-		$msg = $this->where($map)->select();
 		$id = $this->add($data);
 		if($id)
         	return $id;

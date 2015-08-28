@@ -11,7 +11,7 @@ use Think\Model;
 class DatamodelOneModel extends Model{
 	public function save($id)
 	{
-		$data = I('post.');
+		$data['score'] = I('post.score');
 		$data['cid'] = $id;
 		if($this->add($data)){
 			return true;
