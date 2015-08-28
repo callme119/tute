@@ -30,11 +30,11 @@ class IndexController extends AdminController
 
         //获取权限信息
         $permissionList = $this->_getPermissionList();
-        //$permissionList = tree_to_list($permissionList,0,'_son','_level');
-        //var_dump($permissionList);
+        //定义提交url
+        $submitUrl = U('addOk');
         //页面显示
         $this->assign('permissionList',$permissionList);
-
+        $this->assign('submitUrl',$submitUrl);
         $this->assign("js",$this->fetch("addRoleJs"));
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
@@ -50,6 +50,10 @@ class IndexController extends AdminController
         //获取权限信息
         $permissionList = $this->_getPermissionList();
         $this->assign('permissionList',$permissionList);
+
+        //定义提交url
+        $submitUrl = U('saveOk?id='.$id);
+        $this->assign('submitUrl',$submitUrl);
 
         //页面显示
         $this->assign('roleInfo',$roleInfo);
@@ -67,16 +71,30 @@ class IndexController extends AdminController
     }
     //保存
      public function saveOkAction(){
+        //更新角色信息
+        $roleModel = new RoleModel();
+        $roleModel->updateRole();
+
+        //更新角色的权限信息
+        $roleMenuModel = new RoleMenuModel();
+        $roleMenuModel -> updateMenuAndRole();
+
+       //界面跳转
         $url = U('index');
         $this->success('保存成功',$url);
     }
     //添加
     public function addOkAction(){
-        $data = I('post.');
-        var_dump($data);
+        //保存角色信息
+        $roleModel = new RoleModel();
+        $roleModel->saveRole();
 
-        //$url = U('index');
-        //$this->success('保存成功',$url);
+        //保存角色的权限信息
+        $roleMenuModel = new RoleMenuModel();
+        $roleMenuModel -> saveMenuAndRole();
+
+        $url = U('index');
+        $this->success('保存成功',$url);
     }
     //移除用户
     public function movePeopleOkAction(){
