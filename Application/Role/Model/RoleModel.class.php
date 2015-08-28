@@ -43,6 +43,7 @@ class RoleModel extends Model{
     }
 
     public function saveRole(){
+    	$data = I('post.');
     	$roleData = array('name' => $data['name'],'remarks' => $data['remarks'],);
 	$id = $this->add($roleData);
 	$_POST['id'] = $id;

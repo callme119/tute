@@ -8,6 +8,7 @@ namespace Role\Controller;
 use Admin\Controller\AdminController;
 use Role\Model\RoleModel;
 use Menu\Model\MenuModel;
+use RoleMenu\Model\RoleMenuModel;
 class IndexController extends AdminController
 {
     //初始化方法
@@ -28,7 +29,7 @@ class IndexController extends AdminController
     //添加角色
     public function addRoleAction(){
 
-        //获取权限信息
+        //参考私有方法_getPermissionList()获取权限信息
         $permissionList = $this->_getPermissionList();
         //定义提交url
         $submitUrl = U('addOk');
@@ -71,15 +72,16 @@ class IndexController extends AdminController
     }
     //保存
      public function saveOkAction(){
-        //更新角色信息
+        //1、更新角色信息(在内部方法中给定了下一步骤所需的值，
+        //该步骤不能与下一步顺序颠倒)
         $roleModel = new RoleModel();
         $roleModel->updateRole();
 
-        //更新角色的权限信息
+        //2、更新角色的权限信息
         $roleMenuModel = new RoleMenuModel();
         $roleMenuModel -> updateMenuAndRole();
 
-       //界面跳转
+       //3、界面跳转
         $url = U('index');
         $this->success('保存成功',$url);
     }
