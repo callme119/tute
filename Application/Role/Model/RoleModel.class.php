@@ -42,7 +42,12 @@ class RoleModel extends Model{
 	return true;
     }
 
+    /**
+     * [saveRole 添加角色数据]
+     * @return [boolean] [添加成功]
+     */
     public function saveRole(){
+    	$data = I('post.');
     	$roleData = array('name' => $data['name'],'remarks' => $data['remarks'],);
 	$id = $this->add($roleData);
 	$_POST['id'] = $id;
