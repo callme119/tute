@@ -17,16 +17,15 @@ class IndexController extends AdminController {
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate); 
     }
-    //教工管理编辑
-    public function editAction(){
-        $this->assign('css',$this->fetch("addCss"));
-        $this->assign('YZBODY',$this->fetch());
-        $this->display(YZTemplate);  
-    }
     //教工管理添加教工
     public function addAction(){
         $this->assign('css',$this->fetch("addCss"));
         $this->assign('YZBODY',$this->fetch());
+        $this->display(YZTemplate);  
+    }
+    //教工管理编辑
+    public function editAction(){
+        $this->assign('YZBODY',$this->fetch('add'));
         $this->display(YZTemplate);  
     }
 }

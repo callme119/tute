@@ -9,8 +9,6 @@
 namespace RoleMenu\Model;
 use Think\Model;
 class RoleMenuModel extends Model{
-
-
 	/**
 	 * [getMenuByRoleId 通过角色id获取相对应的菜单列表]
 	 * @param  [string] $roleId [角色id]
