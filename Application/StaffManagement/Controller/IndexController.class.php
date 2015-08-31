@@ -37,7 +37,7 @@ class IndexController extends AdminController {
         $this->display(YZTemplate);  
     }
     //添加教工完成
-    public function saveOkAction(){
+    public function saveAction(){
         $staffModel = new StaffManagementModel;
         $state = $staffModel -> addStaff();
         if($state){
@@ -46,7 +46,7 @@ class IndexController extends AdminController {
 
     }
     //编辑教工完成
-    public function updateOkAction(){
+    public function updateAction(){
 
     }
     /**
