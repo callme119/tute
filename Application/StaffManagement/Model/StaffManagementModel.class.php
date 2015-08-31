@@ -9,6 +9,11 @@
 namespace StaffManagement\Model;
 use Think\Model;
 class StaffManagementModel extends Model{
+	public function getStaffList(){
+		$data = $this -> select();
+		return $data;
+	}
+	//添加教工
 	public function addStaff(){
 		$data = I('post.');
 		$this->add($data);

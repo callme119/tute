@@ -11,13 +11,13 @@ class IndexController extends AdminController {
 
     //教工列表显示
     public function indexAction(){
-        //获取部门信息
-        $url=array(
-            "add"=>U('add'),
-            "edit"=>U('edit'),
-            );
+        //获取教工列表
+        $staffModel = new StaffManagementModel;
+        $staffList = $staffModel -> getStaffList();
+        $staffList = $this -> _addurl($staffList);
+
+        $this->assign('staffList',$staffList);
         $this->assign('css',$this->fetch("addCss"));
-        $this->assign('url',$url);
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate); 
     }
@@ -48,5 +48,21 @@ class IndexController extends AdminController {
     //编辑教工完成
     public function updateOkAction(){
 
+    }
+    /**
+     * 添加url信息
+     * @param  [type] 要添加的数组
+     * @param  [type] 要填写的下标名
+     * @return [type] 拼接好url信息的数组
+     */
+    private function _addurl($array,$string){
+        $data = $array;
+        foreach ($data as $key => $value) {
+            $data[$key][$string] = array(
+                'edit'=>U('edit?id='.$value['id']),
+                'delete'=>U('delete?id='.$value['id']),
+                );
+        }
+        return $data;
     }
 }
