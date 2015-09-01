@@ -7,8 +7,7 @@ class IndexController extends AdminController
 {
     public function indexAction()
     {
-        $this->assign('YZBODY',$this->fetch());
-        $this->display(YZTemplate);
+    	$this->display();
     }
    
 }

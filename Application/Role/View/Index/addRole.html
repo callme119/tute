@@ -10,6 +10,9 @@
     </ol>
 </section>
 <section class="content">
+{:for($i=0;$i<count($originalPermission);$i++){
+$value = $originalPermission[$i][menu_id];
+}}
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -77,13 +80,14 @@
         </div>
     </div>    
 </section>
-<script type="text/javascript">
-$(document).ready(function(
+<script> 
     for (var i=0;i<originalPermission.length;i++) {
         var value = originalPermission[i][menu_id];
         $("."+value).checked();
+        
     };
-    ));
+  
+alert("hello");
 </script>
 <style>
     .role{
