@@ -1,75 +1,75 @@
 <section class="content-header">
-                    <h1>
-                        新建审批流程
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-                        <li><a href="#">审批流程管理</a></li>
-                        <li class="active">审批流程</li>
-                         <li class="active">新建审批流程</li>
-                    </ol>
+    <h1>
+        新建审批流程
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="#">审批流程管理</a></li>
+        <li class="active">审批流程</li>
+        <li class="active">新建审批流程</li>
+    </ol>
 </section>    	
 <div class="row">
-		<div class="col-md-8">
-			<div class="panel panel-default">
-			<!-- Default panel contents -->
-			<div class="panel-body">
-                            <a href="{:U('Examine/Index/examinelist')}" type="button" class="btn btn-info"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;返回</a>
-			</div>
-			
-			<form class="form-horizontal">
-			    <div class="form-group">
-				<label for="inputEmail3" class="col-sm-2 control-label">审批流名称：</label>
-				<div class="col-sm-8">
-				<input class="form-control" id="inputEmail3" placeholder="名称">
-				</div>
-				</div>
-                            <br/>
-                            <!-- 添加按钮 -->
-                            <div class="form-group"><label for="inputEmail3" class="col-sm-2 control-label">审批流顺序：</label>
-                                <input  id="btnMian" type="button" value="添加审批岗位" /> 
-                                <button>取消</button></div>
-                            
-                            
-                            <div id="mian" style="width:450px">
-                                <div class="btn-group col-sm-offset-1">
-                                                       <select type="button" class="btn btn-default btn-sm btn-flat dropdown-toggle" data-toggle="dropdown">
-                                                           <option>请选择</option>
-                                                            <foreach name="name" item="value" key="key">
-                                                            <option>{$value}</option>
-                                                            </foreach>>
-                                                       </select>
-                                                    </div>
-                             </div>
-                            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-                            <div class="form-group" align="center">
-                            <div class="col-md-3 col-md-offset-4" >
-                                <a class="btn btn-block btn-primary" data-toggle="modal" data-target="#compose-modal"><i class="glyphicon glyphicon-ok"></i>&nbsp;确认添加</a>
-                            </div>
-                            </div>
-                           </div> 
+  <div class="col-md-8">
+     <div class="panel panel-default">
+         <!-- Default panel contents -->
+         <div class="panel-body">
+            <a href="{:U('Examine/Index/index')}" type="button" class="btn btn-info"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;返回</a>
+        </div>
+
+        <form class="form-horizontal">
+         <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">审批流名称：</label>
+            <div class="col-sm-8">
+                <input class="form-control" id="inputEmail3" placeholder="名称">
+            </div>
+        </div>
+        <br/>
+        <!-- 添加按钮 -->
+        <div class="form-group"><label for="inputEmail3" class="col-sm-2 control-label">审批流顺序：</label>
+            <input  id="btnMian" type="button" value="添加审批岗位" /> 
+            <button>重置</button></div>
+
+
+            <div id="mian" style="width:450px">
+                <div class="btn-group col-sm-offset-1">
+                    <select type="button" class="btn btn-default btn-sm btn-flat dropdown-toggle" data-toggle="dropdown">
+                        <option>请选择</option>
+                        <foreach name="post" item="value" key="key">
+                            <option>{$value.name}</option>
+                        </foreach>>
+                    </select>
                 </div>
-			</form>
-			</div>
-    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="jquery/jquery-2.1.4.min.js"></script>
-	<script src="js/bootstrap.js"></script>
-	<script src="js/npm.js"></script>
-        <script type="text/javascript"> 
+            </div>
+            <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            <div class="form-group" align="center">
+                <div class="col-md-3 col-md-offset-4" >
+                    <a href="{:U('Examine/Index/add')}" class="btn btn-block btn-primary" data-toggle="modal" data-target="#compose-modal"><i class="glyphicon glyphicon-ok"></i>&nbsp;确认添加</a>
+                </div>
+            </div>
+        </div> 
+    </div>
+</form>
+</div>
+<script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="jquery/jquery-2.1.4.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/npm.js"></script>
+<script type="text/javascript"> 
 $(function() { 
-$("#btnMian").click(function() { 
+    $("#btnMian").click(function() { 
 //生成 0 到100000 随机数 Mapth.random产生 0到1的随机数 然后乘以100000 
 var maxNumber = 100000; 
 var randomNumber = Math.round(maxNumber * Math.random()); 
 // alert(randomNumber); 
 var $parent = $("#mian"); 
-$parent.append("<span class='glyphicon glyphicon-arrow-right'></span><div id='div' class='btn-group'><select type='button' class='btn btn-default btn-sm btn-flat dropdown-toggle' data-toggle='dropdown'><option>请选择</option><foreach name='name' item='value' key='key'><option>{$value}</option></foreach>></select></div>"); 
+$parent.append("<span class='glyphicon glyphicon-arrow-right'></span><div id='div' class='btn-group'><select type='button' class='btn btn-default btn-sm btn-flat dropdown-toggle' data-toggle='dropdown'><option>请选择</option><foreach name='post' item='value' key='key'><option>{$value.name}</option></foreach>></select></div>"); 
 }) 
-$("button").click(function(){
-    $("#div").remove();
-  });
+    $("button").click(function(){
+        $("#div").remove();
+    });
 }) 
 </script> 
- </body>
+</body>
 </html>
