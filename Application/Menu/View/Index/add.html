@@ -19,7 +19,7 @@
                 </div><!-- /.box-header -->
                 <div class="box-body table-responsive">
                     <div class="panel-body">
-                    <button type="button" class="btn btn-info" onclick="javascript:history.back(-1);">返回</button>
+                        <button type="button" class="btn btn-info" onclick="javascript:history.back(-1);">返回</button>
                     </div>
                     <form class="form-horizontal" action="{:U('save')}" method = 'post' id="demoForm">
                         <div style="display:none">
@@ -27,19 +27,19 @@
                             <input name="id" value="{$data.id}">
                         </div>
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">标题</label>
+                            <label for="title" class="col-sm-2 control-label">标题</label>
                             <div class="col-sm-4">
-                            <input class="form-control" class="required" id="title" name="title" value="{$data.title}">
+                                <input class="form-control" class="required" id="title" name="title" value="{$data.title}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">副标题</label>
+                            <label for="subhead" class="col-sm-2 control-label">副标题</label>
                             <div class="col-sm-4">
-                            <input class="form-control" id="inputEmail3" name="subhead" value="{$data.subhead}">
+                                <input class="form-control" id="subhead" name="subhead" value="{$data.subhead}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">上级菜单</label>
+                            <label for="parent_id" class="col-sm-2 control-label">上级菜单</label>
                             <div class="col-sm-4">
                             <select class="selectpicker form-control" name="parent_id">
                                 <option value="0">根菜单</option>
@@ -55,33 +55,33 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">小图标</label>
+                            <label for="icon" class="col-sm-2 control-label">小图标</label>
                             <div class="col-sm-4">
-                            <input class="form-control" id="inputEmail3" name="icon" value="{$data.icon}">
+                            <input class="form-control" id="icon" name="icon" value="{$data.icon}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">模块名</label>
+                            <label for="module" class="col-sm-2 control-label">模块名</label>
                             <div class="col-sm-4">
-                            <input class="form-control" id="inputEmail3" name="module" value="{$data.module}">
+                            <input class="form-control" id="module" name="module" value="{$data.module}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">控制器名</label>
+                            <label for="controller" class="col-sm-2 control-label">控制器名</label>
                             <div class="col-sm-4">
-                            <input class="form-control" id="inputEmail3" name="controller" value="{$data.controller}">
+                            <input class="form-control" id="controller" name="controller" value="{$data.controller}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">方法名</label>
+                            <label for="action" class="col-sm-2 control-label">方法名</label>
                             <div class="col-sm-4">
-                            <input class="form-control" id="inputEmail3" name="action" value="{$data.action}">
+                            <input class="form-control" id="action" name="action" value="{$data.action}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">排序</label>
+                            <label for="order" class="col-sm-2 control-label">排序</label>
                             <div class="col-sm-4">
-                            <input class="form-control" id="inputEmail3" name="order" value="{$data.order}">
+                            <input class="form-control" id="order" name="order" value="{$data.order}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -96,7 +96,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">是否显示</label>
+                            <label for="show" class="col-sm-2 control-label">是否显示</label>
                             <div class="col-sm-4">
                             <div class="col-md-6 form-group">
                                 <select class="selectpicker form-control" name="show">
@@ -118,14 +118,14 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">备注</label>
+                            <label for="remarks" class="col-sm-2 control-label">备注</label>
                             <div class="col-sm-4">
-                            <textarea class="form-control" rows="3" name="remarks" >{$data.remark}</textarea>
+                                <textarea class="form-control" rows="3" name="remarks" >{$data.remark}</textarea>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
-                            <button type="submit" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-open"></i>确认添加</button>
+                                <button type="submit" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-open"></i>确认添加</button>
                             </div>
                         </div>
                     </form>
