@@ -14,7 +14,7 @@ class RoleStaffModel extends Model{
 	 * @param  [string] $roleId [角色id]
 	 * @return [array]         [教工列表]
 	 */
-	public function getStaffListByRoleId($roleId){
+	public function getInRoleStaffByRoleId($roleId){
 		//从角色-教工表中获取教工id
 		$map['role_id'] = $roleId;
 		$data = $this -> where($map) ->field('staff_id')-> select();
@@ -27,7 +27,17 @@ class RoleStaffModel extends Model{
 		}
 		return $data;
 	}
-	public function getOutRoleStaffByRoleId(){
+	public function getOutRoleStaffByRoleId($roleId){
+		//获取总的教工列表
+		$staffModel = new StaffManagementModel;
+		$data = $staffModel->getStaffList();
+		var_dump($data);
+		exit();
+		//获取该角色中的教工列表
+		$inRoleData = $this -> getgetInRoleStaffByRoleId($roleId);
+		//从总的教工列表中去除角色中的教工
+		//获得没有在 角色中的教工列表
+
 
 	}
 }

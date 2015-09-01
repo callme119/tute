@@ -72,7 +72,9 @@ class IndexController extends AdminController
     public function peopleAction(){
         $id = I('get.id');
         $roleStaffModel = new RoleStaffModel;
-        $staffList = $roleStaffModel ->getStaffListByRoleId($id);
+        $staffList = $roleStaffModel ->getInRoleStaffByRoleId($id);
+        $url = U('addPeople?id='.$id);
+        $this->assign('url',$url);
 
         $this->assign('staffList',$staffList);
         $this->assign('YZBODY',$this->fetch());
@@ -120,7 +122,11 @@ class IndexController extends AdminController
         $url = U('people');
         $this->success('保存成功',$url);
     }
+    //添加教工
     public function addPeopleAction(){
+        $roleStaffModel = new RoleStaffModel;
+        $outRoleStaff = $roleStaffModel -> getOutRoleStaffByRoleId($id);
+
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
