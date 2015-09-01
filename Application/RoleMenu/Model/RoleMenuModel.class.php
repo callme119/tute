@@ -14,7 +14,7 @@ class RoleMenuModel extends Model{
 	 * @param  [string] $roleId [角色id]
 	 * @return [array]         [获取到的菜单列表数组]
 	 */
-	public  function getMenuByRoleId($roleId){
+	public  function getMenuListByRoleId($roleId){
 		$map['role_id'] = $roleId;
 		$menuData = $this->where($map)->select();
 		return $menuData;

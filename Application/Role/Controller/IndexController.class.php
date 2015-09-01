@@ -9,6 +9,7 @@ use Admin\Controller\AdminController;
 use Role\Model\RoleModel;
 use Menu\Model\MenuModel;
 use RoleMenu\Model\RoleMenuModel;
+use RoleStaff\Model\RoleStaffModel;
 class IndexController extends AdminController
 {
     //初始化方法
@@ -32,7 +33,7 @@ class IndexController extends AdminController
         //参考私有方法_getPermissionList()获取权限信息
         $permissionList = $this->_getPermissionList();
         //定义提交url
-        $submitUrl = U('addOk');
+        $submitUrl = U('save');
         //页面显示
         $this->assign('permissionList',$permissionList);
         $this->assign('submitUrl',$submitUrl);
@@ -54,12 +55,12 @@ class IndexController extends AdminController
 
         //获取已有的权限信息
         $roleMenuModel = new RoleMenuModel();
-        $originalPermission = $roleMenuModel->getMenuByRoleId($id);
+        $originalPermission = $roleMenuModel->getMenuListByRoleId($id);
         $this->assign('originalPermission',$originalPermission);
         //dump($originalPermission);
 
         //定义提交url
-        $submitUrl = U('saveOk?id='.$id);
+        $submitUrl = U('update?id='.$id);
         $this->assign('submitUrl',$submitUrl);
 
         //页面显示
@@ -69,6 +70,11 @@ class IndexController extends AdminController
     }
     //显示角色人员信息
     public function peopleAction(){
+        $id = I('get.id');
+        $roleStaffModel = new RoleStaffModel;
+        $staffList = $roleStaffModel ->getStaffListByRoleId($id);
+
+        $this->assign('staffList',$staffList);
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
@@ -77,7 +83,7 @@ class IndexController extends AdminController
 
     }
     //保存
-     public function saveOkAction(){
+     public function updateAction(){
         //1、更新角色信息(在内部方法中给定了下一步骤所需的值，
         //该步骤不能与下一步顺序颠倒)
         $roleModel = new RoleModel();
@@ -92,7 +98,7 @@ class IndexController extends AdminController
         $this->success('保存成功',$url);
     }
     //添加
-    public function addOkAction(){
+    public function saveAction(){
         //保存角色信息
         $roleModel = new RoleModel();
         $roleModel->saveRole();
@@ -105,12 +111,12 @@ class IndexController extends AdminController
         $this->success('保存成功',$url);
     }
     //移除用户
-    public function movePeopleOkAction(){
+    public function movePeopleAction(){
         $url = U('people');
         $this->success('保存成功',$url);
     }
     //添加用户
-    public function addPeopleOkAction(){
+    public function savePeopleAction(){
         $url = U('people');
         $this->success('保存成功',$url);
     }
