@@ -39,7 +39,7 @@ class MenuModel extends Model{
      
     public function getMenuByUrl($url){
         $map = array();
-        $map['mouble'] = $url['mouble'];
+        $map['module'] = $url['module'];
         $map['controller'] = $url['controller'];
         $map['action'] = $url['action'];
         $menu = $this->where($map)->select();
