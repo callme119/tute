@@ -23,21 +23,20 @@
                     </div>
                     <form class="form-horizontal" action="{:U('addOk')}">
                         <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">部门名称
-                        </label>
-                        <div class="col-sm-4">
-                        <input class="form-control" id="inputEmail3" placeholder="部门">
-                        </div>
+                            <label for="inputEmail3" class="col-sm-2 control-label">部门名称</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="inputEmail3" placeholder="部门">
+                            </div>
                         </div>
                         <div class="form-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label">上级部门</label>
+                            <label for="parent_id" class="col-sm-2 control-label">上级部门</label>
                             <div class="col-sm-4">
-                            <select class="selectpicker form-control" name="parent_id">
-                                <option value="0">经管学院</option>
-                                <option value="0">经济系</option>
-                                <option value="0">管理系</option>
-                                <option value="0">办公室部</option>
-                            </select>
+                                <select class="selectpicker form-control" name="parent_id">
+                                    <option value="0">经管学院</option>
+                                    <option value="0">经济系</option>
+                                    <option value="0">管理系</option>
+                                    <option value="0">办公室部</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
@@ -49,7 +48,8 @@
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">岗位</label>
                             <div class="col-sm-6">
-                                    <div class="row role">
+                                <div class="role">
+                                    <div class="row">
                                         <div class=col-sm-4>
                                             <input type="checkbox"  class="menu"/>
                                             <lable>院长</lable>
@@ -82,6 +82,8 @@
                                             <input type="checkbox" />
                                             <lable>办公室副主任</lable>
                                         </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
