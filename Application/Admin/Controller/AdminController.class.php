@@ -64,7 +64,11 @@ class AdminController extends Controller{
         $data = $this->_addMenuActive($data, $url, '_son');
         //3.将获取到的信息传递给V层
         $this->assign('leftMenu',$data);
-    
+        
+        //获取当前菜单信息
+        $currentMenu = $menu->getMenuByUrl($url);
+        $this->assign('currentMenu',$currentMenu[0]);
+
         $tpl = T("Admin@Admin/index");
         define('YZTemplate', $tpl);
     }
