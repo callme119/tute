@@ -35,10 +35,10 @@
                                     <tr class="success">
                                         <td>{$key+1}</td>
                                         <td>{$value.name}</td>
-                                        <td><a href="{$value._url.people}">1</a></td>
                                         <td>
-                                        <button class="btn btn-sm btn-primary" onclick="location='{$value._url.edit}'"><i class="fa fa-pencil"></i>编辑</button>
-                                        <button class="btn-sm btn-danger" onclick="location='{$value._url.delete}'"><i class="glyphicon glyphicon-remove"></i>删除</button>
+                                            <button class="btn-sm btn-success" onclick="location='{$value._url.people}'"><i class="fa fa-folder-open-o"></i>人员信息</button>
+                                            <button class="btn btn-sm btn-primary" onclick="location='{$value._url.edit}'"><i class="fa fa-pencil"></i>编辑</button>
+                                            <button class="btn-sm btn-danger" onclick="location='{$value._url.delete}'"><i class="glyphicon glyphicon-remove"></i>删除</button>
                                         </td>
                                     </tr>
                                     </foreach>
