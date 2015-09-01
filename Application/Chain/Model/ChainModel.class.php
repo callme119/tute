@@ -26,49 +26,45 @@ class ChainModel extends Model {
         $this->examineid = $id;
     }
 
-    public function setFirstPost($id) {
-        $this->firstpost = $id;
+    public function setFirstId($id) {
+        $this->firstid = $id;
     }
 
-    public function setEndPost($id) {
-        $this->endpost = $id;
+    public function setEndId($id) {
+        $this->endid = $id;
     }
 
     //根据传入的examineid值，按着链表的方式依次取出审批的过程
     public function getExamine() {
         //根据firstpost利用循环找出审批的头结点
-        $examine = array();
+        $postid = array();
         do {
-            $data = $this->getNextPost($data);
-            $examine[] = $data;
-        }while ($data[next_post] != 0);
-        var_dump($data);
+            $data = $this->getNextPost($data[id]);
+            $postid[] = $data['now_post'];
+        }while ($data[next_id] != 0);
         //根据岗位编号取出岗位名称 返回审批
-//        $data = array();
-//        foreach ($examine as $value) {
-//            $post = new PostModel;
-//            $post->setPostId($value);
-//            $data[] = $post->getPostName();
-//        }
-//        return $data;
+       $examine = array();
+       foreach ($postid as $value) {
+           $post = new PostModel;
+           $info = $post->getPostInfo($value);
+           $examine[] = $info['name'];
+       }
+       return $examine;
     }
 
     //根据上一结点寻找下一结点
     //id为空时设置id为0作为开始结点，一直递推到结果再为0
     public function getNextPost($id) {
         if ($id == null) {
-            $id = 0;
-            $map = array();
-            $map['pre_post'] = $id;
-            $map['examine_id'] = $this->examineid;
+            $id = $this->firstid;
+            $map['id'] = $id;
             $data = $this->where($map)->find();
-            return $data['now_post'];
+            return $data;
         } else {
             $map = array();
-            $map['pre_post'] = $id;
-            $map['examine_id'] = $this->examineid;
+            $map['pre_id'] = $id;
             $data = $this->where($map)->find();
-            return $data['now_post'];
+            return $data;
         }
     }
     

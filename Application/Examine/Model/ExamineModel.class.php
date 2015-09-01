@@ -33,22 +33,30 @@ class ExamineModel extends Model{
     }
     
     //根据审批表与审批链表取的审理流程信息
-    public function index() {
+    public function index($str = "->") {
         $chain = new ChainModel;
         //取出审批对应的基本信息
         $data = array();
         $data = $this->select();
-        var_dump($data);
         //根据对应的num firstpost endpost取出整个审批流程
         $examine = array();
-        $chain->setExamineId(2);
-        $chain->setFirstPost(2);
-        $chain->setEndPost(4);
-        $examine = $chain->getExamine();
-//        foreach ($data as $key => $value) {
-//            $chain->setExamineId($value['id']);
-//            $examine = $chain->getExamine();
-//        }
+       foreach ($data as $key => $value) {
+           $chain->setFirstId($value['chain_id']);
+           $examine[] = $chain->getExamine();
+       }
+       $string = array();
+       foreach ($examine as $key => $value) {
+           foreach ($value as $k => $val) {
+            if($k)
+               $string[$key] .= $str  . $val;
+            else
+                $string[$key] .= $val;
+           }
+       }
+       foreach ($data as $key => $value) {
+           $data[$key][string] = $string[$key];
+       }
+       return $data;
     }
     
     //取出所有post名称供V层选择

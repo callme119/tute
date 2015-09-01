@@ -9,8 +9,11 @@
 namespace Post\Model;
 use Think\Model;
 class PostModel extends Model{
-    public function getPostInfo() {
-        $data = $this->select();
+
+    public function getPostInfo($id) {
+        $map['id'] = $id;
+        $data = $this->where($map)->find();
         return $data;
     }
+
 }
