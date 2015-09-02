@@ -8,6 +8,9 @@
 namespace Myjob\Controller;
 use Admin\Controller\AdminController;
 use Myjob\Model\JobModel;
+use WorkflowLog\Model\WorkflowLogModel;
+use Workflow\Model\WrokflowModel;
+use Project\Model\ProjectModel;
 class IndexController extends AdminController{
     /**
      * 我的工作中待办工作界面
@@ -17,91 +20,91 @@ class IndexController extends AdminController{
      */
     
     public function indexAction() {
-        //取用户id
-        //$id = I('get.userid');
-        //调用model中的初始化方法
-        $jobModel = new JobModel();
-        $jobModel->setUserId(1);
-        $data = $jobModel->getUnfinishedInfoByUserId();
-        $this->assign('data', $data);
+        //获取用户ID
+        $userId = get_userId();
+
+        //获取用户is_commit=0的workflow_id
+        $workflowLogM = new WorkflowLogModel();
+        $workflowIds = $workflowLogM->getWorkflowIdsByUserid($userID);
+        
+        //获取审核数据
+        $workflowM = new WorkflowModel();
+        $workflows = $worflowM->getListsByIds($workflowIds);
+
+        //获取项目详细数据
+        $projectM = new ProjectModel();
+        $workflows = $projectM->getListsByIds($workflows,'project_id');
+       
+        //传值展示
+        $this->assign("data",$workflows);
         $this->assign('YZBODY',$this->fetch('index'));
         $this->display(YZTemplate);
         
     }
-     
+    /**
+     * 工作详情？
+     * @return [type]
+     */
     public function  taskDetailAction(){
-        $tpl = T("Admin@Admin/index");
-        define('YZTemplate', $tpl);
        $this->assign('YZBODY',$this->fetch('taskdetail'));
         $this->display(YZTemplate);
     }
-    
+    /**
+     * 被审批项目详情
+     * @return [type]
+     */
      public function  projectDetailAction(){
-        $tpl = T("Admin@Admin/index");
-        define('YZTemplate', $tpl);
        $this->assign('YZBODY',$this->fetch('projectdetail'));
         $this->display(YZTemplate);
     }
     
-    public function  newexamineAction(){
-        $tpl = T("Admin@Admin/index");
-        define('YZTemplate', $tpl);
+    public function  newExamineAction(){
        $this->assign('YZBODY',$this->fetch('newexamine'));
         $this->display(YZTemplate);
     }
     
-    public function  examinelistAction(){
-        $tpl = T("Admin@Admin/index");
-        define('YZTemplate', $tpl);
+    public function  examineListAction(){
        $this->assign('YZBODY',$this->fetch('examinelist'));
         $this->display(YZTemplate);
     }
-    
+    /**
+     * 在办工作
+     * @return 
+     */
     public function  doingAction(){
-        $tpl = T("Admin@Admin/index");
-        define('YZTemplate', $tpl);
        $this->assign('YZBODY',$this->fetch('doing'));
         $this->display(YZTemplate);
     }
-    
+    /**
+     * 已办工作
+     * @return [type]
+     */
     public function  finishedAction(){
-        $tpl = T("Admin@Admin/index");
-        define('YZTemplate', $tpl);
        $this->assign('YZBODY',$this->fetch('finished'));
         $this->display(YZTemplate);
     }
     
     public function  unfinishedAction(){
-        $tpl = T("Admin@Admin/index");
-        define('YZTemplate', $tpl);
        $this->assign('YZBODY',$this->fetch('unfinished'));
         $this->display(YZTemplate);
     }
     
-     public function  finishedprojectdetailAction(){
-        $tpl = T("Admin@Admin/index");
-        define('YZTemplate', $tpl);
+     public function  finishedProjectDetailAction(){
        $this->assign('YZBODY',$this->fetch('finishedprojectdetail'));
         $this->display(YZTemplate);
     }
     
-    public function  finishedtaskdetailAction(){
-        $tpl = T("Admin@Admin/index");
-        define('YZTemplate', $tpl);
+    public function  finishedTaskDetailAction(){
        $this->assign('YZBODY',$this->fetch('finishedtaskdetail'));
         $this->display(YZTemplate);
     }
     
-     public function  doingtaskdetailAction(){
-        $tpl = T("Admin@Admin/index");
-        define('YZTemplate', $tpl);
+     public function  doingTaskDetailAction(){
        $this->assign('YZBODY',$this->fetch('doingtaskdetail'));
         $this->display(YZTemplate);
     }
     
-    public function  doingprojectdetailAction(){
-        $tpl = T("Admin@Admin/index");
-        define('YZTemplate', $tpl);
+    public function  doingProjectDetailAction(){
        $this->assign('YZBODY',$this->fetch('doingprojectdetail'));
         $this->display(YZTemplate);
     }
