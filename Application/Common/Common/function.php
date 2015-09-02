@@ -10,6 +10,15 @@ function isWeixinBrowser() {
     }
     return true;
 }
+/**
+ * 获取用户id
+ * todo:用session来实现 
+ * @return [type]
+ */
+function get_user_id()
+{
+    return 1;
+}
 //向url上以POST方式提交数据
 //author:panjie 3792535@qq.com
 //@url 提交的地址
@@ -97,45 +106,86 @@ function list_to_tree($list, $pk = 'id', $pid = 'pid', $child = '_child', $root 
  * @return array 返回排过序的列表数组
  * @author yangweijie <yangweijiester@gmail.com>
  */
-//function tree_to_list($tree, $child = '_child', $order = 'id', &$list = array()) {
-//	if (is_array ( $tree )) {
-//		$refer = array ();
-//		foreach ( $tree as $key => $value ) {
-//			$reffer = $value;
-//			if (isset ( $reffer [$child] )) {
-//				unset ( $reffer [$child] );
-//				tree_to_list ( $value [$child], $child, $order, $list );
-//			}
-//			$list [] = $reffer;
-//		}
-//		$list = list_sort_by ( $list, $order, $sortby = 'asc' );
-//	}
-//	return $list;
-//}
+function tree_to_list_think($tree, $child = '_child', $order = 'id', &$list = array()) {
+	if (is_array ( $tree )) {
+		$refer = array ();
+		foreach ( $tree as $key => $value ) {
+			$reffer = $value;
+			if (isset ( $reffer [$child] )) {
+				unset ( $reffer [$child] );
+				tree_to_list_think ( $value [$child], $child, $order, $list );
+			}
+			$list [] = $reffer;
+		}
+		//$list = list_sort_by ( $list, $order, $sortby = 'asc' );
+	}
+	return $list;
+}
 /*
  * 将TREE转换为一行一行可以显示的LIST
  * level带表深度
  * 
  */
 
-function tree_to_list($tree,$i = 0,$key = '_child',$level = '_level'){
-    $list = array();
-    foreach($tree as $k => $value)
-    {
-        $value[$level] = $i;  
-        $temp = $value[$key];
-        unset($value[$key]);
-        $list[] = $value;
-        if(is_array($temp))
-        {
+function tree_to_list($tree , $i = 0,$child = '_child',$level = '_level',$order='id', &$list = array()){
+    if (is_array ( $tree )) {
+        $refer = array ();
+        //$tree = list_sort_by ( $tree, $order, $sortby = 'desc' );
+        foreach ( $tree as $key => $value ) {
+            $reffer = $value;
+            $reffer[$level] = $i;  
             $i++;
-            $list = array_merge($list,tree_to_list($temp,$i));
+
+            if (isset ( $reffer [$child] )) 
+            {
+                unset ( $reffer [$child] );
+                $list [] = $reffer;
+                tree_to_list ( $value [$child], $i, $child, $level ,$order ,$list );
+            }     
+            else
+            {
+                $list [] = $reffer;
+            }
             $i--;
         }
         
     }
     return $list;
 }
+
+/**
+* 对查询结果集进行排序
+* @access public
+* @param array $list 查询结果
+* @param string $field 排序的字段名
+* @param array $sortby 排序类型
+* asc正向排序 desc逆向排序 nat自然排序
+* @return array
+*/
+function list_sort_by($list,$field, $sortby='asc') {
+   if(is_array($list)){
+       $refer = $resultSet = array();
+       foreach ($list as $i => $data)
+           $refer[$i] = &$data[$field];
+       switch ($sortby) {
+           case 'asc': // 正向排序
+                asort($refer);
+                break;
+           case 'desc':// 逆向排序
+                arsort($refer);
+                break;
+           case 'nat': // 自然排序
+                natcasesort($refer);
+                break;
+       }
+       foreach ( $refer as $key=> $val)
+           $resultSet[] = &$list[$key];
+       return $resultSet;
+   }
+   return false;
+}
+
+
 //为数组中的值增加根路
 //@$data 传入的一维数组，需要以/打头。
 //author:panjie

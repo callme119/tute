@@ -1,73 +1,66 @@
-<section class="content-header">
-                    <h1>
-                        项目审批
-                        <small>审批流程</small>
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li><a href="#"><i class="fa fa-dashboard"></i> 首页</a></li>
-                        <li><a href="#">审批流程管理</a></li>
-                        <li class="active">审批流程</li>
-                    </ol>
-</section> 	
-<div class="row">
+
+    <div class="row">
 		<div class="col-md-8">
+        <a href="{:U('Myjob/Index/unfinished')}" type="button" class="btn btn-info"><i class="fa fa-angle-left "></i>&nbsp;返回</a>
 			<div class="panel panel-default">
+
 			<!-- Default panel contents -->
-			<div class="panel-body">
-                            <a href="{:U('Myjob/Index/index')}" type="button" class="btn btn-info"><i class="glyphicon glyphicon-arrow-left"></i>&nbsp;返回</a>
-			</div>
-			
-			<form class="form-horizontal">
-				<div class="form-group">
-                                    <label for="inputEmail3" class="col-sm-2 control-label">项目名称</label>
-				<h5>《智能机器技术》</h5>
-				</div>
-				<div class="form-group">
-				<label for="inputEmail3" class="col-sm-2 control-label">类型</label>
-				<h5>论文</h5>
-				</div>
-				<div class="form-group">
-				<label for="inputEmail3" class="col-sm-2 control-label">提交者</label>
-				<h5>张三</h5>
-				</div>
-                                <div class="form-group">
-				<label for="inputEmail3" class="col-sm-2 control-label">第一作者</label>
-				<h5>李四</h5>
-				</div>
-                                <div class="form-group">
-				<label for="inputEmail3" class="col-sm-2 control-label">论文类别</label>
-                                    <h5>《SCI》Ⅱ区</h5>
-				</div>
-                                
-				<div class="form-group">
-				<label for="inputEmail3" class="col-sm-2 control-label">审核建议</label>
-                                    <p>&nbsp;2015.07.02&nbsp; 16:19 &nbsp;李四同意，予以通过<br/>
+                <div class="panel-body">
+                    
+                    <form class="form-horizontal">
+				        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">项目名称</label>
+				            <h5>《智能机器技术》</h5>
+				        </div>
+				        <div class="form-group">
+				            <label for="inputEmail3" class="col-sm-2 control-label">类型</label>
+				            <h5>论文</h5>
+				        </div>
+				        <div class="form-group">
+				            <label for="inputEmail3" class="col-sm-2 control-label">提交者</label>
+				            <h5>张三</h5>
+				        </div>
+                        <div class="form-group">
+				            <label for="inputEmail3" class="col-sm-2 control-label">第一作者</label>
+				            <h5>李四</h5>
+				        </div>
+                        <div class="form-group">
+				            <label for="inputEmail3" class="col-sm-2 control-label">论文类别</label>
+                            <h5>《SCI》Ⅱ区</h5>
+				        </div>
+                        <div class="form-group">
+				            <label for="inputEmail3" class="col-sm-2 control-label">审核建议</label>
+                            <p>&nbsp;2015.07.02&nbsp; 16:19 &nbsp;李四同意，予以通过<br/>
                                        &nbsp;2015.07.07&nbsp; 10:29 &nbsp;王五同意。予以通过</p>
-				</div>
-                                 <div class="form-group">
-                                    <div class="col-sm-offset-3">
-                                                        <input type="radio" name="quux[2]" id="baz[1]" >
-                                                        <label for="baz[1]" >同意</label>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    
-                                                        <input type="radio" name="quux[2]" id="baz[2]" >
-                                                         <label for="baz[2]" >退回起草人</label>
-                                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <input type="radio" name="quux[2]" id="baz[3]" >
-                                                        <label for="baz[3]" >搁置</label>
-                                     </div>
-                                <div class="form-group">
-				<label for="inputEmail3" class="col-sm-2 control-label">审核建议</label>
-				<div class="col-sm-8">
-				<textarea class="form-control" rows="3"></textarea>
-				</div>
-                                <div class="form-group" align="center"><br/></div>
-                            <div class="form-group" align="center">
-                            <div class="col-md-3 col-md-offset-4" >
-				<a class="btn btn-block btn-primary" ><i class="glyphicon glyphicon-ok"></i> 完成</a>
+				        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-3">
+                                <input type="radio" name="quux[2]" id="baz[1]" >
+                                <label for="baz[1]" >同意</label>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            
+                                <input type="radio" name="quux[2]" id="baz[2]" >
+                                 <label for="baz[2]" >退回起草人</label>
+                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <input type="radio" name="quux[2]" id="baz[3]" >
+                                <label for="baz[3]" >搁置</label>
                             </div>
-                            </div >
-			</form>
-			</div>
-                                     </div>
+                        </div>
+                        <div class="form-group">
+				            <label for="inputEmail3" class="col-sm-2 control-label">审核建议</label>
+				            <div class="col-sm-8">
+				                <textarea class="form-control" rows="3"></textarea>
+				            </div>
+                        </div>
+                        <div class="form-group" align="center"><br/></div>
+                        <div class="form-group" align="center">
+                            <div class="col-md-3 col-md-offset-4" >
+				                <a class="btn btn-block btn-primary" ><i class="fa fa-check"></i>完成</a>
+                            </div>
+                        </div >
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 

@@ -21,10 +21,10 @@ class IndexController extends AdminController
      */
     public function indexAction()
     {
+        //获取菜单列表，并转化为数组
         $menuModel = new MenuModel();
-        $data = $menuModel->getMenuTree(null, null, 0, 2);
-
-        $menuList = tree_to_list($data,0,'_son');
+        $data = $menuModel->getMenuTree(null, null, 0, 3);
+        $menuList = tree_to_list($data,0,'_son','_level','order');
 
         foreach ($menuList as $key => $value) {
             $menuList[$key]['_url'] = array(
