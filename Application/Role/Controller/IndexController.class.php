@@ -124,9 +124,13 @@ class IndexController extends AdminController
     }
     //添加教工
     public function addPeopleAction(){
+        //获取没在该角色中的所有教工信息
+        $id = I('get.id');
         $roleStaffModel = new RoleStaffModel;
         $outRoleStaff = $roleStaffModel -> getOutRoleStaffByRoleId($id);
 
+        //传值
+        $this->assign('outRoleStaff',$outRoleStaff);
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }

@@ -31,13 +31,20 @@ class RoleStaffModel extends Model{
 		//获取总的教工列表
 		$staffModel = new StaffManagementModel;
 		$data = $staffModel->getStaffList();
-		var_dump($data);
-		exit();
-		//获取该角色中的教工列表
-		$inRoleData = $this -> getgetInRoleStaffByRoleId($roleId);
-		//从总的教工列表中去除角色中的教工
-		//获得没有在 角色中的教工列表
+		$data = change_key($data,'id');
 
+		//获取该角色中的教工列表
+		$inRoleData = $this -> getInRoleStaffByRoleId($roleId);
+
+		//从总的教工列表中去除角色中的教工
+		if(!empty($inRoleData)){
+			foreach ($inRoleData as $key1 => $value1) {
+				unset($data[$key1]);
+			}
+		}
+		
+		//获得没有在 角色中的教工列表
+		return $data;
 
 	}
 }

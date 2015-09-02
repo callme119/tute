@@ -29,25 +29,116 @@
                     </select><!-- /.input group -->
                 </div><!-- /.form group -->
             </div>
-            <div class="row tab_1 display" style=" display:none;">
-                <div class="col-md-3">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">分值</span>
-                        <input type="text" name="score" value="{$data.score}" class="form-control" placeholder="" aria-describedby="basic-addon1">
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    <div class="input-group  date form_date" data-date="" data-date-format="" data-link-field="dtp_input2"  data-link-format="yyyy-mm-dd">
+                        <span class="input-group-addon">立项时间</span>
+                        <input class="form-control" size="16" type="text" value="" readonly>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                     </div>
+                    <input type="hidden" id="dtp_input2" value="" />
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-1 col-md-offset-3"><button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-open"></i>保存</button></div>
-                <div class="col-md-1"><a href="" class="btn btn-warning" ><i class="glyphicon glyphicon-repeat"></i>重置</a></div>
+                <div class="col-md-3 form-group">
+                    <div class="input-group  date form_date" data-date="" data-date-format="" data-link-field="dtp_input2"  data-link-format="yyyy-mm-dd">
+                        <span class="input-group-addon">结项时间</span>
+                        <input class="form-control" size="16" type="text" value="" readonly>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                        <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                    </div>
+                    <input type="hidden" id="dtp_input2" value="" />
+                </div>
             </div>
-        </form>
-    </div>
-    
+            <div class="row">   
+                <div class="form-group col-md-3">
+                    <span class="input-group-addon">明细</span>
+                    <textarea class="form-control" rows="3" name="remarks" >{$data.remark}</textarea>
+                </div>
+            </div>
+            <div class="row team">
+               <div class="col-md-3 form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">团队人员姓名</span>
+                    <select class="selectpicker form-control js-example-basic-multiple">
+                        <option>请选择</option>
+
+                        <foreach name="name" item="value" key="key">
+                            <option value="{$value.userid}">{$value.name}</option>
+                            </foreach>
+                        </foreach>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3 form-group">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">团队分数占比</span>
+                    <input type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="col-md-1"><span id="plus" onmouseover="this.style.backgroundColor='green';" onmouseout="this.style.backgroundColor='';" class="input-group-addon btn"><span class="glyphicon glyphicon-plus"></span></span></div>
+            <div class="col-md-1"><span id="minus" onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='';"  class="input-group-addon btn"><span class="glyphicon glyphicon-minus"></span></span></div>
+        </div>
+        <div class="row tab_1 display" style=" display:none;">
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">论文名称</span>
+                    <input type="text" name="score" value="{$data.score}" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">发表时间</span>
+                    <input type="text" name="score" value="{$data.score}" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="col-md-3 form-group">
+                <div class="input-group  date form_date" data-date="" data-date-format="" data-link-field="dtp_input2"  data-link-format="yyyy-mm-dd">
+                    <span class="input-group-addon">发表时间</span>
+                    <input class="form-control" size="16" type="text" value="" readonly>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
+                    <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+                <input type="hidden" id="dtp_input2" value="" />
+            </div>
+            <div class="col-md-3">
+                <div class="input-group">
+                    <span class="input-group-addon" id="basic-addon1">发表位置</span>
+                    <input type="text" name="score" value="{$data.score}" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-1 col-md-offset-3"><button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-open"></i>保存</button></div>
+            <div class="col-md-1"><a href="" class="btn btn-warning" ><i class="glyphicon glyphicon-repeat"></i>重置</a></div>
+        </div>
+    </form>
+</div>
+
 </div>
 
 </div>
 <script> 
+//增加团队人数
+$('#plus').click(function(){
+    $('.team:last').after("");
+});
+//减少团队人数
+
+    //日历的插件
+    $('.form_date').datetimepicker({
+        language: 'zh-CN',
+        weekStart: 1,
+        todayBtn: 1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
+    //select2的插件
+    $(".js-example-basic-multiple").select2();
     //使用on事件,将整个document做为选择器.
     //注意,在这里的选择器,必须是已经存在的,不能是后期生成的.
     //.project做为document的子元素出现,绑定了change事件.等同于onChange 
@@ -66,13 +157,13 @@
             $(".select:gt("+index+")").remove();
             $(".display").hide();
             if (data.status=="0") {
-                 console.log(data.status);
-                $this.parents(".select").after(data.data);
-            }
-            else{
+             console.log(data.status);
+             $this.parents(".select").after(data.data);
+         }
+         else{
             console.log("hello");
             $(".tab_1").show(100);
-            } 
-        }); 
+        } 
+    }); 
 }); 
 </script>
