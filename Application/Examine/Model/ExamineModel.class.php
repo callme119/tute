@@ -105,4 +105,10 @@ class ExamineModel extends Model{
         
         $this->add($data);
     }
+
+    //获取所有审批流程名称及编号
+    public function getLists(){
+        $lists = $this->field('id,name')->select();
+        return $lists;
+    }
 }
