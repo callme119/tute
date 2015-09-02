@@ -1,3 +1,15 @@
+ <!-- 日期插件 -->
+<link href="__CSS__/bootstrap-datetimepicker.min.css
+" rel="stylesheet">
+<!--select2插件 -->
+<link href="__CSS__/select2/select2.min.css
+" rel="stylesheet">
+<!-- 日期js -->
+ <script src="__JS__/bootstrap-datetimepicker.zh-CN.js"></script>
+ <!-- 日期js -->
+ <script src="__JS__/bootstrap-datetimepicker.js"></script>
+<!-- select2 js -->
+ <script src="__JS__/select2/select2.min.js"></script>
 <section class="content-header">
     <h1>我的项目<small>添加项目</small></h1>
     <ol class="breadcrumb">
@@ -21,7 +33,7 @@
                 </div>
                 <div class="row select">
                     <div class="col-md-3 form-group">
-                       <select class="selectpicker form-control project">
+                     <select class="selectpicker form-control project">
                         <option>请选择</option>
                         <foreach name="project" item="project">
                             <option value="{$project.id}">{$project.name}</option>
@@ -58,7 +70,7 @@
                 </div>
             </div>
             <div class="row team">
-               <div class="col-md-3 form-group">
+             <div class="col-md-3 form-group">
                 <div class="input-group">
                     <span class="input-group-addon">团队人员姓名</span>
                     <select class="selectpicker form-control js-example-basic-multiple">
@@ -66,8 +78,8 @@
 
                         <foreach name="name" item="value" key="key">
                             <option value="{$value.userid}">{$value.name}</option>
-                            </foreach>
                         </foreach>
+
                     </select>
                 </div>
             </div>
@@ -118,16 +130,21 @@
 
 </div>
 
+
 </div>
 <script> 
 //增加团队人数
-$('#plus').click(function(){
-    $('.team:last').after("");
+var data = "<div class='row team'><div class='col-md-3 form-group'><div class='input-group'><span class='input-group-addon'>团队人员姓名</span><select class='selectpicker form-control js-example-basic-multiple'><option>请选择</option><foreach name='name' item='value' key='key'><option value='{$value.userid}'>{$value.name}</option></foreach></select></div></div><div class='col-md-3 form-group'><div class='input-group'><span class='input-group-addon' id='basic-addon1'>团队分数占比</span><input type='text' class='form-control' aria-describedby='basic-addon1'></div></div></div>";
+$("#plus").click(function(){
+    $(".team:last").after(data);
 });
 //减少团队人数
+$("#minus").click(function(){
+    $(".team:last").remove();
+});
 
     //日历的插件
-    $('.form_date').datetimepicker({
+    $(".form_date").datetimepicker({
         language: 'zh-CN',
         weekStart: 1,
         todayBtn: 1,
@@ -157,13 +174,14 @@ $('#plus').click(function(){
             $(".select:gt("+index+")").remove();
             $(".display").hide();
             if (data.status=="0") {
-             console.log(data.status);
-             $this.parents(".select").after(data.data);
-         }
-         else{
+               console.log(data.status);
+               $this.parents(".select").after(data.data);
+           }
+           else{
             console.log("hello");
             $(".tab_1").show(100);
         } 
     }); 
 }); 
+
 </script>
