@@ -15,21 +15,30 @@ class ExamineModel extends Model{
     /**
      * 根据传入的用户点击的信息存入数组再加上从界面上获取的岗位数量进行存库
      * @param array $array
-     * @param int $num
      * 无返回值
      */
-    public function save($array,$num){
+    public function saveChain($post){
         //先存入examine信息
-        $name = I('post.name');
-        $data = array();
-        $data['name'] = $name;
-        //自动生成随机数作为审批编号
-        $id = createRand();
-        $data['id'] = $id;
-        $this->add($data);
-        //传值，再存入examine对应的chain信息
-        $chain = new ChainModel;
-        $chain->save($array,$num,$id);
+        $count = count($post);
+        foreach ($post as $key => $value) {
+            $data = array();
+            $model = new ChainModel;
+            //按照链表的格式进行取值赋值
+            $id = $model->order('id desc')->find();
+            $data['id'] = $id['id']+1;
+            $data['pre_id'] = $id['id'];
+            $data['next_id'] = $id['id']+2;
+            $data['now_post'] = $value;
+            //进行判断，将头结点的上一链表id与尾结点的下一链表id设为0
+            if($key == 0){
+                $data['pre_id'] = 0;
+                $start_id = $id['id']+1;
+            }elseif ($key == $count-1) {
+                $data['next_id'] = 0;
+            }
+           $model->add($data);
+        } 
+        return $start_id;
     }
     
     //根据审批表与审批链表取的审理流程信息
@@ -60,7 +69,7 @@ class ExamineModel extends Model{
     }
     
     //取出所有post名称供V层选择
-    public function add(){
+    public function getPostName(){
         //取岗位名称
         $post = new PostModel;
         $Info = $post->getPostInfo();
@@ -85,4 +94,15 @@ class ExamineModel extends Model{
         return $id;
     }
     
+    //存储审批的链表信息后再存储对应的审批信息
+    // @param int $id
+    // @param string $name
+    // 无返回值
+    public function save($id,$name){
+        $data = array();
+        $data['chain_id'] = $id;
+        $data['name'] = $name;
+        
+        $this->add($data);
+    }
 }

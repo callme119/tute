@@ -21,14 +21,7 @@ class IndexController extends AdminController{
         $this->assign('YZBODY',$this->fetch('newexamine'));
         $this->display(YZTemplate);
     }
-    //
-    public function saveAction() {
-        //保存用户点选的岗位信息
-        //&未完成 从界面中取出用户点选数据信息及总数
-        $model = new ExamineModel;
-        $model->save($array,$num);
-    }
-    
+
     //初始化审批列表
     public function  indexAction(){
         $model = new ExamineModel;
@@ -39,14 +32,14 @@ class IndexController extends AdminController{
     }
     
     //添加审批流程
-    public function addAction() {
+    public function saveAction() {
+        //先将post过来的岗位信息存审批对应的链表信息
+        $post = I('post.chain');
         $model = new ExamineModel;
-        $data = $model->add();
-        var_dump($data);
-        //将岗位名称传入V层的select中
-        $this->assign('name', $data);
-        $this->assign('YZBODY',$this->fetch('newexamine'));
-        $this->display(YZTemplate);
+        //获取该审批对应的头结点id
+        $id = $model->saveChain($post);
+        $name = I('post.name');
+        $model->save($id,$name);
     }
     
 }
