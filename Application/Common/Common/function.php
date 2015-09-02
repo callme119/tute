@@ -121,7 +121,7 @@ function tree_to_list_think($tree, $child = '_child', $order = 'id', &$list = ar
 function tree_to_list($tree , $i = 0,$child = '_child',$level = '_level',$order='id', &$list = array()){
     if (is_array ( $tree )) {
         $refer = array ();
-        $tree = list_sort_by ( $tree, $order, $sortby = 'desc' );
+        //$tree = list_sort_by ( $tree, $order, $sortby = 'desc' );
         foreach ( $tree as $key => $value ) {
             $reffer = $value;
             $reffer[$level] = $i;  
