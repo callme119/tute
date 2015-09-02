@@ -21,24 +21,30 @@
                     <div class="panel-body">
                         <button type="button" class="btn btn-info" onclick="javascript:history.back(-1);">返回</button>
                     </div>
-                    <form class="form-horizontal" action="{:U('addOk')}">
-                        <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">姓名</label>
-                            <div class="col-sm-4">
-                                <input class="form-control" id="inputEmail3" placeholder="姓名">
-                            </div>
-                        </div>
+                    <form class="form-horizontal" action="{$url}" method="post">
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
                             <div class="col-sm-4">
-                                <input class="form-control" id="inputEmail3" placeholder="教工名">
+                                <input name="username" class="form-control" id="inputEmail3" placeholder="教工名" value="{$staffInfo.username}">
                             </div>
                             <p class="bitian col-sm-1">*</p>
                         </div>
                         <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">密码</label>
+                            <div class="col-sm-4">
+                                <input name="password" class="form-control" id="inputEmail3" placeholder="密码" value="{$staffInfo.password}">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-4">
+                                <input name="name" class="form-control" id="inputEmail3" placeholder="姓名" value="{$staffInfo.name}">
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">邮箱</label>
                             <div class="col-sm-4">
-                                <input class="form-control" id="inputEmail3" placeholder="邮箱">
+                                <input name="email" class="form-control" id="inputEmail3" placeholder="邮箱" value="{$staffInfo.email}">
                             </div>
                         </div>
                         <div class="form-group">
@@ -70,44 +76,53 @@
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">角色</label>
                             <div class="col-sm-4 role">
-                                    <div class=col-sm-3>
-                                        <input type="checkbox" />
-                                        <lable>教工</lable>
-                                    </div>
-                                    <div class=col-sm-3>
-                                        <input type="checkbox" />
-                                        <lable>教工</lable>
-                                    </div>
-                                    <div class=col-sm-3>
-                                        <input type="checkbox" />
-                                        <lable>教工</lable>
-                                    </div>
-                                    <div class=col-sm-3>
-                                        <input type="checkbox" />
-                                        <lable>教工</lable>
-                                    </div>
-                                    <div class=col-sm-3>
-                                        <input type="checkbox" />
-                                        <lable>教工</lable>
-                                    </div>
-                                    <div class=col-sm-3>
-                                        <input type="checkbox" />
-                                        <lable>教工</lable>
-                                    </div>
-                                    <div class=col-sm-3>
-                                        <input type="checkbox" />
-                                        <lable>教工</lable>
-                                    </div>
-                                    <div class=col-sm-3>
-                                        <input type="checkbox" />
-                                        <lable>教工</lable>
-                                    </div>
+                                <div class=col-sm-3>
+                                    <input type="checkbox" />
+                                    <lable>教工</lable>
+                                </div>
+                                <div class=col-sm-3>
+                                    <input type="checkbox" />
+                                    <lable>教工</lable>
+                                </div>
+                                <div class=col-sm-3>
+                                    <input type="checkbox" />
+                                    <lable>教工</lable>
+                                </div>
+                                <div class=col-sm-3>
+                                    <input type="checkbox" />
+                                    <lable>教工</lable>
+                                </div>
+                                <div class=col-sm-3>
+                                    <input type="checkbox" />
+                                    <lable>教工</lable>
+                                </div>
+                                <div class=col-sm-3>
+                                    <input type="checkbox" />
+                                    <lable>教工</lable>
+                                </div>
+                                <div class=col-sm-3>
+                                    <input type="checkbox" />
+                                    <lable>教工</lable>
+                                </div>
+                                <div class=col-sm-3>
+                                    <input type="checkbox" />
+                                    <lable>教工</lable>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">密码</label>
+                            <label for="inputEmail3" class="col-sm-2 control-label">状态</label>
                             <div class="col-sm-4">
-                                <input class="form-control" id="inputEmail3" placeholder="密码">
+                                <select class="selectpicker form-control">
+                                    <option>正常</option>
+                                    <option>冻结</option>
+                                </select><!-- /.input group -->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="col-sm-2 control-label">备注</label>
+                            <div class="col-sm-4">
+                                <textarea name = "" class="form-control" rows="3"></textarea>
                             </div>
                         </div>
                         <div class="form-group">

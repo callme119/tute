@@ -19,7 +19,7 @@
                 </div><!-- /.box-header -->
                 <div class="box-body table-responsive">
                     <div class="panel-body">
-                        <button type="button" class="btn btn-info" onclick="location='{$url['add']}'">添加教工</button>
+                        <button type="button" class="btn btn-info" onclick="location='{:U('add')}'">添加教工</button>
                     </div>
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
@@ -34,75 +34,22 @@
                             </tr>
                         </thead>
                         <tbody>
+                        <foreach name="staffList" item ="value" key="key">
                             <tr class="success">
-                                <td>1</td>
-                                <td>教工一</td>
+                                <td>{$key+1}</td>
+                                <td>{$value.name}</td>
                                 <td>计算机学院</td>
                                 <td>学生处</td>
                                 <td>教工</td>
                                 <td class="dongjie">冻结</td>
                                 <td>
-                                <button class="btn btn-sm btn-primary" onclick="location='{$url['edit']}'"><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn-sm btn-danger" onclick="location=''"><i class="glyphicon glyphicon-remove"></i>删除</button>
+                                <button class="btn btn-sm btn-primary" onclick="location='{$value._url.edit}'"><i class="fa fa-pencil"></i>编辑</button>
+                                <button class="btn-sm btn-danger" onclick="location='{$value._url.delete}'"><i class="glyphicon glyphicon-remove"></i>删除</button>
                                 <button class="btn-sm btn-primary" onclick="location=''"><i class="glyphicon glyphicon-repeat"></i>重置密码</button>
                                 </td>
                                 </td>
                             </tr>
-                            <tr class="success">
-                                <td>2</td>
-                                <td>教工二</td>
-                                <td>计算机学院</td>
-                                <td>学生处</td>
-                                <td>教工</td>
-                                <td>正常</td>
-                                <td>
-                                <button class="btn btn-sm btn-primary" onclick="location='{$url['edit']}'"><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn-sm btn-danger" onclick="location=''"><i class="glyphicon glyphicon-remove"></i>删除</button>
-                                <button class="btn-sm btn-primary" onclick="location=''"><i class="glyphicon glyphicon-repeat"></i>重置密码</button>
-                                </td>
-                            </tr>
-                            <tr class="success">
-                                <td>3</td>
-                                <td>教工三</td>
-                                <td>计算机学院</td>
-                                <td>学生处</td>
-                                <td>教工</td>
-                                <td>正常</td>
-                                <td>
-                                <button class="btn btn-sm btn-primary" onclick="location='{$url['edit']}'"><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn-sm btn-danger" onclick="location=''"><i class="glyphicon glyphicon-remove"></i>删除</button>
-                                <button class="btn-sm btn-primary" onclick="location=''"><i class="glyphicon glyphicon-repeat"></i>重置密码</button>
-                                </td>
-                                </td>
-                            </tr>
-                            <tr class="success">
-                                <td>4</td>
-                                <td>教工四</td>
-                                <td>计算机学院</td>
-                                <td>学生处</td>
-                                <td>教工</td>
-                                <td>正常</td>
-                                <td>
-                                <button class="btn btn-sm btn-primary" onclick="location='{$url['edit']}'"><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn-sm btn-danger" onclick="location=''"><i class="glyphicon glyphicon-remove"></i>删除</button>
-                                <button class="btn-sm btn-primary" onclick="location=''"><i class="glyphicon glyphicon-repeat"></i>重置密码</button>
-                                </td>
-                                </td>
-                            </tr>
-                            <tr class="success">
-                                <td>5</td>
-                                <td>教工五 </td>
-                                <td>计算机学院</td>
-                                <td>学生处</td>
-                                <td>教工</td>
-                                <td class="dongjie">冻结</td>
-                                <td>
-                                <button class="btn btn-sm btn-primary" onclick="location='{$url['edit']}'"><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn-sm btn-danger" onclick="location=''"><i class="glyphicon glyphicon-remove"></i>删除</button>
-                                <button class="btn-sm btn-primary" onclick="location=''"><i class="glyphicon glyphicon-repeat"></i>重置密码</button>
-                                </td>
-                                </td>
-                            </tr>
+                            </foreach>
                         </tbody>
                     </table>
                 </div>

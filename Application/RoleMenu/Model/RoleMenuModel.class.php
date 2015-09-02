@@ -9,14 +9,12 @@
 namespace RoleMenu\Model;
 use Think\Model;
 class RoleMenuModel extends Model{
-
-
 	/**
 	 * [getMenuByRoleId 通过角色id获取相对应的菜单列表]
 	 * @param  [string] $roleId [角色id]
 	 * @return [array]         [获取到的菜单列表数组]
 	 */
-	public  function getMenuByRoleId($roleId){
+	public  function getMenuListByRoleId($roleId){
 		$map['role_id'] = $roleId;
 		$menuData = $this->where($map)->select();
 		return $menuData;
@@ -28,9 +26,8 @@ class RoleMenuModel extends Model{
 	 */
 	public function updateMenuAndRole(){
 		$data = I('post.');
-		//获取原有数据
-		$originalData = $this->getMenuByRoleId($data['id']);
 		//清空原有数据
+		$map['role_id'] = $data['id'];
 		$this-> where($map)->delete();
 
 		//获取新的数据
@@ -45,6 +42,15 @@ class RoleMenuModel extends Model{
 		return true;
 	}
 	public function saveMenuAndRole(){
+		$data = I('post.');
+		$permissionInfo = array();
+		foreach ($data as $key => $value) {
+			if($value == 'on'){
+				$permissionInfo[] = array('role_id' => $data['id'],'menu_id' => $key,'value' => 1);
+			}
+		}
+		//更新
+		$this->addAll($permissionInfo);
 		return true;
 
 	}

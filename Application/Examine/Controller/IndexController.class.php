@@ -15,8 +15,9 @@ class IndexController extends AdminController{
      public function  newExamineAction(){
         //调用post模块中的getPostInfo方法
         //传给V层
-        $tpl = T("Admin@Admin/index");
-        define('YZTemplate', $tpl);
+        $post = new PostModel;
+        $data = $post->select();
+        $this->assign("post",$data);
         $this->assign('YZBODY',$this->fetch('newexamine'));
         $this->display(YZTemplate);
     }
@@ -32,10 +33,9 @@ class IndexController extends AdminController{
     public function  indexAction(){
         $model = new ExamineModel;
         $data = $model->index();
-//        $tpl = T("Admin@Admin/index");
-//        define('YZTemplate', $tpl);
-//        $this->assign('YZBODY',$this->fetch('examinelist'));
-//        $this->display(YZTemplate);
+        $this->assign('examine',$data);
+        $this->assign('YZBODY',$this->fetch('examinelist'));
+        $this->display(YZTemplate);
     }
     
     //添加审批流程

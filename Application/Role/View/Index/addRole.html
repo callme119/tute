@@ -10,6 +10,9 @@
     </ol>
 </section>
 <section class="content">
+{:for($i=0;$i<count($originalPermission);$i++){
+$value = $originalPermission[$i][menu_id];
+}}
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -23,13 +26,13 @@
                     </div>
                     <form class="form-horizontal" action="{$submitUrl}" method="post">
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">角色名</label>
+                            <label for="name" class="col-sm-2 control-label">角色名</label>
                             <div class="col-sm-4">
-                                <input name="name" class="form-control" id="inputEmail3" value="{$roleInfo.name}">
+                                <input name="name" class="form-control" id="name" value="{$roleInfo.name}">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">角色描述</label>
+                            <label for="remarks" class="col-sm-2 control-label">角色描述</label>
                             <div class="col-sm-4">
                                 <textarea name = "remarks" class="form-control" rows="3">{$roleInfo.remarks}</textarea>
                             </div>
@@ -37,23 +40,24 @@
 
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">权限</label>
-                            <div class="col-sm-6 role">
+                            <div class="col-sm-6">
+                                <div class=" role">
                                 <foreach  name="permissionList" item = "value">
                                      <div class="row title ">
-                                        <input name="{$value.id}"type="checkbox" />
+                                        <input class="{$value.id}" name="{$value.id}"type="checkbox" />
                                         <lable>{$value.title}</lable>
                                     </div>
                                     <if condition="$value._son != null">  
                                         <foreach name="value._son" item="son">
                                             <div class="row subtitle">
-                                                <input name="{$son.id}" type="checkbox" />
+                                                <input class="{$son.id}" name="{$son.id}" type="checkbox" />
                                                 <lable>{$son.title}</lable>
                                             </div>
                                                 <if condition="$son._son != null">
                                                 <div class="row subtitle">
                                                         <foreach name="son._son" item="grandson">
                                                             <div class=col-sm-4>
-                                                            <input name="{$grandson.id}" type="checkbox" />
+                                                            <input class="{$grandson.id}" name="{$grandson.id}" type="checkbox" />
                                                             <lable>{$grandson.title}</lable>
                                                             </div>
                                                         </foreach>
@@ -62,6 +66,7 @@
                                         </foreach>
                                     </if>
                                 </foreach>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -75,6 +80,15 @@
         </div>
     </div>    
 </section>
+<script> 
+    for (var i=0;i<originalPermission.length;i++) {
+        var value = originalPermission[i][menu_id];
+        $("."+value).checked();
+        
+    };
+  
+alert("hello");
+</script>
 <style>
     .role{
         border: 1px #cccccc solid;

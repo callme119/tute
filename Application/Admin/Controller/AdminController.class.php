@@ -39,6 +39,7 @@ class AdminController extends Controller{
     }
     public function __construct() {
         parent::__construct();
+
         $cssArr[] = '/css/bootstrap.min.css';
         $cssArr[] = '/css/font-awesome.min.css';
         $cssArr[] = '/css/ionicons.min.css';
@@ -81,6 +82,7 @@ class AdminController extends Controller{
         $this->assign('cssArr',$cssArr);
         $this->assign('jsArr',$jsArr);
         $this->assign('YZBodyClass','skin-blue wysihtml5-supported  pace-done');
+
         
         //判断是否已经登录
         
@@ -107,8 +109,10 @@ class AdminController extends Controller{
         //3.将获取到的信息传递给V层
         $this->assign('leftMenu',$data);
         
-        $headerTpl = T('Admin@Admin/header');
-        $this->assign('header',$this->fetch($headerTpl));
+        //获取当前菜单信息
+        $currentMenu = $menu->getMenuByUrl($url);
+        $this->assign('currentMenu',$currentMenu[0]);
+
         $tpl = T("Admin@Admin/index");
         define('YZTemplate', $tpl);
     }

@@ -32,31 +32,15 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                <foreach name="examine" item="value">
                                 <tr>
-                                    <td class="id">1</td>
-                                    <td class="name">科研项目审批流</td>
-                                    <td class="name">系主任&nbsp;<i class="glyphicon glyphicon-arrow-right"></i>&nbsp;科研秘书&nbsp;<i class="glyphicon glyphicon-arrow-right"></i>&nbsp;院长</td>
+                                    <td class="id">{$value.id}</td>
+                                    <td class="name">{$value.name}</td>
+                                    <td class="name">
+                                        {$value.string}
+                                    </td>
                                 </tr>
-                                <tr>
-                                    <td class="id">2</td>
-                                    <td class="name">科研项目审批流</td>
-                                    <td class="name">系主任&nbsp;<i class="glyphicon glyphicon-arrow-right"></i>&nbsp;科研秘书&nbsp;<i class="glyphicon glyphicon-arrow-right"></i>&nbsp;院长</td>
-                                </tr>
-                                 <tr>
-                                    <td class="id">3</td>
-                                    <td class="name">科研项目审批流</td>
-                                    <td class="name">系主任&nbsp;<i class="glyphicon glyphicon-arrow-right"></i>&nbsp;科研秘书&nbsp;<i class="glyphicon glyphicon-arrow-right"></i>&nbsp;院长</td>
-                                </tr>
-                                <tr>
-                                    <td class="id">4</td>
-                                    <td class="name">科研项目审批流</td>
-                                    <td class="name">系主任&nbsp;<i class="glyphicon glyphicon-arrow-right"></i>&nbsp;科研秘书&nbsp;<i class="glyphicon glyphicon-arrow-right"></i>&nbsp;院长</td>
-                                </tr>
-                                 <tr>
-                                    <td class="id">5</td>
-                                    <td class="name">科研项目审批流</td>
-                                    <td class="name">系主任&nbsp;<i class="glyphicon glyphicon-arrow-right"></i>&nbsp;科研秘书&nbsp;<i class="glyphicon glyphicon-arrow-right"></i>&nbsp;院长</td>
-                                </tr>
+                                </foreach>
                             </tbody>
                         </table>
                          <nav style="text-align: center">
