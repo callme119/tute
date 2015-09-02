@@ -1,59 +1,49 @@
-<section class="content-header">
-    <h1>
-        部门管理
-        <small>岗位人员</small>
-    </h1>
-    <ol class="breadcrumb">
-        <li><a href="{:U('Admin/Index/index')}"><i class="fa fa-dashboard"></i> 首页</a></li>
-        <li><a href="{:U('index')}">部门管理</a></li>
-        <li class="active">岗位人员</li>
-    </ol>
-</section>
+
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-header">
-                    <i class="fa fa-inbox"></i>
-                    <h3 class="box-title">岗位人员</h3>
-                </div><!-- /.box-header -->
                 <div class="box-body table-responsive">
                     <h2>已有用户</h2>
-    <table class="table">
-            <tr class="active">
-                    <td>用户编号</td>
-                    <td>用户名</td>	
-                    <td>操作</td>
-            </tr>
-            <tr class="success">
-                    <td>1</td>
-                    <td>张三</td>
-                    <td>
-                    <button class="btn btn-default" type="submit" onclick="location='{:U('movePostPeopleOk')}'">移除用户</button>
-                    </td>
-            </tr>
-            <tr>
-                    <td>2</td>
-                    <td>张三</td>
-                    <td>
-                    <button class="btn btn-default" type="submit" onclick="location='{:U('movePostPeopleOk')}'">移除用户</button>
-                    </td>
-            </tr>
-            <tr class="warning">
-                    <td>3</td>
-                    <td>张三</td>
-                    <td>
-                    <button class="btn btn-default" type="submit" onclick="location='{:U('movePostPeopleOk')}'">移除用户</button>
-                    </td>
-            </tr>
-            <tr>
-                    <td>4</td>
-                    <td>张三</td>
-                    <td>
-                    <button class="btn btn-default" type="submit" onclick="location='{:U('movePostPeopleOk')}'">移除用户</button>
-                    </td>
-            </tr>
-    </table>
+                    <table class="table">
+                    <thead>
+                        <tr class="active">
+                                <th>用户编号</th>
+                                <th>用户名</th>	
+                                <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="success">
+                                <td>1</td>
+                                <td>张三</td>
+                                <td>
+                                <button class="btn btn-danger" type="submit" onclick="location='{:U('movePostPeopleOk')}'"><i class="fa fa-trash-o"></i>移除用户</button>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>2</td>
+                                <td>张三</td>
+                                <td>
+                                <button class="btn btn-danger" type="submit" onclick="location='{:U('movePostPeopleOk')}'"><i class="fa fa-trash-o"></i>移除用户</button>
+                                </td>
+                        </tr>
+                        <tr class="warning">
+                                <td>3</td>
+                                <td>张三</td>
+                                <td>
+                                <button class="btn btn-danger" type="submit" onclick="location='{:U('movePostPeopleOk')}'"><i class="fa fa-trash-o"></i>移除用户</button>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td>4</td>
+                                <td>张三</td>
+                                <td>
+                                <button class="btn btn-danger" type="submit" onclick="location='{:U('movePostPeopleOk')}'"><i class="fa fa-trash-o"></i>移除用户</button>
+                                </td>
+                        </tr>
+                        </tbody>
+                </table>
     <nav>
             <ul class="pagination">
             <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
@@ -72,40 +62,44 @@
 
     <h2>其他用户</h2>
     <table class="table">
-            <tr class="active">
-                    <td>用户编号</td>
-                    <td>用户名</td>	
-                    <td>操作</td>
-            </tr>
-            <tr class="success">
+    <thead>
+        <tr class="active">
+                    <th>用户编号</th>
+                    <th>用户名</th>    
+                    <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="success">
                     <td>1</td>
                     <td>张三</td>
                     <td>
-                    <button class="btn btn-default" type="submit" onclick="location='{:U('addPostPeopleOk')}'">添加用户</button>
+                    <button class="btn btn-primary" type="submit" onclick="location='{:U('addPostPeopleOk')}'"><i class="fa  fa-check-circle-o"></i>添加用户</button>
                     </td>
             </tr>
             <tr>
                     <td>2</td>
                     <td>张三</td>
                     <td>
-                    <button class="btn btn-default" type="submit" onclick="location='{:U('addPostPeopleOk')}'">添加用户</button>
+                    <button class="btn btn-primary" type="submit" onclick="location='{:U('addPostPeopleOk')}'"><i class="fa  fa-check-circle-o"></i>添加用户</button>
                     </td>
             </tr>
             <tr class="warning">
                     <td>3</td>
                     <td>张三</td>
                     <td>
-                    <button class="btn btn-default" type="submit" onclick="location='{:U('addPostPeopleOk')}'">添加用户</button>
+                    <button class="btn btn-primary" type="submit" onclick="location='{:U('addPostPeopleOk')}'"><i class="fa  fa-check-circle-o"></i>添加用户</button>
                     </td>
             </tr>
             <tr>
                     <td>4</td>
                     <td>张三</td>
                     <td>
-                    <button class="btn btn-default" type="submit" onclick="location='{:U('addPostPeopleOk')}'">添加用户</button>
+                    <button class="btn btn-primary" type="submit" onclick="location='{:U('addPostPeopleOk')}'"><i class="fa  fa-check-circle-o"></i>添加用户</button>
                     </td>
             </tr>
-    </table>
+    </tbody>
+</table>
     <nav>
             <ul class="pagination">
             <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
