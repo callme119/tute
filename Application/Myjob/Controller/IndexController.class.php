@@ -33,10 +33,11 @@ class IndexController extends AdminController{
 
         //获取项目详细数据
         $projectM = new ProjectModel();
-        $workflows = $projectM->getListsByIds($workflows,'project_id');
+        $projects = $projectM->getListsByIds($workflows,'project_id');
        
         //传值展示
         $this->assign("data",$workflows);
+        $this->assign("projects",$projects);
         $this->assign('YZBODY',$this->fetch('index'));
         $this->display(YZTemplate);
         
