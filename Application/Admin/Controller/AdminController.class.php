@@ -49,6 +49,7 @@ class AdminController extends Controller{
         $cssArr[] = '/css/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css';
         $cssArr[] = '/css/AdminLTE.css';
         $cssArr[] = '/css/select2/select2.min.css';
+        $cssArr[] = '/css/bootstrap-datetimepicker.min.css';
         
         $jsArr[] = '/js/jquery-2.1.4.min.js';
         $jsArr[] = '/js/jquery-ui-1.10.3.min.js';   
@@ -66,6 +67,8 @@ class AdminController extends Controller{
         $jsArr[] = '/js/AdminLTE/app.js';
         $jsArr[] = '/js/AdminLTE/dashboard.js';
         $jsArr[] = '/js/select2/select2.min.js';
+        $jsArr[] = '/js/bootstrap-datetimepicker.js';
+        $jsArr[] = '/js/bootstrap-datetimepicker.zh-CN.js';
         
         
         $cdnJsArr[] = '//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js';

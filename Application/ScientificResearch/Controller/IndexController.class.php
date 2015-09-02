@@ -2,6 +2,7 @@
 namespace ScientificResearch\Controller;
 use Admin\Controller\AdminController;
 use PublicProject\Model\PublicProjectModel;
+use User\Model\UserModel;
 class IndexController extends AdminController {
     public function indexAction(){
         //$this->assign('YZBODY',$this->fetch(T('scientificResearch')));
@@ -21,6 +22,9 @@ class IndexController extends AdminController {
     public function addAction() {
         $projectM = new PublicProjectModel();
         $project = $projectM->init();
+        $nameM = new UserModel();
+        $name = $nameM->getAllName();
+        $this->assign('name',$name);
         $this->assign('project',$project);
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
