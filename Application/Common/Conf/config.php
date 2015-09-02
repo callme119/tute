@@ -14,7 +14,7 @@ return array(
     'DB_NAME'   => 'performancems', // 数据库名performancems
     'DB_USER'   => 'root', // 用户名performancems
     'DB_PWD'    => '',  // 密码b2408cac49ed15d67c390dd08a8b0158
-    'DB_PORT'   => '3366', // 端口3306
+    'DB_PORT'   => '3306', // 端口3306
 
 
     'DB_PREFIX' => 'yunzhi_', // 数据库表前缀
