@@ -27,6 +27,7 @@ class RoleStaffModel extends Model{
 		}
 		return $data;
 	}
+
 	public function getOutRoleStaffByRoleId($roleId){
 		//获取总的教工列表
 		$staffModel = new StaffManagementModel;
@@ -45,6 +46,23 @@ class RoleStaffModel extends Model{
 		
 		//获得没有在 角色中的教工列表
 		return $data;
+	}
 
+	public function saveRoleStaff(){
+		//接收数据
+		$data['role_id'] = I('get.roleId');
+		$data['staff_id'] = I('get.staffId');
+		//保存数据
+		$this->add($data);
+		return ture;
+	}
+
+	public function deleteRoleStaff(){
+		//接收数据
+		$data['role_id'] = I('get.roleId');
+		$data['staff_id'] = I('get.staffId');
+		//删除数据
+		$this->where($data)->delete();
+		return ture;
 	}
 }

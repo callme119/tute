@@ -73,6 +73,9 @@ class IndexController extends AdminController
         $id = I('get.id');
         $roleStaffModel = new RoleStaffModel;
         $staffList = $roleStaffModel ->getInRoleStaffByRoleId($id);
+        foreach ($staffList as $key => $value) {
+            $staffList[$key]['_url'] = U('movePeople?roleId='.$id.'&staffId='.$value['id']);
+        }
         $url = U('addPeople?id='.$id);
         $this->assign('url',$url);
 
@@ -114,13 +117,21 @@ class IndexController extends AdminController
     }
     //移除用户
     public function movePeopleAction(){
-        $url = U('people');
-        $this->success('保存成功',$url);
+        $roleStaffModel = new RoleStaffModel;
+        $state = $roleStaffModel->deleteRoleStaff();
+        if($state){
+            $url = U('people?id='.I('get.roleId'));
+            $this->success('移除成功',$url);
+        }
     }
     //添加用户
     public function savePeopleAction(){
-        $url = U('people');
-        $this->success('保存成功',$url);
+        $roleStaffModel = new RoleStaffModel;
+        $state = $roleStaffModel->saveRoleStaff();
+        if($state){
+            $url = U('people?id='.I('get.roleId'));
+            $this->success('添加成功',$url);
+        }
     }
     //添加教工
     public function addPeopleAction(){
@@ -128,6 +139,9 @@ class IndexController extends AdminController
         $id = I('get.id');
         $roleStaffModel = new RoleStaffModel;
         $outRoleStaff = $roleStaffModel -> getOutRoleStaffByRoleId($id);
+        foreach ($outRoleStaff as $key => $value) {
+            $outRoleStaff[$key]['_url'] = U('savePeople?staffId='.$value['id'].'&roleId='.$id);
+        }
 
         //传值
         $this->assign('outRoleStaff',$outRoleStaff);
