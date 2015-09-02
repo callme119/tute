@@ -10,6 +10,15 @@ function isWeixinBrowser() {
     }
     return true;
 }
+/**
+ * 获取用户id
+ * todo:用session来实现 
+ * @return [type]
+ */
+function get_user_id()
+{
+    return 1;
+}
 //向url上以POST方式提交数据
 //author:panjie 3792535@qq.com
 //@url 提交的地址
