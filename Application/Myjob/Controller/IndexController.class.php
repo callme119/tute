@@ -29,7 +29,7 @@ class IndexController extends AdminController{
         
         //获取审核数据
         $workflowM = new WorkflowModel();
-        $workflows = $worflowM->getListsByIds($workflowIds);
+        $workflows = $worflowM->getListsByIds($workflowIds , 'workflow_id');
 
         //获取项目详细数据
         $projectM = new ProjectModel();
