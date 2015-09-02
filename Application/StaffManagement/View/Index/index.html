@@ -1,22 +1,7 @@
-<section class="content-header">
-    <h1>
-        教工管理
-        <small></small>
-    </h1>
-    <ol class="breadcrumb">
-        <li><a href="{:U('Admin/Index/index')}"><i class="fa fa-dashboard"></i> 首页</a></li>
-        <li><a href="{:U('index')}">教工管理</a></li>
-        <li class="active"></li>
-    </ol>
-</section>
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-header">
-                    <i class="fa fa-inbox"></i>
-                    <h3 class="box-title">教工列表</h3>
-                </div><!-- /.box-header -->
                 <div class="box-body table-responsive">
                     <div class="panel-body">
                         <button type="button" class="btn btn-info" onclick="location='{:U('add')}'">添加教工</button>
@@ -26,8 +11,7 @@
                             <tr>
                                 <th>序号</th>
                                 <th>教工名</th>
-                                <th>部门</th>
-                                <th>岗位</th>
+                                <th>岗位(部门)</th>
                                 <th>角色</th>
                                 <th>状态</th>
                                 <th>操作</th>
@@ -38,8 +22,7 @@
                             <tr class="success">
                                 <td>{$key+1}</td>
                                 <td>{$value.name}</td>
-                                <td>计算机学院</td>
-                                <td>学生处</td>
+                                <td>学生处(计算机学院)</td>
                                 <td>教工</td>
                                 <td class="dongjie">冻结</td>
                                 <td>
