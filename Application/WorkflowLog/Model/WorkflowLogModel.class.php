@@ -18,9 +18,25 @@ class WorkflowLogModel extends Model
 		if($userId === null)
 			return false;
 		$map["user_id"] = $userId;
-		$map["is_commited"] = 0; //用户未提交
-		$map["is_finished"] = 0; //未完成
+		$map["is_commited"] = 0; //用户未提交(待办或是在办)
+		$map["is_clicked"] = 0; //未点击(待办)
 		$map["is_shelved"] = 0; //未搁置
+		$return = $this->where($map)->select();
+		return $return;
+	}
+	/**
+	 * 依据工作流ID,获取此工作流下的所有工作流日志信息
+	 * @param  [string] $workflowId [工作流ID]
+	 * @return [array]             [所以关于此工作流的留痕]
+	 */
+	public function getListsByWorkflowId($workflowId = null)
+	{
+		if($workflowId === null)
+		{
+			$this->error = "未传入正确的ID值";
+			return false;
+		}
+		$map['workflow_id'] = $workflowId;
 		$return = $this->where($map)->select();
 		return $return;
 	}
