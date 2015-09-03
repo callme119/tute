@@ -45,4 +45,21 @@ class WorkflowModel extends Model{
 		return $return;
 
 	}
+
+	/**
+	 * 通过ID获取当前ID的基本信息
+	 * @param  sting $id 关键字
+	 * @return [array]     [返回一条基本信息]
+	 */
+	public function getListById($id = null)
+	{
+		if($id === null || !is_string($id))
+		{
+			$this->error = "未传入ID值,或传入的ID值有误";
+		}
+		$map[id] = $id;
+		$return = $this->where($map)->find();
+		return $return;
+	}
+
 }
