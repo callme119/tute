@@ -1,0 +1,124 @@
+<section class="content-header">
+    <h1>
+        教工管理
+        <small>编辑教工</small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="{:U('Admin/Index/index')}"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="{:U('index')}">教工管理</a></li>
+        <li class="active">编辑教工</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <i class="fa fa-inbox"></i>
+                    <h3 class="box-title">编辑教工</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body table-responsive">
+                    <div class="panel-body">
+                        <button type="button" class="btn btn-info" onclick="javascript:history.back(-1);">返回</button>
+                    </div>
+                    <form class="form-horizontal" action="{:U('addOk')}">
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">姓名</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="inputEmail3" placeholder="姓名">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">用户名</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="inputEmail3" placeholder="用户名">
+                            </div>
+                            <p class="bitian col-sm-1">*</p>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">邮箱</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="inputEmail3" placeholder="邮箱">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">部门</label>
+                            <div class="col-sm-4">
+                                <select class="selectpicker form-control">
+                                    <option>计算机学院</option>
+                                    <option>外国语学院</option>
+                                    <option>土木学院</option>
+                                    <option>材料学院</option>
+                                    <option>电器学院</option>
+                                    <option>化工学院</option>
+                                </select><!-- /.input group -->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">岗位</label>
+                            <div class="col-sm-4">
+                                <select class="selectpicker form-control">
+                                <option>学生处</option>
+                                <option>教工</option>
+                                <option>助教</option>
+                                <option>后勤</option>
+                                <option>书记</option>
+                                <option>院长</option>
+                                </select><!-- /.input group -->
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">角色</label>
+                            <div class="col-sm-4 role">
+                                    <div class=col-sm-3>
+                                        <input type="checkbox" />
+                                        <lable>教工</lable>
+                                    </div>
+                                    <div class=col-sm-3>
+                                        <input type="checkbox" />
+                                        <lable>教工</lable>
+                                    </div>
+                                    <div class=col-sm-3>
+                                        <input type="checkbox" />
+                                        <lable>教工</lable>
+                                    </div>
+                                    <div class=col-sm-3>
+                                        <input type="checkbox" />
+                                        <lable>教工</lable>
+                                    </div>
+                                    <div class=col-sm-3>
+                                        <input type="checkbox" />
+                                        <lable>教工</lable>
+                                    </div>
+                                    <div class=col-sm-3>
+                                        <input type="checkbox" />
+                                        <lable>教工</lable>
+                                    </div>
+                                    <div class=col-sm-3>
+                                        <input type="checkbox" />
+                                        <lable>教工</lable>
+                                    </div>
+                                    <div class=col-sm-3>
+                                        <input type="checkbox" />
+                                        <lable>教工</lable>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputEmail3" class="col-sm-2 control-label">密码</label>
+                            <div class="col-sm-4">
+                                <input class="form-control" id="inputEmail3" placeholder="密码">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-sm btn-success"><i class="glyphicon glyphicon-saved"></i>确认</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>    
+</section>
+{$css}
