@@ -97,4 +97,45 @@ class ChainModel extends Model {
             $this->add($data);        
         }
     }
+
+    /**
+     * 通过ＩＤ获取下一条审核记录。
+     * @param  string $workflowId id
+     * @return array             一组数组。如果本条为最后一条，则返回ＮＵＬＬ
+     * panjie 3792535@qq.com
+     * date:2015.9.3
+     */
+    public function getNextListById($id = null)
+    {
+        if($id === null || !is_string($id))
+        {
+            $this->error = "未传入ID值，或传入的ID值不符合规范";
+            return false;
+        }
+        $map['pre_id'] = $id;
+        $data = $this->where($map)->find();
+        if($data != false)
+        {
+            return $data;
+        }
+        else
+        {
+            return null;
+        }
+    }
+    /**
+     * 通过ID值，查找单条数据信息
+     * @param  string $id id
+     * @return array     一组数组，包括本条所有信息
+     */
+    public function getListById($id = null)
+    {
+        if($id === null || !is_string($id))
+        {
+            $this->error = "未传入ID值，或传入的ID值不符合规范";
+            return false;
+        }
+        $map['id'] = $id;
+        return $this->where($map)->find();
+    }
 }    
