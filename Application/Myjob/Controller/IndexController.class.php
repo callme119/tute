@@ -7,10 +7,11 @@
 
 namespace Myjob\Controller;
 use Admin\Controller\AdminController;
+use Workflow\Model\WorkflowModel;
 use Myjob\Model\JobModel;
 use WorkflowLog\Model\WorkflowLogModel;
-use Workflow\Model\WrokflowModel;
-use Project\Model\ProjectModel;
+// use Workflow\Model\WrokflowModel;
+// use Project\Model\ProjectModel;
 class IndexController extends AdminController{
     /**
      * 我的工作中待办工作界面
@@ -19,21 +20,22 @@ class IndexController extends AdminController{
      * 2015年7月16日09:36:08
      */
     
-    public function indexAction() {
+    public function unfinishedAction() {
         //获取用户ID
-        $userId = get_userId();
+        $userId = get_user_id();
 
-        //获取用户is_commit=0的workflow_id
+        //获取当前用户的待办工作
         $workflowLogM = new WorkflowLogModel();
-        $workflowIds = $workflowLogM->getWorkflowIdsByUserid($userID);
-        
-        //获取审核数据
-        $workflowM = new WorkflowModel();
-        $workflows = $worflowM->getListsByIds($workflowIds , 'workflow_id');
+        $workflowIds = $workflowLogM->getTodoListsByUserId($userId);
 
-        //获取项目详细数据
-        $projectM = new ProjectModel();
-        $projects = $projectM->getListsByIds($workflows,'project_id');
+        //获取当前待办工作的工作流数据
+        $workflowM = new WorkflowModel();
+        $workflows = $worflowM->getListsByLists($workflowIds , 'workflow_id');
+
+        dump($worflows);
+        // //获取项目详细数据
+        // $projectM = new ProjectModel();
+        // $projects = $projectM->getListsByIds($workflows,'project_id');
        
         //传值展示
         $this->assign("data",$workflows);
@@ -82,11 +84,6 @@ class IndexController extends AdminController{
      */
     public function  finishedAction(){
        $this->assign('YZBODY',$this->fetch('finished'));
-        $this->display(YZTemplate);
-    }
-    
-    public function  unfinishedAction(){
-       $this->assign('YZBODY',$this->fetch('unfinished'));
         $this->display(YZTemplate);
     }
     
