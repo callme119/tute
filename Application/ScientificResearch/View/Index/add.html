@@ -5,9 +5,10 @@
 <link href="__CSS__/select2/select2.min.css
 " rel="stylesheet">
 <!-- 日期js -->
- <script src="__JS__/bootstrap-datetimepicker.zh-CN.js"></script>
- <!-- 日期js -->
  <script src="__JS__/bootstrap-datetimepicker.js"></script>
+<!-- 日期js -->
+ <script src="__JS__/bootstrap-datetimepicker.zh-CN.js"></script>
+ 
 <!-- select2 js -->
  <script src="__JS__/select2/select2.min.js"></script>
 <div class="container">
@@ -59,6 +60,16 @@
                     <textarea class="form-control" rows="3" name="remarks" >{$data.remark}</textarea>
                 </div>
             </div>
+            <div class ="row">
+                请选择审核流程：
+                <select name="examine_id" id="examine_id">
+                <option value="0">请选择</option>
+                <foreach name="examineLists" item="value">
+                    <option value="{$value[id]}">{$value[name]}</option>
+                </foreach>
+                </select>
+            </div>
+            <div class="row">请选择审核人：</div>
             <div class="row team">
              <div class="col-md-3 form-group">
                 <div class="input-group">
@@ -173,5 +184,32 @@ $("#minus").click(function(){
         } 
     }); 
 }); 
+    /*
+    用户选择审核流程后，后台取数据.
+    最终让用户选择：下一审核人。
+    panjie 
+     */
+    $(document).on("change","#examine_id",function(){
+        var examine_id = $(this).children('option:selected').val();
+        console.log(examine_id);
+        var url = "{:U('examine/Index/getExamineUsers')}" + "?id=" + examine_id;
+        console.log(url);
+        $.get(
+            url,
+            function(data,state)
+            {
+                if(!state)
+                {
+                    return;
+                    console.log("未能在指定的时间内返回数据或未GET到URL");
+                }
+
+                //todo:写调用action返回值，然后将返回值添加到 下一审核人：type=radio
+                if(data.state == "success")
+                {
+
+                }
+            });
+    });
 
 </script>
