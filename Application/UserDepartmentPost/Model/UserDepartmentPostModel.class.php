@@ -62,4 +62,21 @@ class UserDepartmentPostModel EXTENDS Model{
 		}
 		return false;
 	}
+	/**
+	 * 通过USERID获取列表数据
+	 * @param  string $userId 用户ID
+	 * @return array         二维数组
+	 */
+	public function getListsByUserId($userId = null)
+	{
+		if($userId === null || !is_string($userId))
+		{
+			$this->error = "userID未传入或传入的类型有误";
+		}
+
+		$map[user_id] = $userId;
+		//查询数据
+		$data = $this->where($map)->join("left join __DEPARTMENT_POST__ on __USER_DEPARTMENT_POST__.department_post_id = __DEPARTMENT_POST__.id")->select();
+		return $data;	
+	}
 }
