@@ -8,6 +8,7 @@
 namespace Admin\Controller;
 use Think\Controller;
 use Menu\Model\MenuModel;
+use User\Model\UserModel;
 class AdminController extends Controller{
     private $cssArr = null; //css
     private $jsArr = null; //js
@@ -41,7 +42,12 @@ class AdminController extends Controller{
         parent::__construct();
         
         //判断是否已经登录
-        
+        $userId = get_user_id();
+
+        //获取用户基础信息
+        $userM = new UserModel;
+        $user = $userM->getUserById($userId);
+
         //开始进行菜单访问权限判断
         //1.获取用户点击或输入的url
         $url = $this->_getUrl();
@@ -69,6 +75,7 @@ class AdminController extends Controller{
         $currentMenu = $menu->getMenuByUrl($url);
         $this->assign('currentMenu',$currentMenu[0]);
 
+        $this->assign("user",$user);
         $tpl = T("Admin@Admin/index");
         define('YZTemplate', $tpl);
     }
