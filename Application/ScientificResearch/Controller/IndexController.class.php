@@ -3,6 +3,9 @@ namespace ScientificResearch\Controller;
 use Admin\Controller\AdminController;
 use PublicProject\Model\PublicProjectModel;
 use User\Model\UserModel;
+use UserDepartmentPost\Model\UserDepartmentPostModel;
+use DepartmentPost\Model\DepartmentPostModel;
+use Examine\Model\ExamineModel; //审核基础数据表
 class IndexController extends AdminController {
     public function indexAction(){
         //$this->assign('YZBODY',$this->fetch(T('scientificResearch')));
@@ -20,10 +23,24 @@ class IndexController extends AdminController {
         $this->display(YZTemplate);
     }
     public function addAction() {
+        //获取当前用户ID
+        $userId = get_user_id();
+
+        //获取当前用户部门岗位信息（数组）
+        $UserDepartmentPostM = new UserDepartmentPostModel();
+        $userDepartmentPosts = $UserDepartmentPostM->getListsByUserId($userId);
+
+        //获取当前岗位下，对应的可用审核流程
+        $ExamineM = new ExamineModel();
+        $examineLists = $ExamineM->getListsByNowPosts($userDepartmentPosts);
+
         $projectM = new PublicProjectModel();
         $project = $projectM->init();
         $nameM = new UserModel();
         $name = $nameM->getAllName();
+
+        //传值
+        $this->assign("examineLists",$examineLists);
         $this->assign('name',$name);
         $this->assign('project',$project);
         $this->assign('YZBODY',$this->fetch());

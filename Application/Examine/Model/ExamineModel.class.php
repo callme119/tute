@@ -111,4 +111,38 @@ class ExamineModel extends Model{
         $lists = $this->field('id,name')->select();
         return $lists;
     }
+    /**
+     * 根据传入的包括岗位信息的获取审核流程基础信息
+     * @param  array $userDepartmentPosts 包括有keyword的二维数组
+     * @param  string $keyWord             代表岗位关键字的KEYWORD
+     * @return array                      二维数组
+     * panjie 3792535@qq.com
+     */
+    public function getListsByNowPosts($userDepartmentPosts , $keyWord = "post_id")
+    {
+        if(!is_array($userDepartmentPosts))
+        {
+            $this->error = "传入参数非数组";
+            return false;
+        }
+
+        $return = array();
+        foreach($userDepartmentPosts as $key => $value)
+        {
+            if(!isset($value[$keyWord]))
+            {
+                $this->error = "传入数据KEY值定义错误";
+                return false;
+            }
+
+            $return = array();
+            $map['now_post'] = $value[$keyWord];
+            $map['a.state'] = 0;
+            $field['a.id'] = 'id';
+            $field['a.name'] = 'name';
+            $data = $this->alias('a')->field($field)->where($map)->join("left join __CHAIN__ b on a.chain_id = b.id")->select();
+            $return = array_merge($return,$data);           
+        }
+        return $return;
+    }
 }
