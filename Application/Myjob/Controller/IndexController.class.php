@@ -18,6 +18,7 @@ use Post\Model\PostModel;//岗位表
 use Myjob\Logic\MyjobLogic; //逻辑层
 use DepartmentPost\Model\DepartmentPostModel; //
 // use Project\Model\ProjectModel; //项目信息表
+use Chain\Logic\ChainLogic;
 class IndexController extends AdminController{
     /**
      * 我的工作中待办工作界面
@@ -27,6 +28,13 @@ class IndexController extends AdminController{
      */
     
     public function unfinishedAction() {
+        $test = new ChainLogic();
+        $data = $test->getNextExaminUsersByUserIdAndId(5,24);
+        if(!$data)
+        {
+            echo $test->getError();
+        }
+
         //获取用户ID
         $userId = get_user_id();
 
