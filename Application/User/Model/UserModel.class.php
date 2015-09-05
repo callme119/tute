@@ -39,7 +39,7 @@ class UserModel extends Model{
 	 * @return array          以userid为下标的数组
 	 * panjie 3792535@qq.com
 	 */
-	public function getListsByLists($lists = null , $keyWord = "user_id")
+	public function getListsByLists($lists = null , $keyWord = "user_id" , $field = null )
 	{
 		if(!is_array($lists) || $lists === null)
 		{
@@ -56,10 +56,19 @@ class UserModel extends Model{
 				return false;
 			}
 			$map['id'] = $value[$keyWord];
-			$return[$value[$keyWord]] = $this->where($map)->find();
+			if($field === null)
+			{			
+				$return[] = $this->where($map)->find();
+			}
+			else
+			{
+				$return[] = $this->field($field)->where($map)->find();
+			}
+
 		}
 		return $return;
 	}
+
 
 		//获取教工列表
 	public function getStaffList(){

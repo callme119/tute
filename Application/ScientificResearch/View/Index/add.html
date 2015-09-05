@@ -62,14 +62,14 @@
             </div>
             <div class ="row">
                 请选择审核流程：
-                <select name="examine_id" id="examine_id">
+                <select name="chain_id" id="chain_id">
                 <option value="0">请选择</option>
                 <foreach name="examineLists" item="value">
-                    <option value="{$value[id]}">{$value[name]}</option>
+                    <option value="{$value[chain_id]}">{$value[name]}</option>
                 </foreach>
                 </select>
             </div>
-            <div class="row">请选择审核人：</div>
+            <div class="row">请选择审核人：<span id="next_examiner"></span></div>
             <div class="row team">
              <div class="col-md-3 form-group">
                 <div class="input-group">
@@ -189,10 +189,10 @@ $("#minus").click(function(){
     最终让用户选择：下一审核人。
     panjie 
      */
-    $(document).on("change","#examine_id",function(){
-        var examine_id = $(this).children('option:selected').val();
-        console.log(examine_id);
-        var url = "{:U('examine/Index/getExamineUsers')}" + "?id=" + examine_id;
+    $(document).on("change","#chain_id",function(){
+        var chain_id = $(this).children('option:selected').val();
+        console.log(chain_id);
+        var url = "{:U('examine/Index/getExamineUsers')}" + "?name=examine_id&id=" + chain_id;
         console.log(url);
         $.get(
             url,
@@ -207,7 +207,13 @@ $("#minus").click(function(){
                 //todo:写调用action返回值，然后将返回值添加到 下一审核人：type=radio
                 if(data.state == "success")
                 {
-
+                    $("#next_examiner").html(data.html);
+                    console.log(data.html);
+                }
+                else
+                {
+                    $("#next_examiner").html("");
+                    console.log(data.message);
                 }
             });
     });

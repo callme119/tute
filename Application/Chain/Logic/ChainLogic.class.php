@@ -62,7 +62,7 @@ class ChainLogic EXTENDS Model
         {
         	//1 step
         	$departmentPosts = $DepartmentPostM->getListByDepartmentsAndPost($parentDepartmentsTreeArray,$nextPostId);
-        	dump($departmentPosts);
+        	
         	//2 step
         	$userLists[] = $UserDepartmentPostM->getFirstListsByDepartmentPostIds($departmentPosts);
         }
