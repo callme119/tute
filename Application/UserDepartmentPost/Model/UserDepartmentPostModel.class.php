@@ -11,7 +11,8 @@ class UserDepartmentPostModel EXTENDS Model{
 	 */
 	public function getListsByUseridAndPost($userId = null, $postId = null)
 	{
-		if($userId === null || $postId === null || !is_string($userId) || !is_string($postId))
+
+		if($userId === null || $postId === null || !is_numeric($userId) || !is_numeric($postId))
 		{
 			$this->error = "传入参数有误";
 			return false;
@@ -25,6 +26,7 @@ class UserDepartmentPostModel EXTENDS Model{
 		
 		if(count($return) == 0)
 		{
+			echo "hello";
 			$this->error = "当前流程的执行人员，部门或岗位发生变化，该流程无法正常执行。";
 			return false;
 		}
@@ -51,16 +53,17 @@ class UserDepartmentPostModel EXTENDS Model{
 	 */
 	public function getFirstListsByDepartmentPostIds($departmentPostlists)
 	{
+		$data = array();
 		foreach($departmentPostlists as $key => $value)
 		{
-			$map[department_post_id] = $value;
+			$map['department_post_id'] = $value;
 			$data = $this->where($map)->select();
 			if(count($data))
 			{
 				return $data;
 			}
 		}
-		return false;
+		return $data;
 	}
 	/**
 	 * 通过USERID获取列表数据

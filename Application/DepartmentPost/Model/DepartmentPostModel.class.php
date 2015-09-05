@@ -17,7 +17,7 @@ class DepartmentPostModel EXTENDS Model
 			$map['department_id'] = $value;
 			$map['post_id']	= $postId;
 			$data = $this->where($map)->find();
-			if(is_array($data))
+			if(!$data == null)
 			{
 				$return[$data[id]] = $data[id];
 			}
