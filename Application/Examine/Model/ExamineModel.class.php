@@ -135,14 +135,16 @@ class ExamineModel extends Model{
                 return false;
             }
 
-            $return = array();
             $map['now_post'] = $value[$keyWord];
             $map['a.state'] = 0;
             $field['a.id'] = 'id';
             $field['a.name'] = 'name';
             $field['a.chain_id'] = 'chain_id';
             $data = $this->alias('a')->field($field)->where($map)->join("left join __CHAIN__ b on a.chain_id = b.id")->select();
-            $return = array_merge($return,$data);           
+            foreach($data as $v)
+            {
+                $return[$v['id']] = $v;
+            }  
         }
         return $return;
     }
