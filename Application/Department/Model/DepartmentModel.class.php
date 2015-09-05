@@ -12,25 +12,38 @@ class DepartmentModel extends Model
 	public function getParentTreeByLists($currentDepartments , $keyWord = "department_id")
 	{
 		$return = array();
-		foreach($currentDepartments as $key => $value)
+		foreach($currentDepartments as $currentDepartment)
 		{
-			$parentId = $value[$keyWord];
-			do
-			{
-				$map[id] = $parentId;
-				$data = $this->where($map)->find();
-				if(count($data))
-				{
-					$return[$data[id]] = $data[id];
-					$parentId = $data['parent_id'];
-				}
-				else
-				{
-					$parentId = "0";
-				}
-			}
-			while($parentId != "0" || $i > 5);
+			$return[] = $this->getParentTreeByList($currentDepartment , $keyWord);
 		}
+		return $return;
+
+
+	}
+	/**
+	 * 通过包括有部门关键字的数据，获取该部门及上级部门的ID
+	 * @param  [array] $currentDepartment [一组数据]
+	 * @param  string $keyWord           [关键字]
+	 * @return [array]                    [本级及上级部门树]
+	 */
+	public function getParentTreeByList($currentDepartment , $keyWord = "department_id")
+	{
+		$parentId = $currentDepartment[$keyWord];
+		do
+		{
+			$map[id] = $parentId;
+			$data = $this->where($map)->find();
+			if(count($data))
+			{
+				$return[$data[id]] = $data[id];
+				$parentId = $data['parent_id'];
+			}
+			else
+			{
+				$parentId = "0";
+			}
+		}
+		while($parentId != "0" );
 		return $return;
 	}
 }
