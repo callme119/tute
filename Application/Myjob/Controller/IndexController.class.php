@@ -60,7 +60,7 @@ class IndexController extends AdminController{
         $PublicProjectDetailM = new PublicProjectDetailModel();
         $PublicProjectDetails = $PublicProjectDetailM->getListsByIds($workflowLists);
        
-        dump($PublicProjectDetails);
+        var_dump($PublicProjectDetails);
         //传值展示
         $this->assign("workflowLogLists",$workflowLogLists);
         $this->assign("workflowLists",$workflowLists);
