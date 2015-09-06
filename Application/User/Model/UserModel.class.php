@@ -9,12 +9,21 @@
 namespace User\Model;
 use Think\Model;
 class UserModel extends Model{
-	protected $error;
 
 	public function getAllName()
 	{
 		$res = $this->field('name,id')->select();
 		return $res;
+	}
+
+	/**
+	 * 规范化getUserById.为了保持程序向前兼容性。保留原函数
+	 * @param  [type] $id [description]
+	 * @return [type]     [description]
+	 */
+	public function getListById($id)
+	{
+		return $this->getUserById($id);
 	}
 	/**
 	 * 通过userid获取用户全部信息
