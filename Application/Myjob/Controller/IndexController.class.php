@@ -58,7 +58,7 @@ class IndexController extends AdminController{
         
         //获取项目详细数据
         $PublicProjectDetailM = new PublicProjectDetailModel();
-        $PublicProjectDetails = $PublicProjectDetailM->getListsByIds($workflowLists,'public_project_detail_id');
+        $PublicProjectDetails = $PublicProjectDetailM->getListsByIds($workflowLists);
        
         dump($PublicProjectDetails);
         //传值展示
