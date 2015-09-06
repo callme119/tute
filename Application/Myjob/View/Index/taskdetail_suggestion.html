@@ -1,24 +1,31 @@
 <div class="form-group">
     <label for="inputEmail3" class="col-sm-2 control-label">审核意见</label>
     <div class="col-sm-8">
-        <textarea class="form-control" rows="3">同意</textarea>
+        <textarea class="form-control" rows="3" name="commit">同意</textarea>
     </div>
 </div>
 <div class="form-group">
     <div class="col-sm-offset-3">
-        <input type="radio" checked="checked" name="quux" id="baz[1]" >
+        <input type="radio" checked="checked" name="process_type" id="baz[1]" >
         <label for="baz[1]" >同意</label>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-        <input type="radio" name="quux" id="baz[2]" >
+        <input type="radio" name="process_type" id="baz[2]" >
         <label for="baz[2]" >退回申请人</label>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <input type="radio" name="quux" id="baz[3]" >
+        <input type="radio" name="process_type" id="baz[3]" >
         <label for="baz[3]" >搁置</label>
     </div>
 </div>
-<div>下一审核人:<foreach name="users" item="value">
+<div class="form-group"><label class="col-sm-2 control-label">下一审核人:</label><php>
+        if($users === false) echo "<h5>对不起，您所在的部门在该流程结点上未找到审核人。<br />或您近期的部门岗位发生变动，这将导致您不能继续原有流程。</h5>";
+    </php><foreach name="users" item="value">
     <php>$user = W("User\getUserById" ,array($value[user_id]));</php>
-    <input type="radio" name="nextPostUser" value="{$user.id}" />{$user.name}
+    <input type="radio" name="user_id" value="{$user.id}" />{$user.name}
 </foreach></div>
 <div class="form-group" align="center"><br/></div>
+<div class="form-group" align="center">
+    <div class="col-md-3 col-md-offset-4" >
+        <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-check"></i>完成</button>
+    </div>
+</div>
