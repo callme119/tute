@@ -17,7 +17,7 @@ use Department\Model\DepartmentModel;//部门表
 use Post\Model\PostModel;//岗位表
 use Myjob\Logic\MyjobLogic; //逻辑层
 use DepartmentPost\Model\DepartmentPostModel; //
-// use Project\Model\ProjectModel; //项目信息表
+use PublicProjectDetail\Model\PublicProjectDetailModel; //项目信息表
 use Chain\Logic\ChainLogic;
 class IndexController extends AdminController{
     /**
@@ -54,13 +54,13 @@ class IndexController extends AdminController{
 
         //获取上一个提交者的用户信息
         $users = $userM->getListsByLists($workflowLists , "subscribe_user_id");
-        // dump($users);
+        dump($workflowLists);
         
         //获取项目详细数据
-        // $projectM = new ProjectModel();
-        // $projects = $projectM->getListsByIds($workflows,'project_id');
+        $PublicProjectDetailM = new PublicProjectDetailModel();
+        $PublicProjectDetails = $PublicProjectDetailM->getListsByIds($workflowLists,'public_project_detail_id');
        
-
+        dump($PublicProjectDetails);
         //传值展示
         $this->assign("workflowLogLists",$workflowLogLists);
         $this->assign("workflowLists",$workflowLists);
