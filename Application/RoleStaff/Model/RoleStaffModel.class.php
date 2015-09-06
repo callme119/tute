@@ -7,7 +7,7 @@
  */
 namespace RoleStaff\Model;
 use Think\Model;
-use StaffManagement\Model\StaffManagementModel;
+use User\Model\UserModel;
 class RoleStaffModel extends Model{
 	/**
 	 * [getStaffListByRoleId 通过角色id获取该角色中的教工列表]
@@ -21,7 +21,7 @@ class RoleStaffModel extends Model{
 		$data = change_key($data,'staff_id');
 
 		//根据教工id获取教工信息
-		$staffModel = new StaffManagementModel;
+		$staffModel = new UserModel;
 		foreach ($data as $key => $value) {
 			$data[$key] = $staffModel->getStaffById($value['staff_id']);
 		}
@@ -30,7 +30,7 @@ class RoleStaffModel extends Model{
 
 	public function getOutRoleStaffByRoleId($roleId){
 		//获取总的教工列表
-		$staffModel = new StaffManagementModel;
+		$staffModel = new UserModel;
 		$data = $staffModel->getStaffList();
 		$data = change_key($data,'id');
 

@@ -70,7 +70,7 @@ class UserModel extends Model{
 	}
 
 
-		//获取教工列表
+	//获取教工列表
 	public function getStaffList(){
 		$data = $this -> select();
 		return $data;
