@@ -1,64 +1,40 @@
     <div class="row">
-		<div class="col-md-8">
+      <div class="col-md-8">
 
         <a href="{:U('Myjob/Index/unfinished')}" type="button" class="btn btn-info"><i class="fa fa-angle-left "></i>&nbsp;返回</a>
-			<div class="panel panel-default">
+        <div class="panel panel-default">
 
-			<!-- Default panel contents -->
-                <div class="panel-body">
-                    
-                    <form class="form-horizontal">
-				        <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">项目名称</label>
-				            <h5>《智能机器技术 此处需要获取项目信息中传过来的所以的HTML代码.</h5>
-				        </div>		        
-				        <div class="form-group">
-				            <label for="inputEmail3" class="col-sm-2 control-label">申请人</label>
-				            <h5>张三</h5>
-				        </div>
-                        <div class="form-group">
-				            <label for="inputEmail3" class="col-sm-2 control-label">审核意见</label>
-                            <p>
-                            <foreach name="workflowLogs" item="value">
-                                <eq name="value.is_commited" value="1">
-                                &nbsp;{$value[time]|date="Y.m.d H:i",###}&nbsp;{:W("User/GetUserNameById",array($value[user_id]))}：&nbsp;{$value[commit]}<br/>
-                                </eq>
-                            </foreach>
-                            </p>
-				        </div>
-                       
-                        <div class="form-group">
-				            <label for="inputEmail3" class="col-sm-2 control-label">审核意见</label>
-				            <div class="col-sm-8">
-				                <textarea class="form-control" rows="3">同意</textarea>
-				            </div>
-                        </div>
-                         <div class="form-group">
-                            <div class="col-sm-offset-3">
-                                <input type="radio" checked="checked" name="quux" id="baz[1]" >
-                                <label for="baz[1]" >同意</label>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <!-- Default panel contents -->
+         <div class="panel-body">
             
-                                <input type="radio" name="quux" id="baz[2]" >
-                                 <label for="baz[2]" >退回申请人</label>
-                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="radio" name="quux" id="baz[3]" >
-                                <label for="baz[3]" >搁置</label>
-                            </div>
-                        </div>
-                        <div>下一审核人:<foreach name="users" item="value">
-                            <php>$user = W("User\getUserById" ,array($value[user_id]));</php>
-                            <input type="radio" name="nextPostUser" value="{$user.id}" />{$user.name}
-                        </foreach></div>
-                        <div class="form-group" align="center"><br/></div>
-                        <div class="form-group" align="center">
-                            <div class="col-md-3 col-md-offset-4" >
-				                <a class="btn btn-block btn-primary" ><i class="fa fa-check"></i>完成</a>
-                            </div>
-                        </div >
-                    </form>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">项目名称</label>
+                    <h5>《智能机器技术 此处需要获取项目信息中传过来的所以的HTML代码.</h5>
+                </div>		        
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">申请人</label>
+                    <h5>张三</h5>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">审核意见</label>
+                    <p>
+                        <foreach name="workflowLogs" item="value">
+                            <eq name="value.is_commited" value="1">
+                                &nbsp;{$value[time]|date="Y.m.d H:i",###}&nbsp;{:W("User/GetUserNameById",array($value[user_id]))}：&nbsp;{$value[commit]}<br/>
+                            </eq>
+                        </foreach>
+                    </p>
+                </div>
+                <div class="form-group" align="center">
+                    <div class="col-md-3 col-md-offset-4" >
+                        <a class="btn btn-block btn-primary" ><i class="fa fa-check"></i>完成</a>
+                    </div>
+                </div>
+                
+            </form>
         </div>
     </div>
+</div>
+</div>
 
