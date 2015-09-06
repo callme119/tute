@@ -25,6 +25,33 @@ class WorkflowLogModel extends Model
 		return $return;
 	}
 	/**
+	 * 通过以下关键字获取列表信息.最后改为更灵活的数组传值。
+	 * @param  nubmer $user_id     用户关键字
+	 * @param  number $is_clicked  是否被点击。0为未点击，待办。
+	 * @param  number $is_commited 是否已办。1为已办。
+	 * @param  nubmer $is_shelved  是否被搁置。1为搁置。
+	 * @return array              二维LIST列表
+	 */
+	public function getListsByUserIdIsClickIsCommitedIsShelved($user_id,$map = array())
+	{
+		$where['user_id'] = $user_id;
+
+		if(isset($map['isClicked']))
+		{
+			$where["is_clicked"] = $map['isClicked'];
+		}	
+		if(isset($map['isCommited']))
+		{
+			$where['is_commited'] = $map['isCommited'];
+		}
+		if(isset($map['isShelved']))
+		{
+			$where['is_shelved'] = $map['isShelved'];
+		}
+		
+		return $this->where($where)->select();
+	}
+	/**
 	 * 依据工作流ID,获取此工作流下的所有工作流日志信息
 	 * @param  [string] $workflowId [工作流ID]
 	 * @return [array]             [所以关于此工作流的留痕]
@@ -51,7 +78,7 @@ class WorkflowLogModel extends Model
 	{
 		if(!is_numeric($id))
 		{
-			$this->error("传入id有误");
+			$this->error ="传入id有误";
 			return false;
 		}
 
@@ -69,7 +96,7 @@ class WorkflowLogModel extends Model
 	{
 		if(!is_numeric($id))
 		{
-			$this->error("参数不正确");
+			$this->error = "参数不正确";
 			return false;
 		}
 
@@ -77,7 +104,7 @@ class WorkflowLogModel extends Model
 		$data = $this->where($map)->find();
 		if($data == null)
 		{
-			$this->error("记录未找到");
+			$this->error = "记录未找到";
 			return false;
 		}
 		return $data;

@@ -28,45 +28,16 @@ class IndexController extends AdminController{
      */
     
     public function unfinishedAction() {
-        $test = new ChainLogic();
-        $data = $test->getNextExaminUsersByUserIdAndId(5,24);
-        if(!$data)
-        {
-            echo $test->getError();
-        }
-
-        //获取用户ID
+        
+        //获取USERID
         $userId = get_user_id();
 
-        //取用户基本信息
-        $userM = new UserModel();
-        $user = $userM->getUserById($userid);
+        //获取当前用户下的待办信息
+        $map['isClicked'] = '0';
+        $this->getMyJobByUserIdIsClickedIsCommitedIsShelved($userId, $map);
 
-        //获取当前用户的待办工作
-        $workflowLogM = new WorkflowLogModel();
-        $workflowLogLists = $workflowLogM->getTodoListsByUserId($userId);
-        dump($workflowLogLists);
-
-        //获取当前待办工作的工作流数据
-        $workflowM = new WorkflowModel();
-        $workflowLists = $workflowM->getListsByLists($workflowLogLists , 'workflow_id');
-
-        //获取上一个提交者的用户信息
-        $users = $userM->getListsByLists($workflowLists , "subscribe_user_id");
-
-        //获取项目详细数据
-        $PublicProjectDetailM = new PublicProjectDetailModel();
-        $PublicProjectDetails = $PublicProjectDetailM->getListsByIds($workflowLists);
-
-        //传值展示
-        $this->assign("workflowLogLists",$workflowLogLists);
-        $this->assign("workflowLists",$workflowLists);
-        $this->assign('users',$users);
-        $this->assign('detail',$PublicProjectDetails);
-        // $this->assign("projects",$projects);
         $this->assign('YZBODY',$this->fetch('unfinished'));
         $this->display(YZTemplate);
-        
     }
     /**
      * 审批详情:
@@ -130,7 +101,6 @@ class IndexController extends AdminController{
         }
 
         //传值
-        $this->assing("error",$this->error);
         $this->assign('doUser',$doUser);
         $this->assign("users",$users);
         $this->assign('showSuggestion',$showSuggestion);
@@ -205,30 +175,21 @@ class IndexController extends AdminController{
         }
 
     }
-    /**
-     * 被审批项目详情
-     * @return [type]
-     */
-     public function  projectDetailAction(){
-       $this->assign('YZBODY',$this->fetch('projectdetail'));
-        $this->display(YZTemplate);
-    }
-    
-    public function  newExamineAction(){
-       $this->assign('YZBODY',$this->fetch('newexamine'));
-        $this->display(YZTemplate);
-    }
-    
-    public function  examineListAction(){
-       $this->assign('YZBODY',$this->fetch('examinelist'));
-        $this->display(YZTemplate);
-    }
+
     /**
      * 在办工作
      * @return 
      */
     public function  doingAction(){
-       $this->assign('YZBODY',$this->fetch('doing'));
+        $userId = get_user_id();
+
+        //获取当前用户下的在办信息
+        $map['isClicked'] = '1';    //已点击
+        $map['isCommited'] = '0';   //未提交
+        $map['isShelved'] = '0';    //未搁置
+        $this->getMyJobByUserIdIsClickedIsCommitedIsShelved($userId, $map);
+
+        $this->assign('YZBODY',$this->fetch('unfinished'));
         $this->display(YZTemplate);
     }
     /**
@@ -236,27 +197,86 @@ class IndexController extends AdminController{
      * @return [type]
      */
     public function  finishedAction(){
-       $this->assign('YZBODY',$this->fetch('finished'));
+        $userId = get_user_id();
+
+        //获取当前用户下的待办信息
+        $map['isClicked'] = '1';    //已点击
+        $map['isCommited'] = '1';   //已提交
+        $this->getMyJobByUserIdIsClickedIsCommitedIsShelved($userId, $map);
+
+        $this->assign('YZBODY',$this->fetch('unfinished'));
         $this->display(YZTemplate);
     }
-    
-     public function  finishedProjectDetailAction(){
-       $this->assign('YZBODY',$this->fetch('finishedprojectdetail'));
+    /**
+     * 搁置工作列表
+     * @return [type] [description]
+     */
+    public function shelvedAction()
+    {
+        $userId = get_user_id();
+
+        //获取当前用户下的在办信息
+        $map['isClicked'] = '1';    //已点击
+        $map['isCommited'] = '0';   //未提交
+        $map['isShelved'] = '1';    //已搁置
+        $this->getMyJobByUserIdIsClickedIsCommitedIsShelved($userId, $map);
+
+        $this->assign('YZBODY',$this->fetch('unfinished'));
         $this->display(YZTemplate);
     }
-    
-    public function  finishedTaskDetailAction(){
-       $this->assign('YZBODY',$this->fetch('finishedtaskdetail'));
-        $this->display(YZTemplate);
-    }
-    
-     public function  doingTaskDetailAction(){
-       $this->assign('YZBODY',$this->fetch('doingtaskdetail'));
-        $this->display(YZTemplate);
-    }
-    
-    public function  doingProjectDetailAction(){
-       $this->assign('YZBODY',$this->fetch('doingprojectdetail'));
-        $this->display(YZTemplate);
+
+    /**
+     * 通过不同的状态字信息，获取各种工作状态。
+     * TODO：如果一条工作被自己审核过两次。比如说，自己是申请人，又是提交人，那么会生成两次。
+     * 这个，能弄掉，但是有弄掉还是会有问题。就是分页信息不准了。
+     * 而mysql 的DISTINCT 返回值还会有问题。
+     * 所以：如果想解决。。还得想办法。。
+     * @param  [type] $userId [description]
+     * @param  array  $map    [description]
+     * @return [type]         [description]
+     */
+    public function getMyJobByUserIdIsClickedIsCommitedIsShelved($userId , $map = array())
+    {
+        $test = new ChainLogic();
+        $data = $test->getNextExaminUsersByUserIdAndId(5,24);
+        if(!$data)
+        {
+            echo $test->getError();
+        }
+
+        //取用户基本信息
+        $userM = new UserModel();
+        $user = $userM->getUserById($userid);
+
+        //获取当前用户的待办工作
+        $workflowLogM = new WorkflowLogModel();  
+        $workflowLogLists = $workflowLogM->getListsByUserIdIsClickIsCommitedIsShelved($userId,$map);
+
+
+        //去除重复的工作流信息.但这样有个问题，没有办法分页了。暂时去掉
+        // $tem = array();
+        // foreach($workflowLogLists as $key => $value)
+        // {
+        //     $tem[$value["workflow_id"]] = $value;
+        // }  
+        // $workflowLogLists = $tem;
+
+        //获取当前待办工作的工作流数据
+        $workflowM = new WorkflowModel();
+        $workflowLists = $workflowM->getListsByLists($workflowLogLists , 'workflow_id');
+
+        //获取上一个提交者的用户信息
+        $users = $userM->getListsByLists($workflowLists , "subscribe_user_id");
+
+        //获取项目详细数据
+        $PublicProjectDetailM = new PublicProjectDetailModel();
+        $PublicProjectDetails = $PublicProjectDetailM->getListsByIds($workflowLists);
+
+        //传值展示
+        $this->assign("workflowLogLists",$workflowLogLists);
+        $this->assign("workflowLists",$workflowLists);
+        $this->assign('users',$users);
+        $this->assign('detail',$PublicProjectDetails);
+
     }
 }
