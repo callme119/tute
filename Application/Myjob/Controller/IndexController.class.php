@@ -77,55 +77,73 @@ class IndexController extends AdminController{
      * 3792535@qq.com
      */
     public function  taskDetailAction(){
-        $workflowId = I('get.id');
-        if(!is_numeric($workflowId) || empty($workflowId)) 
+        $workflowLogId = I('get.id');
+        if(!is_numeric($workflowLogId) || empty($workflowLogId)) 
         {
-            $this->error("未正确的传入参数,或参数传入错误");
+            $this->_empty();
             return;
         }
+
+        //取流程基本信息
+        $WorkflowLogM = new WorkflowLogModel();
+        $workflowLog = $WorkflowLogM->getListById($workflowLogId);
 
         //获取当前用户信息
         $userId = get_user_id();
 
+        //判断当前结点是否属于用户
+        if($workflowLog['user_id'] != $userId)
+        {
+            $this->error = "当前结点并不属于当前用户";
+            $this->_empty();
+            return;
+        }
+
+        //取流程ID
+        $workflowId = $workflowLog["workflow_id"];
+
+        //取该流程对应的所有审核意见
+        $workflowLogs = $WorkflowLogM->getListsByWorkflowId($workflowId);
+        
         //取流程基本信息
         $workflowM = new WorkflowModel();
         $workflow = $workflowM->getListById($workflowId);
-        dump($workflow);
 
         // //TODO取流程对应项目的基本信息
         // $projectM = new ProjectModel();
         // $project = getHtmlInfoById($workflow[project_id]);
 
-        //取该流程对应的所有审核意见
-        $workflowLogM = new WorkflowLogModel();
-        $workflowLogs = $workflowLogM->getListsByWorkflowId($workflow[id]);
-        
-        //检查权限
-        $myjobL = new MyjobLogic();
-        if(!$myjobL->checkUserPermissionInWorkflowLogs($userId,$workflowLogs))
+        //设置已读
+        $WorkflowLogM->setIsClickedById($workflowLogId);
+        //设置是否已办,未办则显示审核意见，已办则不需显示 
+        if($workflowLog['is_commited'] == '0')
         {
-            $this->error("对不起，您无此操作权限");
-            return;
+            
+            //获取该项目的下一结点审核人员
+            $ChainL = new ChainLogic();
+
+            $users = $ChainL->getNextExaminUsersByUserIdAndId($userId , $workflow['chain_id']); 
+        }
+        else
+        {
+            //取在/待办人信息
+            $doUser = $WorkflowLogM->getListByWorkflowIdAndIsCommit($workflowId , '0');
         }
 
-        //设置已读
-        $workflowLogM->setIsClickedById($workflowId);
-        
-        //取当前流程结点的状态。如果未办，而且是自已是待办，返回true.
-        //否则返回false
-        $state =  $workflowLogM->getListById($workflowId);
-        
-        //获取该项目的下一结点审核人员
-        $ChainL = new ChainLogic();
-        $users = $ChainL->getNextExaminUsersByUserIdAndId($userId , $workflow['chain_id']);
-        dump($users);
-
         //传值
+        $this->assign('doUser',$doUser);
         $this->assign("users",$users);
+        $this->assign('showSuggestion',$showSuggestion);
         $this->assign('project',$project);
-        $this->assign('workflowLogs',$workflowLogs);
+        $this->assign('workflowLog',$workflowLog);
+        $this->assign('workflow',$workflow);
         $this->assign('YZBODY',$this->fetch('taskdetail'));
         $this->display(YZTemplate);
+    }
+
+    public function saveAction()
+    {
+        
     }
     /**
      * 被审批项目详情

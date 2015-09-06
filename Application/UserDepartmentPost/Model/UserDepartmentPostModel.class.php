@@ -26,7 +26,6 @@ class UserDepartmentPostModel EXTENDS Model{
 		
 		if(count($return) == 0)
 		{
-			echo "hello";
 			$this->error = "当前流程的执行人员，部门或岗位发生变化，该流程无法正常执行。";
 			return false;
 		}

@@ -82,4 +82,18 @@ class WorkflowLogModel extends Model
 		}
 		return $data;
 	}
+	/**
+	 * 通过workflowid 与is_commit的值来获取信息
+	 * @var string
+	 */
+	public function getListByWorkflowIdAndIsCommit($workflowId = null , $isCommited = '0')
+	{
+		if(!is_numeric($workflowId) || !is_numeric($isCommited))
+		{
+			$this->error = "未传入正确的值";
+		}
+		$map['workflowId'] = $workflowId;
+		$map['is_commited'] = $isCommited;
+		return $this->where($map)->find();
+	}
 }
