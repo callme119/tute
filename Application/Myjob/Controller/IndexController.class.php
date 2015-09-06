@@ -45,12 +45,11 @@ class IndexController extends AdminController{
         //获取当前用户的待办工作
         $workflowLogM = new WorkflowLogModel();
         $workflowLogLists = $workflowLogM->getTodoListsByUserId($userId);
-        // dump($workflowLogLists);
+        dump($workflowLogLists);
 
         //获取当前待办工作的工作流数据
         $workflowM = new WorkflowModel();
         $workflowLists = $workflowM->getListsByLists($workflowLogLists , 'workflow_id');
-         dump($workflowLists);
 
         //获取上一个提交者的用户信息
         $users = $userM->getListsByLists($workflowLists , "subscribe_user_id");
@@ -58,7 +57,7 @@ class IndexController extends AdminController{
         //获取项目详细数据
         $PublicProjectDetailM = new PublicProjectDetailModel();
         $PublicProjectDetails = $PublicProjectDetailM->getListsByIds($workflowLists);
-        var_dump($PublicProjectDetails);
+
         //传值展示
         $this->assign("workflowLogLists",$workflowLogLists);
         $this->assign("workflowLists",$workflowLists);
@@ -131,6 +130,7 @@ class IndexController extends AdminController{
         }
 
         //传值
+        $this->assing("error",$this->error);
         $this->assign('doUser',$doUser);
         $this->assign("users",$users);
         $this->assign('showSuggestion',$showSuggestion);
@@ -146,7 +146,7 @@ class IndexController extends AdminController{
         //获取用户选择的类型
         $type = I('post.process_type');
         $workflowLogId = I('post.id');
-        if(empty($type) || !is_numeric($type) || empty($id) || !is_numeric($id)
+        if(empty($type) || !is_numeric($type) || empty($id) || !is_numeric($id))
         {
             $this->error = "未接收到正确的变量：process_type或id";
             $this->_empty();
