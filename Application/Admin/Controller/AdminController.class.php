@@ -35,7 +35,10 @@ class AdminController extends Controller{
      * 如果不存在，跳转404界面
      */
     public function _empty(){
-        $this->redirect( 'Fail/Index/fail');
+        $tpl = T("Admin@Admin/fail");
+        $this->assign('error',$this->error);
+        $this->assign("YZBODY",$this->fetch($tpl));
+        $this->display(YZTemplate);
         exit();
     }
     public function __construct() {
