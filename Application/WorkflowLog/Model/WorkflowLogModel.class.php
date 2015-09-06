@@ -40,4 +40,46 @@ class WorkflowLogModel extends Model
 		$return = $this->where($map)->select();
 		return $return;
 	}
+
+	/**
+	 * 通过ID，设置已读
+	 * @param number $id 
+	 * 成功:true;
+	 * 失败:false;
+	 */
+	public function setIsClickedById($id = null)
+	{
+		if(!is_numeric($id))
+		{
+			$this->error("传入id有误");
+			return false;
+		}
+
+		$data['id'] = $id;
+		$data['is_clicked'] = '1';
+		$this->data($data)->save();
+		return true;
+	}
+	/**
+	 * 通过ID获取基本信息	
+	 * @param  number $id 
+	 * @return  无结果false
+	 */
+	public function getListById($id = null)
+	{
+		if(!is_numeric($id))
+		{
+			$this->error("参数不正确");
+			return false;
+		}
+
+		$map['id'] = $id;
+		$data = $this->where($map)->find();
+		if($data == null)
+		{
+			$this->error("记录未找到");
+			return false;
+		}
+		return $data;
+	}
 }
