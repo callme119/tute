@@ -28,7 +28,11 @@
                     </p>
                 </div>
                 <eq name="workflowLog.is_commited" value="0">
-                    <include file="taskdetail_suggestion" />
+                    <eq name="workflowLog.is_shelved" value="0">
+                        <include file="taskdetail_suggestion" />
+                    <else/>
+                        <TODO：这里是搁置与取消搁置的选择>
+                    </eq>
                 <else/>
                     <include file="taskdetail_show" />
                 </eq>              
