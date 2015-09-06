@@ -59,12 +59,12 @@ class IndexController extends AdminController{
         //获取项目详细数据
         $PublicProjectDetailM = new PublicProjectDetailModel();
         $PublicProjectDetails = $PublicProjectDetailM->getListsByIds($workflowLists);
-       
         var_dump($PublicProjectDetails);
         //传值展示
         $this->assign("workflowLogLists",$workflowLogLists);
         $this->assign("workflowLists",$workflowLists);
         $this->assign('users',$users);
+        $this->assign('detail',$PublicProjectDetails);
         // $this->assign("projects",$projects);
         $this->assign('YZBODY',$this->fetch('unfinished'));
         $this->display(YZTemplate);
