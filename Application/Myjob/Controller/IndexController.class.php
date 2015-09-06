@@ -18,7 +18,7 @@ use Post\Model\PostModel;//岗位表
 use Myjob\Logic\MyjobLogic; //逻辑层
 use DepartmentPost\Model\DepartmentPostModel; //
 use PublicProjectDetail\Model\PublicProjectDetailModel; //项目信息表
-use Chain\Logic\ChainLogic;
+use Chain\Logic\ChainLogic; //审核结点列表逻辑层。
 class IndexController extends AdminController{
     /**
      * 我的工作中待办工作界面
@@ -79,7 +79,7 @@ class IndexController extends AdminController{
      */
     public function  taskDetailAction(){
         $workflowId = I('get.id');
-        if(!is_string($workflowId) || empty($workflowId)) 
+        if(!is_numeric($workflowId) || empty($workflowId)) 
         {
             $this->error("未正确的传入参数,或参数传入错误");
             return;
@@ -93,7 +93,7 @@ class IndexController extends AdminController{
         $workflow = $workflowM->getListById($workflowId);
         dump($workflow);
 
-        // //取流程对应项目的基本信息
+        // //TODO取流程对应项目的基本信息
         // $projectM = new ProjectModel();
         // $project = getHtmlInfoById($workflow[project_id]);
 
@@ -108,45 +108,17 @@ class IndexController extends AdminController{
             $this->error("对不起，您无此操作权限");
             return;
         }
-        dump($workflowLogs);
+
+        //设置已读
+        $workflowLogM->setIsClickedById($workflowId);
         
-        //取下一审核结点的岗位信息
-        $chainM = new ChainModel();
-        $nextPostList = $chainM->getNextListById($workflow[chain_id]);
-        $nextPost = is_array($nextPostList)?$nextPostList[now_post]:null;
-        $nowPostList = $chainM->getListById($workflow[chain_id]);
-        $nowPost = $nowPostList[now_post];
-
-        dump($nextPostList);
-        dump($nowPostList);
-        dump($nextPost);
-        dump($nowPost);
-        //取当前用户当前岗位的当前部门
-        $userDepartmentPostM = new UserDepartmentPostModel();
-        $currentDepartments = $userDepartmentPostM->getListsByUseridAndPost($userId , $nowPost);
-
-        //返回值为false，则说明在上一步的审核中，未对chain_id进行变更。
-        //请检查SAVEACTON中，对chain的操作情况
-        if(!$currentDepartments)
-        {
-            $this->error("系统错误，该错误可能是岗位变动引起的，请联系管理员，错误代码：123");
-            return;
-        }
-        dump($currentDepartments);
-        //获取上级部门列表树(返回值去除树的样子,为平行数组)
-        //todo:如果用户处于两个部门的两个岗位时，需要重新考虑。
-        $departmentM = new DepartmentModel();
-        $parentDepartmentsTreeArray = $departmentM->getParentTreeByLists($currentDepartments , "department_id");
-        dump($parentDepartmentsTreeArray);
-
-        //取部门列表下，存在的下一审核岗位信息。
-        $DepartmentPostM = new DepartmentPostModel();
-        $departmentPosts = $DepartmentPostM->getListByDepartmentsAndPost($parentDepartmentsTreeArray,$nextPost);
-        dump($departmentPosts);
-
-        //取当前部门、岗位下的人员，有则直接返回第一个岗位部门下的列表。
-        $users = $userDepartmentPostM->getFirstListsByDepartmentPostIds($departmentPosts);
-
+        //取当前流程结点的状态。如果未办，而且是自已是待办，返回true.
+        //否则返回false
+        $state =  $workflowLogM->getListById($workflowId);
+        
+        //获取该项目的下一结点审核人员
+        $ChainL = new ChainLogic();
+        $users = $ChainL->getNextExaminUsersByUserIdAndId($userId , $workflow['chain_id']);
         dump($users);
 
         //传值
