@@ -50,12 +50,11 @@ class IndexController extends AdminController{
         //获取当前待办工作的工作流数据
         $workflowM = new WorkflowModel();
         $workflowLists = $workflowM->getListsByLists($workflowLogLists , 'workflow_id');
-        // dump($workflowLists);
+         dump($workflowLists);
 
         //获取上一个提交者的用户信息
         $users = $userM->getListsByLists($workflowLists , "subscribe_user_id");
-        dump($workflowLists);
-        
+
         //获取项目详细数据
         $PublicProjectDetailM = new PublicProjectDetailModel();
         $PublicProjectDetails = $PublicProjectDetailM->getListsByIds($workflowLists);
