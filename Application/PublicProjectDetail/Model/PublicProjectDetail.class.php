@@ -17,7 +17,7 @@ class PublicProjectDetailModel extends Model{
     		$map['id'] = $value[pulic_project_detail_id];
     		$value[$key][] = $this->where($map)->select();
     	}
-    	
+    	return $lists;
 
     }
 
