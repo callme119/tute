@@ -143,7 +143,67 @@ class IndexController extends AdminController{
 
     public function saveAction()
     {
+        //获取用户选择的类型
+        $type = I('post.process_type');
+        $workflowLogId = I('post.id');
+        if(empty($type) || !is_numeric($type) || empty($id) || !is_numeric($id)
+        {
+            $this->error = "未接收到正确的变量：process_type或id";
+            $this->_empty();
+            return;
+        }
+
+        //获取当前用户
+        $userId = get_user_id();
+
+        //获取当前审核结点信息
+        $WorkflowLogM = new WorkflowLogModel();
+        $workflowLog = $WorkflowLogM->getListById($workflowLogId);
+
+        //进行权限判断，即用户现在是否有权限对该审核结点进行操作
+        if($workflowLog['user_id'] != $userId)
+        {
+            $this->error = "对不起，无此操作权限";
+            $this->_empty();
+            return;
+        }
         
+        //判断流程状态
+        if($workflowLog['is_commited'] == '1' || $workflowLog['is_shelved'] == '1')
+        {
+            $this->error = "对不起，该流程结点已审核或已被搁置";
+            $this->_empty();
+            return;
+        }
+    
+        
+        //进行下一步审核操作处理
+        if($type == 0)
+        {
+            //改变前结审核结点信息。
+            //判断是否最后结点
+            //最后结点，改变当前流程信息
+        }
+
+        //用户选择退回申请人
+        elseif($type == 1)
+        {
+
+        }
+
+        //用户选择搁置
+        elseif($type == 2)
+        {
+
+        }
+
+        else
+        {
+            $this->error = "未接收到正确的变量：process_type";
+            $this->_empty();
+            return;
+        }
+
     }
     /**
      * 被审批项目详情
