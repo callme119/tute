@@ -19,7 +19,16 @@ use Myjob\Logic\MyjobLogic; //逻辑层
 use DepartmentPost\Model\DepartmentPostModel; //
 use PublicProjectDetail\Model\PublicProjectDetailModel; //项目信息表
 use Chain\Logic\ChainLogic; //审核结点列表逻辑层。
+use WorkflowLog\Logic\WorkflowLogLogic; //工作流结点
+
+use Workflow\Logic\WorkflowLogic;
 class IndexController extends AdminController{
+
+    public function testAction()
+    {
+        $WorkflowL = new WorkflowLogic();
+        $WorkflowL->add();
+    }
     /**
      * 我的工作中待办工作界面
      * 初始化界面
@@ -110,13 +119,16 @@ class IndexController extends AdminController{
         $this->assign('YZBODY',$this->fetch('taskdetail'));
         $this->display(YZTemplate);
     }
-
+    
+    /*
+     *  保存操作（审批 办结 退回拟稿人 搁置 取消搁置） 
+     * */
     public function saveAction()
     {
         //获取用户选择的类型
-        $type = I('post.process_type');
+        $type = I('post.type');
         $workflowLogId = I('post.id');
-        if(empty($type) || !is_numeric($type) || empty($id) || !is_numeric($id))
+        if(!is_numeric($type)) 
         {
             $this->error = "未接收到正确的变量：process_type或id";
             $this->_empty();
@@ -138,27 +150,28 @@ class IndexController extends AdminController{
             return;
         }
         
-        //判断流程状态
-        if($workflowLog['is_commited'] == '1' || $workflowLog['is_shelved'] == '1')
-        {
-            $this->error = "对不起，该流程结点已审核或已被搁置";
-            $this->_empty();
-            return;
-        }
-    
-        
-        //进行下一步审核操作处理
+        $WorkflowLogL = new WorkflowLogLogic();
+
+        //用户点击 同意 或是 办结。
         if($type == 0)
         {
-            //改变前结审核结点信息。
-            //判断是否最后结点
-            //最后结点，改变当前流程信息
+            if(!$WorkflowLogL->saveCommited())
+            {
+                $this->error = $WorkflowLogL->getError();
+                $this->_empty();
+                return;
+            }
         }
-
+       
         //用户选择退回申请人
         elseif($type == 1)
         {
-
+            if(!$WorkflowLogL->backToStart())
+            {
+                $this->error = $WorkflowLogL->getError();
+                $this->_empty();
+                return;
+            }
         }
 
         //用户选择搁置
@@ -174,6 +187,10 @@ class IndexController extends AdminController{
             return;
         }
 
+        //根据请求来源，给出跳出值。
+        $from = I('get.from');
+        $url = U('Myjob/Index/' . $from);
+        $this->success("操作成功" , $url);
     }
 
     /**
