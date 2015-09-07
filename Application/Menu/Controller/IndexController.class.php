@@ -60,7 +60,7 @@ class IndexController extends AdminController
         $id = I('get.id',0);
         $data['parent_id'] = $id;
         $title = "编辑菜单";
-
+        $this->assign("js",$this->fetch("addJs"));
         $this->assign('menuList',$this->_fetchMenuList());
         $this->assign('data',$data);
         $this->assign('title',$title);
@@ -75,7 +75,7 @@ class IndexController extends AdminController
         $title = "编辑菜单";
         $menuModel = new MenuModel();
         $data = $menuModel->getMenuById($id);
-
+        $this->assign("js",$this->fetch("addJs"));
         $this->assign('menuList',$this->_fetchMenuList());        
         $this->assign('data',$data);
         $this->assign('title',$title);

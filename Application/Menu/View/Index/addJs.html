@@ -1,15 +1,27 @@
-<script type="text/javascript">
-	$(document).ready(
+<script>
+	$(document).ready(function(){
+		$("#demoForm").validate({
+			rules:{
+				title:{
+					required:true,
+				},
+				module:{
+					required:true,
+				},
+				controller:{
+					required:true,
+				},
+				action:{
+					required:true,
+				},
+			},
+			messages: {
+   				title: "请输入标题",
+   				module:"请输入模块名",
+   				controller:"请输入控制器名",
+   				action:"请输入方法名",
+   			},
 
-		function()
-		{
-			$("#demoForm").validate({
-				rules:{
-					title:{
-						required:true,
-					}
-				}
-			});
-		}
-	);
+		})
+	});
 </script>
