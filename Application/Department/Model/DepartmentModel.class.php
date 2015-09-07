@@ -3,6 +3,13 @@ namespace Department\Model;
 use Think\Model;
 class DepartmentModel extends Model
 {
+	/**
+	 * [getDepartmentTree 获取部门树形结构]
+	 * @param  integer $rootDepatrmentId [根元素id]
+	 * @param  [type]  $layer            [层级]
+	 * @param  string  $keyWord          [子集元素的key值]
+	 * @return [type]                    [部门树形结构]
+	 */
 	public function getDepartmentTree($rootDepatrmentId = 0,$layer,$keyWord = '_son'){
 		//设置根元素id,获取一级元素
 		$map['parent_id'] = $rootDepatrmentId;
