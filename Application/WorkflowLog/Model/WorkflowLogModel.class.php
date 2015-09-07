@@ -8,6 +8,10 @@ namespace WorkflowLog\Model;
 use Think\Model;
 class WorkflowLogModel extends Model
 {
+	//设置自动完成规则
+	protected $_auto = array(
+		array('time','time',3,'function'),//在新增和编辑时，对time字段回调time()方法
+		);
 	/**
 	 * 通过userId获取待办的数据
 	 * @param  [type] $userId [用户ID]
