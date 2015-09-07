@@ -12,6 +12,7 @@
  */
 namespace Department\Controller;
 use Admin\Controller\AdminController;
+use Department\Model\DepartmentModel;
 class IndexController extends AdminController
 {
     public function indexAction()
@@ -22,6 +23,9 @@ class IndexController extends AdminController
             "post"=>U('post'),
             "people"=>U('people'),
             );
+        $departmentModel = new DepartmentModel;
+        $departmentTree = $departmentModel -> getDepartmentTree(0,2,null);
+        
         $this->assign('url',$url);
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);

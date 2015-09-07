@@ -88,7 +88,6 @@ class MenuModel extends Model{
      */
     private function _getMenuList($where,$layer){
         $menuList = $this->where($where)->order(array('order'=>'desc'))->select();
-
         //如果结果为空,则返回false
         if( $menuList == null)
             return false;

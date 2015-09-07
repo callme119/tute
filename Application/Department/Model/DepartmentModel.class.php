@@ -3,6 +3,26 @@ namespace Department\Model;
 use Think\Model;
 class DepartmentModel extends Model
 {
+	public function getDepartmentTree($rootDepatrmentId = 0,$layer,$keyWord = '_son'){
+		//设置根元素id,获取一级元素
+		$map['parent_id'] = $rootDepatrmentId;
+		$data = $this -> where($map) -> select();
+
+		//根据层级获得树形结构的所有元素
+		if($layer--){
+			foreach ($data as $key => $value) {
+				//以一级元素为根元素查找新的树
+				$rootDepatrmentId = $value['id'];
+				//通过/递归找到所有元素
+				$data[$key][$keyWord] = $this -> getDepartmentList($rootDepatrmentId,$layer,'_son');
+			}
+		}
+
+		return $data;
+		
+	}
+
+
 	/**
 	 * 通过部门ID，返回本部门及上级部门组成的列表。
 	 * @param  array $currentDepartments 包括有 部门ID 的多维数组
