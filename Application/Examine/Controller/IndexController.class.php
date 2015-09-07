@@ -8,6 +8,7 @@ use Admin\Controller\AdminController;
 use Post\Model\PostModel;
 use Examine\Model\ExamineModel;
 use Chain\Logic\ChainLogic; //审核结点表
+use Chain\Model\ChainModel; 
 use User\Model\UserModel; //用户表
 class IndexController extends AdminController{
      /**
@@ -52,11 +53,10 @@ class IndexController extends AdminController{
     public function getExamineUsersAction()
     {   
         //初始化数据
-        $chainId = I("get.id");
+        $examineId = I("get.id");
         $state = 'success';
-
         //判断空值 
-        if( empty($chainId) )
+        if( empty($examineId) )
         {
             $state = 'error';
             $data['message'] = '未传入正确的ID值，或传入的ID值有误';
@@ -64,7 +64,12 @@ class IndexController extends AdminController{
 
         //程序开始执行
         else
-        {
+        {   
+            $ExamineM = new ExamineModel();
+            $map = array();
+            $map['id'] = $examineId;
+            $examine = $ExamineM->where($map)->find();
+            $chainId = $examine['chain_id'];
             $userId = get_user_id();
 
             //取用户在当前审核流程下适用的岗位集合（一组数组）
