@@ -8,11 +8,11 @@
                     <div class="panel-body">
                         <button type="button" class="btn btn-info" onclick="javascript:history.back(-1);">返回</button>
                     </div>
-                    <form class="form-horizontal" action="{:U('addOk')}">
+                    <form class="form-horizontal" action="{$subUrl}" method="post">
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">岗位名称</label>
                             <div class="col-sm-4">
-                                <input class="form-control" id="inputEmail3" placeholder="岗位名称">
+                                <input class="form-control" id="inputEmail3" name="name"placeholder="岗位名称">
                             </div>
                         </div>
                         <div class="form-group">

@@ -4,7 +4,7 @@
             <div class="box">
                 <div class="box-body table-responsive">
                     <div class="panel-body">
-                        <button class="btn btn-info" onclick="location='{:U("add")}'">添加岗位</button>
+                        <button class="btn btn-info" onclick="location='{:U("addPost")}'">添加岗位</button>
                     </div>
                 <!-- Table -->
                     <table class="table table-bordered table-striped table-hover">
@@ -21,7 +21,7 @@
                                     <tr>
                                         <td>{$key+1}</td>
                                         <td>{$value.name}</td>
-                                        <td>{$value.remark}</td>
+                                        <td>{$value.remarks}</td>
                                         <td>  
                                             <button class="btn btn-sm btn-primary" onclick="location='{$value._url.editPost}'"><i class="fa fa-pencil"></i>编辑</button>
                                             <button class="btn btn-sm btn-danger" onclick="location='{$value._url.delete}'"><i class="fa fa-trash-o"></i>删除</button>
