@@ -16,4 +16,9 @@ class PostModel extends Model{
         return $data;
     }
 
+    public function getPostList(){
+    	$data = $this -> select();
+    	return $data;
+    }
+
 }
