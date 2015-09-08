@@ -65,7 +65,7 @@
                 <select name="chain_id" id="chain_id">
                 <option value="0">请选择</option>
                 <foreach name="examineLists" item="value">
-                    <option value="{$value[chain_id]}">{$value[name]}</option>
+                    <option value="{$value[id]}">{$value[name]}</option>
                 </foreach>
                 </select>
             </div>
@@ -138,6 +138,7 @@
 var data = "<div class='row team'><div class='col-md-3 form-group'><div class='input-group'><span class='input-group-addon'>团队人员姓名</span><select class='selectpicker form-control js-example-basic-multiple'><option>请选择</option><foreach name='name' item='value' key='key'><option value='{$value.userid}'>{$value.name}</option></foreach></select></div></div><div class='col-md-3 form-group'><div class='input-group'><span class='input-group-addon' id='basic-addon1'>团队分数占比</span><input type='text' class='form-control' aria-describedby='basic-addon1'></div></div></div>";
 $("#plus").click(function(){
     $(".team:last").after(data);
+    $(".js-example-basic-multiple").select2();
 });
 //减少团队人数
 $("#minus").click(function(){
