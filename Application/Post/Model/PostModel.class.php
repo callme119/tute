@@ -27,10 +27,11 @@ class PostModel extends Model{
     	$data = $this -> select();
     	return $data;
     }
+    
     public function addPost(){
     	$data = I('post.');
-    	$this -> add($data);
-    	return true;
+	$state = $this -> add($data);
+	return $state;
     }
 
 }

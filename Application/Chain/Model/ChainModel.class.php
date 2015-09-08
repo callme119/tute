@@ -46,7 +46,7 @@ class ChainModel extends Model {
        $examine = array();
        foreach ($postid as $value) {
            $post = new PostModel;
-           $info = $post->getPostInfo($value);
+           $info = $post->getPostInfoById($value);
            $examine[] = $info['name'];
        }
        return $examine;
