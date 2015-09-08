@@ -6,6 +6,9 @@ use User\Model\UserModel;
 use UserDepartmentPost\Model\UserDepartmentPostModel;
 use DepartmentPost\Model\DepartmentPostModel;
 use Examine\Model\ExamineModel; //审核基础数据表
+use PublicProjectDetail\Model\PublicProjectDetailModel;//教工添加公共细节表
+use Score\Model\ScoreModel;//分值表
+use CategoryOne\Model\CategoryOneModel;//数据模型类别一表
 class IndexController extends AdminController {
     public function indexAction(){
         //$this->assign('YZBODY',$this->fetch(T('scientificResearch')));
@@ -15,6 +18,7 @@ class IndexController extends AdminController {
         $this->display(YZTemplate);
     }
     public function savedAction() {
+
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }

@@ -46,8 +46,7 @@ class IndexController extends AdminController {
       $dataModel = new DatamodelOneModel();
       break;
       default:
-        //TODO error
-      $this->error('操作失败','add');
+      $this->error('操作成功','add');
       break;
     }
 
