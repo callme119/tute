@@ -81,4 +81,41 @@ class UserDepartmentPostModel EXTENDS Model{
 		$data = $this->where($map)->join("left join __DEPARTMENT_POST__ on __USER_DEPARTMENT_POST__.department_post_id = __DEPARTMENT_POST__.id")->select();
 		return $data;	
 	}
+
+	/**
+	 * 获取用户的岗位列表
+	 * @param  string $userId 用户表ID
+	 * @param  string $postId 岗位表ID
+	 * @return array         以岗位ID为KEY的数组
+	 */
+	public function getPostListByUserIdPostId($userId,$postId)
+	{
+		//查数
+		$map = array();
+		$map['a.user_id'] = $userId;
+		$map['b.post_id'] = $postId;
+		$data = $this->alias('a')->where($map)->join("left join __DEPARTMENT_POST__ b on a.department_post_id = b.id")->select();
+		
+		//按岗位信息分组
+		$return = array();
+		foreach($data as $value)
+		{
+			$return[$value["post_id"]] = $value;
+		}
+		return $return;
+	}
+	/**
+	 * 获取用户的全部岗位部门信息
+	 * @param  string $id
+	 * @return array     用户的所以职位信息列表
+	 */
+	public function getDepartmentPostInfoListsById($id)
+	{
+		$map['a.user_id'] = $id;
+		$field['a.id'] = 'id';
+		$field['c.name'] = 'department_name';
+		$field['d.name'] = 'post_name';
+		$data = $this->alias("a")->field($field)->where($map)->join("left join __DEPARTMENT_POST__ b on a.department_post_id = b.id left join __DEPARTMENT__ c on b.department_id = c.id left join __POST__ d on b.post_id = d.id")->select();
+		return $data;
+	}
 }
