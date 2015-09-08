@@ -42,11 +42,14 @@ class IndexController extends AdminController {
     {
        //判断使用的数据模型
      switch(I('post.type')){
+      case 0:
+      $this->success('操作成功','add');
+      break;
       case 1:
       $dataModel = new DatamodelOneModel();
       break;
       default:
-      $this->error('操作成功','add');
+      $this->error('操作失败','add');
       break;
     }
 
