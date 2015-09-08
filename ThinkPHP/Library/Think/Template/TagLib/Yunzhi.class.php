@@ -1,6 +1,7 @@
 <?php
 namespace Think\Template\TagLib;
 use Think\Template\TagLib;
+use Think\Page;
 /**
  * CX标签库解析类
  */

@@ -21,7 +21,7 @@ class DepartmentModel extends Model
 				//以一级元素为根元素查找新的树
 				$rootDepatrmentId = $value['id'];
 				//通过/递归找到所有元素
-				$data[$key][$keyWord] = $this -> getDepartmentList($rootDepatrmentId,$layer,'_son');
+				$data[$key][$keyWord] = $this -> getDepartmentTree($rootDepatrmentId,$layer,'_son');
 			}
 		}
 
