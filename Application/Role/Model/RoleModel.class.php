@@ -53,4 +53,13 @@ class RoleModel extends Model{
 	$_POST['id'] = $id;
 	return true;
     }
+
+    //根据用户编号取角色名称
+    public function getRoleNameByUserId($id){
+        $roleId = $this->getRoleById($id);
+        $map = array();
+        $map[id] = $id;
+        $lists = $this->where($map)->find();
+        return $lists[name];
+    }
 }

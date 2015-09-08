@@ -6,10 +6,13 @@
  */
 namespace Post\Controller;
 use Admin\Controller\AdminController;
+use Post\Model\PostModel;
 class IndexController extends AdminController
 {
     public function indexAction()
     {
+        $postModel = new PostModel;
+        $postList = $postModel -> getPostList();
         $url=array(
             "addPost"=>U('addPost'),
             "editPost"=>U('editPost'),

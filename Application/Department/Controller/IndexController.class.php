@@ -21,6 +21,7 @@ class IndexController extends AdminController
         $departmentModel = new DepartmentModel;
         $departmentTree = $departmentModel -> getDepartmentTree(0,2,'_son');
         $departmentList = tree_to_list($departmentTree,1,'_son','_level','order');
+
         //url信息
         $url=array("editDepart"=>U('editDepart'),"post"=>U('post'),"people"=>U('people'),"delete"=>U('delete'));
         $departmentList = add_url($departmentList,'_url',$url,'id');

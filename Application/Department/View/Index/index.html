@@ -4,7 +4,7 @@
             <div class="box">
                 <div class="box-body table-responsive">
                     <div class="panel-body">
-                        <button class="btn btn-info" onclick="location='{$url['addDepart']}'">添加部门</button>
+                        <button class="btn btn-info" onclick="location='{:U('addDepart')}'">添加部门</button>
                     </div>
                 <!-- Table -->
                     <table class="table table-bordered table-striped table-hover">
@@ -37,10 +37,13 @@
                         </tbody>
                     </table>
                 </div>
+
+                <Yunzhi:page totalnumber = "100">
+                </Yunzhi:page>
+
             </div>
         </div>
     </div>
-    <Yunzhi:page totalnumber = "1000">
-    </Yunzhi:page>
+    
 </section>
 
