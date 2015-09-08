@@ -21,22 +21,38 @@ class ExamineModel extends Model{
         //先存入examine信息
         $count = count($post);
         foreach ($post as $key => $value) {
-            $data = array();
+            
             $model = new ChainModel;
             //按照链表的格式进行取值赋值
-            $id = $model->order('id desc')->find();
-            $data['id'] = $id['id']+1;
-            $data['pre_id'] = $id['id'];
-            $data['next_id'] = $id['id']+2;
-            $data['now_post'] = $value;
+            // $data['id'] = $id['id']+1;
+            // $data['pre_id'] = $id['id'];
+            // $data['next_id'] = $id['id']+2;
+            // $data['now_post'] = $value;
             //进行判断，将头结点的上一链表id与尾结点的下一链表id设为0
             if($key == 0){
+                $data = array();
                 $data['pre_id'] = 0;
-                $start_id = $id['id']+1;
+                $data['now_post'] = $value;
+                $id = $model->add($data);
+                $start_id = $id;
+                $data['id'] = $id;
+                $data['next_id'] = ++$id;
+                $model->save($data);
             }elseif ($key == $count-1) {
+                $data = array();
                 $data['next_id'] = 0;
+                $data['id'] = $id;
+                $data['now_post'] = $value;
+                $data['pre_id'] = $id-1;
+                $model->add($data);
+            }else{
+                $data = array();
+                $data['id'] = $id;
+                $data['now_post'] = $value;
+                $data['pre_id'] = $id-1;
+                $data['next_id'] = ++$id;
+                $model->add($data);
             }
-           $model->add($data);
         } 
         return $start_id;
     }
