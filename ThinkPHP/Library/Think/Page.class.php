@@ -41,9 +41,10 @@ class Page{
      */
     public function __construct($totalRows, $listRows=20, $parameter = array()) {
         C('VAR_PAGE') && $this->p = C('VAR_PAGE'); //设置分页参数名称
+
         /* 基础设置 */
         $this->totalRows  = $totalRows; //设置总记录数
-        $this->listRows   = $listRows;  //设置每页显示行数
+        $this->listRows   = C('PAGE_SIZE') === null ? $listRows : C('PAGE_SIZE');//设置每页显示行数
         $this->parameter  = empty($parameter) ? $_GET : $parameter;
         $this->nowPage    = empty($_GET[$this->p]) ? 1 : intval($_GET[$this->p]);
         $this->nowPage    = $this->nowPage>0 ? $this->nowPage : 1;
@@ -126,6 +127,10 @@ class Page{
                 if($page <= $this->totalPages){
                     $link_page .= '<li><a class="num" href="' . $this->url($page) . '">' . $page . '</a></li>';
                 }else{
+                    if($this->listRows == $this->totalRows)
+                    {
+                        $link_page .= '<li><a href="' . $this->url($page-1) . '" ><span class="current">1</span></a></li>'; 
+                    }               
                     break;
                 }
             }else{

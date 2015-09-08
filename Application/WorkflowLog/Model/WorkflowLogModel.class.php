@@ -8,10 +8,16 @@ namespace WorkflowLog\Model;
 use Think\Model;
 class WorkflowLogModel extends Model
 {
+	protected $totalCount = 0; //记录数据总数
 	//设置自动完成规则
 	protected $_auto = array(
 		array('time','time',3,'function'),//在新增和编辑时，对time字段回调time()方法
 		);
+
+	public function getTotalCount()
+	{
+		return $this->totalCount;
+	}
 	/**
 	 * 通过userId获取待办的数据
 	 * @param  [type] $userId [用户ID]
@@ -25,7 +31,8 @@ class WorkflowLogModel extends Model
 		$map["is_commited"] = 0; //用户未提交(待办或是在办)
 		$map["is_clicked"] = 0; //未点击(待办)
 		$map["is_shelved"] = 0; //未搁置
-		$return = $this->where($map)->select();
+		$return = $this->page($this->p,$this->pageSize)->where($map)->select();
+
 		return $return;
 	}
 	/**
@@ -52,8 +59,8 @@ class WorkflowLogModel extends Model
 		{
 			$where['is_shelved'] = $map['isShelved'];
 		}
-		
-		return $this->where($where)->select();
+		$this->totalCount = $this->where($where)->count();
+		return $this->page($this->p,$this->pageSize)->order('time desc')->where($where)->select();
 	}
 	/**
 	 * 依据工作流ID,获取此工作流下的所有工作流日志信息

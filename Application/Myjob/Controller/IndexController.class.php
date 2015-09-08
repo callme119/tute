@@ -41,7 +41,6 @@ class IndexController extends AdminController{
      */
     
     public function unfinishedAction() {
-        
         //获取USERID
         $userId = get_user_id();
 
@@ -247,7 +246,8 @@ class IndexController extends AdminController{
 
         //根据请求来源，给出跳出值。
         $from = I('get.from');
-        $url = U('Myjob/Index/' . $from);
+        $p = I('get.p');
+        $url = U('Myjob/Index/' . $from . '?p=' . $p);
         $this->success("操作成功" , $url);
     }
 
@@ -312,12 +312,6 @@ class IndexController extends AdminController{
      */
     public function getMyJobByUserIdIsClickedIsCommitedIsShelved($userId , $map = array())
     {
-        $test = new ChainLogic();
-        $data = $test->getNextExaminUsersByUserIdAndId(5,24);
-        if(!$data)
-        {
-            echo $test->getError();
-        }
 
         //取用户基本信息
         $userM = new UserModel();
@@ -326,7 +320,7 @@ class IndexController extends AdminController{
         //获取当前用户的待办工作
         $workflowLogM = new WorkflowLogModel();  
         $workflowLogLists = $workflowLogM->getListsByUserIdIsClickIsCommitedIsShelved($userId,$map);
-
+        $totalCount = $workflowLogM->getTotalCount();
 
         //去除重复的工作流信息.但这样有个问题，没有办法分页了。暂时去掉
         // $tem = array();
@@ -348,6 +342,7 @@ class IndexController extends AdminController{
         $PublicProjectDetails = $PublicProjectDetailM->getListsByIds($workflowLists);
 
         //传值展示
+        $this->assign("totalCount",$totalCount);
         $this->assign("workflowLogLists",$workflowLogLists);
         $this->assign("workflowLists",$workflowLists);
         $this->assign('users',$users);
