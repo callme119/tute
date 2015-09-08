@@ -1,6 +1,7 @@
 <?php
 namespace Think\Template\TagLib;
 use Think\Template\TagLib;
+use Think\Page;
 /**
  * CX标签库解析类
  */
@@ -8,10 +9,16 @@ class Yunzhi extends TagLib {
 
     // 标签定义
     protected $tags   =  array(
-    	'user'       =>  array('attr'=>'id,name'),
-        'page'      =>array('attr'=>'id,name,class,totalnumber','close'=>1)
+    	'user'      =>  array('attr'=>'id,name'),
+        'page'      =>  array('attr'=>'id,name,class,totalnumber'),
+        'test'      =>  array()
     );
 
+    public function _test($tag)
+    {
+         $parseStr = "hello";
+         return $parseStr;
+    }
     public function _user($tag,$content) {
     	//获取变量
     	$id = $tag['id'];
@@ -30,7 +37,7 @@ class Yunzhi extends TagLib {
     }
     /**
      * page标签解析
-     * 格式： <html:page id="" class="" totalnumber=""/>
+     * 格式： <html:page id="" class="" totalCount=""/>
      * @access public
      * @param array $tag 标签属性
      * @return string|void
@@ -39,9 +46,12 @@ class Yunzhi extends TagLib {
         $id         =   !empty($tag['id'])?$tag['id']: '_page';
         $name       =   $tag['name'];
         $class      =   !empty($tag['class'])?$tag['class']:'';
-        $totalnumber = !empty($tag['totalnumber'])?$tag['class']:'0';
-        $page = new Page($tag['totalnumber']);
-        $parseStr =  $page->show();
-        return $parseStr;
+        $totalCount =   !empty($tag['totalcount']) ? '$' . $tag['totalcount'] : '$totalCount';
+
+        $parseStr   =   "<?php ";
+        $parseStr   .=  '$page = new Think\Page('. $totalCount .');';
+        $parseStr   .=  'echo $page->show();';
+        $parseStr   .=  " ?>";
+        return  $parseStr;
     }
 }
