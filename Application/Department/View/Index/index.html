@@ -17,67 +17,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="success">
-                                <td>1</td>
-                                <td>经管学院</td>
-                                <td>教师、辅导员、系主任、办公室主任</a></td>
-                                <td>
-                                <button class="btn btn-sm btn-primary" onclick="location='{$url['editDepart']}'" ><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn btn-sm btn-danger"><i class="fa fa-trash-o "></i>删除</button>
-                                <button class="btn btn-sm btn-success" onclick="location='{$url['people']}'" ><i class="fa fa-edit "></i>人员信息</button>
-                                <button class="btn btn-sm btn-info" onclick="location='{$url['post']}'" ><i class="fa fa-trello"></i>岗位信息</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>|--经济系</td>
-                                <td>教师、辅导员、系主任、办公室主任</td>
-                                <td>
-                                <button class="btn btn-sm btn-primary" onclick="location='{$url['editDepart']}'" ><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn btn-sm btn-danger"><i class="fa fa-trash-o "></i>删除</button>
-                                <button class="btn btn-sm btn-success" onclick="location='{$url['people']}'" ><i class="fa fa-edit "></i>人员信息</button>
-                                <button class="btn btn-sm btn-info" onclick="location='{$url['post']}'" ><i class="fa fa-trello"></i>岗位信息</button>
-                                </td>
-                            </tr>
-                            <tr class="warning">
-                                <td>3</td>
-                                <td>|--|--办公部</td>
-                                <td>教师、辅导员、系主任、办公室主任</td>
-                                <td>
-                                <button class="btn btn-sm btn-primary" onclick="location='{$url['editDepart']}'" ><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn btn-sm btn-danger"><i class="fa fa-trash-o "></i>删除</button>
-                                <button class="btn btn-sm btn-success" onclick="location='{$url['people']}'" ><i class="fa fa-edit "></i>人员信息</button>
-                                <button class="btn btn-sm btn-info" onclick="location='{$url['post']}'" ><i class="fa fa-trello"></i>岗位信息</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>|--管理系</td>
-                                <td>教师、辅导员、系主任、办公室主任</td>
-                                <td>
-                                <button class="btn btn-sm btn-primary" onclick="location='{$url['editDepart']}'" ><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn btn-sm btn-danger"><i class="fa fa-trash-o "></i>删除</button>
-                                <button class="btn btn-sm btn-success" onclick="location='{$url['people']}'" ><i class="fa fa-edit "></i>人员信息</button>
-                                <button class="btn btn-sm btn-info" onclick="location='{$url['post']}'" ><i class="fa fa-trello"></i>岗位信息</button>
-                                </td>
-                            </tr>
+                        <foreach name="departmentList" item="value" key="key">
+                                    <tr class="success">
+                                        <td>{$key+1}</td>
+                                        <td><php> 
+                                            for( $level = 0; $level< $value['_level']; $level++)
+                                            echo "|----";
+                                            </php>
+                                            {$value.name}</td>
+                                        <td>{$value.name}</td>
+                                        <td>  
+                                            <button class="btn btn-sm btn-primary" onclick="location='{$value._url.editDepart}'"><i class="fa fa-pencil"></i>编辑</button>
+                                            <button class="btn btn-sm btn-danger" onclick="location='{$value._url.delete}'"><i class="fa fa-trash-o"></i>删除</button>
+                                            <button class="btn btn-sm btn-success" onclick="location='{$value._url.post}'"><i class="fa fa-users"></i>岗位信息</button>
+                                            <button class="btn btn-sm btn-success" onclick="location='{$value._url.people}'"><i class="fa fa-users"></i>人员信息</button>
+                                        </td>
+                                    </tr>
+                                    </foreach>
                         </tbody>
                     </table>
                 </div>
-                <nav>
-                    <ul class="pagination">
-                        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">2 <span class="sr-only"></span></a></li>
-                        <li><a href="#">3 <span class="sr-only"></span></a></li>
-                        <li><a href="#">4 <span class="sr-only"></span></a></li>
-                        <li>
-                            <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
         </div>
     </div>

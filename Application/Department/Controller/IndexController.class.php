@@ -22,12 +22,13 @@ class IndexController extends AdminController
         $departmentTree = $departmentModel -> getDepartmentTree(0,2,'_son');
         $departmentList = tree_to_list($departmentTree,1,'_son','_level','order');
         //url信息
-        $url=array("editDepart"=>U('editDepart'),"post"=>U('post'),"people"=>U('people'),);
+        $url=array("editDepart"=>U('editDepart'),"post"=>U('post'),"people"=>U('people'),"delete"=>U('delete'));
         $departmentList = add_url($departmentList,'_url',$url,'id');
         //传值
         $this->assign('departmentList',$departmentList);
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
+
     }
     public function addDepartAction(){
         $this->assign('css',$this->fetch("departCss"));
