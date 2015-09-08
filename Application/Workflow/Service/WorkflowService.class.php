@@ -1,10 +1,10 @@
 <?php
 /**
- * 我的工作，服务接口
+ * 工作流 ，服务接口
  * panjie 
  * 3792535@qq.com
  * */
- namespace Myjob\Service;
+ namespace Workflow\Service;
  use Examine\Model\ExamineModel;	//审核流程表
  use Chain\Model\ChainModel;		//审核流程链表
  use Workflow\Model\WorkflowModel;	//工作流表
@@ -12,7 +12,7 @@
  use UserDepartmentPost\Model\UserDepartmentPostModel;	//用户部门岗位表
  use Chain\Logic\ChainLogic;
 
- class MyjobService
+ class WorkflowService
  {
  	protected $error;
 
@@ -32,13 +32,22 @@
     }
 
     /**
-     * 添加新的工作流
+     * 定义统一的错误返回信息
+     * @return string 内部发生错误
+     */
+    public function getError()
+    {
+        return $this->error;
+    }
+
+    /**
+     * 添加新的工作流 新的工作流被用户点“提交时触发”
      * @param num $userId                申请人\拟搞人
      * @param number $examineId             审核流程ID
      * @param num $publicProjetcDetailId 项目ID
      * @param num $checkUserId           用户选择的工作流审核人员
      */
-    public function add($userId , $examineId , $publicProjetcDetailId, $checkUserId)
+    public function add($userId , $examineId , $publicProjetcDetailId, $checkUserId , $commit = "申请")
     {
     	//取审核流程信息
     	$ExamineM = new ExamineModel();
@@ -47,7 +56,7 @@
     	$examine = $ExamineM->where($map)->find();
     	if(!$examine)
     	{
-    		$this->error = "传入examineid有误，不存在该审核流程记录";
+    		$this->error = "传入examineid值为'$examineId'有误，不存在该审核流程记录";
     		return false;
     	}
 
@@ -61,8 +70,8 @@
     	//判断申请人是否具有该岗位
     	$postId = $chain['now_post'];
     	$UserDepartmentPostM = new UserDepartmentPostModel();
-    	$userDepartmentPost = $UserDepartmentPostM->getListByUserIdPostId($userId,$postId);
-    	if($userDepartmentPost == null)
+    	$userDepartmentPost = $UserDepartmentPostM->getPostListByUserIdPostId($userId,$postId);
+    	if(count($userDepartmentPost) == 0)
     	{
     		$this->error = "该用户选择的审核流程不在其可选范围内";
     		return false;
@@ -70,7 +79,7 @@
 
     	//取当前用户当前结点的所有审核用户列表
     	$ChainL = new ChainLogic();
-    	$userLists = $ChainM->getNextExaminUsersByUserIdAndId($userId , $chainId);
+    	$userLists = $ChainL->getNextExaminUsersByUserIdAndId($userId , $chainId);
 
 
     	//判断传入 审核用户 是否处于列表中
@@ -94,19 +103,38 @@
     	$workflowId = $WorkflowM->add();
 
     	//存工作流结点表
+        //当前用户增加已办信息
+        $data   = array();
+        $data['workflow_id']    = $workflowId;
+        $data['pre_id'] = '0';
+        $data['user_id'] = $userId;
+        $data['is_clicked'] = "1";
+        $data['is_commited'] = "1";
+        $data['commit'] = $commit;
+        $WorkflowLogM = new WorkflowLogModel();
+        if(!$WorkflowLogM->create($data))
+        {
+            $this->error = $WorkflowLogM->getError();
+            $this->error .= "工作流表数据已经写进去了……，郁闷的，就这样吧。";
+            return false;
+        }
+        $preId = $WorkflowLogM->add();
+
+        //下一用户增加待办信息
     	$data 	= array();
     	$data['workflow_id']	= $workflowId;
-    	$data['pre_id'] = '0';
+    	$data['pre_id'] = $preId;
     	$data['user_id'] = $checkUserId;
-    	$WorkflowLogM = new WorkflowLogM();
+    	$WorkflowLogM = new WorkflowLogModel();
     	if(!$WorkflowLogM->create($data))
     	{
     		$this->error = $WorkflowLogM->getError();
-    		$this->error .= "工作流表数据已经写进去了……，郁闷的，就这样吧。"
+    		$this->error .= "工作流表数据已经写进去了……，郁闷的，就这样吧。";
     		return false;
     	}
-    	$WorkflowLogm->add();
+    	$WorkflowLogM->add();
 
-    	return;
+    	return true;
     }
+
  }
