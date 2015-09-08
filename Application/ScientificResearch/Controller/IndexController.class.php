@@ -24,9 +24,15 @@ class IndexController extends AdminController {
      * 
      */
     public function savedAction() {
+        $CategoryOneM = new CategoryOneModel();
+        $CategoryOne = $CategoryOneM->save();
 
         $PublicProjectDetailM = new PublicProjectDetailModel();
-        $PublicProjectDetail = PublicProjectDetailM->
+        $PublicProjectDetail = $PublicProjectDetailM->save();
+
+        $ScoreM = new ScoreModel();
+        $Score = ScoreM->save();
+
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
