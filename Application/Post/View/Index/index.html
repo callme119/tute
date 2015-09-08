@@ -1,74 +1,38 @@
-
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                
                 <div class="box-body table-responsive">
                     <div class="panel-body">
-                        <button class="btn btn-info" onclick="location='{$url['addPost']}'">添加岗位</button>
+                        <button class="btn btn-info" onclick="location='{:U("add")}'">添加岗位</button>
                     </div>
+                <!-- Table -->
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>序号</th>
-                                <th>岗位名</th>
-                                <th>参与审批</th>
+                                <th>岗位名称</th>
+                                <th>岗位描述</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="success">
-                                <td>1</td>
-                                <td>校长</td>
-                                <td>否</td>
-                                <td>
-                                <button class="btn btn-sm btn-primary" onclick="location='{$url['editPost']}'"><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn btn-sm btn-danger" onclick=""><i class="fa fa-trash-o "></i>删除</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>副校长</td>
-                                <td>否</td>
-                                <td>
-                                <button class="btn btn-sm btn-primary" onclick="location='{$url['editPost']}'"><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn btn-sm btn-danger" onclick=""><i class="fa fa-trash-o "></i>删除</button>
-                                </td>
-                            </tr>
-                            <tr class="warning">
-                                <td>3</td>
-                                <td>系主任</td>
-                                <td>是</td>
-                                <td>
-                                <button class="btn btn-sm btn-primary" onclick="location='{$url['editPost']}'"><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn btn-sm btn-danger" onclick=""><i class="fa fa-trash-o "></i>删除</button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>科研秘书</td>
-                                <td>是</td>
-                                <td>
-                                <button class="btn btn-sm btn-primary" onclick="location='{$url['editPost']}'"><i class="fa fa-pencil"></i>编辑</button>
-                                <button class="btn btn-sm btn-danger" onclick=""><i class="fa fa-trash-o "></i>删除</button>
-                                </td>
-                            </tr>
+                            <foreach name="postList" item="value" key="key">
+                                    <tr class="success">
+                                        <td>{$key+1}</td>
+                                        <td>{$value.name}</td>
+                                        <td>{$value.remark}</td>
+                                        <td>  
+                                            <button class="btn btn-sm btn-primary" onclick="location='{$value._url.editPost}'"><i class="fa fa-pencil"></i>编辑</button>
+                                            <button class="btn btn-sm btn-danger" onclick="location='{$value._url.delete}'"><i class="fa fa-trash-o"></i>删除</button>
+                                        </td>
+                                    </tr>
+                                    </foreach>
                         </tbody>
                     </table>
                 </div>
-                <nav>
-                    <ul class="pagination">
-                        <li class="disabled"><a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
-                        <li class="active"><a href="#">1 <span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">2 <span class="sr-only"></span></a></li>
-                        <li><a href="#">3 <span class="sr-only"></span></a></li>
-                        <li><a href="#">4 <span class="sr-only"></span></a></li>
-                        <li>
-                            <a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-                        </li>
-                    </ul>
-                </nav>
+                <Yunzhi:page totalnumber = "100">
+                </Yunzhi:page>
             </div>
         </div>
     </div>

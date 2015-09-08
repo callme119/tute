@@ -15,7 +15,8 @@ class IndexController extends AdminController
         $postList = $postModel -> getPostList();
         $url=array("deletePost"=>U('deletePost'),"editPost"=>U('editPost'));
         $postList = add_url($postList,'_url',$url,'id');
-        
+
+        $this->assign('postList',$postList);
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
