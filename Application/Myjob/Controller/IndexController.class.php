@@ -21,13 +21,17 @@ use PublicProjectDetail\Model\PublicProjectDetailModel; //项目信息表
 use Chain\Logic\ChainLogic; //审核结点列表逻辑层。
 use WorkflowLog\Logic\WorkflowLogLogic; //工作流结点
 
-use Workflow\Logic\WorkflowLogic;
+use Workflow\Service\WorkflowService;
 class IndexController extends AdminController{
 
     public function testAction()
     {
-        $WorkflowL = new WorkflowLogic();
-        $WorkflowL->add();
+        $WorkflowS = new WorkflowService();
+        if(!$WorkflowS->add(5,7,1,3,"这里存的是申请信息"))
+        {
+            $this->error = $WorkflowS->getError();
+            $this->_empty();
+        }
     }
     /**
      * 我的工作中待办工作界面
@@ -114,6 +118,7 @@ class IndexController extends AdminController{
         $this->assign("users",$users);
         $this->assign('showSuggestion',$showSuggestion);
         $this->assign('project',$project);
+        $this->assign('workflowLogs',$workflowLogs);
         $this->assign('workflowLog',$workflowLog);
         $this->assign('workflow',$workflow);
         $this->assign('YZBODY',$this->fetch('taskdetail'));
@@ -155,7 +160,7 @@ class IndexController extends AdminController{
         //用户点击 同意 或是 办结。
         if($type == 0)
         {
-            if(!$WorkflowLogL->saveCommited())
+            if(!$WorkflowLogL->saveCommited($workflowLogId))
             {
                 $this->error = $WorkflowLogL->getError();
                 $this->_empty();
@@ -177,9 +182,48 @@ class IndexController extends AdminController{
         //用户选择搁置
         elseif($type == 2)
         {
+            //查询是否为在办。
+            $map = array();
+            $map['id'] = $workflowLogId;
+            $map['is_commited'] = '0';
+            if($WorkflowLogM->where($map)->find() == null)
+            {
+                $this->error = "该流程已办结，不适用搁置操作";
+                $this->_empty();
+            }
 
+            //更新搁置数据
+            $data = array();
+            $data['id'] = $workflowLogId;
+            $data['is_shelved'] = "1";
+            $data['commit'] = I('post.commit');
+            $WorkflowLogM->data($data)->save();
         }
 
+        //用户选择取消搁置
+        elseif($type == "3")
+        {
+            //查询是否为待办，且已搁置。
+            $map = array();
+            $map['id'] = $workflowLogId;
+            $map['is_commited'] = '0';
+            $map['is_shelved']  = '1';
+            if($WorkflowLogM->where($map)->find() == null)
+            {
+                $this->error = "该流程已办结，不适用搁置操作";
+                $this->_empty();
+                return false;
+            }
+
+            //更新搁置数据
+            $data = array();
+            $data['id'] = $workflowLogId;
+            $data['is_shelved'] = "0";
+            $data['commit'] = I('post.commit');
+            $WorkflowLogM->data($data)->save();
+        }
+
+        //其它
         else
         {
             $this->error = "未接收到正确的变量：process_type";

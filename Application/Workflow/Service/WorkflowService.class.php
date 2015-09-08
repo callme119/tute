@@ -92,7 +92,7 @@
     	//添加工作流数据
     	$data = array();
     	$data['examine_id'] = $examineId;
-    	$data['chain_id']	= $chainId;
+    	$data['chain_id']	= $chain['next_id']; //既然用户已经提交了，那好。就应该是下一结点。
     	$data['public_project_detail_id'] 	= $publicProjetcDetailId;
     	$WorkflowM = new WorkflowModel();
     	if(!$WorkflowM->create($data))

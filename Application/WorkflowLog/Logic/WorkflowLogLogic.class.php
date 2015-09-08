@@ -12,15 +12,21 @@ use Chain\Logic\ChainLogic; 			//审核链表，用于取下一审核人信息
 use Examine\Model\ExamineModel;			//审核流程表
 class WorkflowLogLogic extends Model
 {
+	private $id;
+	private $workflowLog;
 	/**
 	 * 存入 审核意见 并改变相关状态
 	 */
-	public function saveCommited()
+	public function saveCommited($id)
 	{
 		if(!$this->_validate())
 		{
 			return false;
-		}
+		} 
+
+		$id = $this->id;
+		$workflowLog = $this->workflowLog;
+		
 		//取工作流 信息
 		$workflowId = $workflowLog['workflow_id'];
 		$WorkflowM = new WorkflowModel();
@@ -49,7 +55,7 @@ class WorkflowLogLogic extends Model
 			$currentUserId = get_user_id();
 			$ChainL = new ChainLogic();
 			$userLists = $ChainL->getNextExaminUsersByUserIdAndId($currentUserId , $chainId);
-			
+
 			if(!isset($userLists[$userId]))
 			{
 				$this->error = "用户提交的审核人，未在该流程的审核列表中";
@@ -68,6 +74,7 @@ class WorkflowLogLogic extends Model
 			$data['workflow_id'] = $workflowId;
 			$data['user_id'] = $userId;
 
+			$WorkflowLogM = new WorkflowLogModel();
 			if(!$WorkflowLogM->create($data))
 			{
 				$this->error = "程序内部错误，错误代码：29231。出错原因：数据创建过程出错";
@@ -87,7 +94,7 @@ class WorkflowLogLogic extends Model
 			$WorkflowM->data($data)->save();
 		}
 
-		//写工作流结点信息
+		//更新本工作流结点信息
 		$data = array();
 		$data['id'] = $id;
 		$data['is_commited'] = '1';
@@ -109,13 +116,13 @@ class WorkflowLogLogic extends Model
 		$id = I('post.id');
 		//查找第一个人是谁。
 		$WorkflowLogM = new WorkflowLogModel();
-		$start = $WorkflowLogM->getStartById($id);
+		$start = $WorkflowLogM->getStartListById($id);
 		$userId = $start['user_id'];
 
 		//查找本工作流结点
 		$map = array();
 		$map['id'] = $id;
-		$workflowLog = $WorkflowM->where($map)->find();
+		$workflowLog = $WorkflowLogM->where($map)->find();
 
 		//查找本工作流
 		$workflowId = $workflowLog['workflow_id'];
@@ -129,7 +136,7 @@ class WorkflowLogLogic extends Model
 		$ExamineM = new ExamineModel();
 		$map = array();
 		$map['id'] = $examineId;
-		$examine = $Examine->where($map)->find();
+		$examine = $ExamineM->where($map)->find();
 		$chainId = $examine['chain_id'];
 
 		//更新本工作流结点
@@ -142,6 +149,8 @@ class WorkflowLogLogic extends Model
 		//添加下条工作流结点。
 		$data = array();
 		$data['pre_id'] = $id;
+		$data['user_id'] = $userId;
+		$data['workflow_id'] = $workflowId;
 		if(!$WorkflowLogM->create($data))
 		{
 			$this->error = $WorkflowLogM->getError();
@@ -154,7 +163,8 @@ class WorkflowLogLogic extends Model
 		$data['id'] = $workflowId;
 		$data['chain_id'] = $chainId;
 		$WorkflowM->data($data)->save();
-		return;
+
+		return true;
 	}
 
 	/**
@@ -179,6 +189,8 @@ class WorkflowLogLogic extends Model
 			$this->error = "用户在尝试操作一个状态为 已办 或 搁置 的记录";
 			return false;
 		}
+		$this->id = $id;
+		$this->workflowLog  = $workflowLog ;
 		return true;
 	}
 }

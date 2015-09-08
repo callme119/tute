@@ -38,4 +38,23 @@ class WorkflowLogWidget {
 
     }
 
+    public function getUserNameByWorkflowId($workflowId)
+    {
+        $map = array();
+        $map['is_commited'] = "0";
+        $map['workflow_id'] = $workflowId;
+        $WorkflowLogM = new WorkflowLogModel();
+        $workflowLog = $WorkflowLogM->where($map)->find();
+        if($workflowLog == null)
+        {
+            echo "";
+            return;
+        }
+
+        $userId = $workflowLog['user_id'];
+        $UserM = new UserModel();
+        $user = $UserM->getListById($userId);
+        echo $user['name'];
+    }
+
 }

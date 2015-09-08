@@ -123,8 +123,31 @@ class WorkflowLogModel extends Model
 		{
 			$this->error = "未传入正确的值";
 		}
-		$map['workflowId'] = $workflowId;
+		$map['workflow_id'] = $workflowId;
 		$map['is_commited'] = $isCommited;
 		return $this->where($map)->find();
+	}
+
+	/**
+	 * 查找首结点信息
+	 * @param  string $id id
+	 * @return 该结点链表的首结点     array
+	 */
+	public function getStartListById($id)
+	{
+		do
+		{
+			$map = array();
+			$map['id'] = $id;
+			$data = $this->where($map)->find();
+			if($data == null)
+			{
+				$this->error = "查找结点时发生错误，该原因可以是存结点表时发生的，也可能是用户传入了错误的数据造成的";
+				return false;
+			}
+			$id = $data['pre_id'];
+		}
+		while($id != 0);
+		return $data;
 	}
 }
