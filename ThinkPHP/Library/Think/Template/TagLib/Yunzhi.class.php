@@ -8,10 +8,8 @@ class Yunzhi extends TagLib {
 
     // 标签定义
     protected $tags   =  array(
-	'user'       =>  array('attr'=>'id,name'),
-            'page'      =>array('attr'=>'id,name,class,totalnumber','close'=>1),
-            );
-
+    	'user'       =>  array('attr'=>'id,name'),
+        'page'      =>array('attr'=>'id,name,class,totalnumber','close'=>1)
     );
 
     public function _user($tag,$content) {
