@@ -11,14 +11,22 @@ use Score\Model\ScoreModel;//分值表
 use CategoryOne\Model\CategoryOneModel;//数据模型类别一表
 class IndexController extends AdminController {
     public function indexAction(){
-        //$this->assign('YZBODY',$this->fetch(T('scientificResearch')));
-
-        //$this->show('scientificResearch');
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
+    /**
+     *  保存数据步骤：
+     *  1.判断数据模型类型
+     *  2.根据数据模型类型先存类别表，如果没数据，返回错误；有数据返回类别id
+     *  3.拼接类别的字符串
+     *  4.存公共项目表，返回公共项目表的id
+     *  5.存分数表
+     * 
+     */
     public function savedAction() {
 
+        $PublicProjectDetailM = new PublicProjectDetailModel();
+        $PublicProjectDetail = PublicProjectDetailM->
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
