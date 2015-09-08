@@ -8,6 +8,7 @@
                         <thead>
                             <tr>
                                 <th class="id">序号</th>
+                                <th class="workflow_id">审核编号</th>
                                 <th class="name">项目名称</th>
                                 <th class="type">项目类别</th>
                                 <th class="subject">申请人</th>
@@ -21,6 +22,7 @@
                         <foreach name="workflowLogLists" item="value">
                             <tr>
                                 <td>{$i++}</td>
+                                <td>{$workflowLists[$value[workflow_id]][id]}</td>
                                 <td>
                                 {$detail[$workflowLists[$value[workflow_id]][public_project_detail_id]][project_title]}</td>
                                 <td>{$detail[$workflowLists[$value[workflow_id]][public_project_detail_id]][category_description]}</td>
