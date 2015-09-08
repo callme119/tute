@@ -12,8 +12,6 @@ class Yunzhi extends TagLib {
             'page'      =>array('attr'=>'id,name,class,totalnumber','close'=>1),
             );
 
-    );
-
     public function _user($tag,$content) {
     	//获取变量
     	$id = $tag['id'];
