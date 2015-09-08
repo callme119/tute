@@ -27,7 +27,7 @@ class IndexController extends AdminController{
     public function testAction()
     {
         $WorkflowS = new WorkflowService();
-        if(!$WorkflowS->add(5,7,1,3,"这里存的是申请信息"))
+        if(!$WorkflowS->add(5,8,1,10,"这里存的是申请信息"))
         {
             $this->error = $WorkflowS->getError();
             $this->_empty();
@@ -113,6 +113,19 @@ class IndexController extends AdminController{
             $doUser = $WorkflowLogM->getListByWorkflowIdAndIsCommit($workflowId , '0');
         }
 
+        //取审核链信息
+        $chainId = $workflow['chain_id'];
+        $ChainM = new ChainModel();
+        $map = array();
+        $map['id'] = $chainId;
+        $chain = $ChainM->where($map)->find();
+        if($chain == null)
+        {
+            $this->error = "审核链接点数据取出错误，chainId值为$chainId";
+            $this->_empty();
+            return false;
+        }
+
         //传值
         $this->assign('doUser',$doUser);
         $this->assign("users",$users);
@@ -120,6 +133,7 @@ class IndexController extends AdminController{
         $this->assign('project',$project);
         $this->assign('workflowLogs',$workflowLogs);
         $this->assign('workflowLog',$workflowLog);
+        $this->assign('chain',$chain);
         $this->assign('workflow',$workflow);
         $this->assign('YZBODY',$this->fetch('taskdetail'));
         $this->display(YZTemplate);

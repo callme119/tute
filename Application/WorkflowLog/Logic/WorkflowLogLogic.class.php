@@ -34,6 +34,8 @@ class WorkflowLogLogic extends Model
 		$map['id'] = $workflowId;
 		$workflow = $WorkflowM->where($map)->find();
 
+		$WorkflowLogM = new WorkflowLogModel();
+
 		//判断是否最后结点
 		$chainId = $workflow['chain_id'];
 
@@ -99,7 +101,7 @@ class WorkflowLogLogic extends Model
 		$data['id'] = $id;
 		$data['is_commited'] = '1';
 		$data['commit'] = I('post.commit');
-		$WorkflowLogM->data($data)->save();		
+		$WorkflowLogM->data($data)->save();	
 		return true;
 	}
 
