@@ -11,17 +11,18 @@ return array(
     'DB_PWD'    => 'b2408cac49ed15d67c390dd08a8b0158',  // 密码b2408cac49ed15d67c390dd08a8b0158
     'DB_PORT'   => '3633', // 端口3306
 
-    'DB_TYPE'   => 'mysqli', // 数据库类型
+   'DB_TYPE'   => 'mysqli', // 数据库类型
     'DB_HOST'   => 'localhost', 
     'DB_NAME'   => 'performance', // 数据库名performancems
     'DB_USER'   => 'root', // 用户名performancems
     'DB_PWD'    => '',  // 密码b2408cac49ed15d67c390dd08a8b0158
+    'DB_PORT'   => '3366', // 端口3306 
     'DB_PORT'   => '3306', // 端口3306
     
     'DB_PREFIX' => 'yunzhi_', // 数据库表前缀
     'UPLOAD_ROOT_PATH' => '/Uploads',//附件上传根路径
     'SESSION_AUTO_START' => true, //开启session
-    'PAGE_SIZE' => '20',//分页中，每页显示的条数使用C(PAGE_SIZE)读取;
+    'PAGE_SIZE' => '10',//分页中，每页显示的条数使用C(PAGE_SIZE)读取;
 
     'TMPL_PARSE_STRING'  =>array(
          '__PUBLIC__' => __ROOT__ , // 更改默认的/Public 替换规则

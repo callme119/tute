@@ -109,9 +109,9 @@ class UserDepartmentPostModel EXTENDS Model{
 	 * @param  string $id
 	 * @return array     用户的所以职位信息列表
 	 */
-	public function getDepartmentPostInfoListsById($id)
+	public function getDepartmentPostInfoListsById($userId)
 	{
-		$map['a.user_id'] = $id;
+		$map['a.user_id'] = $userId;
 		$field['a.id'] = 'id';
 		$field['c.name'] = 'department_name';
 		$field['d.name'] = 'post_name';
