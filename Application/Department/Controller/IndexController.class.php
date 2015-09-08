@@ -17,18 +17,19 @@ class IndexController extends AdminController
 {
     public function indexAction()
     {
-        $url=array(
-            "addDepart"=>U('addDepart'),
-            "editDepart"=>U('editDepart'),
-            "post"=>U('post'),
-            "people"=>U('people'),
-            );
+        //获取部门列表
         $departmentModel = new DepartmentModel;
-        $departmentTree = $departmentModel -> getDepartmentTree(0,2,null);
-        
-        $this->assign('url',$url);
+        $departmentTree = $departmentModel -> getDepartmentTree(0,2,'_son');
+        $departmentList = tree_to_list($departmentTree,1,'_son','_level','order');
+
+        //url信息
+        $url=array("editDepart"=>U('editDepart'),"post"=>U('post'),"people"=>U('people'),"delete"=>U('delete'));
+        $departmentList = add_url($departmentList,'_url',$url,'id');
+        //传值
+        $this->assign('departmentList',$departmentList);
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
+
     }
     public function addDepartAction(){
         $this->assign('css',$this->fetch("departCss"));
@@ -82,4 +83,3 @@ class IndexController extends AdminController
         $this->success('保存成功',$url);
     }
 }
-

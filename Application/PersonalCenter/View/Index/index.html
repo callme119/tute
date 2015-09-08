@@ -9,19 +9,28 @@
                             <img src='{:add_root_path("/img/avatar3.png")}' class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info name">
-                            <p>王小红</p>
+                            <p>{$name}</p>
                         </div>
                     </div>
                     <div class="row col-md-offset-1">
-                        <div class="col-md-4 ">
-                            <div class="row ">
-                                <h4>岗位：教师</h4>
-                            </div>
-                            <div class="row ">
-                                <h4>部门：计算机系</h4>
-                            </div>
+                        <div class="col-md-6 ">
+                                <foreach name="lists" item="value" key ="k">
+                                    <eq name="k" value="0">
+                                    <div class="row ">
+                                        <h4>职位：
+                                                {$value.department_name}[{$value.post_name}]
+                                        </h4>
+                                    </div>
+                                    <else/>
+                                    <div class="row ">
+                                        <h4>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$value.department_name}[{$value.post_name}]
+                                        </h4>
+                                    </div>
+                                    </eq>
+                                </foreach>
                             <div class="row">
-                                <h4>角色：普通教师</h4>
+                                <h4>角色：{$role}</h4>
                             </div>
                             <div class="row hang ">
                                 <div class="input-group">

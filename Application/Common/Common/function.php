@@ -849,3 +849,21 @@ function treeToList($tree,$i,$type){
     }
     return $list;
 }
+/**
+ * [add_url 添加url信息]
+ * @param [type] $array     [要添加的信息数组]
+ * @param [type] $key1    [添加之后的数组下标]
+ * @param [type] $url_array [添加的url数组,键为存的下标值为要跳转的url]
+ *  * @param [type] $key2    [添加url的key]
+ * xuao 295184686@qq.com
+ */
+function add_url($array,$key1,$url_array,$key2){
+        $data = $array;
+        foreach ($data as $key => $value) {
+            foreach ($url_array as $k => $v) {
+                $url_array[$k] = $v.'?'.$key2.'='.$value[$key2];
+            }
+            $data[$key][$key1] = $url_array;
+        }
+        return $data;
+    }
