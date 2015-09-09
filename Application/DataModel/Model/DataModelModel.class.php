@@ -45,8 +45,8 @@ class DataModelModel extends Model
 	public function getCommonLists()
 	{
 		$return = array(
-			array("title"=>"名称", "name"=>"title" , "html_type" => "text"),
-			array("title" => "基础分值" , "name" => "sorce", "html_type" => "text"),
+			array("title"=>"名称", "name"=>"title" , "html_type" => "text" , "class" => ""),
+			array("title" => "基础分值" , "name" => "sorce", "html_type" => "text" , "class"=> ""),
 			);
 		return $return;
 	}
