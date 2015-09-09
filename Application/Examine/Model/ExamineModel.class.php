@@ -63,13 +63,22 @@ class ExamineModel extends Model{
     public function index($str = "->") {
         $chain = new ChainModel;
         //取出审批对应的基本信息
+        $list = array();
         $data = array();
-        $data = $this->select();
+        $list = $this->select();
+        //对lists数组进行排除，，将type为1的排除
+        foreach ($list as $key => $value){
+            if ($value['type'] == 0) {
+                $data[] = $value;
+            }
+        }
         //根据对应的num firstpost endpost取出整个审批流程
         $examine = array();
        foreach ($data as $key => $value) {
-           $chain->setFirstId($value['chain_id']);
-           $examine[] = $chain->getExamine();
+            if ($value['type'] == 0) {
+               $chain->setFirstId($value['chain_id']);
+               $examine[] = $chain->getExamine();
+            }         
        }
        $string = array();
        foreach ($examine as $key => $value) {
@@ -81,7 +90,9 @@ class ExamineModel extends Model{
            }
        }
        foreach ($data as $key => $value) {
-           $data[$key][string] = $string[$key];
+            if ($value['type'] == 0) {
+                $data[$key][string] = $string[$key];
+            }
        }
        return $data;
     }
@@ -165,5 +176,13 @@ class ExamineModel extends Model{
             }  
         }
         return $return;
+    }
+
+    //冻结审批流程
+    //传入examineID
+    public function freezen($id){
+        $data['id'] = $id;
+        $data['type'] = 1;
+        $this->save($data);
     }
 }

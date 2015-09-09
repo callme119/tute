@@ -18,6 +18,7 @@
                                     <td class="id">序号</td>
                                     <td class="name">审批流名称</td>
                                     <td class="name">审批详情</td>
+                                    <td class="delete">操作</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -27,6 +28,9 @@
                                     <td class="name">{$value.name}</td>
                                     <td class="name">
                                         {$value.string}
+                                    </td>
+                                    <td class="delete">
+                                        <a class="btn btn-sm btn-danger"  type="button" href="{:U('Examine/Index/freezen')}?id={$value.id}"><i class="fa fa-trash-o "></i>删除</a>
                                     </td>
                                 </tr>
                                 </foreach>
