@@ -6,8 +6,8 @@
  * @author xulinjie
  * 164408119@qq.com
  */
-namespace CategoryOne\Model;
+namespace ProjectDetailOne\Model;
 use Think\Model;
-class CategoryOneModel extends Model{
+class ProjectDetailOneModel extends Model{
 	
 }

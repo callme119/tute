@@ -6,9 +6,9 @@ use User\Model\UserModel;
 use UserDepartmentPost\Model\UserDepartmentPostModel;
 use DepartmentPost\Model\DepartmentPostModel;
 use Examine\Model\ExamineModel; //审核基础数据表
-use PublicProjectDetail\Model\PublicProjectDetailModel;//教工添加公共细节表
+use Project\Model\ProjectModel;//教工添加公共细节表
 use Score\Model\ScoreModel;//分值表
-use CategoryOne\Model\CategoryOneModel;//数据模型类别一表
+use ProjectDetailOne\Model\ProjectDetailOneModel;//数据模型类别一表
 class IndexController extends AdminController {
     public function indexAction(){
         $this->assign('YZBODY',$this->fetch());
@@ -24,14 +24,14 @@ class IndexController extends AdminController {
      * 
      */
     public function savedAction() {
-        $CategoryOneM = new CategoryOneModel();
-        $CategoryOne = $CategoryOneM->save();
+        $ProjectDetailOneM = new ProjectDetailOneModel();
+        $ProjectDetailOne = $ProjectDetailOneM->save();
 
-        $PublicProjectDetailM = new PublicProjectDetailModel();
-        $PublicProjectDetail = $PublicProjectDetailM->save();
+        $ProjectM = new ProjectModel();
+        $Project = $ProjectM->save();
 
         $ScoreM = new ScoreModel();
-        $Score = ScoreM->save();
+        $Score = $ScoreM->save();
 
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);

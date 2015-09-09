@@ -6,9 +6,9 @@
  * @author xulinjie
  * 164408119@qq.com
  */
-namespace PublicProject\Model;
+namespace ProjectCategory\Model;
 use Think\Model;
-class PublicProjectModel extends Model{
+class ProjectCategoryModel extends Model{
 
 	/**
 	*初始化方法

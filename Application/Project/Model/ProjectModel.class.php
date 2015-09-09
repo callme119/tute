@@ -6,9 +6,9 @@
  * @author denghaoyang
  * 275111108@qq.com
  */
-namespace PublicProjectDetail\Model;
+namespace Project\Model;
 use Think\Model;
-class PublicProjectDetailModel extends Model{
+class ProjectModel extends Model{
 	
 	//再取项目细节信息
     public function getListsByIds($lists){

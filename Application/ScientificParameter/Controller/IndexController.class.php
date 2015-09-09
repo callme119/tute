@@ -1,8 +1,8 @@
 <?php
 namespace ScientificParameter\Controller;
 use Admin\Controller\AdminController;
-use PublicProject\Model\PublicProjectModel;
-use DatamodelOne\Model\DatamodelOneModel;
+use ProjectCategory\Model\ProjectCategoryModel;
+use DataModelOne\Model\DataModelOneModel;
 class IndexController extends AdminController {
   public function indexAction(){
 
@@ -11,9 +11,9 @@ class IndexController extends AdminController {
   }
   //管理员进行公共项目添加的界面
   public function addAction() {
-    $projectM = new PublicProjectModel();
-    $project = $projectM->init();
-    $this->assign('project',$project);
+    $ProjectCategoryM = new ProjectCategoryModel();
+    $ProjectCategory = $ProjectCategoryM->init();
+    $this->assign('project',$ProjectCategory);
     $this->assign('YZBODY',$this->fetch());
     $this->display(YZTemplate);
   }
@@ -36,8 +36,8 @@ class IndexController extends AdminController {
  public function saveAction()
  {
 
-  $projectM = new PublicProjectModel();
-    $id = $projectM->saveProject();//返回存公共库成功的id
+  $ProjectCategoryM = new ProjectCategoryModel();
+    $id = $ProjectCategoryM->saveProject();//返回存公共库成功的id
     if($id)
     {
        //判断使用的数据模型
@@ -46,7 +46,7 @@ class IndexController extends AdminController {
       $this->success('操作成功','add');
       break;
       case 1:
-      $dataModel = new DatamodelOneModel();
+      $dataModel = new DataModelOneModel();
       break;
       default:
       $this->error('操作失败','add');
@@ -77,8 +77,8 @@ public function appendAction()
   $return = array('status' =>"success" ,'data'=>"" );
   $pid = I('get.id');
 
-  $projectM = new PublicProjectModel();
-  $res = $projectM->append($pid);
+  $ProjectCategoryM = new ProjectCategoryModel();
+  $res = $ProjectCategoryM->append($pid);
   $this->assign('data',$res);
   $return['data'] = $this->fetch();
     //echo $data;
