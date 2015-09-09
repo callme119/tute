@@ -18,43 +18,45 @@ class ExamineModel extends Model{
      * 无返回值
      */
     public function saveChain($post){
-        //先存入examine信息
-        $count = count($post);
+
+        //上下结点初始化
+        $preId = 0;
+        $nextId = 0;
+        $ChainM = new ChainModel;
         foreach ($post as $key => $value) {
-            
-            $model = new ChainModel;
-            if($key == 0){
-                $data = array();
-                $data['pre_id'] = 0;
-                $data['now_post'] = $value;
-                $id = $model->add($data);
-                $update = array();
-                $start_id = $id;
-                $map = array();
-                $map['id'] = $id;
-                $update['next_id'] = $id+1;
-                $id++;
-                var_dump($map);
-                var_dump($data);
-                var_dump($update);
-                $model->where($map)->data($update)->save();
-            }elseif ($key == $count-1) {
-                $data = array();
-                $data['next_id'] = 0;
-                $data['id'] = $id;
-                $data['now_post'] = $value;
-                $data['pre_id'] = $id-1;
-                $model->add($data);
-            }else{
-                $data = array();
-                $data['id'] = $id;
-                $data['now_post'] = $value;
-                $data['pre_id'] = $id-1;
-                $data['next_id'] = ++$id;
-                $model->add($data);
+
+             //传值 
+            $data = array();
+            $data['pre_id'] = $preId;
+            $data['now_post'] = $value;
+            $data['next_id'] = $nextId;
+
+            $ChainM->create($data);
+            $nextId = $ChainM->add();
+
+            //取出首结点信息
+            if($key == 0)
+            {
+                $startId = $nextId;
             }
-        } 
-        return $start_id;
+
+            //上个结点不为0，则更新上个结点信息 。
+            if($preId != 0)
+            {   
+                $data = array();
+                $data['id'] = $preId;
+                $data['next_id'] = $nextId;
+                $ChainMM = M('Chain');
+                $ChainMM->data($data)->save();
+                echo $ChainM->getLastSql();
+                dump($data);
+            }
+
+            //初始化下一循环
+            $preId = $nextId;
+            $nextId = 0;
+        }
+        return $startId;
     }
     
     //根据审批表与审批链表取的审理流程信息
