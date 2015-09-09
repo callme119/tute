@@ -23,21 +23,21 @@ class ExamineModel extends Model{
         foreach ($post as $key => $value) {
             
             $model = new ChainModel;
-            //按照链表的格式进行取值赋值
-            // $data['id'] = $id['id']+1;
-            // $data['pre_id'] = $id['id'];
-            // $data['next_id'] = $id['id']+2;
-            // $data['now_post'] = $value;
-            //进行判断，将头结点的上一链表id与尾结点的下一链表id设为0
             if($key == 0){
                 $data = array();
                 $data['pre_id'] = 0;
                 $data['now_post'] = $value;
                 $id = $model->add($data);
+                $update = array();
                 $start_id = $id;
-                $data['id'] = $id;
-                $data['next_id'] = ++$id;
-                $model->save($data);
+                $map = array();
+                $map['id'] = $id;
+                $update['next_id'] = $id+1;
+                $id++;
+                var_dump($map);
+                var_dump($data);
+                var_dump($update);
+                $model->where($map)->data($update)->save();
             }elseif ($key == $count-1) {
                 $data = array();
                 $data['next_id'] = 0;
@@ -114,7 +114,7 @@ class ExamineModel extends Model{
     // @param int $id
     // @param string $name
     // 无返回值
-    public function save($id,$name){
+    public function saveExamine($id,$name){
         $data = array();
         $data['chain_id'] = $id;
         $data['name'] = $name;

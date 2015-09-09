@@ -42,7 +42,7 @@ class IndexController extends AdminController{
         //获取该审批对应的头结点id
         $id = $model->saveChain($post);
         $name = I('post.name');
-        $model->save($id,$name);
+        $model->saveExamine($id,$name);
     }
     /**
      * 通过GET过来的流程ID值，查找当前用户，当前流程下的下一环节审核人员
