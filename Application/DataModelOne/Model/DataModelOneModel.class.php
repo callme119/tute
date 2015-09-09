@@ -6,13 +6,13 @@
  * @author xulinjie
  * 164408119@qq.com
  */
-namespace DatamodelOne\Model;
+namespace DataModelOne\Model;
 use Think\Model;
-class DatamodelOneModel extends Model{
+class DataModelOneModel extends Model{
 	public function save($id)
 	{
 		$data['score'] = I('post.score');
-		$data['cid'] = $id;
+		$data['project_category_id'] = $id;
 		if($this->add($data)){
 			return true;
 		}

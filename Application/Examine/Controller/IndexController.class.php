@@ -89,5 +89,13 @@ class IndexController extends AdminController{
         $return = array('state' => $state,'html'=> $html);
         $this->ajaxReturn($return);
     }
+
+    //冻结审批流程
+    public function freezenAction(){
+        $id = I('get.id');
+        $model = new ExamineModel;
+        $model->freezen($id);
+        $this->success('操作成功',index);
+    }
 }
     

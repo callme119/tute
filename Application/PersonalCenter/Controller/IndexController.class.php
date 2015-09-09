@@ -19,8 +19,9 @@ class IndexController extends AdminController {
         //取名称
         $role = $RoleModel->getRoleNameByUserId($id);
         $user = new UserModel;
-        $name = $user->getUserById($id);
-        $this->assign('name',$name['name']);
+        $info = $user->getUserById($id);
+        var_dump($info);    
+        $this->assign('info',$info);
         $this->assign('role',$role);
         $this->assign('lists',$lists);
         $this->assign('css',$this->fetch(T('indexCss')));
