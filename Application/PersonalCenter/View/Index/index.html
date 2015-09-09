@@ -9,7 +9,7 @@
                             <img src='{:add_root_path("/img/avatar3.png")}' class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info name">
-                            <p>{$name}</p>
+                            <p>{$info.name}</p>
                         </div>
                     </div>
                     <div class="row col-md-offset-1">
@@ -35,13 +35,13 @@
                             <div class="row hang ">
                                 <div class="input-group">
                                     <span class="input-group-addon">邮&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp箱</span>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" value="{$info.email}">
                                 </div>
                             </div>
                             <div class="row hang ">
                                 <div class="input-group">
                                     <span class="input-group-addon">手&nbsp&nbsp机&nbsp&nbsp&nbsp号</span>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" value="{$info.phone}">
                                 </div>
                             </div>
                             <div class="row hang ">
