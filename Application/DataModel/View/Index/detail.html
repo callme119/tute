@@ -1,0 +1,45 @@
+数据模型：{$DataModel[name]}
+<table>
+	<tr>
+		<th>序号</th>
+		<th>字段名称</th>
+		<th>存库字段名</th>
+		<th>类型</th>
+		<th>长度</th>
+		<th>无符号</th>
+		<th>允许为空</th>
+		<th>默认值</th>
+		<th>系数</th>
+		<th>html类型</th>
+	</tr>
+	<foreach name="dataModelDetailRoots" item="root">
+	<tr>
+		<td>{++$i}</td>
+		<td>{$root[title]}</td>
+		<td>{$root[name]}</td>
+		<td>{$root[type]}</td>
+		<td>{$root[length]}</td>
+		<td><eq name="root[is_unsigned]" value="0">否<else/>是</eq></td>
+		<td><eq name="root[is_empty]" value="0">否<else/>是</eq></td>
+		<td>{$root[default_value]}</td>
+		<td>{$root[ratio]}</td>
+		<td>{$root[html_type]}</td>	
+	</tr>
+	<php>if($root[html_type] == "select") : </php>
+		<foreach name="dataModelDetailSons[$root[id]]" item="son" key="k">
+		<tr>
+			<td>--</td>
+			<td>{$son[title]}</td>
+			<td>{$son[name]}</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>{$son[default_value]}</td>
+			<td>{$son[ratio]}</td>
+			<td>{$son[html_type]}</td>	
+		</tr>
+		</foreach>
+	<php>endif;</php>
+	</foreach>
+</table>

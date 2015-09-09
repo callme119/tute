@@ -23,7 +23,9 @@ class Model {
     const VALUE_VALIDATE        =   2;      // 表单值不为空则验
 
     protected $p                =   1;      //当前页
-    protected $pageSize         =   20;     //数据总条数
+    protected $pageSize         =   20;     //每页显示条数
+    protected $totalCount       =   0;      //数据总条数
+
     // 当前数据库操作对象
     protected $db               =   null;
 	// 数据库对象池
@@ -194,6 +196,15 @@ class Model {
         return isset($this->data[$name])?$this->data[$name]:null;
     }
 
+    /**
+     * 返回总计录数
+     * @return string 总数据条数
+     */
+    public function getTotalCount()
+    {
+        return $this->totalCount;
+    }
+    
     /**
      * 检测数据对象的值
      * @access public
