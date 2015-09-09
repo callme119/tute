@@ -1,7 +1,7 @@
 <?php
 namespace ScientificResearch\Controller;
 use Admin\Controller\AdminController;
-use PublicProject\Model\PublicProjectModel;
+use ProjectCategory\Model\ProjectCategoryModel;
 use User\Model\UserModel;
 use UserDepartmentPost\Model\UserDepartmentPostModel;
 use DepartmentPost\Model\DepartmentPostModel;
@@ -52,7 +52,7 @@ class IndexController extends AdminController {
         $ExamineM = new ExamineModel();
         $examineLists = $ExamineM->getListsByNowPosts($userDepartmentPosts);
 
-        $projectM = new PublicProjectModel();
+        $projectM = new ProjectCategoryModel();
         $project = $projectM->init();
         $nameM = new UserModel();
         $name = $nameM->getAllName();
@@ -86,7 +86,7 @@ class IndexController extends AdminController {
     $return = array('status' =>"" ,'data'=>"" );
     $id = I('get.id');
 
-    $projectM = new PublicProjectModel();
+    $projectM = new ProjectCategoryModel();
     $type = $projectM->getTypeById($id);
 
     $pid = $id;//id作为pid取值
