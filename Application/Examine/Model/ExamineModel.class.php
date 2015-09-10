@@ -65,7 +65,7 @@ class ExamineModel extends Model{
         //取出审批对应的基本信息
         $list = array();
         $data = array();
-        $list = $this->select();
+        $list = $this->page($this->p,$this->pageSize)->select();
         //对lists数组进行排除，，将type为1的排除
         foreach ($list as $key => $value){
             if ($value['type'] == 0) {
@@ -184,5 +184,11 @@ class ExamineModel extends Model{
         $data['id'] = $id;
         $data['type'] = 1;
         $this->save($data);
+    }
+
+    public function getListsCount(){
+        $array = array();
+        $array = $this->select();
+        return count($array);
     }
 }

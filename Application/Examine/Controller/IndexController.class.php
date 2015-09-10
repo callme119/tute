@@ -29,6 +29,9 @@ class IndexController extends AdminController{
     public function  indexAction(){
         $model = new ExamineModel;
         $data = $model->index();
+        $count = $model->getListsCount();
+        echo $count;
+        $this->assign('count',$count);
         $this->assign('examine',$data);
         $this->assign('YZBODY',$this->fetch('examinelist'));
         $this->display(YZTemplate);
@@ -43,6 +46,7 @@ class IndexController extends AdminController{
         $id = $model->saveChain($post);
         $name = I('post.name');
         $model->saveExamine($id,$name);
+        $this->success('操作成功',index);
     }
     /**
      * 通过GET过来的流程ID值，查找当前用户，当前流程下的下一环节审核人员
