@@ -17,7 +17,7 @@ use Department\Model\DepartmentModel;//部门表
 use Post\Model\PostModel;//岗位表
 use Myjob\Logic\MyjobLogic; //逻辑层
 use DepartmentPost\Model\DepartmentPostModel; //
-use PublicProjectDetail\Model\PublicProjectDetailModel; //项目信息表
+use Project\Model\ProjectModel; //项目信息表
 use Chain\Logic\ChainLogic; //审核结点列表逻辑层。
 use WorkflowLog\Logic\WorkflowLogLogic; //工作流结点
 
@@ -337,9 +337,9 @@ class IndexController extends AdminController{
         //获取上一个提交者的用户信息
         $users = $userM->getListsByLists($workflowLists , "subscribe_user_id");
 
-        //获取项目详细数据
-        $PublicProjectDetailM = new PublicProjectDetailModel();
-        $PublicProjectDetails = $PublicProjectDetailM->getListsByIds($workflowLists);
+        // //获取项目详细数据
+        $ProjectM = new ProjectModel();
+        $PublicProjectDetails = $ProjectM->getListsByIds($workflowLists);
 
         //传值展示
         $this->assign("totalCount",$totalCount);
