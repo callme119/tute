@@ -1,16 +1,35 @@
 <?php
+/**
+ * 科研项目
+ */
 namespace ScientificResearch\Controller;
 use Admin\Controller\AdminController;
-use ProjectCategory\Model\ProjectCategoryModel;
-use User\Model\UserModel;
-use UserDepartmentPost\Model\UserDepartmentPostModel;
-use DepartmentPost\Model\DepartmentPostModel;
-use Examine\Model\ExamineModel; //审核基础数据表
-use Project\Model\ProjectModel;//教工添加公共细节表
-use Score\Model\ScoreModel;//分值表
-use ProjectDetailOne\Model\ProjectDetailOneModel;//数据模型类别一表
+use ProjectCategory\Model\ProjectCategoryModel;         //项目类别表
+use User\Model\UserModel;                               //用户表
+use UserDepartmentPost\Model\UserDepartmentPostModel;   //用户部门岗位表
+use DepartmentPost\Model\DepartmentPostModel;           //部门岗位表
+use Examine\Model\ExamineModel;                         //审核基础数据表
+use Project\Model\ProjectModel;                         //教工添加公共细节表
+use Score\Model\ScoreModel;                             //分值表
 class IndexController extends AdminController {
+    /**
+     * 初始化
+     * @return [type] [description]
+     * panjie 
+     * 3792535@qq.com
+     */
     public function indexAction(){
+        //取用户信息
+        $userId = get_user_id();
+
+        //取项目表信息
+        $ProjectM = new ProjectModel();
+        $projects = $ProjectM->getListsByUserId($userId);
+        $totalCount = $ProjectM->getTotalCount();
+        
+        //传值 
+        $this->assign("totalCount",$totalCount);
+        $this->assign("projects",$projects);
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }

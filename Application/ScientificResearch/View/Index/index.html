@@ -15,68 +15,28 @@
                         <thead>
                             <tr>
                                 <th>序号</th>
+                                <th>名称</th>
                                 <th>类别</th>
-                                <th>内容</th>
-                                <th>时间</th>
+                                <th>提交时间</th>
                                 <th>状态</th>
                                 <th>分值</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="success">
-                                <td>1</td>
-                                <td>论文\论文A类\期刊被《SCI》I区收录的论文</td>
-                                <td>《SCI》</td>
-                                <td>2015.03-2015.07</td>
-                                <td><a href="{:U('ScientificResearch/Index/saved')}">已保存</a></td>
-                                <td>600</td>
-                            </tr>
+                        <foreach name="projects" item="project">
                             <tr>
-                                <td>2</td>
-                                <td>论文\论文A类\期刊被《SCI》I区收录的论文</td>
-                                <td>《SCI》</td>
-                                <td>2015.03-2015.07</td>
-                                <td><a href="{:U('ScientificResearch/Index/submitted')}">已提交</a></td>
-                                <td>600</td>
+                                <td>{++$i}</td>
+                                <td>{$project[title]}</td>
+                                <td>{:W("ProjectCategory/getParentsDetailStringsById",array($project['project_category_id']))}</td>
+                                <td>{$project[time]|date="Y/m/d",###}</td>
+                                <td><eq name="project[is_finished]" value="1">已办结<else /><eq name="project[is_commited]" value="1">审核中<else />未提交</eq></eq></td>
+                                <td>{:W("Project/getRatioById",array($project[id]))}</td>
                             </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>论文\论文A类\期刊被《SCI》I区收录的论文</td>
-                                <td>《SCI》</td>
-                                <td>2015.03-2015.07</td>
-                                <td><a href="{:U('ScientificResearch/Index/auditprocess')}">待审核</a></td>
-                                <td>600</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>论文\论文A类\期刊被《SCI》I区收录的论文</td>
-                                <td>《SCI》</td>
-                                <td>2015.03-2015.07</td>
-                                <td><a href="{:U('ScientificResearch/Index/audited')}">已审核</a></td>
-                                <td>600</td>
-                            </tr>
+                        </foreach>
                         </tbody>
                     </table>
-                </div>
-                <nav style="text-align: center">
-                    <ul class="pagination">
-                        <li>
-                        <a href="#" aria-label="Previous">
-                          <span aria-hidden="true">«</span>
-                        </a>
-                        </li>
-                        <li><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li>
-                            <a href="#" aria-label="Next">
-                              <span aria-hidden="true">»</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                    <yunzhi:page totalCount="totalCount"></yunzhi:page>
+                </div>              
             </div>
         </div>
     </div>

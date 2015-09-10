@@ -11,7 +11,7 @@ class DataModelDetailLogic extends DataModelDetailModel
 	 * @param  num $dataModelId 数据模型ID
 	 * @return array     二维数组
 	 */
-	public function getRootListsByDataModelId($dataModelId)
+	public function getRootListsByDataModelId($dataModelId , $map = array())
 	{
 		if(!is_numeric($dataModelId))
 		{
@@ -19,7 +19,6 @@ class DataModelDetailLogic extends DataModelDetailModel
 			return false;
 		}
 
-		$map = array();
 		$map[data_model_id] = $dataModelId;
 		$map[pid]	= 0;
 		$return = $this->where($map)->select();
@@ -33,11 +32,11 @@ class DataModelDetailLogic extends DataModelDetailModel
 	/**
 	 * 查询所有的 儿子 结点信息.
 	 * @param  num $dataModelId 数据模型id
-	 * @return array              二维数据，以pid为键值返回
+	 * @return array              三维数据，以pid为键值返回
 	 * panjie
 	 * 3792535@qq.com
 	 */
-	public function getSonListsByDataModelId($dataModelId)
+	public function getSonListsByDataModelId($dataModelId , $map = array())
 	{
 		if(!is_numeric($dataModelId))
 		{
@@ -45,7 +44,6 @@ class DataModelDetailLogic extends DataModelDetailModel
 			return false;
 		}
 
-		$map = array();
 		$map[data_model_id] = $dataModelId;
 		$map[pid] = array("NEQ" , '0');
 		$return = $this->where($map)->select();
@@ -57,4 +55,32 @@ class DataModelDetailLogic extends DataModelDetailModel
 		}
 		return $data;
 	}
+
+/**
+	 * 查询所有的 儿子 结点信息.
+	 * @param  num $dataModelId 数据模型id
+	 * @return array              二维数据，KEY值换为ID后，返回
+	 * panjie
+	 * 3792535@qq.com
+	 */
+	public function getSonListsArrayByDataModelId($dataModelId , $map = array())
+	{
+		if(!is_numeric($dataModelId))
+		{
+			$this->error = "传入的ID值有误";
+			return false;
+		}
+
+		$map[data_model_id] = $dataModelId;
+		$map[pid] = array("NEQ" , '0');
+		$return = $this->where($map)->select();
+
+		$data = array();
+		foreach($return as $value)
+		{
+			$data[$value[id]] = $value;
+		}
+		return $data;
+	}
+
 }
