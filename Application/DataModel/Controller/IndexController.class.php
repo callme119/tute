@@ -77,8 +77,8 @@ class IndexController extends AdminController{
 
 		//取模型信息
 		$DataModelM = new DataModelModel();
-		$DataModel = $DataModelM->getListById($id);
-		if($DataModel === false)
+		$dataModel = $DataModelM->getListById($id);
+		if($dataModel === false)
 		{
 			$this->error = $DataModelM->getError();
 			$this->_empty();
@@ -104,7 +104,7 @@ class IndexController extends AdminController{
 			$this->_empty();
 		}
 
-		$this->assign("DataModel",$DataModel);
+		$this->assign("dataModel",$dataModel);
 		$this->assign("dataModelCommonLists",$dataModelCommonLists);
 		$this->assign("dataModelDetailRoots",$dataModelDetailRoots);
 		$this->assign("dataModelDetailSons",$dataModelDetailSons);
