@@ -48,6 +48,7 @@ class IndexController extends AdminController
         //获取当前岗位信息
         $postModel = new PostModel;
         $postInfo = $postModel -> getPostInfoById($id);
+        $this -> assign('postInfo',$postInfo);
 
         //设置要提交的url
         $subUrl = U('update?id='.$id);
@@ -57,6 +58,16 @@ class IndexController extends AdminController
         $this->assign('postInfo',$postInfo);
         $this->assign('YZBODY',$this->fetch('addPost'));
         $this->display(YZTemplate);
+    }
+    //删除岗位
+    public function deletePostAction(){
+        $id = I('get.id');
+        $postModel = new PostModel;
+        $state = $postModel ->deletePostById($id);
+        if($state){
+            $url = U('index');
+            $this->success('删除成功',$url);
+        }
     }
     //添加保存
      public function saveAction(){
@@ -70,8 +81,12 @@ class IndexController extends AdminController
     }
     //编辑保存
     public function updateAction(){
-        $url = U('index');
-        $this->success('保存成功',$url);
+        $postModel = new PostModel;
+        $state = $postModel ->updatePost();
+        if($state){
+            $url = U('index');
+            $this->success('保存成功',$url);
+        }
     }
     
 }

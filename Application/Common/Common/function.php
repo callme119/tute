@@ -859,11 +859,12 @@ function treeToList($tree,$i,$type){
  */
 function add_url($array,$key1,$url_array,$key2){
     $data = $array;
+    $url = $url_array;
     foreach ($data as $key => $value) {
         foreach ($url_array as $k => $v) {
-            $url_array[$k] = $v.'?'.$key2.'='.$value[$key2];
+            $url[$k] = $v.'?'.$key2.'='.$value[$key2];
         }
-        $data[$key][$key1] = $url_array;
+        $data[$key][$key1] = $url;
     }
     return $data;
 }

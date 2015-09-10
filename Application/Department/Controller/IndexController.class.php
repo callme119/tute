@@ -25,6 +25,8 @@ class IndexController extends AdminController
         //url信息
         $url=array("editDepart"=>U('editDepart'),"post"=>U('post'),"people"=>U('people'),"delete"=>U('delete'));
         $departmentList = add_url($departmentList,'_url',$url,'id');
+        //分页信息
+        $this->assign('count',100);
         //传值
         $this->assign('departmentList',$departmentList);
         $this->assign('YZBODY',$this->fetch());
