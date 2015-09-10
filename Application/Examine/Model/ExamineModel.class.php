@@ -92,7 +92,6 @@ class ExamineModel extends Model{
                 $data[$key][string] = $string[$key];
             }
        }
-       echo $this->getLastSql();
        return $data;
     }
     
