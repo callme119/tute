@@ -65,13 +65,11 @@ class ExamineModel extends Model{
         //取出审批对应的基本信息
         $list = array();
         $data = array();
-        $list = $this->page($this->p,$this->pageSize)->select();
+        $map = array();
         //对lists数组进行排除，，将type为1的排除
-        foreach ($list as $key => $value){
-            if ($value['type'] == 0) {
-                $data[] = $value;
-            }
-        }
+        $map['type'] = 0; 
+        $data = $this->where($map)->page($this->p,$this->pageSize)->select();
+
         //根据对应的num firstpost endpost取出整个审批流程
         $examine = array();
        foreach ($data as $key => $value) {
@@ -94,6 +92,7 @@ class ExamineModel extends Model{
                 $data[$key][string] = $string[$key];
             }
        }
+       echo $this->getLastSql();
        return $data;
     }
     
@@ -188,7 +187,9 @@ class ExamineModel extends Model{
 
     public function getListsCount(){
         $array = array();
-        $array = $this->select();
+        $map = array();
+        $map['type'] = 0;
+        $array = $this->where($map)->select();
         return count($array);
     }
 }
