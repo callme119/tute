@@ -2,10 +2,24 @@
 namespace ScientificParameter\Controller;
 use Admin\Controller\AdminController;
 use ProjectCategory\Model\ProjectCategoryModel;
+use ProjectCategory\Logic\ProjectCategoryLogic;
 use DataModelOne\Model\DataModelOneModel;
 class IndexController extends AdminController {
   public function indexAction(){
+    //取类别数据,有深度，所以取的是树
+    $ProjectCategoryL = new ProjectCategoryLogic();
+    $projectCategoryTree = $ProjectCategoryL->getSonsTreeById(0);
 
+    //树变数组
+    $projectCategoryLists = tree_to_list($projectCategoryTree ,$i = 0, '_son');
+
+    //取分页数据
+    $ProjectCategoryL = new ProjectCategoryLogic();
+    $lists = $ProjectCategoryL->getCurrentLists($projectCategoryLists);
+
+    //传值
+    $this->assign("totalCount",count($projectCategoryLists));
+    $this->assign("lists",$lists);
     $this->assign('YZBODY',$this->fetch());
     $this->display(YZTemplate);
   }
@@ -35,7 +49,6 @@ class IndexController extends AdminController {
  */
  public function saveAction()
  {
-
   $ProjectCategoryM = new ProjectCategoryModel();
     $id = $ProjectCategoryM->saveProject();//返回存公共库成功的id
     if($id)
@@ -81,7 +94,7 @@ public function appendAction()
   $res = $ProjectCategoryM->append($pid);
   $this->assign('data',$res);
   $return['data'] = $this->fetch();
-    //echo $data;
+  //echo $data;
   $this->ajaxReturn($return);
   
 }

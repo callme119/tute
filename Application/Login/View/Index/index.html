@@ -58,9 +58,13 @@
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <a href="./admin.php" type="submit" class="btn btn-lg btn-success btn-block">登录</a>
+                                <button href="./admin.php" type="submit" class="btn btn-lg btn-success btn-block">登录</button>
+                                <php>if (APP_DEBUG==true): </php>
+                                <a href="./admin.php"  class="btn btn-lg btn-success btn-block">直接登录</a>
+                                <php>endif</php>
                             </fieldset>
                         </form>
+
                     </div>
                 </div>
             </div>
@@ -79,6 +83,7 @@
     <!-- Custom Theme JavaScript -->
     <script src="{:add_root_path("/SBAdmin2/js/sb-admin-2.js")}"></script>
     <script src="{:add_root_path("/SBAdmin2/js/jquery.validate.js")}"></script>
+    <script src="__JS__/errorClass.js"></script>
     {$js}
 
 </body>
