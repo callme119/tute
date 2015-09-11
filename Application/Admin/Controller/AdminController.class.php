@@ -35,52 +35,77 @@ class AdminController extends Controller{
      * 如果不存在，跳转404界面
      */
     public function _empty(){
-        
-        $this->assign("YZBODY",$this->fetch(T("Admin@Admin/fail")));
-        $this->assign("error",$this->error);
+
+        if(APP_DEBUG)
+        {
+            if(is_string($this->error))
+            {
+                throw new \Think\Exception($this->error,1);
+            }
+            throw $this->error;     
+        }
+        $this->assign("e",$this->error);
+        $this->assign("YZBODY",$this->fetch(T("Admin@Admin/fail")));     
         $this->display(YZTemplate);
         exit();
     }
     public function __construct() {
         parent::__construct();
-        
-        //判断是否已经登录
-        $userId = get_user_id();
 
-        //获取用户基础信息
-        $userM = new UserModel;
-        $user = $userM->getUserById($userId);
-
-        //开始进行菜单访问权限判断
-        //1.获取用户点击或输入的url
-        $url = $this->_getUrl();
-        //2.判读该用户是否有该权限
-        $isJump = $this->_checkUrl($url);
-        //3.判读该url是否有该菜单（判断应用位运算）
-        
-        // $menuMo = new MenuModel();
-        // $isHave = $menuMo->checkMenu($url);
-        // if(!($isJump && $isHave)){
-        //     $this->redirect( 'Fail/Index/fail');
-        //     exit();
-        // }
-        
-        //获取该用户可见的菜单列表并传递给给Left菜单栏
-        //1.new菜单Model
-        $menu = new MenuModel();
-        //2.获取菜单的信息
-        $data = $menu->getMenuTree(null, null, 1, 2);
-        $data = $this->_addMenuActive($data, $url, '_son');
-        //3.将获取到的信息传递给V层
-        $this->assign('leftMenu',$data);
-        
-        //获取当前菜单信息
-        $currentMenu = $menu->getMenuByUrl($url);
-        $this->assign('currentMenu',$currentMenu[0]);
-
-        $this->assign("user",$user);
+        //定义公共模板
         $tpl = T("Admin@Admin/index");
         define('YZTemplate', $tpl);
+        try
+        {
+            //判断是否已经登录
+            $userId = get_user_id();
+
+            //获取用户基础信息
+            $userM = new UserModel;
+            $user = $userM->getUserById($userId);
+
+            //开始进行菜单访问权限判断
+            //1.获取用户点击或输入的url
+            $url = $this->_getUrl();
+            //2.判读该用户是否有该权限
+            $isJump = $this->_checkUrl($url);
+            //3.判读该url是否有该菜单（判断应用位运算）
+            
+            // $menuMo = new MenuModel();
+            // $isHave = $menuMo->checkMenu($url);
+            // if(!($isJump && $isHave)){
+            //     $this->redirect( 'Fail/Index/fail');
+            //     exit();
+            // }
+            
+            //获取该用户可见的菜单列表并传递给给Left菜单栏
+            //1.new菜单Model
+            $menu = new MenuModel();
+            //2.获取菜单的信息
+            $data = $menu->getMenuTree(null, null, 1, 2);
+            $data = $this->_addMenuActive($data, $url, '_son');
+            //3.将获取到的信息传递给V层
+            $this->assign('leftMenu',$data);
+            
+            //获取当前菜单信息
+            $currentMenu = $menu->getMenuByUrl($url);
+            $this->assign('currentMenu',$currentMenu[0]);
+
+            $this->assign("user",$user);         
+        }
+        catch(\Think\Exception $e)
+        {
+            //非测试环境，则跳转到我们自己的页面
+            if(!APP_DEBUG)
+            {
+                $tpl = T("Admin@Admin/index");
+                define('YZTemplate', $tpl);
+            }
+            $this->error = $e;
+            $this->_empty();
+        }
+
+
     }
     /**
      * 获取url信息
