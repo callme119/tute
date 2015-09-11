@@ -8,7 +8,7 @@ namespace Project\Logic;
 use Project\Model\ProjectModel;
 class ProjectLogic extends ProjectModel
 {
-	protected $tableName = null;	//数据表后缀
+	protected $tableName = '';	//数据表后缀
 
 	//通过后缀设置数据表
 	public function setTableSuffix($suffix)
@@ -18,7 +18,7 @@ class ProjectLogic extends ProjectModel
 	}
 
 	//通过项目的详情ID来获取Lists数据
-	public function getListByIdFromSuffixTable($projectDetailId)
+	public function getListByIdFromSuffixTable($projectDetailId = 0)
 	{
 		if($this->tableName === null)
 		{
@@ -26,7 +26,32 @@ class ProjectLogic extends ProjectModel
 			return false;
 		}
 
+		if($this->tableName === '')
+		{
+			$this->error = "未设置数据表后缀";
+			return null;
+		}
+		
+		//查询并返回数据.为避免因数据表错误而导致的异常，必须进行异常处理。
 		$map['id'] = $projectDetailId;
-		return $this->table("$this->tableName")->where($map)->find();
+		try
+		{
+			$return = $this->table("$this->tableName")->where($map)->find();
+			return $return;
+		}
+		catch(\Think\Exception $e)
+		{
+			$this->error = "数据查询出现错误，错误信息:" . $e->getMessage();
+			return null;
+		}	
+	}
+
+	public function getListByProjectDetailIdSuffix($projectDetailId = 0, $suffix = '')
+	{
+		//设置表后缀
+		$this->setTableSuffix($suffix);
+
+		//查询出数据
+		return $this->getListByIdFromSuffixTable($projectDetailId);
 	}
 }

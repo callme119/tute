@@ -10,7 +10,14 @@ use UserDepartmentPost\Model\UserDepartmentPostModel;   //用户部门岗位表
 use DepartmentPost\Model\DepartmentPostModel;           //部门岗位表
 use Examine\Model\ExamineModel;                         //审核基础数据表
 use Project\Model\ProjectModel;                         //教工添加公共细节表
+use Project\Logic\ProjectLogic;                         //项目表
 use Score\Model\ScoreModel;                             //分值表
+use DataModel\Model\DataModelModel;                     //数据模型
+use DataModel\Logic\DataModelLogic;                     //数据模型
+use DataModelDetail\Model\DataModelDetailModel;         //数据模型扩展信息
+use ExamineDetail\Model\ExamineDetailModel;             //审核扩展信息
+use Workflow\Model\WorkflowModel;                       //工作流表
+use WorkflowLog\Model\WorkflowLogModel;                 //工作流扩展表
 class IndexController extends AdminController {
     /**
      * 初始化
@@ -117,4 +124,80 @@ class IndexController extends AdminController {
     $this->ajaxReturn($return);
   
   }
+
+    /**
+     * 查看项目详情
+     * @return id 项目ＩＤ
+     */
+    public function detailAction()
+    {
+        try
+        {
+            //取用户信息
+            $userId = get_user_id();
+
+            //取项目基础信息
+            $projectId = I('get.id');
+            $ProjectM = new ProjectModel();
+            if( !$project = $ProjectM->getListByIdUserId($projectId , $userId) )
+            {
+                E("用户无权限查看该记录", 1);    
+            }    
+
+            //取项目数据模型信息
+            $DataModelM = new DataModelModel();
+            $dataModelId = $project['data_model_id'];
+            if( !$dataModel = $DataModelM->where("id = $dataModelId")->find())
+            {
+                E("当前记录选取的数据模型ＩＤ为$dataModelId,但该ＩＤ在数据库中未找到匹配的记录", 1);    
+            }
+
+            //取数据模型字段信息
+            $DataModelL = new DataModelLogic();
+            $dataModelCommon = $DataModelL->getCommonLists();
+
+            //取项目模型扩展信息
+            $dataModelDetailM = new DataModelDetailModel();
+            $dataModelDetail = $dataModelDetailM->getListsByDataModelId($dataModelId);
+
+            //取项目扩展信息
+            $suffix = $dataModel['suffix'];
+            $projectDetailId = $project['project_detail_id'];
+            $ProjectL = new ProjectLogic();
+            if( !$projectDetail = $ProjectL->getListByProjectDetailIdSuffix($projectDetailId,$suffix))
+            {
+                E($ProjectL->getError(), 1);    
+            }
+
+            //取审核信息
+            $WorkflowM = new WorkflowModel();
+            $workflow = $WorkflowM->where("project_id = $projectId")->find();
+
+            //取审核扩展信息
+            $workflowId = $workflow["id"];
+            $WorkflowLogM = new WorkflowLogModel();
+            $workflowLog = $WorkflowLogM->getListsByWorkflowId($workflowId);
+            
+            $todoList = $WorkflowLogM->getTodoListByWorkflowId($workflowId);
+
+            $score = W("Project/getRatioById",array($project[id]));
+            //取审核扩展信息
+            $this->assign("project",$project);
+            $this->assign("dataModel",$dataModel);
+            $this->assign("dataModelDetail",$dataModelDetail);
+            $this->assign("projectDetail",$projectDetail);
+            $this->assign("workflowLog",$workflowLog);
+            $this->assign("todoList",$todoList);
+            $this->assign("YZBODY",$this->fetch());
+            $this->display(YZTemplate);
+            
+            // $project
+            //取项目审核信息
+        }
+        catch(\Think\Exception $e)
+        {
+            $this->error = $e;
+            $this->_empty();
+        }
+    }
 }

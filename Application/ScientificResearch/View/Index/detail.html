@@ -1,1 +1,29 @@
-hello
+<label>项目名称</label><p>{$project['title']}</p>
+<label>提交时间</label><p>{$project['time']|date="Y/m/d",###}</p>
+	<label>项目分值</label><p><php> echo $score = W("Project/getRatioById",array($project[id]));</php></p>
+	<label>最终得分</label><p><eq name="project['is_finished']" value="1">{$score}<else />0</eq></p>
+<label>状态</label><p><eq name="project['is_commited']" value="0">未提交<else/><eq name="project['is_finished']" value="0">审核中<else/>已审核</eq></eq></p>
+<foreach name="dataModelDetail" item="value">
+<eq name="value['pid']" value="0">
+	<neq name="value['is_hidden']" value="0">
+		<label>{$value[title]}</label>
+		<p>
+			<eq name="value[type]" value="datatime">
+				{$projectDetail[$value[name]]|date="Y/m/d",###}
+			</eq>
+			<eq name="value[type]" value="money">
+				todo:如果类型为ＭＯＮＥＹ，则调用格式化函数。格式化为万元。
+			</eq>
+			<eq name="value[type]" value="int">
+				{$dataModelDetail[$projectDetail[$value[name]]][title]}
+			</eq>
+		</p>
+	</neq>
+</eq>
+</foreach>
+	<label>待/在办人：</label><p><yunzhi:user id="$todoList['user_id']" name="yunzhiuser">{$yunzhiuser[name]}</yunzhi:user></p>
+	<label>处理意见：</label><p>
+		<foreach name="workflowLog" item="value">
+			{$value['time']|date="Y/m/d H:i",###}&nbsp;<yunzhi:user id="$value['user_id']" name="yunzhiuser">{$yunzhiuser[name]}</yunzhi:user>:{$value['commit']}<br />
+		</foreach></p>
+		<a href="javascript:history.go(-1);">返回</a>

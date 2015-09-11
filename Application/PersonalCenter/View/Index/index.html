@@ -32,37 +32,39 @@
                             <div class="row">
                                 <h4>角色：{$role}</h4>
                             </div>
+                        <form class="form-horizontal" method = 'post' action="{:U('User/Index/changeUserInfo')}?id={$info.id}">
                             <div class="row hang ">
                                 <div class="input-group">
                                     <span class="input-group-addon">邮&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp箱</span>
-                                    <input type="text" class="form-control" value="{$info.email}">
+                                    <input  class="form-control" name="email" value="{$info.email}">
                                 </div>
                             </div>
                             <div class="row hang ">
                                 <div class="input-group">
                                     <span class="input-group-addon">手&nbsp&nbsp机&nbsp&nbsp&nbsp号</span>
-                                    <input type="text" class="form-control" value="{$info.phone}">
+                                    <input  class="form-control" name="phone" value="{$info.phone}">
                                 </div>
                             </div>
                             <div class="row hang ">
                                 <div class="input-group">
                                     <span class="input-group-addon">旧&nbsp&nbsp密&nbsp&nbsp&nbsp码</span>
-                                    <input type="text" class="form-control">
+                                    <input  class="form-control" name="oldpsw" >
                                 </div>
                             </div>
                             <div class="row hang ">
                                 <div class="input-group">
                                     <span class="input-group-addon">新&nbsp&nbsp密&nbsp&nbsp&nbsp码</span>
-                                    <input type="text" class="form-control">
+                                    <input  class="form-control" name="newpsw">
                                 </div>
                             </div>
                             <div class="row hang ">
                                 <div class="input-group">
                                     <span class="input-group-addon">确认密码</span>
-                                    <input type="text" class="form-control">
+                                    <input  class="form-control" name="againpsw">
                                 </div>
                             </div>
-                            <div class="col-md-offset-4"><a href="" class="btn btn-primary" ><i class="fa fa-check"></i>保存</a></div>
+                            <div class="col-md-offset-4"><button type="submit" class="btn btn-primary" ><i class="fa fa-check"></i>保存</button></div>
+                        </form>
                         </div>
                     </div>
                 </div>

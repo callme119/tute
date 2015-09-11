@@ -90,4 +90,28 @@ class IndexController extends AdminController {
         }
         return $data;
     }
+
+    //修改用户邮箱，手机号，密码等个人信息
+    public function changeUserInfoAction(){
+        $model = new UserModel;
+        $newpsw = I('post.newpsw');
+        $oldpsw = I('post.oldpsw');
+        $userId = I('get.id');
+        //先进行密码验证
+        if($model->checkPsw($oldpsw,$userId)){
+            $this->error('密码错误，请重新输入');
+        }; 
+        
+        //进行分类，如果新密码为空，我们认为是仅修改邮箱或手机
+        //不为空，我们认为修改密码
+        if($newpsw == 0){
+            if($model->changePhoneOrEmail($userId)){
+                $this->success('修改信息成功');
+            }     
+        }else{
+            if($model->changePsw($newpsw,$userId)){
+                $this->success('修改密码成功');
+            }
+        };
+    }
 }
