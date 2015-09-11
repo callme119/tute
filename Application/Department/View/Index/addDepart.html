@@ -7,11 +7,11 @@
                     <div class="panel-body">
                     <button type="button" class="btn btn-info" onclick="javascript:history.back(-1);">返回</button>
                     </div>
-                    <form class="form-horizontal" action="{:U('addOk')}">
+                    <form class="form-horizontal" action="{$subUrl}" method="post">
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">部门名称</label>
                             <div class="col-sm-4">
-                                <input class="form-control" id="inputEmail3" placeholder="部门">
+                                <input class="form-control" name="name" id="inputEmail3" placeholder="部门">
                             </div>
                         </div>
                         <div class="form-group">
@@ -28,7 +28,7 @@
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">部门描述</label>
                             <div class="col-sm-4">
-                            <textarea class="form-control" rows="3"></textarea>
+                            <textarea class="form-control" rows="3" name="remarks"></textarea>
                             </div>
                         </div>
                         <div class="form-group">

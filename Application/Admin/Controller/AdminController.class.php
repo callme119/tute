@@ -42,7 +42,7 @@ class AdminController extends Controller{
             {
                 throw new \Think\Exception($this->error,1);
             }
-            throw $this->error;     
+            throw $this->error;
         }
         $this->assign("e",$this->error);
         $this->assign("YZBODY",$this->fetch(T("Admin@Admin/fail")));     

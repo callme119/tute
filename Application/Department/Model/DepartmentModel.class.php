@@ -9,6 +9,7 @@ class DepartmentModel extends Model
 	 * @param  [type]  $layer            [层级]
 	 * @param  string  $keyWord          [子集元素的key值]
 	 * @return [type]                    [部门树形结构]
+	 * xuao 295184686@qq.com
 	 */
 	public function getDepartmentTree($rootDepatrmentId = 0,$layer,$keyWord = '_son'){
 		//设置根元素id,获取一级元素
@@ -28,7 +29,33 @@ class DepartmentModel extends Model
 		return $data;
 		
 	}
+	/**
+	 * [getDepartmentInfoById 通过id获取部门信息]
+	 * @param  [type] $id [id值]
+	 * @return [type]     [返回部门信息]
+	 */
+	public function getDepartmentInfoById($id){
+		$map['id'] = $id;
+		$data =  $this  -> where($map) -> find();
+		return $data;
+	}
+	/**
+	 * [updateDepartment 更新部门]
+	 * @return [type] [返回状态]
+	 */
+	public function updateDepartment(){
+		$data = I('post.');
+		$data['id'] = I('get.id');
+		$state = $this -> save($data);
+		return $state;
+	}
 
+	public function addDepartment(){
+		$data = I('post.');
+		$state = $this -> add($data);
+		return $state;
+		//添加成功返回添加的部门id
+	}
 
 	/**
 	 * 通过部门ID，返回本部门及上级部门组成的列表。
