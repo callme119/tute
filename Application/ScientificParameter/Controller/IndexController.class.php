@@ -2,8 +2,9 @@
 namespace ScientificParameter\Controller;
 use Admin\Controller\AdminController;
 use ProjectCategory\Model\ProjectCategoryModel;
-use ProjectCategory\Logic\ProjectCategoryLogic;
-use DataModelOne\Model\DataModelOneModel;
+use DataModel\Model\DataModelModel;               //数据模型
+use ProjectCategory\Logic\ProjectCategoryLogic;   //项目类别
+use DataModelDetail\Model\DataModelDetailModel;
 class IndexController extends AdminController {
   public function indexAction(){
     //取类别数据,有深度，所以取的是树
@@ -25,9 +26,18 @@ class IndexController extends AdminController {
   }
   //管理员进行公共项目添加的界面
   public function addAction() {
-    $ProjectCategoryM = new ProjectCategoryModel();
-    $ProjectCategory = $ProjectCategoryM->init();
-    $this->assign('project',$ProjectCategory);
+    $ProjectCategoryL = new ProjectCategoryLogic();
+    $id = 0;
+    $projectCategoryTree = $ProjectCategoryL->getSonsTreeById($id);
+    $projectCategory = tree_to_list($projectCategoryTree , $id , '_son' );
+    
+    //取数据模型列表
+    $dataModelM = new DataModelModel();
+    $dataModels = $dataModelM->getNormalLists();
+
+    $this->assign("js",$this->fetch("addJs"));
+    $this->assign("dataModels",$dataModels);
+    $this->assign('projectCategory',$projectCategory);
     $this->assign('YZBODY',$this->fetch());
     $this->display(YZTemplate);
   }
@@ -98,4 +108,25 @@ public function appendAction()
   $this->ajaxReturn($return);
   
 }
+  public function getDataModelDetailAjaxAction()
+  {
+    try
+    {
+      //取相关信息
+      $dataModelId = I('get.datamodelid');
+      $dataModelDetailM = new DataModelDetailModel();
+      $dataModelDetails = $dataModelDetailM->where("data_model_id = $dataModelId")->select();
+
+      $return['dataModelDetails'] = $dataModelDetails;
+      $return['state'] = success;
+      return $this->ajaxReturn($return);
+    }
+    catch(\Think\Exception $e)
+    {
+      $return['state'] = error;
+      $return['message'] = "发生异常，报错信息为：" . $e->getMessage();
+      return $this->ajaxReturn($return);
+    }
+    
+  }
 }
