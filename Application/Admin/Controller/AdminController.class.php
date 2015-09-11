@@ -35,19 +35,29 @@ class AdminController extends Controller{
      * 如果不存在，跳转404界面
      */
     public function _empty(){
-
-        if(APP_DEBUG)
+        try
         {
-            if(is_string($this->error))
+            if(APP_DEBUG)
             {
-                throw new \Think\Exception($this->error,1);
+                if(is_string($this->error))
+                {
+                    throw new \Think\Exception($this->error,1);
+                }
+                if(is_object($this->error))
+                {
+                    throw $this->error;
+                }
             }
-            throw $this->error;
+            $this->assign("e",$this->error);
+            $this->assign("YZBODY",$this->fetch(T("Admin@Admin/fail")));     
+            $this->display(YZTemplate);
+            exit();
         }
-        $this->assign("e",$this->error);
-        $this->assign("YZBODY",$this->fetch(T("Admin@Admin/fail")));     
-        $this->display(YZTemplate);
-        exit();
+        catch(\Think\Exception $e)
+        {
+            throw $e;
+        }
+        
     }
     public function __construct() {
         parent::__construct();
