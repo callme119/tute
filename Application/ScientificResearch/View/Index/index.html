@@ -26,7 +26,7 @@
                         <foreach name="projects" item="project">
                             <tr>
                                 <td>{++$i}</td>
-                                <td>{$project[title]}</td>
+                                <td><a href="{:U("detail?id=". $project[id])}">{$project[title]}</a></td>
                                 <td>{:W("ProjectCategory/getParentsDetailStringsById",array($project['project_category_id']))}</td>
                                 <td>{$project[time]|date="Y/m/d",###}</td>
                                 <td><eq name="project[is_finished]" value="1">已办结<else /><eq name="project[is_commited]" value="1">审核中<else />未提交</eq></eq></td>
