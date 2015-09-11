@@ -24,10 +24,10 @@
                                 <td>{$i++}</td>
                                 <td>{$workflowLists[$value[workflow_id]][id]}</td>
                                 <td>
-                                {$detail[$workflowLists[$value[workflow_id]][public_project_detail_id]][project_title]}</td>
-                                <td>{$detail[$workflowLists[$value[workflow_id]][public_project_detail_id]][category_description]}</td>
+                                {$detail[$workflowLists[$value[workflow_id]][project_id]][project_title]}</td>
+                                <td>{$detail[$workflowLists[$value[workflow_id]][project_id]][category_description]}</td>
                                 <td>
-                                <yunzhi:user name="test" id='$detail[$workflowLists[$value[workflow_id]][public_project_detail_id]][user_id]'>
+                                <yunzhi:user name="test" id='$detail[$workflowLists[$value[workflow_id]][project_id]][user_id]'>
                                 {:$test['name']}
                                 </yunzhi:user></td>
                                 <td>

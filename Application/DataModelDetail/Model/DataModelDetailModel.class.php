@@ -36,4 +36,20 @@ class DataModelDetailModel extends Model
 
 		return $return;
 	}
+
+	/**
+	 * 对过数据模型ＩＤ，获取所有扩展信息
+	 * @param  int $dataModelId 数据模型ＩＤ
+	 * @return array              二维数组，以关键字为ＫＥＹ
+	 */
+	public function getListsByDataModelId($dataModelId)
+	{
+		$data= $this->where("data_model_id = $dataModelId")->select();
+		$return = array();
+		foreach($data as $value)
+		{
+			$return[$value[id]] = $value;
+		}
+		return $return;
+	}
 }

@@ -54,6 +54,6 @@ class ProjectWidget extends Controller
 		}
 
 		//输出
-		echo $score;
+		return $score;
 	}
 }
