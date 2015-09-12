@@ -55,8 +55,11 @@ class DepartmentModel extends Model
 	}
 
 	public function addDepartment(){
+
 		$data = I('post.');
 		$state = $this -> add($data);
+		//设置post供添加部门-岗位使用
+		$_POST['id'] = $state;
 		return $state;
 		//添加成功返回添加的部门id
 	}

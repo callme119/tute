@@ -114,4 +114,7 @@ class IndexController extends AdminController {
             }
         };
     }
+    public function _fetchRoleList(){
+        
+    }
 }
