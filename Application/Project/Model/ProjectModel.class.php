@@ -10,6 +10,11 @@ namespace Project\Model;
 use Think\Model;
 class ProjectModel extends Model{
 	
+    protected $_auto = array(
+        array('time','time',3)
+        );
+    protected $_validate = array();
+    
     private $order = array("time"=>"desc");
 
 	//再取项目细节信息
