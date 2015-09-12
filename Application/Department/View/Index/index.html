@@ -12,7 +12,7 @@
                             <tr>
                                 <th>序号</th>
                                 <th>部门名</th>
-                                <th>下属岗位</th>
+                                <th>部门描述</th>
                                 <th>操作</th>
                             </tr>
                         </thead>
@@ -25,19 +25,16 @@
                                             echo "|----";
                                             </php>
                                             {$value.name}</td>
-                                        <td>{$value.name}</td>
+                                        <td>{$value.remarks}</td>
                                         <td>
                                             <button class="btn btn-sm btn-primary" onclick="location='{$value._url.editDepart}'"><i class="fa fa-pencil"></i>编辑</button>
                                             <button class="btn btn-sm btn-danger" onclick="location='{$value._url.delete}'"><i class="fa fa-trash-o"></i>删除</button>
-                                            <button class="btn btn-sm btn-success" onclick="location='{$value._url.post}'"><i class="fa fa-users"></i>岗位信息</button>
-                                            <button class="btn btn-sm btn-success" onclick="location='{$value._url.people}'"><i class="fa fa-users"></i>人员信息</button>
                                         </td>
                                     </tr>
                                     </foreach>
                         </tbody>
                     </table>
                 </div>
-
                <Yunzhi:page id="1111" name="name" totalCount="count">
                </Yunzhi:page>
 

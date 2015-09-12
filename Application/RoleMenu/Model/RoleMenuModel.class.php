@@ -17,7 +17,10 @@ class RoleMenuModel extends Model{
 	public  function getMenuListByRoleId($roleId){
 		$map['role_id'] = $roleId;
 		$menuData = $this->where($map)->select();
-		return $menuData;
+		foreach ($menuData as $key => $value) {
+			$data[$key] = $value['menu_id'];
+		}
+		return $data;
 	}
 
 	/**

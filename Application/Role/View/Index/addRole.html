@@ -10,9 +10,6 @@
     </ol>
 </section>
 <section class="content">
-{:for($i=0;$i<count($originalPermission);$i++){
-$value = $originalPermission[$i][menu_id];
-}}
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
@@ -24,7 +21,7 @@ $value = $originalPermission[$i][menu_id];
                     <div class="panel-body">
                         <button type="button" class="btn btn-info" onclick="javascript:history.back(-1);">返回</button>
                     </div>
-                    <form class="form-horizontal" action="{$submitUrl}" method="post">
+                    <form name="myform" class="form-horizontal" action="{$submitUrl}" method="post">
                         <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">角色名</label>
                             <div class="col-sm-4">
@@ -78,17 +75,9 @@ $value = $originalPermission[$i][menu_id];
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </section>
-<script> 
-    for (var i=0;i<originalPermission.length;i++) {
-        var value = originalPermission[i][menu_id];
-        $("."+value).checked();
-        
-    };
-  
-alert("hello");
-</script>
+
 <style>
     .role{
         border: 1px #cccccc solid;
@@ -106,4 +95,13 @@ alert("hello");
         margin-bottom: 5px;
     }
 </style>
-{$js}
+<script type="text/javascript">
+$(document).ready(function() {
+    var c = new Array();
+    var c = eval('<?php echo json_encode($originalPermission);?>');
+   for (var i=0;i<c.length;i++) {
+        var k =c[i];
+        $("."+k).attr('checked','true');
+    };
+ });
+</script>

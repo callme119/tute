@@ -13,7 +13,7 @@
 namespace Department\Controller;
 use Admin\Controller\AdminController;
 use Department\Model\DepartmentModel;
-use Post\Modle\PostModel;
+use Post\Model\PostModel;
 class IndexController extends AdminController
 {
     public function indexAction()
@@ -68,17 +68,9 @@ class IndexController extends AdminController
         $this->assign('css',$this->fetch("departCss"));
         $this->assign('YZBODY',$this->fetch('addDepart'));
         $this->display(YZTemplate);
-    }
-    public function peopleAction(){
-        $this->assign('YZBODY',$this->fetch());
-        $this->display(YZTemplate);
-    }
+    }  
     public function postAction(){
         $this->assign('url',U('postPeople'));
-        $this->assign('YZBODY',$this->fetch());
-        $this->display(YZTemplate);
-    }
-    public function postPeopleAction(){
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
@@ -100,25 +92,14 @@ class IndexController extends AdminController
             $this->success('保存成功',$url);
         }
     }
-    public function movePostAction(){
-        $url = U('post');
-        $this->success('保存成功',$url);
-    }
-    public function addPostAction(){
-        $url = U('post');
-        $this->success('保存成功',$url);
-    }
-    public function addPostPeopleAction(){
-        $url = U('postPeople');
-        $this->success('保存成功',$url);
-    }
-    public function movePostPeopleAction(){
-        $url = U('postPeople');
-        $this->success('保存成功',$url);
-    }
-    public function movePeopleAction(){
-        $url = U('people');
-        $this->success('保存成功',$url);
+    //删除保存
+    public function deleteAction(){
+        $departmentModel = new DepartmentModel;
+        $state = $departmentModel -> deleteDepartment();
+        if($state){
+            $url = U('index');
+            $this->success('删除成功',$url);
+        }
     }
     /**
      * [_fetchDepartmentList 传值到添加界面的部门列表]

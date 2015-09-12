@@ -47,6 +47,10 @@ class DepartmentModel extends Model
 		$data = I('post.');
 		$data['id'] = I('get.id');
 		$state = $this -> save($data);
+		//返回值为影响条数。如果为0，说明数据未修改，但是保存可以成功
+		if($state == 0){
+			$state = true;
+		}
 		return $state;
 	}
 
@@ -55,6 +59,15 @@ class DepartmentModel extends Model
 		$state = $this -> add($data);
 		return $state;
 		//添加成功返回添加的部门id
+	}
+	/**
+	 * [addDepartment 删除部门]
+	 */
+	public function deleteDepartment(){
+		$map['id'] = I('get.id');
+		//delete方法的返回值是删除的记录数，如果返回值是false则表示SQL出错，返回值如果为0表示没有删除任何数据。
+		$state = $this -> where($map) ->delete();
+		return $state;
 	}
 
 	/**
