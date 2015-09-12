@@ -11,3 +11,7 @@ nbproject/
 ~
 
 Application/Common/Conf/config.php
+
+Application/Common/Conf/debug.php
+
+Application/Common/Conf/debug.php

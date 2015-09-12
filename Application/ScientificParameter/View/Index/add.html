@@ -8,12 +8,14 @@
                     <input id="pid" name="pid" value="0">
                     {:$url=U('append');}
                 </div>
+               
                 <div class="row select">
                     <div class="col-md-3 form-group">
                      <select class="selectpicker form-control project">
                         <option>请选择</option>
                         <foreach name="projectCategory" item="project">
-                            <option value="{$project.id}"><php>for($j = 0 ; $j < $project[_level] ; $j++ ) : echo "|--"; endfor;</php><neq name="project[data_model_id]" value="0">[{$project.name}]<else/>{$project.name}</neq></option>
+                            <option value="{$project.id}" <php>if($project[id] == I('get.id')) echo 'selected="selected"';
+                            </php>><php>for($j = 0 ; $j < $project[_level] ; $j++ ) : echo "|--"; endfor;</php><neq name="project[data_model_id]" value="0">[{$project.name}]<else/>{$project.name}</neq></option>
                         </foreach>
                     </select><!-- /.input group -->
                 </div><!-- /.form group -->
@@ -38,7 +40,7 @@
                 <div class="col-md-3 form-group">
                     <div class="input-group">
                         <span class="input-group-addon">数据模型</span>
-                        <select name="type" id="dataModel" class="selectpicker form-control">
+                        <select name="data_model_id" id="dataModel" class="selectpicker form-control">
                             <option value="0">请选择</option>                            
                             <foreach name="dataModels" item="dataModel">
                                 <option value="{$dataModel[id]}">{$dataModel[name]}</option>
