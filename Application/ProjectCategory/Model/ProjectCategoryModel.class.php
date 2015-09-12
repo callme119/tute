@@ -9,6 +9,8 @@
 namespace ProjectCategory\Model;
 use Think\Model;
 class ProjectCategoryModel extends Model{
+	protected $_auto = array(
+		);
 
 	/**
 	*初始化方法
@@ -49,5 +51,25 @@ class ProjectCategoryModel extends Model{
 		$map['id'] = $id;
 		$res = $this->where($map)->field('type')->find();
 		return $res;
+	}
+
+	/**
+	 * 添加POST信息.名称为空，则报错，不为空，则添加。
+	 */
+	public function addListFromPost()
+	{
+		$post = I('post.');
+		$data['pid'] = !is_numeric($post['pid']) ? 0 : $post['pid'];
+		$data['score'] = !is_numeric($post['score']) ? 0 : $post['score'];
+		$data['data_model_id'] = !is_numeric($post['data_model_id']) ? 0 : $post['data_model_id'];
+		$data['name'] = trim($post['name']);
+		if($data['name'] == '')
+		{
+			E("名称不能为空",1);
+		}
+		if($this->create($data))
+		{
+			return $this->add();
+		}
 	}
 }

@@ -71,4 +71,23 @@ class ProjectCategoryLogic extends ProjectCategoryModel
 		}
 		return $datas;
 	}
+
+	/**
+	 * 返回相关结点的子结点
+	 * @return int 结点ID
+	 */
+	public function getListsByPid($pid)
+	{
+		$map['pid'] = $pid;
+		try
+		{
+			$data = $this->where($map)->select();
+			return $data;
+		}
+		catch(\Think\Exception $e)
+		{
+			$thie->error = "数据查询发生错误：错误信息：". $e->getMessage() . "最后查询语句: " . $this->getLastSql();
+			return false;
+		}
+	}
 }
