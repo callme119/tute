@@ -72,4 +72,28 @@ class ProjectCategoryModel extends Model{
 			return $this->add();
 		}
 	}
+
+	public function saveListFromPost()
+	{
+		$post = I('post.');
+		$data['id'] = $post['id'];
+		$data['pid'] = !is_numeric($post['pid']) ? 0 : $post['pid'];
+		$data['score'] = !is_numeric($post['score']) ? 0 : $post['score'];
+		$data['data_model_id'] = !is_numeric($post['data_model_id']) ? 0 : $post['data_model_id'];
+		$data['name'] = trim($post['name']);
+		if($data['name'] == '')
+		{
+			E("名称不能为空",1);
+		}
+		if($this->data($data))
+		{
+			return $this->save();
+		}
+	}
+
+
+	public function getListById($id)
+	{
+		return $this->where("id = $id")->find();
+	}
 }

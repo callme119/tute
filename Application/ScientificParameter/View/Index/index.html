@@ -28,7 +28,7 @@
                                         {$list[name]}</td>
                                     <td>
                                         <a class="btn btn-sm btn-success"  href="{:U('ScientificParameter/Index/add?id='.$list['id'] . "&p=".I("get.p"))}" ><i class="fa fa-plus-square"></i>添加子类别</a>
-                                        <a class="btn btn-sm btn-primary" href="{:U("edit?id=".$list['id']. "&p=".I("get.p")) }""><i class="fa fa-pencil"></i>编辑</a>
+                                        <a class="btn btn-sm btn-primary" href="{:U("edit?id=".$list['id']. "&pid=". $list['pid']."&p=".I("get.p")) }""><i class="fa fa-pencil"></i>编辑</a>
                                         <a class="btn btn-sm btn-danger" href="{:U("delete?id=".$list['id'] . "&p=".I("get.p"))}" "><i class="fa fa-trash-o "></i>删除</a>
                                     </td>
                                 </tr>

@@ -90,4 +90,15 @@ class ProjectCategoryLogic extends ProjectCategoryModel
 			return false;
 		}
 	}
+	/**
+	 * 查找相关ID的具体信息
+	 * @param  int $id 项目类别ID
+	 * @return array     一维
+	 */
+	public function getListById($id)
+	{
+		$map['id'] = $id;
+		return $this->where($map)->find();
+	}
+
 }

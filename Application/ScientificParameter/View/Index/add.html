@@ -4,17 +4,14 @@
         <div class="col-md-12 box-body">
             <!-- Date range -->
             <form action="{:U('save')}" method = 'post'>
-                <div style="display:none">
-                    <input id="pid" name="pid" value="0">
-                    {:$url=U('append');}
-                </div>
+                <neq name="projectDetail" value=""><input type="hidden" value="{$projectDetail[id]}" name="id" /></neq>
                
                 <div class="row select">
                     <div class="col-md-3 form-group">
-                     <select class="selectpicker form-control project">
+                     <select class="selectpicker form-control project" name="pid">
                         <option>请选择</option>
                         <foreach name="projectCategory" item="project">
-                            <option value="{$project.id}" <php>if($project[id] == I('get.id')) echo 'selected="selected"';
+                            <option value="{$project.id}" <php>if($project[id] == I('get.pid')) echo 'selected="selected"';
                             </php>><php>for($j = 0 ; $j < $project[_level] ; $j++ ) : echo "|--"; endfor;</php><neq name="project[data_model_id]" value="0">[{$project.name}]<else/>{$project.name}</neq></option>
                         </foreach>
                     </select><!-- /.input group -->
@@ -24,7 +21,7 @@
                 <div class="col-md-3 form-group">
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon1">名称</span>
-                        <input id="name" name="name" value="{$data.name}" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                        <input id="name" name="name" value="{$projectDetail.name}" class="form-control" placeholder="" aria-describedby="basic-addon1">
                     </div>
                 </div>
             </div>
@@ -32,7 +29,7 @@
                 <div class="col-md-3 form-group">
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon1">分值</span>
-                        <input type="text" name="score" value="{$data.score}" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                        <input type="text" name="score" value="{$projectDetail.score}" class="form-control" placeholder="" aria-describedby="basic-addon1">
                     </div>
                 </div>
             </div>
@@ -43,7 +40,7 @@
                         <select name="data_model_id" id="dataModel" class="selectpicker form-control">
                             <option value="0">请选择</option>                            
                             <foreach name="dataModels" item="dataModel">
-                                <option value="{$dataModel[id]}">{$dataModel[name]}</option>
+                                <option value="{$dataModel[id]}" <php>if($projectDetail[data_model_id] == $dataModel[id]) echo 'selected="selected"';</php>>{$dataModel[name]}</option>
                             </foreach>
                         </select>
                     </div>
