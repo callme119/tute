@@ -70,7 +70,7 @@ class IndexController extends AdminController
         $departmentPostModel = new DepartmentPostModel;
         $departmentPostInfo = $departmentPostModel -> getDepartmentPostInfoByDepartId($id);
         $this->assign('departmentPostInfo',$departmentPostInfo);
-        
+
         $this->assign('css',$this->fetch("departCss"));
         $this->assign('YZBODY',$this->fetch('addDepart'));
         $this->display(YZTemplate);
@@ -110,12 +110,15 @@ class IndexController extends AdminController
     }
     //删除保存
     public function deleteAction(){
-        $departmentModel = new DepartmentModel;
+        //判断该部门是否有岗位
+        //如果有就不能删除
+        //如果没有，删除
+        /*$departmentModel = new DepartmentModel;
         $state = $departmentModel -> deleteDepartment();
         if($state){
             $url = U('index');
             $this->success('删除成功',$url);
-        }
+        }*/
     }
     /**
      * [_fetchDepartmentList 传值到添加界面的部门列表]

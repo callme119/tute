@@ -51,6 +51,7 @@ class DepartmentModel extends Model
 		if($state == 0){
 			$state = true;
 		}
+		$_POST['id'] = $data['id'];
 		return $state;
 	}
 
