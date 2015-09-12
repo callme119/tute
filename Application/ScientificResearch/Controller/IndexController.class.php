@@ -4,6 +4,7 @@
  */
 namespace ScientificResearch\Controller;
 use Admin\Controller\AdminController;
+use ProjectCategory\Logic\ProjectCategoryLogic;         //项目类别
 use ProjectCategory\Model\ProjectCategoryModel;         //项目类别表
 use User\Model\UserModel;                               //用户表
 use UserDepartmentPost\Model\UserDepartmentPostModel;   //用户部门岗位表
@@ -50,11 +51,11 @@ class IndexController extends AdminController {
      * 
      */
     public function savedAction() {
-        $ProjectDetailOneM = new ProjectDetailOneModel();
-        $ProjectDetailOne = $ProjectDetailOneM->save();
+        // $ProjectDetailOneM = new ProjectDetailOneModel();
+        // $ProjectDetailOne = $ProjectDetailOneM->save();
 
-        $ProjectM = new ProjectModel();
-        $Project = $ProjectM->save();
+        // $ProjectM = new ProjectModel();
+        // $Project = $ProjectM->save();
 
         $ScoreM = new ScoreModel();
         $Score = $ScoreM->save();
@@ -70,6 +71,10 @@ class IndexController extends AdminController {
         //获取当前用户ID
         $userId = get_user_id();
 
+        $ProjectCategoryL = new ProjectCategoryLogic();
+        $projectCategoryTree = $ProjectCategoryL->getSonsTreeById(0);
+        $projectCategory = tree_to_list($projectCategoryTree , $id , '_son' );
+
         //获取当前用户部门岗位信息（数组）
         $UserDepartmentPostM = new UserDepartmentPostModel();
         $userDepartmentPosts = $UserDepartmentPostM->getListsByUserId($userId);
@@ -78,15 +83,16 @@ class IndexController extends AdminController {
         $ExamineM = new ExamineModel();
         $examineLists = $ExamineM->getListsByNowPosts($userDepartmentPosts);
 
-        $projectM = new ProjectCategoryModel();
-        $project = $projectM->init();
+        // $projectM = new ProjectCategoryModel();
+        // $project = $projectM->init();
+        
         $nameM = new UserModel();
         $name = $nameM->getAllName();
 
         //传值
         $this->assign("examineLists",$examineLists);
         $this->assign('name',$name);
-        $this->assign('project',$project);
+        $this->assign('project',$projectCategory);
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
@@ -107,13 +113,13 @@ class IndexController extends AdminController {
  *  1.判断穿过来的id的type是否为0（如果为0还有子项目）
  *  2.如果type为0，pid=id取库 
  */
-  public function appendAction()
-  {
-    $return = array('status' =>"" ,'data'=>"" );
-    $id = I('get.id');
+    public function appendAction()
+    {
+        $return = array('status' =>"" ,'data'=>"" );
+        $id = I('get.id');
 
-    $projectM = new ProjectCategoryModel();
-    $type = $projectM->getTypeById($id);
+        $projectM = new ProjectCategoryModel();
+        $type = $projectM->getTypeById($id);
 
     $pid = $id;//id作为pid取值
     $res = $projectM->append($pid);
@@ -122,8 +128,8 @@ class IndexController extends AdminController {
     $return['status'] = $type['type'];
     //echo $data;
     $this->ajaxReturn($return);
-  
-  }
+
+}
 
     /**
      * 查看项目详情
