@@ -49,6 +49,9 @@ class IndexController extends AdminController {
     }
     //删除教工
     public function deleteAction(){
+        //删除该教工
+        //删除该教工与角色的对应信息
+        //删除该教工与部门岗位的对应信息
         $id = I('get.id');
         $staffModel = new UserModel();
         $state = $staffModel -> deleteStaff($id);
