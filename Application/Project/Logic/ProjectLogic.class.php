@@ -54,4 +54,16 @@ class ProjectLogic extends ProjectModel
 		//查询出数据
 		return $this->getListByIdFromSuffixTable($projectDetailId);
 	}
+
+	/**
+	 * 返回同一项目类别的数据
+	 * @param  int $projectCategoryId 项目类别ID
+	 * @return array                    二维数组
+	 */
+	public function getListsByProjectCategoryId($projectCategoryId)
+	{
+		$map['project_category_id'] = $projectCategoryId;
+		$data = $this->where($map)->select();
+		return $data;
+	}
 }
