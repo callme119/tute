@@ -63,8 +63,15 @@ class ProjectWidget extends Controller
 		foreach($dataModelSelectRoots as $root)
 		{
 			$key = $root['name'];
-			$value = $projectDetails[$key]['value'];
-			$score =  floor($score*$projectCategoryRatios[$value]['ratio']/100);
+
+			//如果存在，证明该系数已经设置，如果不存在，证明项目的系数未被设置。
+			//该原因，可能是先有的项目，后来增的数据模型的系数引起的。
+			//归避该BUG的方法，可以在修改数据模型前，给出是否有项目类别使用该项目模型的判断。
+			if( isset($projectDetails[$key]['value']))
+			{
+				$value = $projectDetails[$key]['value'];
+				$score =  floor($score*$projectCategoryRatios[$value]['ratio']/100);	
+			}
 		}
 
 		//输出
