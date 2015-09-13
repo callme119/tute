@@ -1,0 +1,33 @@
+<php>
+	$type = array("int"=>"数字","text"=>"文本","datatime"=>"日期时间","money"=>"货币");
+	$htmlType = array("text"=>"text","select"=>"select");
+	$pid = empty(I('get.pid')) ? $dataModelDetail[pid] : I('get.pid');
+</php>
+<form action="{:U('save')}" method="post">
+	<label>数据模型:</label><p>{$dataModel['name']}({$dataModel['description']})</p>
+	<input type="hidden" name="id" value="{$dataModelDetail['id']}">
+	<input type="hidden" name="data_model_id" value="{$dataModel[id]}">
+	<label>显示字符串:</label><h5><input type="text" name="title" value="{$dataModelDetail['title']}"></h5>
+	<label>存储字段名(上级字段非根字段时，可不填写):</label><h5><input type="text" name="name" value="{$dataModelDetail['name']}"></h5>
+	<label>上级字段</label>
+	<h5>
+		<select name="pid">
+			<option value="0">根字段</option>
+			<foreach name="dataModelDetailRoots" item="value">
+				<option value="{$value[id]}" <eq name="value[id]" value="$pid">selected="selected"</eq>>|--{$value[title]}</option>
+			</foreach>
+		</select>
+	</h5>
+	<label>字段类型:</label><h5>
+		<select name="type" id="type">
+		<foreach name="type" item="value" key="key">
+			<option value="{$key}" <eq name="key" value="$dataModelDetail[type]">selected="selected"</eq>>{$value}</option>
+		</foreach>
+	</select></h5>
+	<label>HTML类型</label><h5><select name="html_type" id="html_type">
+		<foreach name="htmlType" item="value" key="key">
+			<option value="{$key}" <eq name="key" value="$dataModelDetail[html_type]">selected="selected"</eq>>{$value}</option>
+		</foreach>
+	</select></h5>
+	<button type="submit">确定</button>
+</form>
