@@ -5,7 +5,7 @@
             <!-- Date range -->
             <form action="{:U('save')}" method = 'post'>
                 <neq name="projectDetail" value=""><input type="hidden" value="{$projectDetail[id]}" name="id" /></neq>
-               
+                <input name="type" type="hidden" value="{:I('get.type')}" />
                 <div class="row select">
                     <div class="col-md-3 form-group">
                      <select class="selectpicker form-control project" name="pid">
@@ -30,6 +30,17 @@
                     <div class="input-group">
                         <span class="input-group-addon" id="basic-addon1">分值</span>
                         <input type="text" name="score" value="{$projectDetail.score}" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 form-group">
+                    <div class="input-group">
+                        <span class="input-group-addon" id="basic-addon1">团队项目</span>
+                        <select name="is_team" id="is_team" class="selectpicker form-control">
+                            <option value="0">否</option>
+                            <option value="1" <eq name="projectDetail[is_team]" value="1">selected="selected"</eq>>是</option>
+                        </select>
                     </div>
                 </div>
             </div>

@@ -60,9 +60,30 @@ class ProjectCategoryLogic extends ProjectCategoryModel
 	 * 返回本结点及全部子结点信息
 	 * @return tree 目录树
 	 */
-	public function getSonsTreeById($id , $keyWord = "_son")
+	public function getSonsTreeById($id , $keyWord = "_son" , $type = '')
 	{
 		$map = array();
+		if($type == '')
+		{
+			$type = I('get.type');
+		}
+		switch ($type) {
+			case 'Education':				//教学建设
+				$map['is_education'] = 1;
+				break;			
+			case 'ServiceEducation':		//服务育人
+				$map['is_service_education'] = 1;
+				break;
+			case 'Course':					//学科建设
+				$map['is_course'] = 1;
+				break;						//超额科研育人
+			case 'Excess':
+				$map['is_excess'] = 1;
+				break;			
+			default:
+				$map['is_scientific'] = 1;	//教科研
+				break;
+		}
 		$map['pid'] = $id;
 		$datas = $this->where($map)->select();
 		foreach($datas as $key => $data)

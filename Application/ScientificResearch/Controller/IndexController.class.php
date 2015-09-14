@@ -39,7 +39,7 @@ class IndexController extends AdminController {
         //传值 
         $this->assign("totalCount",$totalCount);
         $this->assign("projects",$projects);
-        $this->assign('YZBODY',$this->fetch());
+        $this->assign('YZBODY',$this->fetch('Index/index'));
         $this->display(YZTemplate);
     }
     /**
@@ -94,7 +94,7 @@ class IndexController extends AdminController {
         $this->assign("examineLists",$examineLists);
         $this->assign('name',$name);
         $this->assign('project',$projectCategory);
-        $this->assign('YZBODY',$this->fetch());
+        $this->assign('YZBODY',$this->fetch('Index/add'));
         $this->display(YZTemplate);
     }
     public function auditprocessAction() {
@@ -190,7 +190,7 @@ class IndexController extends AdminController {
             $this->assign("projectDetail",$projectDetail);
             $this->assign("workflowLog",$workflowLog);
             $this->assign("todoList",$todoList);
-            $this->assign("YZBODY",$this->fetch());
+            $this->assign("YZBODY",$this->fetch('Index/detail'));
             $this->display(YZTemplate);
             
             // $project
