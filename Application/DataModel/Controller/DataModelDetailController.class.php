@@ -36,7 +36,6 @@
 
  	public function saveAction()
  	{
- 		dump(I('post.'));
  		$id= (int)I('post.id');
  		try
  		{
@@ -61,8 +60,6 @@
  			$this->error = $e;
  			$this->_empty();
  		}
-
-
  	}
 
  	public function addAction()
@@ -81,5 +78,26 @@
  		$this->assign("dataModelDetail",$dataModelDetail);
  		$this->assign("YZBODY",$this->fetch('edit'));
  		$this->display(YZTemplate);
+ 	}
+
+ 	public function deleteAction()
+ 	{
+ 		$id = (int)I('get.id');
+ 		try
+ 		{
+ 			$DataModelDetailL = new DataModelDetailLogic();
+	 		if( !$DataModelDetailL->deleteById($id) )
+	 		{
+	 			E("传入的ID值有误，或该条记录已被删除");
+	 		}
+
+	 		$this->success("操作成功",U("Index/detail?id=". I('get.data_model_id')));
+ 		}
+ 		catch(\Think\Exception $e)
+ 		{
+ 			$this->error = $e;
+ 			$this->_empty();
+ 		}
+
  	}
  }

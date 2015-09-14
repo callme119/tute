@@ -108,4 +108,9 @@ class DataModelDetailLogic extends DataModelDetailModel
 		}
 
 	}
+
+	public function deleteById($id)
+	{
+		return $this->where("id = $id")->delete();
+	}
 }

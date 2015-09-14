@@ -101,4 +101,24 @@ class ProjectCategoryLogic extends ProjectCategoryModel
 		return $this->where($map)->find();
 	}
 
+	/**
+	 * 删除
+	 * @param  int $id 关键字
+	 * @return [type]     [description]
+	 */
+	public function deleteById($id)
+	{
+		return $this->where("id = $id")->delete();
+	}
+
+	/**
+	 * 返回相关 数据模型ID 的所有记录
+	 * @param  [type] $dataModelId [description]
+	 * @return [type]              [description]
+	 */
+	public function getListsByDataModelId($dataModelId)
+	{
+		$map['data_model_id'] = $dataModelId;
+		return $this->where($map)->select();
+	}
 }

@@ -1,4 +1,5 @@
 <p>数据模型：{$DataModel[name]}</p>
+<p class="error">系统无法对删除的关联性进行验证，请谨慎使用删除功能。</p>
 <p><a href="{:U('DataModelDetail/add?id='.I('get.id'))}">添加字段</a></p>
 <table>
 	<tr>
@@ -16,7 +17,8 @@
 		<td>{$root[name]}</td>
 		<td>{$root[type]}</td>
 		<td>{$root[html_type]}</td>	
-		<td><a href="{:U('DataModelDetail/edit?id='.$root['id'])}">编辑</a></td>
+		<td><a href="{:U('DataModelDetail/edit?id='.$root['id']) . '&data_model_id=' . $DataModel[id]}">编辑</a>
+		<a href="{:U('DataModelDetail/delete?id='.$root['id'] . '&data_model_id=' . $DataModel[id])}">删除</a></td>
 	</tr>
 	<php>if($root[html_type] == "select") : </php>
 		<foreach name="dataModelDetailSons[$root[id]]" item="son" key="k">
@@ -26,7 +28,10 @@
 			<td>{$son[name]}</td>
 			<td>{$son[type]}</td>
 			<td>{$son[html_type]}</td>
-			<td><a href="{:U('DataModelDetail/edit?id='.$son['id'])}">编辑</a></td>
+			<td>
+				<a href="{:U('DataModelDetail/edit?id='.$son['id']) . '&data_model_id=' . $DataModel[id]}">编辑</a>
+				<a href="{:U('DataModelDetail/delete?id='.$son['id'] . '&data_model_id=' . $DataModel[id])}">删除</a>
+			</td>
 		</tr>
 		</foreach>
 	<php>endif;</php>

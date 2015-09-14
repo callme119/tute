@@ -23,4 +23,9 @@ class ProjectDetailLogic extends ProjectDetailModel
 		}
 		return $return;
 	}
+
+	public function deleteById($id)
+	{
+		return $this->where("id = $id")->delete();
+	}
 }

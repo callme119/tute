@@ -24,5 +24,34 @@ class DataModelLogic extends DataModelModel
 			);
 		return $return;
 	}
+
+	/**
+	 * 添加POST信息
+	 */
+	public function addPost()
+	{
+		if($this->create())
+		{
+			$this->add();
+		}
+		else
+		{
+			E($this->getError());
+		}
+	}
+
+	/**
+	 * 保存POST信息
+	 * @return [type]
+	 */
+	public function savePost()
+	{
+		$this->save(I('post.'));
+	}
+
+	public function deleteById($id)
+	{
+		return $this->where("id = $id")->delete();
+	}
 }
 	
