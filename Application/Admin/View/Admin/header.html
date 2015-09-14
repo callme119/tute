@@ -160,12 +160,12 @@
                     <ul class="nav" id="side-menu">
                     <foreach name="leftMenu" item="val">
                         <li>
-                            <a href="<eq name="val._son" value="">{:U($val[url])}<else />#</eq>"><i class="{$val.icon}"></i>&nbsp;{$val.title}<neq name="val._son" value=""><span class="fa arrow"></span></neq></a>
+                            <a href="<eq name="val._son" value="">{:U($val[url] . $val[parameter])}<else />#</eq>"><i class="{$val.icon}"></i>&nbsp;{$val.title}<neq name="val._son" value=""><span class="fa arrow"></span></neq></a>
                             <neq name="val._son" value="">
                                 <ul class="nav nav-second-level">
                                 <foreach name="val._son" item="valSon">
                                 <li>
-                                    <a href="{:U($valSon[url])}">{$valSon.title}</a>
+                                    <a href="{:U($valSon[url]. $valSon[parameter])}">{$valSon.title}</a>
                                 </li>
                                 </foreach>
                                 </ul>
