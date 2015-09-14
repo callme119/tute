@@ -21,6 +21,15 @@ class DataModelModel extends Model
 	}
 
 	/**
+	 * 获取状态为正常的数据模型列表 
+	 * @return array 二维数组
+	 */
+	public function getNormalLists()
+	{
+		$map[state] = 0;
+		return $this->where($map)->select();
+	}
+	/**
 	 * 通过ID找相关记录
 	 * @param  num $id KEY
 	 * @return array     一维数组

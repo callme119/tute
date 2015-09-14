@@ -9,6 +9,7 @@ class DepartmentModel extends Model
 	 * @param  [type]  $layer            [层级]
 	 * @param  string  $keyWord          [子集元素的key值]
 	 * @return [type]                    [部门树形结构]
+	 * xuao 295184686@qq.com
 	 */
 	public function getDepartmentTree($rootDepatrmentId = 0,$layer,$keyWord = '_son'){
 		//设置根元素id,获取一级元素
@@ -28,7 +29,50 @@ class DepartmentModel extends Model
 		return $data;
 		
 	}
+	/**
+	 * [getDepartmentInfoById 通过id获取部门信息]
+	 * @param  [type] $id [id值]
+	 * @return [type]     [返回部门信息]
+	 */
+	public function getDepartmentInfoById($id){
+		$map['id'] = $id;
+		$data =  $this  -> where($map) -> find();
+		return $data;
+	}
+	/**
+	 * [updateDepartment 更新部门]
+	 * @return [type] [返回状态]
+	 */
+	public function updateDepartment(){
+		$data = I('post.');
+		$data['id'] = I('get.id');
+		$state = $this -> save($data);
+		//返回值为影响条数。如果为0，说明数据未修改，但是保存可以成功
+		if($state == 0){
+			$state = true;
+		}
+		$_POST['id'] = $data['id'];
+		return $state;
+	}
 
+	public function addDepartment(){
+
+		$data = I('post.');
+		$state = $this -> add($data);
+		//设置post供添加部门-岗位使用
+		$_POST['id'] = $state;
+		return $state;
+		//添加成功返回添加的部门id
+	}
+	/**
+	 * [addDepartment 删除部门]
+	 */
+	public function deleteDepartment(){
+		$map['id'] = I('get.id');
+		//delete方法的返回值是删除的记录数，如果返回值是false则表示SQL出错，返回值如果为0表示没有删除任何数据。
+		$state = $this -> where($map) ->delete();
+		return $state;
+	}
 
 	/**
 	 * 通过部门ID，返回本部门及上级部门组成的列表。

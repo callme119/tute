@@ -157,4 +157,16 @@ class WorkflowLogModel extends Model
 		while($id != 0);
 		return $data;
 	}
+
+	/**
+	 * 获取工作流的待办信息
+	 * @param  int $workflowId 工作流ＩＤ
+	 * @return array             一维数组
+	 */
+	public function getTodoListByWorkflowId($workflowId)
+	{
+		$map['workflow_id']	= $workflowId;
+		$map['is_commited'] = 0;
+		return $this->where($map)->find();
+	}
 }

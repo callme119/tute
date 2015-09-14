@@ -9,7 +9,7 @@ use Think\Controller;
 
 class ProjectCategoryWidget extends Controller
 {
-	public function getParentsDetailStringsByIdAction($id , $connector = "=>")
+	public function getParentsDetailStringsByIdAction($id , $connector = "－〉")
 	{
 		$ProjectCategoryL = new ProjectCategoryLogic();
 		$projectCategoryTree = $ProjectCategoryL->getTreeBySonId($id);

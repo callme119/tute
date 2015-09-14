@@ -19,6 +19,15 @@ class PostModel extends Model{
         $data = $this->where($map)->find();
         return $data;
     }
+    public function deletePostById($id){
+        /*delete方法的返回值是删除的记录数，
+        如果返回值是false则表示SQL出错，
+        返回值如果为0表示没有删除任何数据。
+        */
+        $map['id'] = $id;
+        $data = $this->where($map)->delete();
+        return $data;
+    }
 /**
  * [getPostList 获取岗位列表]
  * @return [type] [岗位列表]
@@ -32,6 +41,12 @@ class PostModel extends Model{
     	$data = I('post.');
 	$state = $this -> add($data);
 	return $state;
+    }
+    public function updatePost(){
+            $data = I('post.');
+            $data['id'] = I('get.id');
+            $state = $this -> save($data);
+            return $state;
     }
 
 }

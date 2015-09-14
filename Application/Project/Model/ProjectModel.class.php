@@ -10,6 +10,11 @@ namespace Project\Model;
 use Think\Model;
 class ProjectModel extends Model{
 	
+    protected $_auto = array(
+        array('time','time',3)
+        );
+    protected $_validate = array();
+    
     private $order = array("time"=>"desc");
 
 	//再取项目细节信息
@@ -36,12 +41,30 @@ class ProjectModel extends Model{
         return $this->where($map)->page($this->p,$this->pageSize)->order($this->order)->select();
     }
 
+    /**
+     * 获取当前用户下的所有项目信息
+     * @param  num $userId 用户ＩＤ
+     * @return array         二维数组
+     */
     public function getListsByUserId($userId)
     {
         $map = array();
         $map['user_id'] = $userId;
         $this->totalCount = $this->where($map)->count();
         return $this->where($map)->page($this->p,$this->pageSize)->order($this->order)->select();
-
     }
+
+    /**
+     * 获取当前用户当前项目的具体信息
+     * @param  int $id     项目ＩＤ
+     * @param  int $userId 用户ＩＤ
+     * @return array         一组数据。
+     * 当查询不到时返回null
+     */
+    public function getListByIdUserId($id ,$userId)
+    {
+        $map[id]=$id;
+        $map[user_id] = $userId;
+        return $this->where($map)->find();
+    } 
 }

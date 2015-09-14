@@ -57,7 +57,6 @@ class IndexController extends AdminController
         $roleMenuModel = new RoleMenuModel();
         $originalPermission = $roleMenuModel->getMenuListByRoleId($id);
         $this->assign('originalPermission',$originalPermission);
-        //dump($originalPermission);
 
         //定义提交url
         $submitUrl = U('update?id='.$id);
@@ -85,6 +84,9 @@ class IndexController extends AdminController
     }
     //删除角色
     public function deleteRoleAction(){
+        //判断该角色下是否有用户
+        //如果有，提示不能删除
+        //如果没有，删除该角色
 
     }
     //保存

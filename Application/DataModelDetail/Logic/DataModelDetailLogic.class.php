@@ -83,4 +83,34 @@ class DataModelDetailLogic extends DataModelDetailModel
 		return $data;
 	}
 
+	/**
+	 * 保存POST提交数据
+	 * @return [type] [description]
+	 */
+	public function savePostData()
+	{
+		$data = I('post.');
+		$this->data($data)->save();
+	}
+
+	/**
+	 * 新增POST数据 
+	 */
+	public function addPostData()
+	{
+		if($hello = $this->create())
+		{
+			$this->add();
+		}
+		else
+		{
+			E($this->getError());
+		}
+
+	}
+
+	public function deleteById($id)
+	{
+		return $this->where("id = $id")->delete();
+	}
 }

@@ -23,9 +23,9 @@ class IndexController extends AdminController {
     }
     //教工管理添加教工
     public function addAction(){
-        //获取部门列表信息(考虑是否加到初始化方法中，因为编辑也需要)
-        //获取岗位列表信息(考虑是否加到初始化方法中，因为编辑也需要)
-        //获取角色列表信息(考虑是否加到初始化方法中，因为编辑也需要)
+        //获取部门列表信息(通过私有防发获取)
+        //获取岗位列表信息(通过私有防发获取)
+        //获取角色列表信息(通过私有防发获取)
         //传值，前台进行处理
         $url = U('save');
         $this->assign('url',$url);
@@ -49,6 +49,9 @@ class IndexController extends AdminController {
     }
     //删除教工
     public function deleteAction(){
+        //删除该教工
+        //删除该教工与角色的对应信息
+        //删除该教工与部门岗位的对应信息
         $id = I('get.id');
         $staffModel = new UserModel();
         $state = $staffModel -> deleteStaff($id);
@@ -89,5 +92,32 @@ class IndexController extends AdminController {
                 );
         }
         return $data;
+    }
+
+    //修改用户邮箱，手机号，密码等个人信息
+    public function changeUserInfoAction(){
+        $model = new UserModel;
+        $newpsw = I('post.newpsw');
+        $oldpsw = I('post.oldpsw');
+        $userId = I('get.id');
+        //先进行密码验证
+        if($model->checkPsw($oldpsw,$userId)){
+            $this->error('密码错误，请重新输入');
+        }; 
+        
+        //进行分类，如果新密码为空，我们认为是仅修改邮箱或手机
+        //不为空，我们认为修改密码
+        if($newpsw == 0){
+            if($model->changePhoneOrEmail($userId)){
+                $this->success('修改信息成功');
+            }     
+        }else{
+            if($model->changePsw($newpsw,$userId)){
+                $this->success('修改密码成功');
+            }
+        };
+    }
+    public function _fetchRoleList(){
+        
     }
 }

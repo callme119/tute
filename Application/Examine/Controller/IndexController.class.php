@@ -19,7 +19,9 @@ class IndexController extends AdminController{
         //调用post模块中的getPostInfo方法
         //传给V层
         $post = new PostModel;
+        $page = I('get.p');
         $data = $post->select();
+        $this->assign('page',$page);
         $this->assign("post",$data);
         $this->assign('YZBODY',$this->fetch('newexamine'));
         $this->display(YZTemplate);
@@ -30,7 +32,8 @@ class IndexController extends AdminController{
         $model = new ExamineModel;
         $data = $model->index();
         $count = $model->getListsCount();
-        echo $count;
+        $page = I('get.p');
+        $this->assign('page',$page);
         $this->assign('count',$count);
         $this->assign('examine',$data);
         $this->assign('YZBODY',$this->fetch('examinelist'));
@@ -42,11 +45,12 @@ class IndexController extends AdminController{
         //先将post过来的岗位信息存审批对应的链表信息
         $post = I('post.chain');
         $model = new ExamineModel;
+        $page = I('get.p');
         //获取该审批对应的头结点id
         $id = $model->saveChain($post);
         $name = I('post.name');
         $model->saveExamine($id,$name);
-        $this->success('操作成功',index);
+        $this->success('操作成功',index.'?p='.$page);
     }
     /**
      * 通过GET过来的流程ID值，查找当前用户，当前流程下的下一环节审核人员

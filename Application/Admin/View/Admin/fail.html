@@ -7,7 +7,7 @@
                 抱歉，我们找不到您要浏览的页面。
                 您可以 <a href='{$url}'>返回首页</a> 或者尝试搜索其他内容
             </p>
-            <script>console.log("错误：{$error}");</script>
+            <script>console.log("错误：<php>if(is_object($error)){echo $error->getMessage();}  else echo $error;</php>");</script>
             <form class='search-form'>
                 <div class='input-group'>
                     <input type="text" name="search" class='form-control' placeholder="Search"/>

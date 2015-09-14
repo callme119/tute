@@ -5,7 +5,7 @@
             <div class="box">
                 <div class="box-body table-responsive">
                     <div class="panel-body">
-                    <button type="button" onclick="location='{:U('addDepart')}'" class="btn btn-info">添加一级菜单</button>
+                    <button type="button" onclick="location='{$url}'" class="btn btn-info">添加一级菜单</button>
                     </div>
                     <!-- Table -->
                     <table class="table table-bordered table-striped table-hover">
@@ -33,7 +33,7 @@
                                     {$value.title}
                                 </td>
                                 <td>{$value.subhead}</td>
-                                <td>{$value.url}</td>
+                                <td>{$value.url}{$value.parameter}</td>
                                 <td><eq name="value.development" value="0">否<else /><span class="badge">是</span></eq></td>
                                 <td>{$value.order}</td>
                                 <td><eq name="value.show" value="1">否<else /><span class="badge">是</span></eq></td>

@@ -19,7 +19,7 @@
                         </thead>
                         <tbody>
                         <foreach name="staffList" item ="value" key="key">
-                            <tr class="success">
+                            <tr class="">
                                 <td>{$key+1}</td>
                                 <td>{$value.name}</td>
                                 <td>{:W("User/showDepartmentPostById", array($value[id]))}</td>

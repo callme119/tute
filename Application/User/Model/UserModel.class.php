@@ -108,4 +108,30 @@ class UserModel extends Model{
 		$state = $this -> where($data) ->delete();
 		return $state;
 	}
+	//将原密码sha1后与数据库进行对比
+	public function checkPsw($oldpsw,$userId){
+		$map = array();
+		$map[id] = $userId;
+		$info = $this->where($map)->find();
+        if(sha1($oldpsw) != $info['password']){
+            return 1;
+        }else{
+        	return 0;
+        }
+	}
+
+	public function changePhoneOrEmail($userId){
+		$data = $this->create();
+		$map = array();
+		$map[id] = $userId;
+		return $this->where($map)->save($data);
+	}
+
+	public function changePsw($newpsw,$userId){
+		$data = array();
+		$data['password'] = sha1($newpsw);
+		$map = array();
+		$map['id'] = $userId;
+		return $this->where($map)->save($data);
+	}
 }

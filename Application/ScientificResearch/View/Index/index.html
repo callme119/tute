@@ -5,7 +5,7 @@
                 <div class="box-header">
                     <div class="row">  
                         <div class="col-md-2">
-                            <a href="{:U('ScientificResearch/Index/add')}" class="btn btn-block btn-primary"><i class="glyphicon glyphicon-plus"></i>添加教科研项目</a>
+                            <a href="{:U('add')}" class="btn btn-block btn-primary"><i class="glyphicon glyphicon-plus"></i>添加项目</a>
                         </div>
                     </div>
                 </div><!-- /.box-header -->
@@ -26,7 +26,7 @@
                         <foreach name="projects" item="project">
                             <tr>
                                 <td>{++$i}</td>
-                                <td>{$project[title]}</td>
+                                <td><a href="{:U("detail?id=". $project[id])}">{$project[title]}</a></td>
                                 <td>{:W("ProjectCategory/getParentsDetailStringsById",array($project['project_category_id']))}</td>
                                 <td>{$project[time]|date="Y/m/d",###}</td>
                                 <td><eq name="project[is_finished]" value="1">已办结<else /><eq name="project[is_commited]" value="1">审核中<else />未提交</eq></eq></td>

@@ -1,9 +1,8 @@
+	<a href="{:U('add?p=' .I('get.p'))}">添加</a>
 	<table>
 		<tr>
 			<td>序号</td>
 			<td>数据模型名</td>
-			<td>数据表后缀</td>
-			<td>分值基数</td>
 			<td>描述</td>
 			<td>类型</td>
 			<td>状态</td>
@@ -13,12 +12,10 @@
 		<tr>
 			<td>{++$i}</td>
 			<td><a href="{:U("DataModel/Index/detail?id=$value[id]&p=" . I('get.p'))}">{$value[name]}</a></td>
-			<td>{$value[table_suffix]}</td>			
-			<td>{$value[socre]}</td>
 			<td>{$value[description]}</td>
 			<td><eq name="value.type" value="1">基础模型<else/>普通模型</eq></td>
 			<td><eq name="value.state" value="0">正常<else/>冻结</eq></td>
-			<td><a href="{:U("DataModel/Index/detail?id=$value[id]&p=" . I('get.p'))}">查看</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{:U("DataModel/Index/edit?id=$value[id]&p=" . I('get.p'))}">添加项目</a></td>
+			<td><a href="{:U("DataModel/Index/detail?id=$value[id]&p=" . I('get.p'))}">扩展信息</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{:U("DataModel/Index/edit?id=$value[id]&p=" . I('get.p'))}">修改</a>&nbsp;&nbsp;<a href="{:U("delete?id=$value[id]&p=" . I('get.p'))}">删除</a></td>
 		</tr>
 		</foreach>
 	</table>
