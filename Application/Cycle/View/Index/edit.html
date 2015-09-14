@@ -1,0 +1,12 @@
+<form action="{:U('save?p=' .I('get.p'))}" method="post">
+	<input type="hidden" value="{$cycle[id]}" name="id" />
+	<label>名称</label><h5><input type="text" value="{$cycle[name]}" name="name" id="name" /></h5>	
+	<label>父周期</label><select name="pid" id="pid"><option value="0"><根周期/option></select>
+	<label>开始日期</label><h5><input type="date" name="begin_date" value="{$cycle['begin_date']}" /></h5>
+	<label>结束日期</label><h5><input type="date" name="end_date" id="end_date" value="{$cycle['end_date']}" /></h5>
+	<label>状态</label><select name="is_freezed" id="is_freezed">
+		<option value="0">正常</option>
+		<option value="1">冻结</option>
+	</select>
+	<button type="submit">确定</button>
+</form>

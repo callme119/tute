@@ -1,0 +1,23 @@
+<h5><a href="{:U('edit?p=' . I('get.p'))}">添加</a></h5>
+<table>
+	<tr>
+		<th>序号</th>
+		<th>名称</th>
+		<th>父周期</th>
+		<th>开始日期</th>
+		<th>结束日期</th>
+		<th>状态(是否生效)</th>
+		<th>操作</th>
+	</tr>
+	<foreach name="cycles" item="cycle" >
+	<tr>
+		<td>{++$i}</td>
+		<td>{$cycle['name']}</td>
+		<td></td>
+		<td>{$cycle['begin_date']|date="Y/m/d",###}</td>
+		<td>{$cycle['end_date']|date="Y/m/d",###}</td>
+		<td></td>
+		<td><a href="{:U('edit?id=' . $cycle['id'] . 'p=' . I('get.p'))}">编辑</a>&nbsp;&nbsp;<a href="{:U('delete?id=' . $cycle['id'] . 'p=' . I('get.p'))}"></a></td>
+	</tr>
+	</foreach>
+</table>
