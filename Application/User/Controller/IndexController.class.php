@@ -36,8 +36,9 @@ class IndexController extends AdminController {
 
         //传递角色列表（添加教工的角色复选框）
         $this -> assign('roleList',$this -> _fetchRoleList());
-
+        
         $this->assign('css',$this->fetch("addCss"));
+        $this->assign('js',$this->fetch("addJs"));
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);  
     }
@@ -56,6 +57,8 @@ class IndexController extends AdminController {
         //传递角色列表（编辑教工的角色复选框）
         $this -> assign('roleList',$this -> _fetchRoleList());
 
+        $this->assign('css',$this->fetch("addCss"));
+        $this->assign('js',$this->fetch("addJs"));
         $this->assign('YZBODY',$this->fetch('add'));
         $this->display(YZTemplate);  
     }
