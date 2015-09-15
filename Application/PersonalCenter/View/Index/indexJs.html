@@ -1,12 +1,17 @@
 <script>
-	$(document).ready(
-		function(){
-			$("personalCenter").validate({
-				rules: {
-   					email: {
-  					  email: true
-   					},
-			});
-
-		});
+	$(document).ready(function(){
+		$("#personalCenter").validate({
+			rules:{
+				email:{
+					required:true,
+					email:true
+				},
+				phone:{
+					digits:true,
+					maxlength:11,
+					minlength:11
+				}
+			},
+		})
+	});
 </script>
