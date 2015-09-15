@@ -151,21 +151,41 @@ class IndexController extends AdminController {
         $roleList = $roleModel -> getRoleList(1);
         return $roleList;
     }
-
+    /**
+     * [_fetchDepartmentPostList 获取 到部门-岗位信息]
+     * 其中部门下有多个岗位，没有岗位的部门不包括在该列表内
+     * 岗位信息在key为_post下，信息只包含岗位名；（尽量减少数组维度）
+     * _post下的key为部门-岗位id;
+     * @return [type] [部门-岗位列表]
+     * xuao 295184686@qq.com
+     */
     public function _fetchDepartmentPostList(){
         //通过部门Model获取所有部门列表
         $departmentModel = new DepartmentModel;
+
         $departmentTree = $departmentModel -> getDepartmentTree(0,2,'_son');
         $departmentList = tree_to_list($departmentTree,1,'_son','_level','order');
 
         //通过部门-岗位Model获取所有部门和它的下属岗位id列表
         $departmentPostModel = new DepartmentPostModel;
+        $postModel = new PostModel;
 
-        $departmentPostIdList = $departmentList;
+        $departmentPostList = $departmentList;
         foreach ($departmentList as $key => $value) {
-            $departmentPostIdList[$key]['_postId'] = $departmentPostModel -> getDepartmentPostInfoByDepartId($value['id']);
+            $postId = $departmentPostModel -> getDepartmentPostInfoByDepartId($value['id']);
+            //判断该部门的岗位信息是否为空；如果为空，从数组中删除该信息
+            if($postId){
+                //通过岗位Model获取所有部门和它的下属岗位信息列表
+                $postNameList  = array();
+                foreach ($postId as $key1 => $value1) {
+                    $postInfo = $postModel -> getPostInfoById($value1['post_id']);
+                    $postNameList[$value1['id']] = $postInfo['name'];
+                }
+                $departmentPostList[$key]['_post'] = $postNameList;
+            }else{
+                unset($departmentPostList[$key]);
+            }
         }
-        var_dump($departmentPostIdList);
-        //通过岗位Model获取所有部门和它的下属岗位信息列表
+        return $departmentPostList;
     }
 }
