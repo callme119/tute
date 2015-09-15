@@ -38,6 +38,7 @@ class IndexController extends AdminController
         $this->assign('permissionList',$permissionList);
         $this->assign('submitUrl',$submitUrl);
         $this->assign("js",$this->fetch("addRoleJs"));
+        $this->assign("css",$this->fetch("addRoleCss"));
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
@@ -64,7 +65,10 @@ class IndexController extends AdminController
 
         //页面显示
         $this->assign('roleInfo',$roleInfo);
+        $this->assign("js",$this->fetch("addRoleJs"));
+        $this->assign("css",$this->fetch("addRoleCss"));
         $this->assign('YZBODY',$this->fetch('addRole'));
+
         $this->display(YZTemplate);
     }
     //显示角色人员信息
@@ -84,6 +88,9 @@ class IndexController extends AdminController
     }
     //删除角色
     public function deleteRoleAction(){
+        //判断该角色下是否有用户
+        //如果有，提示不能删除
+        //如果没有，删除该角色
 
     }
     //保存

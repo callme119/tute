@@ -14,6 +14,7 @@ namespace Department\Controller;
 use Admin\Controller\AdminController;
 use Department\Model\DepartmentModel;
 use Post\Model\PostModel;
+use DepartmentPost\Model\DepartmentPostModel;
 class IndexController extends AdminController
 {
     public function indexAction()
@@ -64,7 +65,12 @@ class IndexController extends AdminController
         //传递岗位列表和部门列表到前台
         $this->assign('departmentList',$this->_fetchDepartmentList());
         $this->assign('postList',$this->_fetchPostList());
-        
+
+        //传递部门-岗位信息到前台
+        $departmentPostModel = new DepartmentPostModel;
+        $departmentPostInfo = $departmentPostModel -> getDepartmentPostInfoByDepartId($id);
+        $this->assign('departmentPostInfo',$departmentPostInfo);
+
         $this->assign('css',$this->fetch("departCss"));
         $this->assign('YZBODY',$this->fetch('addDepart'));
         $this->display(YZTemplate);
@@ -76,8 +82,13 @@ class IndexController extends AdminController
     }
     //添加保存
     public function saveAction(){
+        //添加部门信息
         $departmentModel = new DepartmentModel;
         $state = $departmentModel -> addDepartment();
+        //添加部门-岗位信息
+        $departmentPostModel = new DepartmentPostModel;
+        $departmentPostModel->addDepartmentPost();
+        
         if($state){
             $url = U('index');
             $this->success('保存成功',$url);
@@ -85,8 +96,13 @@ class IndexController extends AdminController
     }
     //编辑保存
     public function updateAction(){
+        //更新部门信息
         $departmentModel = new DepartmentModel;
         $state = $departmentModel -> updateDepartment();
+        //更新部门-岗位信息
+        $departmentPostModel = new DepartmentPostModel;
+        $departmentPostModel->updataDepartmentPost();
+
         if($state){
             $url = U('index');
             $this->success('保存成功',$url);
@@ -94,12 +110,15 @@ class IndexController extends AdminController
     }
     //删除保存
     public function deleteAction(){
-        $departmentModel = new DepartmentModel;
+        //判断该部门是否有岗位
+        //如果有就不能删除
+        //如果没有，删除
+        /*$departmentModel = new DepartmentModel;
         $state = $departmentModel -> deleteDepartment();
         if($state){
             $url = U('index');
             $this->success('删除成功',$url);
-        }
+        }*/
     }
     /**
      * [_fetchDepartmentList 传值到添加界面的部门列表]

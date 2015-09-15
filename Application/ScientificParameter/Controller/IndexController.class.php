@@ -27,10 +27,11 @@ class IndexController extends AdminController {
     $this->display(YZTemplate);
   }
   //管理员进行公共项目添加的界面
-  public function addAction() {
+  public function addAction($projectDetail = null) {
+
     $ProjectCategoryL = new ProjectCategoryLogic();
     $id = 0;
-   
+
     $projectCategoryTree = $ProjectCategoryL->getSonsTreeById($id);
     $projectCategory = tree_to_list($projectCategoryTree , $id , '_son' );
     
@@ -38,6 +39,7 @@ class IndexController extends AdminController {
     $dataModelM = new DataModelModel();
     $dataModels = $dataModelM->getNormalLists();
 
+    $this->assign("projectDetail",$projectDetail);
     $this->assign("js",$this->fetch("addJs"));
     $this->assign("dataModels",$dataModels);
     $this->assign('projectCategory',$projectCategory);
@@ -47,7 +49,15 @@ class IndexController extends AdminController {
 
   public function editAction()
   {
-    $this->addAction();
+      $projectCategoryId = I('get.id');
+      $ProjectCategoryL = new ProjectCategoryLogic();
+      if(!$projectCategory = $ProjectCategoryL->getListById($projectCategoryId))
+      {
+          $this->error = "传入了错误的ID值";
+          $this->_empty();
+      }
+
+      $this->addAction($projectCategory);
   }
   public function addProjectAction() {
     $this->assign('YZBODY',$this->fetch());
@@ -69,18 +79,32 @@ class IndexController extends AdminController {
   {
       try
       {
-          // dump(I('post.'));
-          //添加项目类别信息
           $ProjectCategoryM = new ProjectCategoryModel();
-          $projectCategoryId = $ProjectCategoryM->addListFromPost();
-          // dump($projectCategoryId);
-
-          //添加项目类别系数信息
           $ProjectCategoryRatioL = new ProjectCategoryRatioLogic();
+
+          //看是否有传入值。有传入值，则是更新操作。
+          $projectCategoryId = I('post.id');
+          if( $projectCategory = $ProjectCategoryM->getListById($projectCategoryId))
+          {
+              //更新项目类别信息
+              $ProjectCategoryM->saveListFromPost();
+
+              //删除项目类别系数信息
+              $ProjectCategoryRatioL->deleteListsByProjectCategoryId($projectCategoryId);
+          }
+          else
+          {
+              //没传入值，则是添加操作
+              //添加项目类别信息
+              $projectCategoryId = $ProjectCategoryM->addListFromPost();
+              // dump($projectCategoryId);
+
+          }
+          //添加项目类别系数信息
           $dataModelDeatailIds = I('post.data_model_detail_id');
           $ProjectCategoryRatioL->addListsByProjectCategoryIdDataModelDetailIds($projectCategoryId,$dataModelDeatailIds);
 
-          $this->success("操作成功",'add?pid='.I('post.pid'));
+          $this->success("操作成功",'index?p'.I('get.p') . '&type=' . I('post.type'));
 
       }
       catch(\Think\Exception $e)
@@ -122,9 +146,25 @@ public function appendAction()
       $dataModelDetailM = new DataModelDetailModel();
       $dataModelDetails = $dataModelDetailM->where("data_model_id = $dataModelId")->select();
 
+      $projectCategoryId = I('get.projectcategoryid');
+      if($projectCategoryId != '0')
+      {
+          //获取当前 项目类别 的系数信息
+        
+          //返回原有系数信息,返回以data_model_detail_id为KEY值的信息
+          $ProjectCategoryRatioL = new ProjectCategoryRatioLogic();
+          $projectCategoryRatios = $ProjectCategoryRatioL->getListsByProjectCategoryId($projectCategoryId);
+          
+          //依次加入 系数 
+          foreach($dataModelDetails as $key => $dataModelDetail)
+          {
+              $dataModelDetails[$key][_ratio] = $projectCategoryRatios[$dataModelDetail[id]][ratio];
+          } 
+      }
       $return['dataModelDetails'] = $dataModelDetails;
       $return['state'] = success;
       return $this->ajaxReturn($return);
+
     }
     catch(\Think\Exception $e)
     {

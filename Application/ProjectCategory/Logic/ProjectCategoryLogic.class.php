@@ -60,9 +60,30 @@ class ProjectCategoryLogic extends ProjectCategoryModel
 	 * 返回本结点及全部子结点信息
 	 * @return tree 目录树
 	 */
-	public function getSonsTreeById($id , $keyWord = "_son")
+	public function getSonsTreeById($id , $keyWord = "_son" , $type = '')
 	{
 		$map = array();
+		if($type == '')
+		{
+			$type = I('get.type');
+		}
+		switch ($type) {
+			case 'Education':				//教学建设
+				$map['is_education'] = 1;
+				break;			
+			case 'ServiceEducation':		//服务育人
+				$map['is_service_education'] = 1;
+				break;
+			case 'Course':					//学科建设
+				$map['is_course'] = 1;
+				break;						//超额科研育人
+			case 'Excess':
+				$map['is_excess'] = 1;
+				break;			
+			default:
+				$map['is_scientific'] = 1;	//教科研
+				break;
+		}
 		$map['pid'] = $id;
 		$datas = $this->where($map)->select();
 		foreach($datas as $key => $data)
@@ -89,5 +110,36 @@ class ProjectCategoryLogic extends ProjectCategoryModel
 			$thie->error = "数据查询发生错误：错误信息：". $e->getMessage() . "最后查询语句: " . $this->getLastSql();
 			return false;
 		}
+	}
+	/**
+	 * 查找相关ID的具体信息
+	 * @param  int $id 项目类别ID
+	 * @return array     一维
+	 */
+	public function getListById($id)
+	{
+		$map['id'] = $id;
+		return $this->where($map)->find();
+	}
+
+	/**
+	 * 删除
+	 * @param  int $id 关键字
+	 * @return [type]     [description]
+	 */
+	public function deleteById($id)
+	{
+		return $this->where("id = $id")->delete();
+	}
+
+	/**
+	 * 返回相关 数据模型ID 的所有记录
+	 * @param  [type] $dataModelId [description]
+	 * @return [type]              [description]
+	 */
+	public function getListsByDataModelId($dataModelId)
+	{
+		$map['data_model_id'] = $dataModelId;
+		return $this->where($map)->select();
 	}
 }

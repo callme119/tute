@@ -899,3 +899,90 @@ function msubstr($str, $start=0, $length, $charset="utf-8", $suffix=true) {
     }
     return $suffix ? $slice.'...' : $slice;
 }
+
+/**
+ * 将DATE字符串转换为INT类型
+ * 例输入2015-09-15,则输出2015年9月15日0时的时间戳
+ * @return int字符串
+ */
+function date_to_int($date , $connecter = '-')
+{
+    $date = trim($date);
+    //查找分隔符的位置，如果小于2，则返回FALSE。
+    if(!$firstPosition = strpos($date ,$connecter))
+    {
+        return $date;
+    }
+
+    //截取出年,如果是2位，则拼加20，如果即不是2位，也不是4位，flase
+    $year = (int)substr($date , 0 , $firstPosition);
+    if($year == 0 || $year > 9999)
+    {
+        return $date;
+    }
+
+    if($year < 100)
+    {
+        $year += 2000;
+    }
+    elseif($year < 1000)
+    {
+        return $date;
+    }
+
+    //截取月，如果等于0，或是大于12，返回$date    
+    $secondPosition = strpos($date , $connecter , $firstPosition+1);
+    $month = (int)substr($date , $firstPosition+1 , $secondPosition);
+ 
+    if($month < 1 || $month > 12)
+    {
+        return $date;
+    }
+  
+    //截取日，如果不大于0和小于31，则返回FLASE
+    $day = (int)substr($date , $secondPosition+1);
+    if($day < 1 || $day > 31)
+    {
+        return $date;
+    }
+
+    return mktime(0,0,0,$month,$day,$year);
+}
+
+/**
+ * 将数组中，包括有特定尾缀的字符串，进行 时间转换
+ * @param array $lists     = array(array('begin_time'=>'2015-09-15'));
+ * @param  string $connecter 连续符，可知，我们不能时间化没有连接符号的
+ * @param  后缀 $suffix    比如_time
+ * @return arry            替换后返回
+ */
+function lists_date_format_to_int($lists , $connecter = '-' , $suffix = "date")
+{
+    foreach($lists as $key => $value)
+    {
+        $lastPosition = strrpos($key , '_');
+        if( substr($key, $lastPosition+1) == $suffix)
+        {
+            $lists[$key] = date_to_int($value , $connecter);
+        }
+    }
+    return $lists;
+}
+
+/**
+ * 时间字符串格式化
+ * @param  int $int 232213213    
+ * @return [String]         [2015/09/15]
+ */
+function date_to_string($int , $param = 'Y-m-d')
+{
+    $int = (int)$int;
+    if(!$int)
+    {
+        return date($param);
+    }
+    else
+    {
+        return date($param,$int);
+    }
+}

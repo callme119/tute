@@ -7,9 +7,10 @@ use Think\Model;
 class DataModelDetailModel extends Model
 {
 	protected $_auto = array(
-		array('ratio',"100"),
 		);
-	protected $_validate = array();
+	protected $_validate = array(
+		array('title','require','字段名不能为空')
+		);
 
 	/**
 	 * 查找某条记录信息

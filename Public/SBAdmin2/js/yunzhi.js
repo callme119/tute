@@ -47,3 +47,17 @@ Handlebars.registerHelper('compare', function(left, operator, right, options) {
 		return options.inverse(this);
 	}
 });
+
+
+$('.date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,		//默认视图。2－month.
+		minView: 2,			//默认提供的最精确的视图 1-day
+		maxView: 4,			//向上点选时，最多能提供前后5年的选择
+		forceParse: 0,
+		format: 'yyyy-mm-dd'
+    });

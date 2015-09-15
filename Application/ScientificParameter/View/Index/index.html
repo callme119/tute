@@ -4,7 +4,7 @@
             <div class="box">
                 <div class="box-body table-responsive">
                     <div class="panel-body">
-                        <div class="print"><a href="{:U('add?id=0')}" class="btn btn-primary" ><i class="fa fa-plus-square"></i>添加</a>TODO:删除充分考虑两点：1.是否有子类别。2.是否已经有项目选择了些类别。结合：不能删 ，只能是冻结，让用户看不到。</div>
+                        <div class="print"><a href="{:U('add?pid=0&type='.I('get.type'))}" class="btn btn-primary" ><i class="fa fa-plus-square"></i>添加</a>TODO:删除充分考虑两点：1.是否有子类别。2.是否已经有项目选择了些类别。结合：不能删 ，只能是冻结，让用户看不到。</div>
                     </div>
                     <!-- Table -->
                     <div class="box-body table-responsive">
@@ -13,6 +13,7 @@
                                 <tr>
                                     <th>序号</th>
                                     <th>类别名</th>
+                                    <th>团队项目</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -26,9 +27,10 @@
                                         endfor;
                                         </php>
                                         {$list[name]}</td>
+                                    <td><eq name="list[is_team]" value="0">否<else/>是</eq></td>
                                     <td>
-                                        <a class="btn btn-sm btn-success"  href="{:U('ScientificParameter/Index/add?id='.$list['id'] . "&p=".I("get.p"))}" ><i class="fa fa-plus-square"></i>添加子类别</a>
-                                        <a class="btn btn-sm btn-primary" href="{:U("edit?id=".$list['id']. "&p=".I("get.p")) }""><i class="fa fa-pencil"></i>编辑</a>
+                                        <a class="btn btn-sm btn-success"  href="{:U('ScientificParameter/Index/add?pid='.$list['id'] . "&p=".I("get.p").'&type='.I('get.type'))}" ><i class="fa fa-plus-square"></i>添加子类别</a>
+                                        <a class="btn btn-sm btn-primary" href="{:U("edit?id=".$list['id']. "&pid=". $list['pid']."&p=".I("get.p")) }""><i class="fa fa-pencil"></i>编辑</a>
                                         <a class="btn btn-sm btn-danger" href="{:U("delete?id=".$list['id'] . "&p=".I("get.p"))}" "><i class="fa fa-trash-o "></i>删除</a>
                                     </td>
                                 </tr>

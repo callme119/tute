@@ -134,4 +134,20 @@ class UserModel extends Model{
 		$map['id'] = $userId;
 		return $this->where($map)->save($data);
 	}
+
+	//检查用户名与密码的正确性
+	public function checkUser(){
+		$list = $this->create();
+		//根据用户名获取用户密码与用户信息
+		$map = array();
+		$map['username'] = $list['username'];
+		$user = array();
+		$user = $this->where($map)->find();
+		if($user['password'] == sha1($list['password'])){
+			return 1;//代表验证成功
+		}else{
+			return 0;//代表验证失败
+		}
+
+	}
 }

@@ -6,7 +6,7 @@
     {{#compare pid '==' '0'}}
         {{title}}<br />
     {{else}}
-        {{title}}:<input type="text" name="data_model_detail_id[{{id}}]" />%<br />
+        {{title}}:<input type="text" name="data_model_detail_id[{{id}}]" value="{{_ratio}}"/>%<br />
     {{/compare}}
     {{/each}}
 {{else}}
@@ -30,6 +30,7 @@ $(document).ready(function(){
 
     var get_data_model_select = function($this){
         var dataModelId = $this.children('option:selected').val();//获取点击select下拉菜单的idis
+        var projectcategoryid = "<eq name='projectDetail' value=''>0<else/>{$projectDetail[id]}</eq>";
         console.log(dataModelId);
         if(dataModelId == '0')
         {
@@ -38,7 +39,7 @@ $(document).ready(function(){
         }
         else
         {
-            var url = "{:U('getDataModelDetailAjax')}"+"?datamodelid="+dataModelId;
+            var url = "{:U('getDataModelDetailAjax')}"+"?datamodelid="+dataModelId+"&projectcategoryid="+projectcategoryid;
             $.get(
                 url,
                 function(data){

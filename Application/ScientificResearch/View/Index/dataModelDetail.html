@@ -1,0 +1,14 @@
+<input type="hidden" name="data_model_id" value="{$dataModel[id]}">
+<foreach name="dataModelDetailRoots" item="root">
+		<label for="{$root[name]}">{$root[title]}</label>
+		<eq name="root[html_type]" value="text">
+			<h5><input type="text" name="{$root[name]}" id="{$root[name]}" class="{$root['class']}" /></h5>
+		<else />
+			<h5><select name="{$root[name]}" id="{$root[name]}" class="{$root['class']}" >
+			<foreach name="dataModelDetailSons[$root[id]]" item="son">
+				<option value="{$son[id]}" class="{$son['class']}">{$son.title}</option>
+			</foreach>
+			</select>
+			</h5>
+		</eq>
+	</foreach>	

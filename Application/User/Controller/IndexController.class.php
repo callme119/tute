@@ -7,6 +7,11 @@
 namespace User\Controller;
 use Admin\Controller\AdminController;
 use User\Model\UserModel;
+use Role\Model\RoleModel;
+use Department\Model\DepartmentModel;
+use Post\Model\PostModel;
+use DepartmentPost\Model\DepartmentPostModel;
+use RoleUser\Model\RoleUserModel;
 class IndexController extends AdminController {
 
     //教工列表显示
@@ -29,7 +34,17 @@ class IndexController extends AdminController {
         //传值，前台进行处理
         $url = U('save');
         $this->assign('url',$url);
-        $this->assign('css',$this->fetch("addCss"));
+
+        //传递角色列表（添加教工的角色复选框）
+        $this -> assign('roleList',$this -> _fetchRoleList());
+
+        //传递部门-岗位列表（添加教工页面的部门-岗位下拉选框。要求：二级联动）
+        $this -> assign('departmentPostList',$this -> _fetchDepartmentPostList());
+
+        $this -> assign('css',$this->fetch("addCss"));
+
+        $this->assign('js',$this->fetch("addJs"));
+
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);  
     }
@@ -39,16 +54,30 @@ class IndexController extends AdminController {
         //获取当前教工的信息
         $staffModel = new UserModel();
         $staffInfo = $staffModel -> getStaffById($id);
+        $this ->assign('staffInfo',$staffInfo);
 
-        //传值
+        //设置url
         $url = U('update?id='.$id);
         $this->assign('url',$url);
-        $this ->assign('staffInfo',$staffInfo);
+
+        //传递角色列表（编辑教工的角色复选框）
+        $this -> assign('roleList',$this -> _fetchRoleList());
+
+        //传递部门-岗位列表（添加教工页面的部门-岗位下拉选框。要求：二级联动）
+        $this -> assign('departmentPostList',$this -> _fetchDepartmentPostList());
+        
+
+        $this->assign('css',$this->fetch("addCss"));
+        $this->assign('js',$this->fetch("addJs"));
+
         $this->assign('YZBODY',$this->fetch('add'));
         $this->display(YZTemplate);  
     }
     //删除教工
     public function deleteAction(){
+        //删除该教工
+        //删除该教工与角色的对应信息
+        //删除该教工与部门岗位的对应信息
         $id = I('get.id');
         $staffModel = new UserModel();
         $state = $staffModel -> deleteStaff($id);
@@ -114,4 +143,32 @@ class IndexController extends AdminController {
             }
         };
     }
+    /**
+     * [_fetchRoleList 获取角色列表传递到前台]
+     * @return [type] [角色列表]
+     */
+    public function _fetchRoleList(){
+        $roleModel = new RoleModel;
+        $roleList = $roleModel -> getRoleList(1);
+        return $roleList;
+    }
+
+
+    public function _fetchDepartmentPostList(){
+        //通过部门Model获取所有部门列表
+        $departmentModel = new DepartmentModel;
+        $departmentTree = $departmentModel -> getDepartmentTree(0,2,'_son');
+        $departmentList = tree_to_list($departmentTree,1,'_son','_level','order');
+
+        //通过部门-岗位Model获取所有部门和它的下属岗位id列表
+        $departmentPostModel = new DepartmentPostModel;
+
+        $departmentPostIdList = $departmentList;
+        foreach ($departmentList as $key => $value) {
+            $departmentPostIdList[$key]['_postId'] = $departmentPostModel -> getDepartmentPostInfoByDepartId($value['id']);
+        }
+        var_dump($departmentPostIdList);
+        //通过岗位Model获取所有部门和它的下属岗位信息列表
+    }
+
 }

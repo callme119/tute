@@ -36,38 +36,12 @@
                             <div class="col-sm-6">
                                 <div class="role">
                                     <div class="row">
-                                        <div class=col-sm-4>
-                                            <input type="checkbox"  class="menu"/>
-                                            <lable>院长</lable>
-                                        </div>
-                                        <div class=col-sm-4>
-                                            <input type="checkbox"  class="menu"/>
-                                            <lable>副院长</lable>
-                                        </div>
-                                        <div class=col-sm-4>
-                                            <input type="checkbox" />
-                                            <lable>团委书记</lable>
-                                        </div>
-                                        <div class=col-sm-4>
-                                            <input type="checkbox" />
-                                            <lable>团委副书记</lable>
-                                        </div>
-                                        <div class=col-sm-4>
-                                            <input type="checkbox" />
-                                            <lable>经济系主任</lable>
-                                        </div>
-                                        <div class=col-sm-4>
-                                            <input type="checkbox" />
-                                            <lable>经济系副主任</lable>
-                                        </div>
-                                        <div class=col-sm-4>
-                                            <input type="checkbox" />
-                                            <lable>办公室主任</lable>
-                                        </div>
-                                        <div class=col-sm-4>
-                                            <input type="checkbox" />
-                                            <lable>办公室副主任</lable>
-                                        </div>
+                                        <foreach name="postList" item="value">
+                                            <div class=col-sm-4>
+                                                <input id="{$value.id}" name="{$value.id}" type="checkbox"  class="menu"/>
+                                                <lable>{$value.name}</lable>
+                                            </div>
+                                        </foreach>
                                     </div>
                                 </div>
                             </div>
@@ -83,4 +57,16 @@
         </div>
     </div>    
 </section>
+<script type="text/javascript">
+$(document).ready(function() {
+    var c = new Array();
+    var c = eval('<?php echo json_encode($departmentPostInfo);?>');
+   for (var i=0;i<c.length;i++) {
+
+        var k =c[i]['post_id'];
+
+        $("#"+k).attr('checked','true');
+    };
+ });
+</script>
 {$css}

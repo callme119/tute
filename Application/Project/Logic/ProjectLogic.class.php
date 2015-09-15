@@ -66,4 +66,17 @@ class ProjectLogic extends ProjectModel
 		$data = $this->where($map)->select();
 		return $data;
 	}
+
+	/**
+	 * 根据周期ID获取相关数据信息
+	 * @param  int $cycleId 周期ID
+	 * @return array          二维数据或empty
+	 */
+	public function getListsByCycleId($cycleId)
+	{
+		$cycleId = (int)$cycleId;
+		$map['cycle_id'] = $cycleId;
+		return $this->where($map)->select();
+	}
+
 }
