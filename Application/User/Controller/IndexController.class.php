@@ -10,6 +10,7 @@ use User\Model\UserModel;
 use Role\Model\RoleModel;
 use Department\Model\DepartmentModel;
 use Post\Model\PostModel;
+use DepartmentPost\Model\DepartmentPostModel;
 use RoleUser\Model\RoleUserModel;
 class IndexController extends AdminController {
 
@@ -37,7 +38,10 @@ class IndexController extends AdminController {
         //传递角色列表（添加教工的角色复选框）
         $this -> assign('roleList',$this -> _fetchRoleList());
 
-        $this->assign('css',$this->fetch("addCss"));
+        //传递部门-岗位列表（添加教工页面的部门-岗位下拉选框。要求：二级联动）
+        $this -> assign('departmentPostList',$this -> _fetchDepartmentPostList());
+
+        $this -> assign('css',$this->fetch("addCss"));
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);  
     }
@@ -56,6 +60,9 @@ class IndexController extends AdminController {
         //传递角色列表（编辑教工的角色复选框）
         $this -> assign('roleList',$this -> _fetchRoleList());
 
+        //传递部门-岗位列表（添加教工页面的部门-岗位下拉选框。要求：二级联动）
+        $this -> assign('departmentPostList',$this -> _fetchDepartmentPostList());
+        
         $this->assign('YZBODY',$this->fetch('add'));
         $this->display(YZTemplate);  
     }
@@ -137,5 +144,22 @@ class IndexController extends AdminController {
         $roleModel = new RoleModel;
         $roleList = $roleModel -> getRoleList(1);
         return $roleList;
+    }
+
+    public function _fetchDepartmentPostList(){
+        //通过部门Model获取所有部门列表
+        $departmentModel = new DepartmentModel;
+        $departmentTree = $departmentModel -> getDepartmentTree(0,2,'_son');
+        $departmentList = tree_to_list($departmentTree,1,'_son','_level','order');
+
+        //通过部门-岗位Model获取所有部门和它的下属岗位id列表
+        $departmentPostModel = new DepartmentPostModel;
+
+        $departmentPostIdList = $departmentList;
+        foreach ($departmentList as $key => $value) {
+            $departmentPostIdList[$key]['_postId'] = $departmentPostModel -> getDepartmentPostInfoByDepartId($value['id']);
+        }
+        var_dump($departmentPostIdList);
+        //通过岗位Model获取所有部门和它的下属岗位信息列表
     }
 }

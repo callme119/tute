@@ -33,12 +33,9 @@ class DepartmentPostModel EXTENDS Model
 	public function getDepartmentPostInfoByDepartId($departmentId){
 		$map['department_id'] = $departmentId;
 		$data = $this -> where($map) -> select();
-		foreach ($data as $key => $value) {
-			$departmentPostInfo[$key] = $value['post_id']; 
-		}
-		return $departmentPostInfo;
+		return $data;
 	}
-	
+
 	public function addDepartmentPost(){
 		$data = I('post.');
 		//获取部门-岗位信息
