@@ -1,0 +1,10 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+    var c = new Array();
+    var c = eval('<?php echo json_encode($roleList);?>');
+   for (var i=0;i<c.length;i++) {
+        var k =c[i];
+        $("#"+k).attr('checked','true');
+    };
+ });
+</script>

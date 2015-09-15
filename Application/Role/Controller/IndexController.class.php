@@ -38,6 +38,7 @@ class IndexController extends AdminController
         $this->assign('permissionList',$permissionList);
         $this->assign('submitUrl',$submitUrl);
         $this->assign("js",$this->fetch("addRoleJs"));
+        $this->assign("css",$this->fetch("addRoleCss"));
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
@@ -64,7 +65,10 @@ class IndexController extends AdminController
 
         //页面显示
         $this->assign('roleInfo',$roleInfo);
+        $this->assign("js",$this->fetch("addRoleJs"));
+        $this->assign("css",$this->fetch("addRoleCss"));
         $this->assign('YZBODY',$this->fetch('addRole'));
+
         $this->display(YZTemplate);
     }
     //显示角色人员信息
