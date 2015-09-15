@@ -93,18 +93,23 @@ class UserModel extends Model{
 	//添加教工
 	public function addStaff(){
 		$data = I('post.');
-		$this->add($data);
+		$id = $this->add($data);
+		//post id给教工-部门岗位和教工-角色调用
+		$_POST['id'] = $id;
 		return true;
 	}
 	//编辑教工
 	public function updateStaff(){
+		//保存教工信息
 		$data = I('post.');
-		$data[id] = I('get.id');
+		$data['id'] = I('get.id');
 		$this -> save($data);
+		//post id给教工-部门岗位和教工-角色调用
+		$_POST['id'] = $data['id'];
 		return true;
 	}
 	public function deleteStaff(){
-		$data[id] = I('get.id');
+		$data['id'] = I('get.id');
 		$state = $this -> where($data) ->delete();
 		return $state;
 	}
@@ -113,12 +118,12 @@ class UserModel extends Model{
 		$map = array();
 		$map[id] = $userId;
 		$info = $this->where($map)->find();
-        if(sha1($oldpsw) != $info['password']){
-            return 1;
-        }else{
-        	return 0;
-        }
-	}
+        		if(sha1($oldpsw) != $info['password']){
+		            return 1;
+		        }else{
+		        	return 0;
+		}
+	}	
 
 	public function changePhoneOrEmail($userId){
 		$data = $this->create();

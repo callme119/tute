@@ -38,18 +38,10 @@ class IndexController extends AdminController {
         //传递角色列表（添加教工的角色复选框）
         $this -> assign('roleList',$this -> _fetchRoleList());
 
-
-
-
         //传递部门-岗位列表（添加教工页面的部门-岗位下拉选框。要求：二级联动）
         $this -> assign('departmentPostList',$this -> _fetchDepartmentPostList());
-
         $this -> assign('css',$this->fetch("addCss"));
-
         $this->assign('js',$this->fetch("addJs"));
-
-
-
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);  
     }
@@ -71,11 +63,8 @@ class IndexController extends AdminController {
         //传递部门-岗位列表（添加教工页面的部门-岗位下拉选框。要求：二级联动）
         $this -> assign('departmentPostList',$this -> _fetchDepartmentPostList());
         
-
         $this->assign('css',$this->fetch("addCss"));
         $this->assign('js',$this->fetch("addJs"));
-
-
 
         $this->assign('YZBODY',$this->fetch('add'));
         $this->display(YZTemplate);  
@@ -94,17 +83,31 @@ class IndexController extends AdminController {
     }
     //添加教工完成
     public function saveAction(){
+        //添加教工信息（UserModel）
         $staffModel = new UserModel();
         $state = $staffModel -> addStaff();
 
+        //添加教工-角色信息(RoleUserModel)
+        $roleUserModel = new RoleUserModel;
+        $roleUserModel -> addRoleUser();
+        
+        //添加教工-部门岗位信息(UserDepartmentPostModel)
+        //
         if($state){
             $this->success('新增成功', 'index');
         }
     }
     //编辑教工完成
     public function updateAction(){
+        //保存教工信息（UserModel）
         $staffModel = new UserModel();
         $state = $staffModel -> updateStaff();
+
+        //保存教工-角色信息(RoleUserModel)
+        $roleUserModel = new RoleUserModel;
+        $roleUserModel -> saveRoleUser();
+
+        //保存教工-部门岗位信息(UserDepartmentPostModel)
         if($state){
             $this->success('修改成功', U('index'));
         }
@@ -199,7 +202,5 @@ class IndexController extends AdminController {
         }
         return $departmentPostList;
     }
-
-
 
 }
