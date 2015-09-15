@@ -7,8 +7,8 @@
 		<option value="{$rootList[id]}" <eq name="rootList[id]" value="$cycle[pid]">selected="selected"</eq>>{$rootList[name]}</option>
 	</foreach></select></h5>
 	<label>开始日期</label>
-	<h5><input name="begin_date" size="16" type="text" value="{$cycle['begin_date']|date_to_string}" class="datetime" readonly /></h5>
-	<label>结束日期</label><h5><input type="date" name="end_date" id="end_date" class="datetime"  value="{$cycle['end_date']|date_to_string}" /></h5>
+	<h5><input name="begin_date" size="16" type="text" value="{$cycle['begin_date']|date_to_string}" class="date" readonly /></h5>
+	<label>结束日期</label><h5><input type="date" name="end_date" id="end_date" class="date"  value="{$cycle['end_date']|date_to_string}" /></h5>
 	<label>状态</label><h5><select name="is_freezed" id="is_freezed">
 		<option value="0">正常</option>
 		<option value="1">冻结</option>
