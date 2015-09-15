@@ -1,4 +1,11 @@
-<select><option value="0">周期选择</option></select>
+<select id="cycle">
+	<foreach name="cycles" item="cycle">
+		<option value="{$cycle[id]}" <eq name="cycle['id']" value="$cycleId">selected="selected"</eq>>{$cycle['name']}</option>
+	</foreach>
+</select>
+<button id="search">查询</button>
+<br />
+<a href="{:U('editAll?p=' . I('get.p') . 'cycleid=' . $cycleId)}">批量添加/编辑</a>
 <table>
 	<tr>
 		<th>序号</th>
@@ -6,7 +13,14 @@
 		<th>任务量</th>
 		<th>操作</th>
 	</tr>
+	<foreach name="userTasks" item="userTask">
 	<tr>
-		<td></td>
+		<td>{++$i}</td>
+		<td>{$userTask['name']}</td>
+		<td>{$userTask['value']}</td>
+		<td><a href="{:U('edit?id='. $userTask['task_id'] . '&cycleid='. $cycleId .'&p=' . I('get.p'))}">编辑</a>&nbsp;&nbsp;<a href="{:U('delete?id='. $userTask['task_id'] . '&cycleid='. $cycleId .'&p=' . I('get.p'))}">删除</a></td>
 	</tr>
+	</foreach>
 </table>
+<yunzhi:page totalCount="totalCount"></yunzhi:page>
+{$js}

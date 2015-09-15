@@ -1,6 +1,6 @@
 <?php
 namespace user\Widget;
-use User\Model;
+use User\Model\UserModel;
 use UserDepartmentPost\Model\UserDepartmentPostModel; //员工部门岗位表
 
 class UserWidget
@@ -37,5 +37,13 @@ class UserWidget
 		}
 
 		echo $string;
+	}
+
+	public function getNameByIdAction($id)
+	{
+		$UserM = new UserModel();
+		$map['id'] = $id;
+		$user = $UserM->where($map)->find();
+		echo $user['name'];
 	}
 }

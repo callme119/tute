@@ -1,0 +1,7 @@
+<form action="{:U('save?cycleid='. I('get.cycleid') .'&p=' . I('get.p'))}" method="post">
+	<input type="hidden" name="id" value="{$task['id']}" />
+	<label>教工：	</label><h5><php>$UserW = new User\Widget\UserWidget(); $UserW->getNameByIdAction($task['user_id']); </php></h5>
+	<label>考核周期：</label><h5><php>$CycleW = new Cycle\Widget\CycleWidget(); echo $CycleW->getNameByIdAction($task['cycle_id']);</php></h5>
+	<label>任务量</label><h5><input name="value" type="text" value="{$task['value']}"></h5>
+	<button type="submit">确定</button>
+</form>

@@ -9,6 +9,11 @@
 namespace User\Model;
 use Think\Model;
 class UserModel extends Model{
+	protected $totalCount = 0; 	//记录总数
+	public function getTotalCount()
+	{
+		return $this->totalCount;
+	}
 
 	public function getAllName()
 	{

@@ -1,0 +1,10 @@
+<script>
+$(document).on("click", "#search",function(){
+	var cycle = $("#cycle");
+	var cycleId = cycle.children('option:selected').val();
+	console.log(cycleId);
+	var url = "{:U('index?p='.I('get.p')) . '?cycleid='}" + cycleId;
+	self.location=url;
+});
+
+</script>

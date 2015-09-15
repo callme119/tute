@@ -7,4 +7,5 @@ class CycleModel extends Model
 	protected $_validate = array(
 		array('name','require','the name file is required')
 		);
+	protected $order = 'begin_date desc';	//默认排序
 }
