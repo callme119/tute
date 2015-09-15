@@ -6,18 +6,21 @@
 		<th>父周期</th>
 		<th>开始日期</th>
 		<th>结束日期</th>
-		<th>状态(是否生效)</th>
+		<th>状态</th>
+		<th>当前统计周期</th>
 		<th>操作</th>
 	</tr>
 	<foreach name="cycles" item="cycle" >
 	<tr>
 		<td>{++$i}</td>
 		<td>{$cycle['name']}</td>
-		<td></td>
+		<td>{:W('Cycle/getNameById',array($cycle['pid']))}</td>
 		<td>{$cycle['begin_date']|date="Y/m/d",###}</td>
 		<td>{$cycle['end_date']|date="Y/m/d",###}</td>
-		<td></td>
-		<td><a href="{:U('edit?id=' . $cycle['id'] . 'p=' . I('get.p'))}">编辑</a>&nbsp;&nbsp;<a href="{:U('delete?id=' . $cycle['id'] . 'p=' . I('get.p'))}"></a></td>
+		<td><eq name="cycle['is_freezed']" value="0">正常<else/>冻结</eq></td>
+		<td><eq name="cycle['is_current']" value="1"><button class="btn btn-success btn-circle" type="button"><i class="fa fa-check"></i></button></eq></td>
+		<td><a href="{:U('edit?id=' . $cycle['id'] . '&p=' . I('get.p'))}">编辑</a>&nbsp;&nbsp;<a href='{:U("delete?id=$cycle[id]&p=" . I('get.p'))}'>删除</a>&nbsp;&nbsp;<a href="{:U('delete?id=' . $cycle['id'] . 'p=' . I('get.p'))}"></a>&nbsp;&nbsp;<a href='{:U("setCurrent?id=$cycle[id]&p=" . I("get.p"))}'>设置当前周期</a></td>
 	</tr>
 	</foreach>
 </table>
+<yunzhi:page totalCount="totalCount"></yunzhi:page>
