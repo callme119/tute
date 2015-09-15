@@ -7,6 +7,10 @@
 namespace User\Controller;
 use Admin\Controller\AdminController;
 use User\Model\UserModel;
+use Role\Model\RoleModel;
+use Department\Model\DepartmentModel;
+use Post\Model\PostModel;
+use RoleUser\Model\RoleUserModel;
 class IndexController extends AdminController {
 
     //教工列表显示
@@ -118,6 +122,6 @@ class IndexController extends AdminController {
         };
     }
     public function _fetchRoleList(){
-        
+        $roleModel = new RoleModel;
     }
 }
