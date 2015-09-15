@@ -33,6 +33,10 @@ class IndexController extends AdminController {
         //传值，前台进行处理
         $url = U('save');
         $this->assign('url',$url);
+
+        //传递角色列表（添加教工的角色复选框）
+        $this -> assign('roleList',$this -> _fetchRoleList());
+
         $this->assign('css',$this->fetch("addCss"));
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);  
@@ -43,11 +47,15 @@ class IndexController extends AdminController {
         //获取当前教工的信息
         $staffModel = new UserModel();
         $staffInfo = $staffModel -> getStaffById($id);
+        $this ->assign('staffInfo',$staffInfo);
 
-        //传值
+        //设置url
         $url = U('update?id='.$id);
         $this->assign('url',$url);
-        $this ->assign('staffInfo',$staffInfo);
+
+        //传递角色列表（编辑教工的角色复选框）
+        $this -> assign('roleList',$this -> _fetchRoleList());
+
         $this->assign('YZBODY',$this->fetch('add'));
         $this->display(YZTemplate);  
     }
@@ -121,7 +129,13 @@ class IndexController extends AdminController {
             }
         };
     }
+    /**
+     * [_fetchRoleList 获取角色列表传递到前台]
+     * @return [type] [角色列表]
+     */
     public function _fetchRoleList(){
         $roleModel = new RoleModel;
+        $roleList = $roleModel -> getRoleList(1);
+        return $roleList;
     }
 }
