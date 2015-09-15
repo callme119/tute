@@ -25,6 +25,7 @@ class IndexController extends AdminController {
         $this->assign('role',$role);
         $this->assign('lists',$lists);
         $this->assign('css',$this->fetch(T('indexCss')));
+        $this->assign('js',$this->fetch(T('indexJs')));
 //        $index = $this->fetch(T('index'));
 //        $this->show($index);
         $this->assign('YZBODY', $this->fetch());
