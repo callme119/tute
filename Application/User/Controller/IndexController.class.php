@@ -193,6 +193,7 @@ class IndexController extends AdminController {
                 }
                 $departmentPostList[$key]['_post'] = $postNameList;
             }else{
+                //从数组中删除该信息
                 unset($departmentPostList[$key]);
             }
         }
