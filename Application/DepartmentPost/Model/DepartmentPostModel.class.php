@@ -36,6 +36,8 @@ class DepartmentPostModel EXTENDS Model
 
 		return $data;
 	}
+
+
 	public function addDepartmentPost(){
 		$data = I('post.');
 		//获取部门-岗位信息
