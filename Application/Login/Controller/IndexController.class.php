@@ -34,7 +34,7 @@ class IndexController extends Controller {
         //验证用户名密码
     	$model = new UserModel();
     	if($model->checkUser()){
-    		$this->success('登陆成功',U('Admin/Admin/index'));
+    		$this->success('登陆成功',U('Admin/Index/index'));
     	}else{
     		$this->error('用户名密码验证失败',U('Login/Index/index'));
     	}

@@ -9,11 +9,16 @@
                             <img src='{:add_root_path("/img/avatar3.png")}' class="img-circle" alt="User Image" />
                         </div>
                         <div class="pull-left info name">
-                            <p>{$info.name}</p>
+                            
                         </div>
                     </div>
                     <div class="row col-md-offset-1">
                         <div class="col-md-6 ">
+                                <div class="row ">
+                                    <h3 >
+                                        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp{$info.name}
+                                    </h3>
+                                </div>
                                 <foreach name="lists" item="value" key ="k">
                                     <eq name="k" value="0">
                                     <div class="row ">
@@ -24,18 +29,18 @@
                                     <else/>
                                     <div class="row ">
                                         <h4>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$value.department_name}[{$value.post_name}]
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$value.department_name}[{$value.post_name}]
                                         </h4>
                                     </div>
                                     </eq>
                                 </foreach>
                             <div class="row">
-                                <h4>角色：{$role}</h4>
+                                <h4>角色：&nbsp;{$role}</h4>
                             </div>
                         <form id="personalCenter" class="form-horizontal" method = 'post' action="{:U('User/Index/changeUserInfo')}?id={$info.id}">
                             <div class="row hang ">
                                 <div class="input-group">
-                                    <span class="input-group-addon">邮&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp箱</span>
+                                    <span class="input-group-addon">邮&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp箱</span>
                                     <input  class="form-control" name="email" value="{$info.email}">
                                 </div>
                             </div>
@@ -59,7 +64,7 @@
                             </div>
                             <div class="row hang ">
                                 <div class="input-group">
-                                    <span class="input-group-addon">确认密码</span>
+                                    <span class="input-group-addon">&nbsp确认密码&nbsp</span>
                                     <input  class="form-control" name="againpsw">
                                 </div>
                             </div>
