@@ -1,6 +1,4 @@
 <form action="{:U('save?p=' .I('get.p'))}" method="post">
-{:dump($cycle)}
-{:dump($rootLists)}
 	<input type="hidden" value="{$cycle[id]}" name="id" />
 	<label>名称</label><h5><input type="text" value="{$cycle[name]}" name="name" id="name" /></h5>	
 	<label>父周期</label><h5><select name="pid" id="pid"><option value="0">根周期</option><foreach name="rootLists" item="rootList">
