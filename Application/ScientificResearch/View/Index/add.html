@@ -17,14 +17,14 @@
             <!-- Date range -->
             <form action="{:U('save')}" method = 'post'>
                 <div style="display:none">
-                    <input id="pid" name="pid" value="0">
+                    <!-- <input id="" name="" value="0"> -->
                     {:$url=U('append');}
                 </div>
                 <div class="row">
                     <div class="col-md-3 form-group">
                         <div class="input-group">
                             <span id="next_examiner" class="input-group-addon">项目类别</span>
-                            <select id="projectCategory" class="selectpicker form-control js-example-basic-multiple">
+                            <select name="project_category_id" id="projectCategory" class="selectpicker form-control js-example-basic-multiple">
                                 <option>请选择</option>
                                 <foreach name="project" item="project">
                                     <option value="{$project.id}"><php>for($j = 0 ; $j < $project[_level] ; $j++ ) : echo "|--"; endfor;</php><neq name="project[data_model_id]" value="0">[{$project.name}]<else/>{$project.name}</neq></option>
@@ -37,7 +37,7 @@
                     <div class="col-md-3 form-group">
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon1">名称</span>
-                            <input type="text" name="name" value="" class="form-control" placeholder="" aria-describedby="basic-addon1">
+                            <input type="text" name="title" value="" class="form-control" placeholder="" aria-describedby="basic-addon1">
                         </div>
                     </div>
                 </div>
@@ -72,11 +72,11 @@
                    <div class="col-md-3 form-group">
                     <div class="input-group">
                         <span id="next_examiner" class="input-group-addon">团队人员姓名</span>
-                        <select name="name[]" class="selectpicker form-control js-example-basic-multiple">
+                        <select name="name[]" value="" class="selectpicker form-control js-example-basic-multiple">
                             <option>请选择</option>
 
                             <foreach name="name" item="value" key="key">
-                                <option value="{$value.userid}">{$value.name}</option>
+                                <option value="{$value.id}">{$value.name}</option>
                             </foreach>
 
                         </select>
@@ -110,7 +110,7 @@
 </div>
 <script> 
 //增加团队人数
-var data = "<div class='row team'><div class='col-md-3 form-group'><div class='input-group'><span class='input-group-addon'>团队人员姓名</span><select name='name[]' class='selectpicker form-control js-example-basic-multiple'><option>请选择</option><foreach name='name' item='value' key='key'><option value='{$value.userid}'>{$value.name}</option></foreach></select></div></div><div class='col-md-3 form-group'><div class='input-group'><span class='input-group-addon' id='basic-addon1'>团队分数占比</span><input name='score_percent[]' type='text' class='form-control' aria-describedby='basic-addon1'></div></div></div>";
+var data = "<div class='row team'><div class='col-md-3 form-group'><div class='input-group'><span class='input-group-addon'>团队人员姓名</span><select name='name[]' class='selectpicker form-control js-example-basic-multiple'><option>请选择</option><foreach name='name' item='value' key='key'><option value='{$value.id}'>{$value.name}</option></foreach></select></div></div><div class='col-md-3 form-group'><div class='input-group'><span class='input-group-addon' id='basic-addon1'>团队分数占比</span><input name='score_percent[]' type='text' class='form-control' aria-describedby='basic-addon1'></div></div></div>";
 $("#plus").click(function(){
     $(".team:last").after(data);
     $(".js-example-basic-multiple").select2();
@@ -124,6 +124,7 @@ $("#minus").click(function(){
     //注意,在这里的选择器,必须是已经存在的,不能是后期生成的.
     //.project做为document的子元素出现,绑定了change事件.等同于onChange 
     //实现点击后进行数据模型的设置
+    
     $(document).on("change","#projectCategory",function(){
         get_project_category_id_select($(this));
     });
