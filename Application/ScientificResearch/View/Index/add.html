@@ -24,7 +24,7 @@
                     <div class="col-md-3 form-group">
                         <div class="input-group">
                             <span id="next_examiner" class="input-group-addon">项目类别</span>
-                            <select class="selectpicker form-control js-example-basic-multiple">
+                            <select id="projectCategory" class="selectpicker form-control js-example-basic-multiple">
                                 <option>请选择</option>
                                 <foreach name="project" item="project">
                                     <option value="{$project.id}"><php>for($j = 0 ; $j < $project[_level] ; $j++ ) : echo "|--"; endfor;</php><neq name="project[data_model_id]" value="0">[{$project.name}]<else/>{$project.name}</neq></option>
@@ -41,6 +41,11 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div id="dataModelDetail"></div>
+                </div>
+            </div>
                 <div class="row">
                     <div class="col-md-3 form-group">
                         <div class="input-group">
@@ -114,6 +119,40 @@ $("#plus").click(function(){
 $("#minus").click(function(){
     $(".team:gt(0):last").remove();
 });
+
+    //使用on事件,将整个document做为选择器.
+    //注意,在这里的选择器,必须是已经存在的,不能是后期生成的.
+    //.project做为document的子元素出现,绑定了change事件.等同于onChange 
+    //实现点击后进行数据模型的设置
+    $(document).on("change","#projectCategory",function(){
+        get_project_category_id_select($(this));
+    });
+
+    var get_project_category_id_select = function($this){
+        var projectCategoryId = $this.children('option:selected').val();//获取点击select下拉菜单的idis
+        console.log(projectCategoryId);
+        if(projectCategoryId == '0')
+        {
+            $("#dataModelDetail").html("");
+            console.log(projectCategoryId);
+        }
+        else
+        {
+            var url = "{:U('dataModelDetailAjax')}"+"?projectCategoryId="+projectCategoryId;
+            $.get(
+                url,
+                function(data){
+                    if(data.status==='success'){
+                     $("#dataModelDetail").html(data.message);
+                    console.log(data);   
+                    }
+                    
+                }
+            );
+        }
+    };
+    //防刷新设置
+    get_project_category_id_select($("#projectCategory"));
 
     //日历的插件
     $(".form_date").datetimepicker({

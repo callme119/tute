@@ -33,8 +33,10 @@ class DepartmentPostModel EXTENDS Model
 	public function getDepartmentPostInfoByDepartId($departmentId){
 		$map['department_id'] = $departmentId;
 		$data = $this -> where($map) -> select();
+
 		return $data;
 	}
+
 
 	public function addDepartmentPost(){
 		$data = I('post.');

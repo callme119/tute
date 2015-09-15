@@ -15,11 +15,16 @@ use Project\Logic\ProjectLogic;                         //项目表
 use Score\Model\ScoreModel;                             //分值表
 use DataModel\Model\DataModelModel;                     //数据模型
 use DataModel\Logic\DataModelLogic;                     //数据模型
+use DataModelDetail\Logic\DataModelDetailLogic;         //数据模型详情
 use DataModelDetail\Model\DataModelDetailModel;         //数据模型扩展信息
 use ExamineDetail\Model\ExamineDetailModel;             //审核扩展信息
 use Workflow\Model\WorkflowModel;                       //工作流表
 use WorkflowLog\Model\WorkflowLogModel;                 //工作流扩展表
+
+use ProjectCategoryRatio\Model\ProjectCategoryRatioModel;   //项目类别系数表
 use ProjectDetail\Logic\ProjectDetailLogic;             //项目扩展信息
+
+
 class IndexController extends AdminController {
     /**
      * 初始化
@@ -202,4 +207,58 @@ class IndexController extends AdminController {
             $this->_empty();
         }
     }
+
+    public function dataModelDetailAjaxAction()
+    {
+        $projectCategoryId = I('get.projectCategoryId');
+        $data = array('status'=>'error','message'=>'');
+
+        //取项目类别信息
+        $ProjectCategoryM = new ProjectCategoryModel();
+        if( !$projectCategory = $ProjectCategoryM->getListById($projectCategoryId) )
+        {
+            $data['message'] = "id not correct";
+            $this->ajaxReturn($data);
+        }
+              
+
+        //取数据模型信息
+        //取数据模型扩展信息
+        $dataModelId = $projectCategory['data_model_id'];
+        $DataModelDetailL = new DataModelDetailLogic();
+        $dataModelDetailRoots = $DataModelDetailL->getRootListsByDataModelId($dataModelId);
+        if($dataModelDetailRoots === false)
+        {
+            $this->error = $DataModelDetailL->getError();
+            $this->_empty();
+        }
+        
+        //取当前模型记录对应的select子节点。
+        $dataModelDetailSons = $DataModelDetailL->getSonListsByDataModelId($dataModelId);
+        if($dataModelDetailSons === false)
+        {
+            $this->error = $DataModelDetailL->getError();
+            $this->_empty();
+        }
+       
+
+        //取项目类别系数信息（以data_model_detailID为KEY）
+        $ProjectCategoryRatioM = new ProjectCategoryRatioModel();
+        $ProjectCategoryRatios = $ProjectCategoryRatioM->getListsByProjectCategoryId($projectCategoryId);
+        
+
+
+        //assign
+        $this->assign("dataModelId",$dataModelId);
+        $this->assign("dataModelDetailRoots",$dataModelDetailRoots);
+        $this->assign("dataModelDetailSons",$dataModelDetailSons);
+        $this->assign("ProjectCategoryRatios",$ProjectCategoryRatios);
+        $data['status'] = "success";
+        $data['message'] = $this->fetch('dataModelDetail');
+        $this->ajaxReturn($data);
+        
+    }
 }
+
+
+    

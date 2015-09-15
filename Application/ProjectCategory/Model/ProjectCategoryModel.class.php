@@ -131,7 +131,14 @@ class ProjectCategoryModel extends Model{
 	}
 
 
-	public function getListById($id)
+	
+	/**
+	 * 获取单条信息
+	 * @param  [int] $id ID
+	 * @return array     one
+	 */
+public function getListById($id)
+
 	{
 		$id = (int)$id;
 		if($id)
