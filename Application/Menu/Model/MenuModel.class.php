@@ -10,13 +10,17 @@ namespace Menu\Model;
 use Think\Model;
 class MenuModel extends Model{
     /**
-     * 获取菜单树方法
-     * 
-     * @return array
+     * [getMenuTree 获取菜单树]
+     * @param  [string]  $parentId  [根菜单id]
+     * @param  [array]  $where [查询条件]
+     * @param  integer $isShow    [是否显示]
+     * @param  [int]  $layer     [树的等级]
+     * @return [array]             [菜单树]
      */
-    public function getMenuTree($parentId,$isDevelop,$isShow = 1,$layer){
+    public function getMenuTree($parentId,$where,$isShow = 1,$layer){
         $map = array();
         $level = isset($layer)?$layer:1;
+        $map = $where;
         $map['parent_id'] = isset($parentId)?$parentId:0;
         if(APP_DEBUG == false)
         {

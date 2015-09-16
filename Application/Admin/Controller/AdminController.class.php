@@ -89,6 +89,9 @@ class AdminController extends Controller{
             // }
             
             //获取该用户可见的菜单列表并传递给给Left菜单栏
+            //获取用户id
+            //通过用户id获取用户可见的菜单id
+            //通过菜单获取菜单列表，传递到前台
             //1.new菜单Model
             $menu = new MenuModel();
             //2.获取菜单的信息
