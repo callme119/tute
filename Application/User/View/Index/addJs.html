@@ -13,7 +13,7 @@
 $(document).on("change","#department",function(){
 	var department_id = $(this).children('option:selected').val();
 	alert(department_id);
-	var str = "<foreach name='departmentPostList["+department_id+"][_post]' item = 'value'><option>{$value}</option></foreach>";
+	var str = "<foreach name='departmentPostList"+"[" + department_id + "]"+"[_post]' item='value'><option>{$value}</option></foreach>";
 	$("#post").html(str);
 });
 // alert('hello');

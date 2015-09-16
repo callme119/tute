@@ -1,7 +1,12 @@
 <div id="page-wrapper">
 	<div class="row">
 		<div class="col-md-12">
-			<h1 class="page-header">{$currentMenu.title}<small>&nbsp;&nbsp;{$currentMenu.subhead}</small></h1>
+		    <div class="row return">
+					<a type="button" class="btn btn-info" onclick="javascript:history.back(-1);">返回</a>
+			</div>
+			<div class="row">
+				<h1 class="page-header">{$currentMenu.title}<small>&nbsp;&nbsp;{$currentMenu.subhead}</small></h1>
+			</div>	
 		</div>
 		<!-- /.col-lg-12 -->
 	</div>
@@ -10,7 +15,4 @@
 			{$YZBODY}
 		</div>
 	</div>
-
-
-
 </div>
