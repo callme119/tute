@@ -1,0 +1,26 @@
+
+<script type="text/javascript"> 
+$(function() { 
+    $("#btnMian").click(function() { 
+//生成 0 到100000 随机数 Mapth.random产生 0到1的随机数 然后乘以100000 
+var i = 1;  
+// alert(randomNumber); 
+var $parent = $("#mian"); 
+$parent.append("<div id='remove'><div id='remove' class='btn-group'><select name='chain[]'  type='button' class='btn btn-default btn-sm btn-flat dropdown-toggle'><option>请选择</option><foreach name='post' item='value' key='key'><option value='{$value.id}'>{$value.name}</option></foreach></select></div></div>"); 
+}) 
+    $("#button").click(function(){
+        $("#remove").remove();
+    });
+}) 
+</script>
+<script>
+	$(document).ready(function(){
+		$("#demoForm").validate({
+			rules:{
+				title:{
+					required:true
+				}
+			},
+		})
+	});
+</script>
