@@ -70,6 +70,7 @@ class ProjectModel extends Model{
     public function save()
      {
         $data = I('post.');
+        $data['time'] = time();
         $project_id = $this->add($data);
      } 
 }
