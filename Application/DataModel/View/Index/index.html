@@ -1,39 +1,38 @@
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
-            <div class="box">
-            	<div class="row">  
-                    <div class="col-md-2">
-						<a href="{:U('add?p=' .I('get.p'))}" class="btn btn-block btn-primary">添加数据模型</a>
+	        <div class="box-body table-responsive">
+	            <div class="panel-body">
+	            	<div class="row">  
+	                    <div class="col-md-2">
+							<a href="{:U('add?p=' .I('get.p'))}" class="btn btn-block btn-primary"><i class="glyphicon glyphicon-plus"></i>添加数据模型</a>
+						</div>
 					</div>
 				</div>
-				<div class="box-body table-responsive">
-                    <!-- Table -->
-                    <table class="table table-bordered table-striped table-hover">
-						<thead>
+                <table class="table table-bordered table-striped table-hover">
+					<thead>
+						<tr>
+							<td>序号</td>
+							<td>数据模型名</td>
+							<td>描述</td>
+							<td>类型</td>
+							<td>状态</td>
+							<td>操作</td>
+						</tr>
+					</thead>
+					<tbody>
+						<foreach name="dataModels" item="value">
 							<tr>
-								<td>序号</td>
-								<td>数据模型名</td>
-								<td>描述</td>
-								<td>类型</td>
-								<td>状态</td>
-								<td>操作</td>
+								<td>{++$i}</td>
+								<td><a href="{:U("DataModel/Index/detail?id=$value[id]&p=" . I('get.p'))}">{$value[name]}</a></td>
+								<td>{$value[description]}</td>
+								<td><eq name="value.type" value="1">基础模型<else/>普通模型</eq></td>
+								<td><eq name="value.state" value="0">正常<else/>冻结</eq></td>
+								<td><a href="{:U("DataModel/Index/detail?id=$value[id]&p=" . I('get.p'))}" class="btn btn-info"><i class="fa fa-tags"></i>&nbsp;扩展信息</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{:U("DataModel/Index/edit?id=$value[id]&p=" . I('get.p'))}" class="btn btn-primary"><i class="fa fa-pencil"></i>&nbsp;修改</a>&nbsp;&nbsp;<a href="{:U("delete?id=$value[id]&p=" . I('get.p'))}" class="btn btn-danger"><i class="fa fa-trash-o"></i>&nbsp;删除</a></td>
 							</tr>
-						</thead>
-						<tbody>
-							<foreach name="dataModels" item="value">
-								<tr>
-									<td>{++$i}</td>
-									<td><a href="{:U("DataModel/Index/detail?id=$value[id]&p=" . I('get.p'))}">{$value[name]}</a></td>
-									<td>{$value[description]}</td>
-									<td><eq name="value.type" value="1">基础模型<else/>普通模型</eq></td>
-									<td><eq name="value.state" value="0">正常<else/>冻结</eq></td>
-									<td><a href="{:U("DataModel/Index/detail?id=$value[id]&p=" . I('get.p'))}" class="btn btn-info"><i class="fa fa-tags"></i>&nbsp;扩展信息</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{:U("DataModel/Index/edit?id=$value[id]&p=" . I('get.p'))}" class="btn btn-primary"><i class="fa fa-pencil"></i>&nbsp;修改</a>&nbsp;&nbsp;<a href="{:U("delete?id=$value[id]&p=" . I('get.p'))}" class="btn btn-danger"><i class="fa fa-trash-o"></i>&nbsp;删除</a></td>
-								</tr>
-							</foreach>
-						</tbody>
-					</table>
-				</div>
+						</foreach>
+					</tbody>
+				</table>
 			</div>
 		</div>
 	</div>

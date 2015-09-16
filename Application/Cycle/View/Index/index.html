@@ -1,26 +1,42 @@
-<h5><a href="{:U('edit?p=' . I('get.p'))}">添加</a></h5>
-<table>
-	<tr>
-		<th>序号</th>
-		<th>名称</th>
-		<th>父周期</th>
-		<th>开始日期</th>
-		<th>结束日期</th>
-		<th>状态</th>
-		<th>当前统计周期</th>
-		<th>操作</th>
-	</tr>
-	<foreach name="cycles" item="cycle" >
-	<tr>
-		<td>{++$i}</td>
-		<td>{$cycle['name']}</td>
-		<td>{:W('Cycle/getNameById',array($cycle['pid']))}</td>
-		<td>{$cycle['begin_date']|date="Y/m/d",###}</td>
-		<td>{$cycle['end_date']|date="Y/m/d",###}</td>
-		<td><eq name="cycle['is_freezed']" value="0">正常<else/>冻结</eq></td>
-		<td><eq name="cycle['is_current']" value="1"><button class="btn btn-success btn-circle" type="button"><i class="fa fa-check"></i></button></eq></td>
-		<td><a href="{:U('edit?id=' . $cycle['id'] . '&p=' . I('get.p'))}">编辑</a>&nbsp;&nbsp;<a href='{:U("delete?id=$cycle[id]&p=" . I('get.p'))}'>删除</a>&nbsp;&nbsp;<a href="{:U('delete?id=' . $cycle['id'] . 'p=' . I('get.p'))}"></a>&nbsp;&nbsp;<a href='{:U("setCurrent?id=$cycle[id]&p=" . I("get.p"))}'>设置当前周期</a></td>
-	</tr>
-	</foreach>
-</table>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body table-responsive">
+                    <div class="panel-body">
+                        <a href="{:U('edit?p=' . I('get.p'))}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>添加周期</a>
+                    </div>
+                </div>
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+						<tr>
+							<th>序号</th>
+							<th>名称</th>
+							<th>父周期</th>
+							<th>开始日期</th>
+							<th>结束日期</th>
+							<th>状态</th>
+							<th>当前统计周期</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<foreach name="cycles" item="cycle" >
+						<tr>
+							<td>{++$i}</td>
+							<td>{$cycle['name']}</td>
+							<td>{:W('Cycle/getNameById',array($cycle['pid']))}</td>
+							<td>{$cycle['begin_date']|date="Y/m/d",###}</td>
+							<td>{$cycle['end_date']|date="Y/m/d",###}</td>
+							<td><eq name="cycle['is_freezed']" value="0">正常<else/>冻结</eq></td>
+							<td><eq name="cycle['is_current']" value="1"><button class="btn btn-success btn-circle" type="button"><i class="fa fa-check"></i></button></eq></td>
+							<td><a href="{:U('edit?id=' . $cycle['id'] . '&p=' . I('get.p'))}" class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i>编辑</a>&nbsp;&nbsp;<a href='{:U("delete?id=$cycle[id]&p=" . I('get.p'))}' class="btn btn-sm btn-danger"><i class="fa fa-trash-o "></i>删除</a>&nbsp;&nbsp;<a href="{:U('delete?id=' . $cycle['id'] . 'p=' . I('get.p'))}"></a>&nbsp;&nbsp;<a href='{:U("setCurrent?id=$cycle[id]&p=" . I("get.p"))}' class="btn btn-sm btn-info"><i class="fa fa-sun-o "></i>设置当前周期</a></td>
+						</tr>
+						</foreach>
+					</tbody>
+				</table>           
+            </div>
+        </div>
+    </div>
+</section>
 <yunzhi:page totalCount="totalCount"></yunzhi:page>
