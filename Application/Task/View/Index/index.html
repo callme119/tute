@@ -10,10 +10,9 @@
 									<option value="{$cycle[id]}" <eq name="cycle['id']" value="$cycleId">selected="selected"</eq>>{$cycle['name']}</option>
 								</foreach>
 							</select>
-							<button id="search">查询</button>
 						</div>
 						<div class="col-md-2">
-							<a href="{:U('editAll?p=' . I('get.p') . 'cycleid=' . $cycleId)}" class="btn btn-block btn-primary">批量添加/编辑</a>
+							<a href="{:U('editAll?p=' . I('get.p') . '&cycleid=' . $cycleId)}" class="btn btn-block btn-primary">批量添加/编辑</a>
 						</div>
 					</div>
 				</div>
@@ -37,9 +36,9 @@
 						</foreach>
 					</tbody>
 				</table>
+				<yunzhi:page totalCount="totalCount"></yunzhi:page>
 			</div>
 		</div>
 	</div>
 </section>
-<yunzhi:page totalCount="totalCount"></yunzhi:page>
 {$js}

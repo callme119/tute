@@ -8,7 +8,7 @@ class UserLogic extends UserModel
 {
 	public function getJoinUserListsByCycleId($cycleId)
 	{
-		$by = empty(I('get.by')) ? I('get.by') : "desc";
+		$by = empty(I('get.by')) ?  "desc" : I('get.by');
 		$order = "b.value " . $by;
 		$field['a.id'] 			= 'id'; //用户ID
 		$field['a.name'] 		= 'name';//用户姓名
@@ -20,12 +20,14 @@ class UserLogic extends UserModel
 		$map = array();
 		$map['state'] = 1;
 		$map['cycle_id'] = $cycleId;
+		$map['type'] = CONTROLLER_NAME;
 		$this->totalCount = $this->where($map)->count();
 
 		//取任务信息
 		$map = array();
 		$map['a.state'] 		= 1;
 		$map['b.cycle_id'] = $cycleId;
+		$map['b.type'] = CONTROLLER_NAME;
 		$return = $this->field($field)->alias('a')->order($order)->where($map)->join("left join __TASK__ b on a.id=b.user_id")->page($this->p,$this->pageSize)->select();
 		return $return;
 	}

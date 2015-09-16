@@ -1,10 +1,7 @@
 <script>
-$(document).on("click", "#search",function(){
-	var cycle = $("#cycle");
-	var cycleId = cycle.children('option:selected').val();
-	console.log(cycleId);
+$(document).on("change", "#cycle",function(){
+	var cycleId = $(this).children('option:selected').val();
 	var url = "{:U('index?p='.I('get.p')) . '?cycleid='}" + cycleId;
 	self.location=url;
 });
-
 </script>

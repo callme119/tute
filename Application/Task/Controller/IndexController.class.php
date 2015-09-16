@@ -7,8 +7,10 @@ use Admin\Controller\AdminController;	//
 use Cycle\Logic\CycleLogic;			//周期
 use Task\Logic\UserLogic;			//任务-用户
 use Task\Logic\TaskLogic;			//任务
+use User\Logic\UserLogic as UserL;			//用户
 class IndexController extends AdminController
 {
+	protected $type;			//记录正在操作的类型
 	public function indexAction()
 	{
 		try
@@ -34,8 +36,6 @@ class IndexController extends AdminController
 			$totalCount = $UserL->getTotalCount();
 			// dump($userTasks);
 
-			//还需要传一个type值到V层。
-			$this->assign("type","baseTeaching");
 			$this->assign("cycleId",$cycleId);
 			$this->assign("cycles",$cycles);
 			$this->assign("userTasks",$userTasks);
@@ -79,7 +79,38 @@ class IndexController extends AdminController
 	{
 		try
 		{
-			$this->assign("YZBODY",$this->fetch());
+			
+			$cycleId = (int)I('get.cycleid');
+
+			//取当前周期的状态
+			$CycleL = new CycleLogic();
+			$cycle = $CycleL->getListById($cycleId);
+
+			//判断所选周期状态
+			if(!$cycle || $cycle["is_freezed"] !== '0')
+			{
+				E("传入不正确的考核周期值cycleid,该存不存在，或是已冻结。");
+			}
+
+			//取出当前周期、当前 类别下的 任务值
+			$TaskL = new TaskLogic();
+			$tasks = $TaskL->getAllListsByCycleId($cycleId);
+
+			$state = "1";
+			$UserL = new UserL();
+			$users = $UserL->getAllListsByState($state);
+
+			//替除已有任务的教工。
+			foreach($tasks as $value)
+			{
+				unset($users[$value['user_id']]);
+			}
+
+			$this->assign("unSetedUsers",$users);//未设置任务的用户
+			$this->assign("tasks",$tasks);		//已设置任务的用户
+			$this->assign("cycle",$cycle);			//用户选择周期
+			$this->assign("js",$this->fetch('Index/editAllJs'));
+			$this->assign("YZBODY",$this->fetch('Index/editAll'));
 			$this->display(YZTemplate);
 		}
 		catch(\Think\Exception $e)
@@ -93,7 +124,9 @@ class IndexController extends AdminController
 	{
 		try
 		{
-			$this->success("操作成功",U("index?p=".I('get.p')));
+			$TaskL = new TaskLogic();
+			$TaskL->saveAllPost();
+			$this->success("操作成功",U("index?p=".I('get.p') . "&cycleid=" . I('get.cycleid')));
 		}
 		catch(\Think\Exception $e)
 		{
@@ -106,10 +139,10 @@ class IndexController extends AdminController
 	{
 		try
 		{
-			dump(I('post.'));
 			//根据ID保存VALUE值。
-
-			// $this->success("操作成功",U("index?cycleid='.I('get.cycleid').'&p=".I('get.p')));
+			$TaskL = new TaskLogic();
+			$TaskL->savePost();
+			$this->success("操作成功",U("index?cycleid=" .I('get.cycleid') . "&p=".I('get.p')));
 		}
 		catch(\Think\Exception $e)
 		{
@@ -122,7 +155,10 @@ class IndexController extends AdminController
 	{
 		try
 		{
-			$this->success("操作成功",U("index?p=".I('get.p')));
+			$id = (int)I('get.id');
+			$TaskL = new TaskLogic();
+			$TaskL->deleteById($id);
+			$this->success("操作成功",U("index?cycleid=" .I('get.cycleid') . "&p=".I('get.p')));
 		}
 		catch(\Think\Exception $e)
 		{
