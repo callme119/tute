@@ -178,7 +178,7 @@ class IndexController extends AdminController {
 
         $departmentTree = $departmentModel -> getDepartmentTree(0,2,'_son');
         $departmentList = tree_to_list($departmentTree,1,'_son','_level','order');
-
+        $departmentList = change_key($departmentList,'id');
         //通过部门-岗位Model获取所有部门和它的下属岗位id列表
         $departmentPostModel = new DepartmentPostModel;
         $postModel = new PostModel;
