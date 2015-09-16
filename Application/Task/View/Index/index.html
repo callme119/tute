@@ -3,9 +3,8 @@
 		<option value="{$cycle[id]}" <eq name="cycle['id']" value="$cycleId">selected="selected"</eq>>{$cycle['name']}</option>
 	</foreach>
 </select>
-<button id="search">查询</button>
 <br />
-<a href="{:U('editAll?p=' . I('get.p') . 'cycleid=' . $cycleId)}">批量添加/编辑</a>
+<a href="{:U('editAll?p=' . I('get.p') . '&cycleid=' . $cycleId)}">批量添加/编辑</a>
 <table>
 	<tr>
 		<th>序号</th>
