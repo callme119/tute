@@ -40,4 +40,9 @@ class IndexController extends Controller {
     	}
 
     }
+
+    //注销功能
+    public function cancelAction(){
+        
+    }
 }
