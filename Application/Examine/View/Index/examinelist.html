@@ -3,40 +3,39 @@
     <div class="row">
         <div class="col-xs-12">
             <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title"></h3>
-                </div><!-- /.box-header -->
-                <div class="row">  
-                    <div class="col-lg-2">
-                        <a href="{:U('Examine/Index/newexamine')}?p={$page}" class="btn btn-block btn-primary"><i class="glyphicon glyphicon-plus"></i>添加审批流程</a>
-                    </div>
-                </div>
                 <div class="box-body table-responsive">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <a href="{:U('Examine/Index/newexamine')}?p={$page}" class="btn btn-block btn-primary"><i class="glyphicon glyphicon-plus"></i>添加审批流程</a>
+                            </div>
+                        </div>
+                    </div>
                     <table class="table table-bordered table-striped table-hover">
-                            <thead>
-                                <tr class="unread">
-                                    <td class="id">序号</td>
-                                    <td class="name">审批流名称</td>
-                                    <td class="name">审批详情</td>
-                                    <td class="delete">操作</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <foreach name="examine" item="value"
-                                 key="key">
-                                <tr>
-                                    <td class="id">{++$key}</td>
-                                    <td class="name">{$value.name}</td>
-                                    <td class="name">
-                                        {$value.string}
-                                    </td>
-                                    <td class="delete">
-                                        <a class="btn btn-sm btn-danger"  type="button" href="{:U('Examine/Index/freezen')}?id={$value.id}"><i class="fa fa-trash-o "></i>删除</a>
-                                    </td>
-                                </tr>
-                                </foreach>
-                            </tbody>
-                        </table>
+                        <thead>
+                            <tr class="unread">
+                                <td class="id">序号</td>
+                                <td class="name">审批流名称</td>
+                                <td class="name">审批详情</td>
+                                <td class="delete">操作</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <foreach name="examine" item="value"
+                             key="key">
+                            <tr>
+                                <td class="id">{++$key}</td>
+                                <td class="name">{$value.name}</td>
+                                <td class="name">
+                                    {$value.string}
+                                </td>
+                                <td class="delete">
+                                    <a class="btn btn-sm btn-danger"  type="button" href="{:U('Examine/Index/freezen')}?id={$value.id}"><i class="fa fa-trash-o "></i>删除</a>
+                                </td>
+                            </tr>
+                            </foreach>
+                        </tbody>
+                    </table>
                          <nav style="text-align: center">
                             <ul class="pagination">
                                  <yunzhi:page totalCount="count"></yunzhi:page>           
