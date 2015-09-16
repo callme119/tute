@@ -1,49 +1,49 @@
 <div class="row">
-  <div class="col-md-8">
-     <div class="panel panel-default">
-         <!-- Default panel contents -->
-         <div class="panel-body">
-            <a href="{:U('Examine/Index/index')}" type="button" class="btn btn-info">&nbsp;返回</a>
-        </div>
+    <div class="col-md-8">
+        <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-body">
+                <a href="{:U('Examine/Index/index')}" type="button" class="btn btn-default">&nbsp;返回</a>
+            </div>
 
-        <form class="form-horizontal" method = 'post' action="{:U('Examine/Index/save')}?p={$page}">
-         <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label">审批流名称：</label>
-            <div class="col-sm-8">
-                <input name="name" class="form-control" id="inputEmail3" placeholder="名称">
-            </div>
-        </div>
-        <!-- 添加按钮 -->
-        <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label">审批流顺序：</label>
-            <div class="col-sm-8">
-                <input  class="btn btn-primary" id="btnMian" type="button" value="添加审批岗位" /> 
-                <input class="btn btn-warning" id="button" type="button" value="重置" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="inputEmail3" class="col-sm-2 control-label"></label>
-            <div class="col-sm-8">
-                <div id="mian" style="width:450px">
-                    <div class="btn-group ">
-                        <select name="chain[]" class="btn btn-default btn-sm btn-flat dropdown-toggle">
-                            <option>请选择</option>
-                            <foreach name="post" item="value" key="key">
-                                <option value="{$value.id}">{$value.name}</option>
-                            </foreach>>
-                        </select>
+            <form class="form-horizontal" method = 'post' action="{:U('Examine/Index/save')}?p={$page}" id="demoForm">
+                 <div class="form-group">
+                    <label for="tittle" class="col-sm-2 control-label">审批流名称：</label>
+                    <div class="col-sm-8">
+                        <input name="tittle" class="form-control"  placeholder="名称">
                     </div>
                 </div>
-            </div>
-            
-            <div class="form-group" align="center">
-                <div class="col-md-3 col-md-offset-4" >
-                    <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-check"></i>&nbsp;确认添加</button>
+                <!-- 添加按钮 -->
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label">审批流顺序：</label>
+                    <div class="col-sm-8">
+                        <input  class="btn btn-primary" id="btnMian" type="button" value="添加审批岗位" /> 
+                        <input class="btn btn-warning" id="button" type="button" value="重置" />
+                    </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-2 control-label"></label>
+                    <div class="col-sm-8">
+                        <div id="mian" style="width:450px">
+                            <div class="btn-group ">
+                                <select name="chain[]" class="btn btn-default btn-sm btn-flat dropdown-toggle">
+                                    <option>请选择</option>
+                                    <foreach name="post" item="value" key="key">
+                                        <option value="{$value.id}">{$value.name}</option>
+                                    </foreach>>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" align="center">
+                    <div class="col-md-3 col-md-offset-4" >
+                        <button type="submit" class="btn btn-block btn-primary"><i class="fa fa-check"></i>&nbsp;确认添加</button>
+                    </div>
+                </div>
+            </form>
         </div> 
     </div>
-</form>
 </div>
 <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
@@ -57,12 +57,11 @@ $(function() {
 var i = 1;  
 // alert(randomNumber); 
 var $parent = $("#mian"); 
-$parent.append("<div id='remove'><span class='fa fa-angle-double-right '></span><div id='remove' class='btn-group'><select name='chain[]'  type='button' class='btn btn-default btn-sm btn-flat dropdown-toggle'><option>请选择</option><foreach name='post' item='value' key='key'><option value='{$value.id}'>{$value.name}</option></foreach></select></div></div>"); 
+$parent.append("<div id='remove'><div id='remove' class='btn-group'><select name='chain[]'  type='button' class='btn btn-default btn-sm btn-flat dropdown-toggle'><option>请选择</option><foreach name='post' item='value' key='key'><option value='{$value.id}'>{$value.name}</option></foreach></select></div></div>"); 
 }) 
     $("#button").click(function(){
         $("#remove").remove();
     });
 }) 
-</script> 
-</body>
-</html>
+</script>
+{$js}
