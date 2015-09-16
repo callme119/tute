@@ -47,7 +47,43 @@ class RoleUserModel extends Model{
 		//获得没有在 角色中的教工列表
 		return $data;
 	}
+	/**
+	 * [saveRoleUser 更新用户-角色信息]
+	 * @return [type] [true]
+	 */
+	public function saveRoleUser(){
+		$data = I('post.');
+		//清空原有数据
+		$map['user_id'] = $data['id'];
+		$this-> where($map)->delete();
 
+		//获取新的数据
+		$userRole = array();
+		foreach ($data as $key => $value) {
+			if($value == 'on'){
+				$userRole[] = array('user_id' => $data['id'],'role_id' => $key,'state' => 1);
+			}
+		}
+		//更新
+		$this->addAll($userRole);
+		return true;
+	}
+	/**
+	 * [addRoleUser 添加用户-角色信息]
+	 */
+	public function addRoleUser(){
+		$data = I('post.');
+		//获取新的数据
+		$userRole = array();
+		foreach ($data as $key => $value) {
+			if($value == 'on'){
+				$userRole[] = array('user_id' => $data['id'],'role_id' => $key,'state' => 1);
+			}
+		}
+		//更新
+		$this->addAll($userRole);
+		return true;
+	}
 	public function saveRoleStaff(){
 		//接收数据
 		$data['role_id'] = I('get.roleId');

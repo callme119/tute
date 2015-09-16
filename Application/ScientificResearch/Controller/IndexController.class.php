@@ -23,6 +23,7 @@ use WorkflowLog\Model\WorkflowLogModel;                 //工作流扩展表
 
 use ProjectCategoryRatio\Model\ProjectCategoryRatioModel;   //项目类别系数表
 use ProjectDetail\Logic\ProjectDetailLogic;             //项目扩展信息
+use ProjectDetail\Model\ProjectDetailModel;             //项目扩展信息
 
 
 class IndexController extends AdminController {
@@ -56,18 +57,17 @@ class IndexController extends AdminController {
      *  5.存分数表
      * 
      */
-    public function savedAction() {
-        // $ProjectDetailOneM = new ProjectDetailOneModel();
-        // $ProjectDetailOne = $ProjectDetailOneM->save();
-
+    public function saveAction() {
+        //dump($_POST);
         // $ProjectM = new ProjectModel();
-        // $Project = $ProjectM->save();
+        // $Project_id = $ProjectM->save();
 
-        $ScoreM = new ScoreModel();
-        $Score = $ScoreM->save();
-
-        $this->assign('YZBODY',$this->fetch());
-        $this->display(YZTemplate);
+        //$ScoreM = new ScoreModel();
+        //$Score = $ScoreM->save($Project_id);
+        
+        $projectDetailM = new projectDetailModel();
+        //$projectDetail = $projectDetailM->save($Project_id);
+        $projectDetail = $projectDetailM->save();
     }
     public function auditedAction() {
         $this->assign('YZBODY',$this->fetch());

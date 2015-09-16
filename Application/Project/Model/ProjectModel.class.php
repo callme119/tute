@@ -66,5 +66,10 @@ class ProjectModel extends Model{
         $map[id]=$id;
         $map[user_id] = $userId;
         return $this->where($map)->find();
-    } 
+    }
+    public function save()
+     {
+        $data = I('post.');
+        $project_id = $this->add($data);
+     } 
 }

@@ -108,4 +108,22 @@ class CycleLogic extends CycleModel
 
 	}
 
+	/**
+	 * 获取所有非冻结的周期
+	 * @return array 二维数且
+	 */	
+	public function getAllNoFreezedLists()
+	{
+		$map = array();
+		$map['is_freezed'] = 0;
+		return $this->where($map)->order($this->order)->select();
+	}
+
+	public function getCurrentList()
+	{
+		$map = array();
+		$map['is_current'] = 1;
+		return $this->where($map)->find();
+	}
+
 }
