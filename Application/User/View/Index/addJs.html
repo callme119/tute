@@ -7,4 +7,10 @@
         $("#"+k).attr('checked','true');
     };
  });
+
+$(document).on("change","#department",function(){
+	var department_id = $(this).children('option:selected').val();
+	
+});
+
 </script>
