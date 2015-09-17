@@ -10,17 +10,25 @@ namespace Score\Model;
 use Think\Model;
 use User\Model\UserModel;
 class ScoreModel extends Model{
-	public function save($project_id)
+	public function save($projectId)
 	{
-		$userid = I('post.name');
-		$score_percent = I('post.score_percent');
-		foreach ($userid as $key => $value) {
+		$userId = I('post.name');
+		$scorePercent = I('post.score_percent');
+		foreach ($userId as $key => $value) {
 			$data[userid] = $value;
-			$data[project_id] = $project_id;
-			$data[score_percent] = $score_percent[$key];
+			$data[project_id] = $projectId;
+			$data[score_percent] = $scorePercent[$key];
+
+			//获取user表里的name
 			$userM = new UserModel();
-			$data[name] = $userM->getUserById($value);
-			$this->add($data);
+			$user = $userM->getUserById($value);
+			$data[name] = $user[name];
+			if($this->add($data)){
+				$res = ture;
+			}
+			else
+				$res = false;
 		}
+		return $res;
 	}
 }

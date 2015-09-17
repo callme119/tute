@@ -128,7 +128,7 @@ class IndexController extends AdminController
         $departmentModel = new DepartmentModel;
         $departmentTree = $departmentModel -> getDepartmentTree(0,2,'_son');
         $departmentList = tree_to_list($departmentTree,1,'_son','_level','order');
-        return $departmentList;   
+        return $departmentList;
     }
     /**
      * [_fetchPostList 传值到添加界面的岗位列表]

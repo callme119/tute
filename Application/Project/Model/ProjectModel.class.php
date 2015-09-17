@@ -85,7 +85,7 @@ class ProjectModel extends Model{
         }
         else
         {
-            $this->error = "数据添加发生错误，代码" . $this->getError();
+            
             return false;
         }
      } 
