@@ -44,10 +44,14 @@
                                 </select><!-- /.input group --> 
                             </div>
                         </div>
+                        {:dump($departmentPostList[0]['_post']);}
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">岗位</label>
                             <div  class="col-sm-4">
                                 <select id="post" class='selectpicker form-control'>
+                                    <foreach  name="departmentPostList[0]['_post']" key = "key" item = "value">
+                                        <option value="{$key}">{$value}</option>
+                                    </foreach>
                                 </select>
                             </div>
                         </div>
