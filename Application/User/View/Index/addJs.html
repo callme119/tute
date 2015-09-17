@@ -8,14 +8,21 @@
     };
  });
 $(document).on("change","#department",function(){
-	 $("#post").empty();
+	$("#post").empty();
 	var department_id = $(this).children('option:selected').val();
 	var departmentPostList = new Array();
     	var departmentPostList = eval(<?php echo json_encode($departmentPostList);?>);
     	var postList = departmentPostList[department_id]['_post'];
     	for (var key in postList) {
-    		$("#post").append("<option>"+postList[key]+"</append>");
+    		$("#post").append("<option>"+postList[key]+"</option>");
     	};
 });
-// alert('hello');
+var data = "<div class='row form-group team'><div class='form-group col-md-2'></div><div class='col-md-4'><div class='input-group'><span for='inputEmail3' id='next_examiner' class='input-group-addon'>部门</span><select id='department' class='selectpicker form-control'><foreach name='departmentPostList' item = 'value'><option value='{$value[id]}'>{$value.name}</option></foreach></select></div></div><div class='col-md-4'><div class='input-group'><span for='inputEmail3' class='input-group-addon' id='basic-addon1'>岗位</span><select id='post' class='selectpicker form-control'><foreach  name='departmentPostList[0][_post]' key='key' item='value'><option value='{$key}'>{$value}</option></foreach></select></div></div></div>";
+$("#plus").click(function(){
+    $(".team:last").after(data);
+});
+//减少团队人数
+$("#minus").click(function(){
+    $(".team:gt(0):last").remove();
+});
 </script>
