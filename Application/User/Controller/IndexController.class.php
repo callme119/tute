@@ -99,6 +99,11 @@ class IndexController extends AdminController {
     }
     //编辑教工完成
     public function updateAction(){
+        
+        $data = I('post.');
+        var_dump($data);
+        exit();
+        
         //保存教工信息（UserModel）
         $staffModel = new UserModel();
         $state = $staffModel -> updateStaff();

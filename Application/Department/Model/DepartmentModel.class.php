@@ -2,9 +2,9 @@
 namespace Department\Model;
 use Think\Model;
 use Think\Model\RelationModel;
-class DepartmentModel extends RelationModel
+class DepartmentModel extends Model
 {
-	protected $_link = array(
+	/*protected $_link = array(
         		'Post'=>array(
 		            'mapping_type'      => self::MANY_TO_MANY,
 		            'class_name'        => 'Post',
@@ -13,8 +13,8 @@ class DepartmentModel extends RelationModel
     			'relation_table'    =>  'yunzhi_department_post'
 		            ),
         	);
-	/**
-	 * [test 关联模型的测试方法]
+	*
+	 * [test 关联模型的测试方法]需要继承 Think\Model\RelationModel
 	 * 经测试有效，多对多的关联方式，对于本表和中间表都有操作，
 	 * 对于关联的表只进行查找，不进行操作
 	 * 详细资料参考thinkphp官方文档 http://document.thinkphp.cn/manual_3_2.html#relation_model
