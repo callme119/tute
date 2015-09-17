@@ -11,7 +11,7 @@ use Think\Model;
 class ProjectModel extends Model{
 	
     protected $_auto = array(
-        array('time','time',3)
+            array("time","time",3,"function"),
         );
     protected $_validate = array();
     
@@ -70,7 +70,14 @@ class ProjectModel extends Model{
     public function save()
      {
         $data = I('post.');
-        $data['time'] = time();
-        $project_id = $this->add($data);
+        if($this->create($data)) //将time字段自动存入
+        {
+            return $this->add($data);
+        }
+        else
+        {
+            $this->error = "数据添加发生错误，代码" . $this->getError();
+            return false;
+        }
      } 
 }
