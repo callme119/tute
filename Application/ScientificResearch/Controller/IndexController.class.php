@@ -40,10 +40,10 @@ class IndexController extends AdminController {
         //取项目表信息
         $ProjectM = new ProjectModel();
         $projects = $ProjectM->getListsByUserId($userId);
-        $totalCount = $ProjectM->getTotalCount();
+        // $totalCount = $ProjectM->getTotalCount();
         
         //传值 
-        $this->assign("totalCount",$totalCount);
+        // $this->assign("totalCount",$totalCount);
         $this->assign("projects",$projects);
         $this->assign('YZBODY',$this->fetch('Index/index'));
         $this->display(YZTemplate);
@@ -58,16 +58,48 @@ class IndexController extends AdminController {
      * 
      */
     public function saveAction() {
-        //dump($_POST);
-        // $ProjectM = new ProjectModel();
-        // $Project_id = $ProjectM->save();
+        $projectCategoryId = I('post.project_category_id');
+        //取项目类别信息
+        $ProjectCategoryM = new ProjectCategoryModel();
+        if( !$projectCategory = $ProjectCategoryM->getListById($projectCategoryId) )
+        {
+            $data['message'] = "please select project";
+            $this->ajaxReturn($data);
+        }
 
-        //$ScoreM = new ScoreModel();
-        //$Score = $ScoreM->save($Project_id);
+         //取数据模型扩展信息
+        $dataModelId = $projectCategory['data_model_id'];
+        $DataModelDetailL = new DataModelDetailLogic();
+        $dataModelDetailRoots = $DataModelDetailL->getRootListsByDataModelId($dataModelId);
+        if($dataModelDetailRoots === false)
+        {
+            $this->error = $DataModelDetailL->getError();
+            $this->_empty();
+        }
+
+        $ProjectM = new ProjectModel();
+        $projectId = $ProjectM->save();
+        if($ProjectId === false)
+        {
+            $this->error = "数据添加发生错误，代码" . $this->getError();
+        }
+
+        $ScoreM = new ScoreModel();
+        $Score = $ScoreM->save($projectId);
+        if($Score === false)
+        {
+            $this->error = "数据添加发生错误，代码" . $this->getError();
+        }
         
         $projectDetailM = new projectDetailModel();
-        //$projectDetail = $projectDetailM->save($Project_id);
-        $projectDetail = $projectDetailM->save();
+        $projectDetail = $projectDetailM->save($projectId,$dataModelDetailRoots);
+        if($projectDetail === false)
+        {
+           $this->error = "数据添加发生错误，代码" . $this->getError();
+
+        }
+        else
+            $this->success("操作成功",'index');
     }
     public function auditedAction() {
         $this->assign('YZBODY',$this->fetch());
