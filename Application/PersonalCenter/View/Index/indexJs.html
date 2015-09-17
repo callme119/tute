@@ -9,19 +9,42 @@
 				phone:{
 					digits:true,
 					maxlength:11,
-					minlength:11
+					minlength:11,
+					required:true,
 				},
 				oldpsw:{
-
+					required:true,
 				},
 				newpsw:{
 
 				},
 				againpsw:{
-
+					equalTo:"#newpsw",
 				}
 			},
 		})
 	});
+	// $(document).ready(function(){
+	// 	alert("两次输入的密码不同，请重新输入");
+	// 	//String o=String.valueOf(document.personalCenter.oldpsw.text);
+	// 	String n1=String.valueOf(document.personalCenter.newpsw.text);
+	// 	String n2=String.valueOf(document.personalCenter.againpsw.text);
+	// 	// if(!o.equals(n1))
+	// 	// {
+	// 	// 	alert("旧密码输入错误，请重新输入正确的密码，默认密码为学号后两位，忘记密码请联系管理员");
+	// 	// 	return false;
+	// 	// }
+	// 	if(n1!=n2))
+	// 	{
+	// 		alert("两次输入的密码不同，请重新输入");
+	// 		return false;
+	// 	}
+	// 	else
+	// 	{
+	// 		return true;
+	// 	}
+		
+	// });
 	
+		
 </script>
