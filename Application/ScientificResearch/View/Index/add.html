@@ -1,14 +1,12 @@
 <!-- 日期插件 -->
-<link href="__CSS__/bootstrap-datetimepicker.min.css
-" rel="stylesheet">
+<!-- <link href="__CSS__/bootstrap-datetimepicker.min.css" rel="stylesheet"> -->
 <!--select2插件 -->
-<link href="__CSS__/select2/select2.min.css
-" rel="stylesheet">
-<!-- 日期js -->
-<script src="__JS__/bootstrap-datetimepicker.js"></script>
-<!-- 日期js -->
-<script src="__JS__/bootstrap-datetimepicker.zh-CN.js"></script>
+<link href="__CSS__/select2/select2.min.css" rel="stylesheet">
 
+<!-- 日期js -->
+<!-- <script src="__JS__/bootstrap-datetimepicker.js"></script> -->
+<!-- 日期js -->
+<!-- <script src="__JS__/bootstrap-datetimepicker.zh-CN.js"></script> -->
 <!-- select2 js -->
 <script src="__JS__/select2/select2.min.js"></script>
 <div class="container">
@@ -91,15 +89,15 @@
                 <div class="col-md-1"><span id="plus" onmouseover="this.style.backgroundColor='green';" onmouseout="this.style.backgroundColor='';" class="input-group-addon btn"><span class="glyphicon glyphicon-plus"></span></span></div>
                 <div class="col-md-1"><span id="minus" onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='';"  class="input-group-addon btn"><span class="glyphicon glyphicon-minus"></span></span></div>
             </div>
-            <!-- <div class="col-md-3 form-group">
-                <div class="input-group  date form_date" data-date="" data-date-format="" data-link-field="dtp_input2"  data-link-format="yyyy-mm-dd">
+            <div class="col-md-3 form-group">
+                <!-- <div class="input-group  date form_date" data-date="" data-date-format="" data-link-field="dtp_input2"  data-link-format="yyyy-mm-dd">
                     <span class="input-group-addon">发表时间</span>
                     <input class="form-control" size="16" type="text" value="" readonly>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-remove"></span></span>
                     <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-                </div>
+                </div> -->
                 <input type="hidden" id="dtp_input2" value="" />
-            </div> -->
+            </div>
             <div class="row">
                 <div class="col-md-1 col-md-offset-3"><button type="submit" class="btn btn-success"><i class="fa fa-check "></i>保存</button></div>
                 <div class="col-md-1"><a href="" class="btn btn-warning" ><i class="fa fa-repeat "></i>重置</a></div>
@@ -154,8 +152,8 @@ $("#minus").click(function(){
     };
     //防刷新设置
     get_project_category_id_select($("#projectCategory"));
-
-    //日历的插件
+$(document).ready(function(){
+     //日历的插件
     $(".form_date").datetimepicker({
         language: 'zh-CN',
         weekStart: 1,
@@ -168,6 +166,8 @@ $("#minus").click(function(){
     });
     //select2的插件
     $(".js-example-basic-multiple").select2();
+});
+   
     /*
     用户选择审核流程后，后台取数据.
     最终让用户选择：下一审核人。
