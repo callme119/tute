@@ -34,21 +34,42 @@
                                 <input name="email" class="form-control" id="inputEmail3" placeholder="邮箱" value="{$staffInfo.email}">
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-2 control-label">部门</label>
-                            <div class="col-sm-4">
+                        <div class="row form-group team">
+                            <div class="form-group col-md-2"></div>
+                            <div class="col-md-4 department">
+                            <div class="input-group">
+                                <lable for="inputEmail3" id="next_examiner" class="input-group-addon">部门
+                                </lable>
                                 <select id="department" class="selectpicker form-control">
                                     <foreach  name="departmentPostList" item = "value">
                                         <option value="{$value[id]}">{$value.name}</option>
                                     </foreach>
                                 </select><!-- /.input group --> 
+                                </div>   
                             </div>
+<<<<<<< HEAD
+                            <div class="col-md-4">
+                            <div class="input-group">
+                                <lable for="inputEmail3" class="input-group-addon" id="basic-addon1">岗位</lable>
+=======
                         </div>
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">岗位</label>
                             <div  class="col-sm-4">
+>>>>>>> origin/master
                                 <select id="post" class='selectpicker form-control'>
                                 </select>
+                                </div>
+                            </div>
+                            <div class="col-md-1">
+                            <span id="plus" onmouseover="this.style.backgroundColor='green';" onmouseout="this.style.backgroundColor='';" class="input-group-addon btn">
+                                <span class="glyphicon glyphicon-plus"></span>
+                            </span>
+                            </div>
+                            <div class="col-md-1">
+                            <span id="minus" onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='';"  class="input-group-addon btn">
+                                <span class="glyphicon glyphicon-minus"></span>
+                            </span>
                             </div>
                         </div>
                         <div class="form-group">
