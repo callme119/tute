@@ -5,7 +5,7 @@
 	            <div class="panel-body">
 	            	<div class="row">  
 	                    <div class="col-md-2">
-							<select id="cycle">
+							<select class="select2" id="cycle">
 								<foreach name="cycles" item="cycle">
 									<option value="{$cycle[id]}" <eq name="cycle['id']" value="$cycleId">selected="selected"</eq>>{$cycle['name']}</option>
 								</foreach>
