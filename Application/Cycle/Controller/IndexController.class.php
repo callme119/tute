@@ -55,7 +55,7 @@ class IndexController extends AdminController
 		try
 		{
 			$CycleL = new CycleLogic();
-			dump(I('post.'));
+
 			//存在ID，则说明是更新操作
 			if($id)
 			{

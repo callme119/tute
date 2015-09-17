@@ -1,0 +1,53 @@
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <php>$userId = I('get.userid');</php>
+            <select class="select2" id="userSelect" name="user_id">
+                <option value="0">全部</option>
+            <foreach name="users" item="user">
+                <option value="{$user[id]}" <eq name="user[id]" value="$userId">selected="selected"</eq>>{$user['name']}</option>
+            </foreach>
+            </select>
+        </div>
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body table-responsive">
+                    <div class="panel-body">
+                        <a href="{:U('editAll?p=' . I('get.p'))}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>批量添加/编辑</a>
+                    </div>
+                </div>
+                <div class="box-body table-responsive">
+                    <div class="panel-body">
+                        <label for="">当前考核周期：</label><span>
+                            {$cycle[name]}
+                        </span>
+                    </div>
+                </div>
+                <table class="table table-bordered table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>教工</th>
+                            <th>已完成工作量</th>
+                            <th>任务工作量</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <foreach name="baseTeachings" item="baseTeaching">
+                    <tr>
+                        <td>{++$i}</td>
+                        <td>{:W('User/getNameById',array($baseTeaching['user_id']))}</td>
+                        <td>{$baseTeaching['value']}</td>
+                        <td>{:W('Task/getListByUserIdCycleId',array($baseTeaching['user_id'] , $cycle['id']))}</td>
+                        <td><a href="{:U('edit?id='.$baseTeaching[id].'&p='.I('get.p'))}">修改</a>&nbsp;&nbsp;<a href="{:U('delete?id='.$baseTeaching[id].'&p='.I('get.p'))}">删除</a></td>
+                    </tr>
+                    </foreach>
+                    </tbody>
+                </table>
+                <yunzhi:page totalCount="totalCount"></yunzhi:page>
+            </div>
+        </div>
+    </div>
+</section>
+{$js}

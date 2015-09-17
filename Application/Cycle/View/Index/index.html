@@ -12,7 +12,6 @@
 						<tr>
 							<th>序号</th>
 							<th>名称</th>
-							<th>父周期</th>
 							<th>开始日期</th>
 							<th>结束日期</th>
 							<th>状态</th>
@@ -25,7 +24,6 @@
 						<tr>
 							<td>{++$i}</td>
 							<td>{$cycle['name']}</td>
-							<td>{:W('Cycle/getNameById',array($cycle['pid']))}</td>
 							<td>{$cycle['begin_date']|date="Y/m/d",###}</td>
 							<td>{$cycle['end_date']|date="Y/m/d",###}</td>
 							<td><eq name="cycle['is_freezed']" value="0">正常<else/>冻结</eq></td>

@@ -48,8 +48,9 @@ Handlebars.registerHelper('compare', function(left, operator, right, options) {
 	}
 });
 
-
-$('.date').datetimepicker({
+//日期插件
+var dataInit = function(){
+	$('.date').datetimepicker({
         language:  'zh-CN',
         weekStart: 1,
         todayBtn:  1,
@@ -61,3 +62,9 @@ $('.date').datetimepicker({
 		forceParse: 0,
 		format: 'yyyy-mm-dd'
     });
+};
+
+//日期插件初始化
+
+dataInit();
+$(".select2").select2();

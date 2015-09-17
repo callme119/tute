@@ -23,4 +23,15 @@ class UserLogic extends UserModel
 		}
 		return $return;
 	}
+	/**快捷方法*/
+	public function getAllLists($state = '1')
+	{
+		return $this->getAllListsByState($state);
+	}
+
+	public function getListById($id)
+	{
+		$map['id'] = (int)$id;
+		return $this->where($map)->find();
+	}
 }

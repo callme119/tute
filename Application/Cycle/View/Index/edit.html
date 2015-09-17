@@ -1,9 +1,6 @@
 <form action="{:U('save?p=' .I('get.p'))}" method="post">
 	<input type="hidden" value="{$cycle[id]}" name="id" />
 	<label>名称</label><h5><input type="text" value="{$cycle[name]}" name="name" id="name" /></h5>	
-	<label>父周期</label><h5><select name="pid" id="pid"><option value="0">根周期</option><foreach name="rootLists" item="rootList">
-		<option value="{$rootList[id]}" <eq name="rootList[id]" value="$cycle[pid]">selected="selected"</eq>>{$rootList[name]}</option>
-	</foreach></select></h5>
 	<label>开始日期</label>
 	<h5><input name="begin_date" size="16" type="text" value="{$cycle['begin_date']|date_to_string}" class="date" readonly /></h5>
 	<label>结束日期</label><h5><input type="date" name="end_date" id="end_date" class="date"  value="{$cycle['end_date']|date_to_string}" /></h5>

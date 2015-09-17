@@ -1,0 +1,24 @@
+<form action="{:U('saveAll?p='. I('get.p') . '&cycleid=' . I('cycleid'))}" method="post">
+	<label for="">考核周期:</label><h5>{$currentCycle['name']}</h5>
+	<label>未设置教工</label>
+	<h5 id="unsetList">
+		<foreach name="users" item="user" key="key">
+			<php>
+				if(!isset($userBaseTeachings[$user[id]])) :
+					W('User/getUserCheckBoxByUserIdUserName',array("$user[id]","$user[name]"));
+				endif;
+			</php>
+		</foreach>
+	</h5>
+	<h5><input type="checkbox" class="selectAll" data-value="unsetList" id="unset"/><label for="unset">全选/反选</label></h5>
+	<label>已设置教工</label>
+	<h5 id="setList">
+		<foreach name="userBaseTeachings" item="userBaseTeaching">
+			{:W('User/getUserCheckBoxByUserIdUserName',array("$userBaseTeaching[id]","$userBaseTeaching[name]"))}
+		</foreach>
+	</h5>
+	<h5><input type="checkbox" data-value="setList" class="selectAll" id="set" /><label for="set">全选/反选</label></h5>
+	<label for="value">任务量:</label><h5><input type="text" name="value" id="value"></h5>
+	<button type="submit">提交</button>
+</form>
+{$js}

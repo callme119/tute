@@ -13,6 +13,7 @@
                                 <th>序号</th>
                                 <th>名称</th>
                                 <th>类别</th>
+                                <th>考核周期</th>
                                 <th>提交时间</th>
                                 <th>状态</th>
                                 <th>分值</th>
@@ -24,6 +25,7 @@
                                 <td>{++$i}</td>
                                 <td><a href="{:U("detail?id=". $project[id])}">{$project[title]}</a></td>
                                 <td>{:W("ProjectCategory/getParentsDetailStringsById",array($project['project_category_id']))}</td>
+                                <td>{:W('Cycle/getNameById',array($project[cycle_id]))}</td>
                                 <td>{$project[time]|date="Y/m/d",###}</td>
                                 <td><eq name="project[is_finished]" value="1">已办结<else /><eq name="project[is_commited]" value="1">审核中<else />未提交</eq></eq></td>
                                 <td>{:W("Project/getRatioById",array($project[id]))}</td>

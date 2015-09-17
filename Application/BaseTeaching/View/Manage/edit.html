@@ -1,0 +1,6 @@
+<form action="{:U('save?p='. I('get.p') )}" method="post">
+	<input type="hidden" name="id" value="{$baseTeaching[id]}">
+	<label for="name">姓名:</label><h5>{$user['name']}</h5>
+	<label for="value">已完成工作量</label><h5><input type="text" value="{$baseTeaching[value]}" name="value"></h5>
+	<button type="submit">确定</button>
+</form>

@@ -54,6 +54,15 @@ class ProjectModel extends Model{
         return $this->where($map)->page($this->p,$this->pageSize)->order($this->order)->select();
     }
 
+    public function getListsByUserIdType($userId , $type )
+    {
+        $map = array();
+        $map['user_id'] = $userId;
+        $map['type'] = $type;
+        $this->totalCount = $this->where($map)->count();
+        return $this->where($map)->page($this->p,$this->pageSize)->order($this->order)->select();   
+    }
+
     /**
      * 获取当前用户当前项目的具体信息
      * @param  int $id     项目ＩＤ

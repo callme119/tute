@@ -1,0 +1,9 @@
+<script type="text/javascript">
+	$(document).on("change","#userSelect",function(){
+		console.log("select change");
+		var userId = $(this).val();
+		var url = "?userid="+userId;
+		console.log(url);
+		self.location=url;
+	})
+</script>

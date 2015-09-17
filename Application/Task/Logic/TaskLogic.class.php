@@ -76,4 +76,23 @@
  			$this->where($map)->save();
  		}
  	}
+
+ 	/**
+ 	 * 获取 用户ID 和 周期ID 相关的记录
+ 	 * @param  int $userId    用户ID
+ 	 * @param  int $cycleId 周期ID
+ 	 * @return array          一维
+ 	 */
+ 	public function getListByUserIdCycleId($userId,$cycleId,$type)
+ 	{
+ 		$userId = (int)$userId;
+ 		$cycleId = (int)$cycleId;
+ 		$type = trim($type);
+
+ 		$map['user_id'] = $userId;
+ 		$map['cycle_id'] = $cycleId;
+ 		$map['type'] = $type;
+
+ 		return $this->where($map)->find();
+  	}
  }

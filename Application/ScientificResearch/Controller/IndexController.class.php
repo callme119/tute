@@ -36,10 +36,11 @@ class IndexController extends AdminController {
     public function indexAction(){
         //取用户信息
         $userId = get_user_id();
+        $type = CONTROLLER_NAME;
 
         //取项目表信息
         $ProjectM = new ProjectModel();
-        $projects = $ProjectM->getListsByUserId($userId);
+        $projects = $ProjectM->getListsByUserIdType($userId , $type);
         $totalCount = $ProjectM->getTotalCount();
         
         //传值 
