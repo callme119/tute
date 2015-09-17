@@ -3,16 +3,12 @@
         <div class="col-md-12 box-body">
             <!-- Date range -->
             <form action="{:U('save')}" method = 'post'>
-                <div style="display:none">
-                    <!-- <input id="" name="" value="0"> -->
-                    {:$url=U('append');}
-                </div>
                 <div class="row">
                     <div class="col-md-3 form-group">
                         <div class="input-group">
-                            <span id="next_examiner" class="input-group-addon">项目类别</span>
+                            <span class="input-group-addon">项目类别</span>
                             <select name="project_category_id" id="projectCategory" class="selectpicker form-control select2">
-                                <option>请选择</option>
+                                <option value="0">请选择</option>
                                 <foreach name="project" item="project">
                                     <option value="{$project.id}"><php>for($j = 0 ; $j < $project[_level] ; $j++ ) : echo "|--"; endfor;</php><neq name="project[data_model_id]" value="0">[{$project.name}]<else/>{$project.name}</neq></option>
                                 </foreach>
@@ -58,7 +54,7 @@
                 <div class="row team">
                    <div class="col-md-3 form-group">
                     <div class="input-group">
-                        <span id="next_examiner" class="input-group-addon">团队人员姓名</span>
+                        <span class="input-group-addon">团队人员姓名</span>
                         <select name="name[]" value="" class="selectpicker form-control select2">
                             <option>请选择</option>
 
