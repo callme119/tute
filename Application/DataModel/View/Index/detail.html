@@ -17,7 +17,7 @@
 		<td>{$root[name]}</td>
 		<td>{$root[type]}</td>
 		<td>{$root[html_type]}</td>	
-		<td><a href="{:U('DataModelDetail/edit?id='.$root['id']) . '&data_model_id=' . $DataModel[id]}">编辑</a>
+		<td><a href="{:U('DataModelDetail/edit?id='.$root['id'] . '&data_model_id=' . $DataModel[id])}">编辑</a>
 		<a href="{:U('DataModelDetail/delete?id='.$root['id'] . '&data_model_id=' . $DataModel[id])}">删除</a></td>
 	</tr>
 	<php>if($root[html_type] == "select") : </php>
