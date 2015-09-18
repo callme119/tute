@@ -878,7 +878,7 @@ function layout($layout) {
  * @param boolean $domain 是否显示域名
  * @return string
  */
-function U($url='',$vars='',$suffix=true,$domain=false) {
+function U($url='', $vars='' , $suffix=true,$domain=false) {
     // 解析URL
     $info   =  parse_url($url);
     $url    =  !empty($info['path'])?$info['path']:ACTION_NAME;
@@ -918,11 +918,13 @@ function U($url='',$vars='',$suffix=true,$domain=false) {
     }elseif(!is_array($vars)){
         $vars = array();
     }
+
     if(isset($info['query'])) { // 解析地址里面参数 合并到vars
         parse_str($info['query'],$params);
-        $vars = array_merge($params,$vars);
+        // $vars = array_merge($params,$vars);
+        $vars = array_merge($vars , $params);
     }
-    
+
     // URL组装
     $depr       =   C('URL_PATHINFO_DEPR');
     $urlCase    =   C('URL_CASE_INSENSITIVE');
