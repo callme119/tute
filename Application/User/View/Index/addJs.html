@@ -7,12 +7,18 @@
         $("#"+k).attr('checked','true');
     };
  });
+    
 $(document).on("change","#department",function(){
 	$("#post").empty();
 	var department_id = $(this).children('option:selected').val();
+
 	var departmentPostList = new Array();
     	var departmentPostList = eval(<?php echo json_encode($departmentPostList);?>);
-    	var postList = departmentPostList[department_id]['_post'];
+            for (var i in departmentPostList) {
+                if(departmentPostList[i]['id'] == department_id){
+                    var postList = departmentPostList[i]['_post'];
+                }
+            };
     	for (var key in postList) {
     		$("#post").append("<option>"+postList[key]+"</option>");
     	};
