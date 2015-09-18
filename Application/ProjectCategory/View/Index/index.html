@@ -1,0 +1,51 @@
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body table-responsive">
+                    <div class="panel-body">
+                        <div class="print"><a href="{:U('add?pid=0&type='.I('get.type'))}" class="btn btn-primary" ><i class="glyphicon glyphicon-plus"></i>添加类别</a>TODO:删除充分考虑两点：1.是否有子类别。2.是否已经有项目选择了些类别。结合：不能删 ，只能是冻结，让用户看不到。</div>
+                    </div>
+                    <!-- Table -->
+                    <div class="box-body table-responsive">
+                        <table id="example2" class="table table-bordered table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>类别名</th>
+                                    <th>分值</th>
+                                    <th>数据模型</th>
+                                    <th>团队项目</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <foreach name="lists" item="list">
+                                <tr>
+                                    <td>{++$i}</td>
+                                    <td><php>
+                                        for($j = 0 ;$j < $list[_level] ; $j++) : 
+                                            echo "|--"; 
+                                        endfor;
+                                        </php>
+                                        {$list[name]}</td>
+                                    <td>{$list[score]}</td>
+                                    <td>{$list[data_model_id]}</td>
+                                    <td><eq name="list[is_team]" value="0">否<else/>是</eq></td>
+                                    <td>
+                                        <a class="btn btn-sm btn-success"  href="{:U('ScientificParameter/Index/add?pid='.$list['id'] . "&p=".I("get.p").'&type='.I('get.type'))}" ><i class="fa fa-plus-square"></i>添加子类别</a>
+                                        <a class="btn btn-sm btn-primary" href="{:U("edit?id=".$list['id']. "&pid=". $list['pid']."&p=".I("get.p")) }""><i class="fa fa-pencil"></i>编辑</a>
+                                        <a class="btn btn-sm btn-danger" href="{:U("delete?id=".$list['id'] . "&p=".I("get.p"))}" "><i class="fa fa-trash-o "></i>删除</a>
+                                    </td>
+                                </tr>
+                            </foreach>
+                            </tbody>
+                        </table>
+                        <php>$totalcount = 1111;</php>
+                        <yunzhi:page totalCount="totalCount"></yunzhi:page>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

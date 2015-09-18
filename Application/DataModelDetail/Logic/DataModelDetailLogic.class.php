@@ -113,4 +113,26 @@ class DataModelDetailLogic extends DataModelDetailModel
 	{
 		return $this->where("id = $id")->delete();
 	}
+
+	/**
+	 * 通过 数据模型ID 扩展信息的TYPE值 获取全部列表	
+	 * @param  [int] $dataModelId [数据模型ID]
+	 * @param  [string] $type        [text=>文本，select=>选择框,money=>货币,
+	 *                               date=>日期，datetime=>日期时间]
+	 * @return [array]              [二维数组]
+	 */
+	public function getRootListsByDataModelIdType($dataModelId , $type)
+	{
+		$map['pid'] = 0;
+		$map['data_model_id'] = (int)$dataModelId;
+		$map['type'] = trim($type);
+		$data = $this->where($map)->select();
+
+		$return = array();
+		foreach($data as $value)
+		{
+			$return[$value[id]] = $value;
+		}
+		return $return;
+	}
 }

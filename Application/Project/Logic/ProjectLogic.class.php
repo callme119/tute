@@ -76,6 +76,23 @@ class ProjectLogic extends ProjectModel
 	{
 		$cycleId = (int)$cycleId;
 		$map['cycle_id'] = $cycleId;
+		return $this->where($map)->page($this->p,$this->pageSize)->select();
+	}
+
+	/**
+	 * 根据周期ID获取相关数据信息
+	 * @param  int $cycleId 周期ID
+	 * @return array          二维数据或empty
+	 */
+	public function getAllListsByCycleId($cycleId)
+	{
+		$cycleId = (int)$cycleId;
+		if($cycleId == 0)
+		{
+			$this->error = "传入的cycleId值为0";
+			return flase;
+		}
+		$map['cycle_id'] = $cycleId;
 		return $this->where($map)->select();
 	}
 

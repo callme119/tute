@@ -4,7 +4,16 @@ use Cycle\Model\CycleModel;
 class CycleLogic extends CycleModel
 {
 	protected $totalCount = 0;	//记录总数
-
+	protected $order = array("begin_date"=>"desc"); //排序
+	/**
+	 * 设置排序方式
+	 * @param [type] $order [description]
+	 * @param [type] $by    [description]
+	 */
+	public function setOrder($order , $by)
+	{	
+		$this->order[$order] = $by;
+	}
 	public function getTotalCount()
 	{
 		return $this->totalCount;
@@ -12,11 +21,23 @@ class CycleLogic extends CycleModel
 
 	public function getLists()
 	{
-		$order = 'begin_date desc';
 		$this->totalCount = $this->count();
-		return $this->order($order)->page($this->p,$this->pageSize)->select();
+		return $this->order($this->order)->page($this->p,$this->pageSize)->select();
 	}
 
+	/**
+	 * 获取全部的记录录
+	 * @param  布尔 $state 0为正常，1为不正常,
+	 * @return [type]         [description]
+	 */
+	public function getAllListsByState($state = 0)
+	{
+		$state = (int)$state;
+		$map['state'] = $state;
+		$this->totlaCount = $this->where($map)->count();
+		return $this->where($map)->select();
+
+	}
 	public function savePost()
 	{
 		$data = I('post.');

@@ -95,4 +95,9 @@
 
  		return $this->where($map)->find();
   	}
+
+  	public function getListByUserIdCycleIdType($userId,$cycleId,$type)
+  	{
+  		return $this->getListByUserIdCycleId($userId,$cycleId,$type);
+  	}
  }

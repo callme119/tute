@@ -28,4 +28,13 @@ class ProjectDetailLogic extends ProjectDetailModel
 	{
 		return $this->where("id = $id")->delete();
 	}
+
+	public function getListByProjectIdName($projectId , $name)
+	{
+		$map['project_id'] = (int)$projectId;
+		$map['name'] = $name;
+		$data = $this->where($map)->find();
+		echo $this->getLastSql();
+		return $data;
+	}
 }

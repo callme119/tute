@@ -59,24 +59,8 @@ class ProjectCategoryModel extends Model{
 	public function addListFromPost()
 	{
 		$post = I('post.');
-		$type = $post['type'];
-		switch ($type) {
-			case 'Education':				//教学建设
-				$data['is_education'] = 1;
-				break;			
-			case 'ServiceEducation':		//服务育人
-				$data['is_service_education'] = 1;
-				break;
-			case 'Course':					//学科建设
-				$data['is_course'] = 1;
-				break;						//超额科研育人
-			case 'Excess':
-				$data['is_excess'] = 1;
-				break;			
-			default:
-				$data['is_scientific'] = 1;	//教科研
-				break;
-		}
+
+		$data['type'] = $post['type'];
 		$data['pid'] = !is_numeric($post['pid']) ? 0 : $post['pid'];
 		$data['score'] = !is_numeric($post['score']) ? 0 : $post['score'];
 		$data['data_model_id'] = !is_numeric($post['data_model_id']) ? 0 : $post['data_model_id'];
@@ -95,25 +79,8 @@ class ProjectCategoryModel extends Model{
 	public function saveListFromPost()
 	{
 		$post = I('post.');
-		$type = $post['type'];
-		switch ($type) {
-			case 'Education':				//教学建设
-				$data['is_education'] = 1;
-				break;			
-			case 'ServiceEducation':		//服务育人
-				$data['is_service_education'] = 1;
-				break;
-			case 'Course':					//学科建设
-				$data['is_course'] = 1;
-				break;						//超额科研育人
-			case 'Excess':
-				$data['is_excess'] = 1;
-				break;			
-			default:
-				$data['is_scientific'] = 1;	//教科研
-				break;
-		}
 
+		$data['type'] = $post['type'];
 		$data['id'] = $post['id'];
 		$data['pid'] = !is_numeric($post['pid']) ? 0 : $post['pid'];
 		$data['score'] = !is_numeric($post['score']) ? 0 : $post['score'];

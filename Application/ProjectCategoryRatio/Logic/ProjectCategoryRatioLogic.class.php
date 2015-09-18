@@ -56,4 +56,11 @@ class ProjectCategoryRatioLogic extends ProjectCategoryRatioModel
 		}
 		return $return;
 	}
+
+	public function getListByProjectCategoryIdDataModelDetailId($projectCategoryId , $dataModelDetailId)
+	{
+		$map['project_category_id'] = (int)$projectCategoryId;
+		$map['data_model_detail_id'] = (int)$dataModelDetailId;
+		return $this->where($map)->find();
+	}
 }

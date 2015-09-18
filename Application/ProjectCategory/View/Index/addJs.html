@@ -1,0 +1,56 @@
+<!--设置数据模型系数设置模板内容-->
+<script id="entry-template" type="text/x-handlebars-template">
+{{#compare state '==' 'success'}}
+<h3>请设置系数0-100</h3>
+    {{#each dataModelDetails}}
+    {{#compare pid '==' '0'}}
+        {{title}}<br />
+    {{else}}
+        {{title}}:<input type="text" name="data_model_detail_id[{{id}}]" value="{{_ratio}}"/>%<br />
+    {{/compare}}
+    {{/each}}
+{{else}}
+    程序出现异常，请尝试刷新本页或稍后再试，如异常仍然出现，请将本页发送给管理员。
+{{/compare}}
+</script>
+
+<script>
+$(document).ready(function(){
+    //handlebars模板引擎初始化
+    var source   = $("#entry-template").html();
+    var template = Handlebars.compile(source);
+
+    //使用on事件,将整个document做为选择器.
+    //注意,在这里的选择器,必须是已经存在的,不能是后期生成的.
+    //.project做为document的子元素出现,绑定了change事件.等同于onChange 
+    //实现点击后进行数据模型的设置
+    $(document).on("change","#dataModel",function(){
+        get_data_model_select($(this));
+    });
+
+    var get_data_model_select = function($this){
+        var dataModelId = $this.children('option:selected').val();//获取点击select下拉菜单的idis
+        var projectcategoryid = "<eq name='projectDetail' value=''>0<else/>{$projectDetail[id]}</eq>";
+        console.log(dataModelId);
+        if(dataModelId == '0')
+        {
+            $("#dataModelDetail").html("");
+            console.log(dataModelId);
+        }
+        else
+        {
+            var url = "{:U('getDataModelDetailAjax')}"+"?datamodelid="+dataModelId+"&projectcategoryid="+projectcategoryid;
+            $.get(
+                url,
+                function(data){
+                    $("#dataModelDetail").html(template(data));
+                    console.log(data);
+                }
+            );
+        }
+    };
+    //防刷新设置
+    get_data_model_select($("#dataModel"));
+});
+   
+</script>
