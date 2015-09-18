@@ -24,6 +24,7 @@ use WorkflowLog\Model\WorkflowLogModel;                 //工作流扩展表
 use ProjectCategoryRatio\Model\ProjectCategoryRatioModel;   //项目类别系数表
 use ProjectDetail\Logic\ProjectDetailLogic;             //项目扩展信息
 use ProjectDetail\Model\ProjectDetailModel;             //项目扩展信息
+use Workflow\Service\WorkflowService;                   //
 
 
 class IndexController extends AdminController {
@@ -63,6 +64,8 @@ class IndexController extends AdminController {
      * 
      */
     public function saveAction() {
+        $userId = get_user_id();
+
         $projectCategoryId = I('post.project_category_id');
         //取项目类别信息
         $ProjectCategoryM = new ProjectCategoryModel();
@@ -83,10 +86,22 @@ class IndexController extends AdminController {
         }
 
         $ProjectM = new ProjectModel();
-        $projectId = $ProjectM->save();
-        if($ProjectId === false)
+        $projectId = $ProjectM->save($userId);
+        if($projectId === false)
         {
             $this->error = "数据添加发生错误，代码" . $this->getError();
+            $this->_empty();
+        }
+
+        $examineId = (int)I('post.chain_id');
+        $checkUserId = (int)I('post.examine_id');
+
+        $WorkflowS = new WorkflowService();
+        if(!$WorkflowS->add($userId , $examineId , $projectId, $checkUserId , $commit = "申请"))
+        {
+            //删除项目信息
+            $this->error = $WorkflowS->getError();
+            $this->_empty();
         }
 
         $ScoreM = new ScoreModel();
@@ -94,6 +109,7 @@ class IndexController extends AdminController {
         if($Score === false)
         {
             $this->error = "数据添加发生错误，代码" . $this->getError();
+            $this->_empty();
         }
         
         $projectDetailM = new projectDetailModel();
@@ -101,6 +117,7 @@ class IndexController extends AdminController {
         if($projectDetail === false)
         {
            $this->error = "数据添加发生错误，代码" . $this->getError();
+           $this->_empty();
 
         }
         else
@@ -291,7 +308,7 @@ class IndexController extends AdminController {
         $this->assign("dataModelDetailSons",$dataModelDetailSons);
         $this->assign("ProjectCategoryRatios",$ProjectCategoryRatios);
         $data['status'] = "success";
-        $data['message'] = $this->fetch('dataModelDetail');
+        $data['message'] = $this->fetch('Index/dataModelDetail');
         $this->ajaxReturn($data);
         
     }

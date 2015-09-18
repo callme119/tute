@@ -43,11 +43,8 @@
                    </div>
                    <div class="row">
                     <div class="col-md-3 form-group">
-                        <div class="input-group">
-                            <span id="next_examiner" class="input-group-addon">选择审核人</span>
-                            <select class="selectpicker form-control select2">
-                                <option>请选择</option>
-                            </select>
+                        <div id="next_examiner" class="input-group">
+                           
                         </div>
                     </div>
                 </div>
@@ -138,19 +135,19 @@ $("#minus").click(function(){
             );
         }
     };
-    //防刷新设置
-    get_project_category_id_select($("#projectCategory"));
 
-   
     /*
     用户选择审核流程后，后台取数据.
     最终让用户选择：下一审核人。
     panjie 
     */
     $(document).on("change","#chain_id",function(){
-        var chain_id = $(this).children('option:selected').val();
+       getNextexaminer($(this));
+    });
+    var getNextexaminer = function($this){
+         var chain_id = $this.children('option:selected').val();
         console.log(chain_id);
-        var url = "{:U('examine/Index/getExamineUsers')}" + "?name=examine_id&id=" + chain_id;
+        var url = "{:U('examine/Index/getExamineUsers')}" + "?id=" + chain_id + "&name=examine_id";
         console.log(url);
         $.get(
             url,
@@ -174,6 +171,8 @@ $("#minus").click(function(){
                     console.log(data.message);
                 }
             });
-    });
-
+    };
+    //防刷新设置
+    get_project_category_id_select($("#projectCategory"));
+    getNextexaminer($("#chain_id"));
 </script>

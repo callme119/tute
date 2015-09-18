@@ -3,8 +3,8 @@
 	<div class="col-md-12 form-group">
         <div class="input-group">
 		<label class="input-group-addon" for="{$root[name]}">{$root[title]}</label>
-		<eq name="root[html_type]" value="text">
-			<eq name="root[type]" value="datatime">
+		<eq name="root[type]" value="text">
+			<eq name="root[type]" value="date">
                 <input name="{$root[name]}" class="date form-control" size="16" type="text" value="" readonly>
 			<else />
 			<input class="form-control" aria-describedby="basic-addon1" type="text" name="{$root[name]}" id="{$root[name]}" class="{$root['class']}" /></eq>

@@ -44,10 +44,10 @@
      * 添加新的工作流 新的工作流被用户点“提交时触发”
      * @param num $userId                申请人\拟搞人
      * @param number $examineId             审核流程ID
-     * @param num $publicProjetcDetailId 项目ID
+     * @param num $projectId 项目ID
      * @param num $checkUserId           用户选择的工作流审核人员
      */
-    public function add($userId , $examineId , $publicProjetcDetailId, $checkUserId , $commit = "申请")
+    public function add($userId , $examineId , $projectId, $checkUserId , $commit = "申请")
     {
     	//取审核流程信息
     	$ExamineM = new ExamineModel();
@@ -93,7 +93,7 @@
     	$data = array();
     	$data['examine_id'] = $examineId;
     	$data['chain_id']	= $chain['next_id']; //既然用户已经提交了，那好。就应该是下一结点。
-    	$data['public_project_detail_id'] 	= $publicProjetcDetailId;
+    	$data['project_id'] 	= $projectId;
     	$WorkflowM = new WorkflowModel();
     	if(!$WorkflowM->create($data))
     	{

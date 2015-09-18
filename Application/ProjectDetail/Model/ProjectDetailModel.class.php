@@ -12,7 +12,7 @@ class ProjectDetailModel extends Model
 		foreach ($dataModelDetailRoots as $root) {
 			$data['name'] = $root['name'];
 			$data['project_id'] = $projectId;
-			if($root[type]=='datatime'){
+			if($root[type]=='date'){
 				$data['value'] = date_to_int($post[$root['name']]);
 			}
 			else{

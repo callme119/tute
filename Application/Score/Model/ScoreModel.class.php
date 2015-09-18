@@ -15,14 +15,9 @@ class ScoreModel extends Model{
 		$userId = I('post.name');
 		$scorePercent = I('post.score_percent');
 		foreach ($userId as $key => $value) {
-			$data[userid] = $value;
+			$data[user_id] = $value;
 			$data[project_id] = $projectId;
 			$data[score_percent] = $scorePercent[$key];
-
-			//获取user表里的name
-			$userM = new UserModel();
-			$user = $userM->getUserById($value);
-			$data[name] = $user[name];
 			if($this->add($data)){
 				$res = ture;
 			}
