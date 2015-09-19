@@ -1,12 +1,9 @@
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class="panel panel-default">
             <!-- Default panel contents -->
             <div class="panel-body">
-                <a href="{:U('Examine/Index/index')}" type="button" class="btn btn-default">&nbsp;返回</a>
-            </div>
-
-            <form class="form-horizontal" method = 'post' action="{:U('Examine/Index/save')}?p={$page}" id="demoForm">
+               <form class="form-horizontal" method = 'post' action="{:U('Examine/Index/save')}?p={$page}" id="demoForm">
                  <div class="form-group">
                     <label for="tittle" class="col-sm-2 control-label">审批流名称：</label>
                     <div class="col-sm-8">

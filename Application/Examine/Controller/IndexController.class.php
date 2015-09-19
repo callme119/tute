@@ -23,6 +23,7 @@ class IndexController extends AdminController{
         $data = $post->select();
         $this->assign('page',$page);
         $this->assign("post",$data);
+        $this->assign("js",$this->fetch('newexamineJs'));
         $this->assign('YZBODY',$this->fetch('newexamine'));
         $this->display(YZTemplate);
     }
