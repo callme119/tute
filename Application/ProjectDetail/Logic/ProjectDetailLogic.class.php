@@ -34,7 +34,7 @@ class ProjectDetailLogic extends ProjectDetailModel
 		$map['project_id'] = (int)$projectId;
 		$map['name'] = $name;
 		$data = $this->where($map)->find();
-		echo $this->getLastSql();
+		//echo $this->getLastSql();
 		return $data;
 	}
 }

@@ -60,7 +60,9 @@ class DataManageLogic
 		$projects = $ProjectL->field($field)->join("
 			left join __PROJECT_CATEGORY__ as project_category on project.project_category_id = project_category.id
 			left join __WORKFLOW__ as workflow on project.id = workflow.project_id
-			")->where($map)->select();		 
+			")->where($map)->select();	
+		// echo $ProjectL->getLastSql();	 
+		// dump($projects);
 
 		$ProjectDetailL = new ProjectDetailLogic();		//项目扩展信息
 		$DataModelDetailL = new DataModelDetailLogic();	//数据模型扩展信息
@@ -97,7 +99,7 @@ class DataManageLogic
 				//取出该VALUE在系数表中的系数值
 				$projetcCategoryId = $project['category_id'];
 				$projectCategoryRatio = $ProjectCategoryRatioL->getListByProjectCategoryIdDataModelDetailId($projetcCategoryId,$dataModelDetailId);
-				dump($projectCategoryRatio);
+				// dump($projectCategoryRatio);
 				$ratios *= $projectCategoryRatio['ratio']/100;
 				$ratios = (int)ceil($ratios);
 			}
@@ -107,11 +109,19 @@ class DataManageLogic
 
 			//取当前项目下的团队用户信息
 			$scores  = $ScoreL->getAllListsByProjectId($projectId);
-			$sumPercent = $ScoreL->getSumPercentByProjectId($projectId);
-
+			
+			//$sumPercent = $ScoreL->getSumPercentByProjectId($projectId);
+			//计算分值占比总和
+			$sumPercent = 0;
 			foreach($scores as $key => $score)
 			{
-				$score['sum_percent'] = $sumPercent['sum_percent'];
+				$sumPercent += (int)$score['score_percent'];
+			}
+
+			//添加分值占比总和
+			foreach($scores as $key => $score)
+			{
+				$score['sum_percent'] = $sumPercent;
 				$scores[$key] = array_merge($score,$project);
 			}
 			// echo "接拼前";

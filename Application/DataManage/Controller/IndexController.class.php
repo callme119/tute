@@ -43,24 +43,24 @@ class IndexController extends AdminController
 
 			// dump($dataManages);
 			//对用户进行分类运算,计算出总分
-			$users = array();
+			$userDatas = array();
 			foreach($dataManages as $key => $dataManage)
 			{
 				$score = (int)ceil($dataManage['score_percent']*$dataManage['score']/$dataManage['sum_percent']);
 				if($dataManage['state'] == '0')
 				{
-					$users[$dataManage['user_id']]['doingTotalScore'] +=  $score;
+					$userDatas[$dataManage['user_id']]['doingTotalScore'] +=  $score;
 				}
 				else
 				{
-					$users[$dataManage['user_id']]['doneTotalScore'] +=  $score;
+					$userDatas[$dataManage['user_id']]['doneTotalScore'] +=  $score;
 				}
-				$users[$dataManage['user_id']]['totalScore'] +=  $score;
+				$userDatas[$dataManage['user_id']]['totalScore'] +=  $score;
 			}
 
 			//追加总任务，并计算完成率追加
 			$TaskL = new TaskLogic();
-			foreach($users as $key => $value)
+			foreach($userDatas as $key => $value)
 			{
 				$userId = $key;
 				$value['user_id'] = $key;
@@ -90,9 +90,9 @@ class IndexController extends AdminController
 				$value['totalPostScientificResearchPercent'] = (int)ceil($value["totalScore"]*100/$value["totalTask"]);
 
 				//传给原值 
-				$users[$key] = $value;
+				$userDatas[$key] = $value;
 			}
-			dump($users);
+			dump($userDatas);
 			//取用户信息，为0，则证明取全部信息
 			$userId = (int)I('get.user_id');
 			if(!$userId)
@@ -103,7 +103,9 @@ class IndexController extends AdminController
 			//取单个用户信息在当前周期 当前type下的所有信息的综合分值
 			//将数值写入缓存（每点一次就查一次，这受不了呀）
 			
-			$this->assign("cycles",$cycles);
+			$this->assign("cycles",$cycles);					//周期列表
+			$this->assign("users",$users);						//所有教工信息
+			$this->assign("userDatas",$userDatas);				//数据信息
 			$this->assign("YZBODY",$this->fetch('Index/index'));
 			$this->display(YZTemplate);
 		}

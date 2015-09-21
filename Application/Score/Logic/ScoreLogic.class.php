@@ -24,7 +24,7 @@ class ScoreLogic extends ScoreModel
 		$field["sum(score_percent)"] = "sum_percent";
 		$map['project_id'] = $projectId;
 		$data =  $this->field($field)->where($map)->find();
-		echo $this->getLastSql();
+		// echo $this->getLastSql();
 		return $data;
 	}
 }

@@ -11,9 +11,23 @@
 		<th>姓名</th>
 		<th>预期得分</th>
 		<th>实际得分</th>
+		<th>基础科研任务</th>
+		<th>岗位科研任务</th>
 		<th>任务分值</th>
 		<th>预期完成率</th>
 		<th>实际完成率</th>
 	</tr>
-
+	<foreach name="userDatas" item="userData">
+	<tr>
+		<td>{++$i}</td>
+		<td>{$userData['user_id']}</td>
+		<td>{$userData['totalScore']}</td>
+		<td>{$userData['doneTotalScore']}</td>
+		<td>{$userData['BaseScientificResearchTask']}</td>
+		<td>{$userData['PostScientificResearchTask']}</td>
+		<td>{$userData['totalTask']}</td>
+		<td>{$userData['totalPostScientificResearchPercent']}%</td>
+		<td>{$userData['donePostScientificResearchPercent']}%</td>
+	</tr>
+	</foreach>
 </table>
