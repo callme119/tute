@@ -4,7 +4,7 @@
 			<div class="panel-body">
 				<div class="row">
 					<div class="col-lg-12">
-						<form role="form" action="{:U('save?p=' .I('get.p'))}" method="post">
+						<form id="editForm" role="form" action="{:U('save?p=' .I('get.p'))}" method="post">
 							<div class="form-group">
 								<input type="hidden" value="{$cycle[id]}" name="id" />
 								<label for="name" class="control-label">名称</label>
@@ -33,3 +33,4 @@
 		</div>
 	</div>
 </div>
+{$js}

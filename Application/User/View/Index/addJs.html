@@ -32,24 +32,24 @@ $("#minus").click(function(){
     $(".team:gt(0):last").remove();
 });
 </script>
-<script type="text/javascript">
+<script>
     $(document).ready(function(){
         $("#addForm").validate({
             rules:{
-                username:{
-                    required:true
+                email:{
+                    required:true,
+                    email:true
                 },
-                password:{
+                username:{
                     required:true
                 },
                 name:{
                     required:true
                 },
-                email:{
-                    required:true,
-                    email:true
-                }
-            }
+                password:{
+                    required:true
+                },
+            },
         })
     });
 </script>
