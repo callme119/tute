@@ -17,7 +17,7 @@ function isWeixinBrowser() {
  */
 function get_user_id()
 {
-    return "3";
+    return "5";
 }
 //向url上以POST方式提交数据
 //author:panjie 3792535@qq.com

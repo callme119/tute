@@ -76,10 +76,11 @@ class ProjectModel extends Model{
         $map[user_id] = $userId;
         return $this->where($map)->find();
     }
-    public function save($userId)
+    public function save($cycleId,$userId)
      {
         $data = I('post.');
         $data[user_id] = $userId;
+        $data[cycle_id] = $cycleId;
         if($this->create($data)) //将time字段自动存入
         {
             return $this->add($data);

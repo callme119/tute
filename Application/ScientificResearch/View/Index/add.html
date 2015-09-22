@@ -48,6 +48,7 @@
                         </div>
                     </div>
                 </div>
+                <div id="is_team" style="display:none">
                 <div class="row team">
                    <div class="col-md-3 form-group">
                     <div class="input-group">
@@ -70,7 +71,7 @@
                 </div>
                 <div class="col-md-1"><span id="plus" onmouseover="this.style.backgroundColor='green';" onmouseout="this.style.backgroundColor='';" class="input-group-addon btn"><span class="glyphicon glyphicon-plus"></span></span></div>
                 <div class="col-md-1"><span id="minus" onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='';"  class="input-group-addon btn"><span class="glyphicon glyphicon-minus"></span></span></div>
-            </div>
+            </div></div>
             <!-- <div class="col-md-3 form-group">
                 <div class="input-group  date form_date" data-date="" data-date-format="" data-link-field="dtp_input2"  data-link-format="yyyy-mm-dd">
                     <span class="input-group-addon">发表时间</span>
@@ -126,6 +127,14 @@ $("#minus").click(function(){
                 url,
                 function(data){
                     if(data.status==='success'){
+                        if(data.isTeam=='1'){
+                            $("#is_team").show();
+                            console.log(data.isTeam); 
+                        }
+                        else{
+                            $("#is_team").hide();
+                            console.log(data.isTeam);
+                        }
                      $("#dataModelDetail").html(data.message);
                      dataInit();
                     console.log(data);   

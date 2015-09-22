@@ -3,12 +3,14 @@
 	<div class="col-md-12 form-group">
         <div class="input-group">
 		<label class="input-group-addon" for="{$root[name]}">{$root[title]}</label>
-		<eq name="root[type]" value="text">
 			<eq name="root[type]" value="date">
                 <input name="{$root[name]}" class="date form-control" size="16" type="text" value="" readonly>
-			<else />
+			</eq>
+			<eq name="root[type]" value="text">
 			<input class="form-control" aria-describedby="basic-addon1" type="text" name="{$root[name]}" id="{$root[name]}" class="{$root['class']}" /></eq>
-		<else />
+			<eq name="root[type]" value="money">
+			<input class="form-control" aria-describedby="basic-addon1" type="text" name="{$root[name]}" id="{$root[name]}" class="{$root['class']}" /></eq>
+			<eq name="root[type]" value="select">
 			<select class="selectpicker form-control" name="{$root[name]}" id="{$root[name]}" class="{$root['class']}" >
 			<foreach name="dataModelDetailSons[$root[id]]" item="son">
 				<option value="{$son[id]}" class="{$son['class']}">{$son.title}</option>
