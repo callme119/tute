@@ -18,7 +18,6 @@ class MenuModel extends Model{
         //截取该页的信息
         $menuList = array_slice($menuList , ($this->p-1)*$this->pageSize , $this->pageSize);
         return $menuList;
-
     }
     /**
      * [getMenuTree 获取菜单树]
