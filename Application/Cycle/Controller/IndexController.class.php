@@ -38,6 +38,7 @@ class IndexController extends AdminController
 
 			$this->assign("rootLists",$rootLists);
 			$this->assign("cycle",$cycle);
+			$this->assign('js',$this->fetch("editJs"));
 			$this->assign('YZBODY',$this->fetch());
 			$this->display(YZTemplate);	
 		}

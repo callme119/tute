@@ -24,8 +24,8 @@ use WorkflowLog\Model\WorkflowLogModel;                 //工作流扩展表
 use ProjectCategoryRatio\Model\ProjectCategoryRatioModel;   //项目类别系数表
 use ProjectDetail\Logic\ProjectDetailLogic;             //项目扩展信息
 use ProjectDetail\Model\ProjectDetailModel;             //项目扩展信息
-use Workflow\Service\WorkflowService;                   //
-
+use Workflow\Service\WorkflowService;                   //审核流程
+use Cycle\Logic\CycleLogic;                             //周期表
 
 class IndexController extends AdminController {
     /**
@@ -48,7 +48,7 @@ class IndexController extends AdminController {
         $projects = $ProjectM->getListsByUserId($userId);
         $totalCount = $ProjectM->getTotalCount();
         
-        //传值 
+        //传值
         $this->assign("totalCount",$totalCount);
         $this->assign("projects",$projects);
         $this->assign('YZBODY',$this->fetch('Index/index'));
@@ -64,7 +64,13 @@ class IndexController extends AdminController {
      * 
      */
     public function saveAction() {
+        //dump(I('post.'));
         $userId = get_user_id();
+
+        //取当前周期id
+        $cycleLogicL = new CycleLogic();
+        $cycleLogic = $cycleLogicL->getCurrentList();
+        $cycleId = $cycleLogic['id'];
 
         $projectCategoryId = I('post.project_category_id');
         //取项目类别信息
@@ -86,7 +92,7 @@ class IndexController extends AdminController {
         }
 
         $ProjectM = new ProjectModel();
-        $projectId = $ProjectM->save($userId);
+        $projectId = $ProjectM->save($userId,$cycleId);
         if($projectId === false)
         {
             $this->error = "数据添加发生错误，代码" . $this->getError();
@@ -105,7 +111,7 @@ class IndexController extends AdminController {
         }
 
         $ScoreM = new ScoreModel();
-        $Score = $ScoreM->save($projectId);
+        $Score = $ScoreM->save($userId,$projectId);
         if($Score === false)
         {
             $this->error = "数据添加发生错误，代码" . $this->getError();
@@ -132,7 +138,7 @@ class IndexController extends AdminController {
         $userId = get_user_id();
 
         $ProjectCategoryL = new ProjectCategoryLogic();
-        $projectCategoryTree = $ProjectCategoryL->getSonsTreeById(0);
+        $projectCategoryTree = $ProjectCategoryL->getSonsTreeById($pid=0,$type='ScientificResearch');
         $projectCategory = tree_to_list($projectCategoryTree , $id , '_son' );
 
         //获取当前用户部门岗位信息（数组）
@@ -265,7 +271,7 @@ class IndexController extends AdminController {
     public function dataModelDetailAjaxAction()
     {
         $projectCategoryId = I('get.projectCategoryId');
-        $data = array('status'=>'error','message'=>'');
+        $data = array('isTeam'=>'0','status'=>'error','message'=>'');
 
         //取项目类别信息
         $ProjectCategoryM = new ProjectCategoryModel();
@@ -274,9 +280,7 @@ class IndexController extends AdminController {
             $data['message'] = "id not correct";
             $this->ajaxReturn($data);
         }
-              
 
-        //取数据模型信息
         //取数据模型扩展信息
         $dataModelId = $projectCategory['data_model_id'];
         $DataModelDetailL = new DataModelDetailLogic();
@@ -308,6 +312,7 @@ class IndexController extends AdminController {
         $this->assign("dataModelDetailSons",$dataModelDetailSons);
         $this->assign("ProjectCategoryRatios",$ProjectCategoryRatios);
         $data['status'] = "success";
+        $data['isTeam'] = $projectCategory['is_team'];
         $data['message'] = $this->fetch('Index/dataModelDetail');
         $this->ajaxReturn($data);
         

@@ -31,7 +31,7 @@
 								<td>{++$i}</td>
 								<td>{$userTask['name']}</td>
 								<td>{$userTask['value']}</td>
-								<td><a href="{:U('edit?id='. $userTask['task_id'] . '&cycleid='. $cycleId .'&p=' . I('get.p'))}">编辑</a>&nbsp;&nbsp;<a href="{:U('delete?id='. $userTask['task_id'] . '&cycleid='. $cycleId .'&p=' . I('get.p'))}">删除</a></td>
+								<td><a class="btn btn-primary" href="{:U('edit?id='. $userTask['task_id'] . '&cycleid='. $cycleId .'&p=' . I('get.p'))}"><i class="fa fa-pencil"></i>编辑</a>&nbsp;&nbsp;<a class="btn btn-danger" href="{:U('delete?id='. $userTask['task_id'] . '&cycleid='. $cycleId .'&p=' . I('get.p'))}"><i class="fa fa-trash-o "></i>删除</a></td>
 							</tr>
 						</foreach>
 					</tbody>
