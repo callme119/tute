@@ -10,6 +10,7 @@ use Examine\Model\ExamineModel;
 use Chain\Logic\ChainLogic; //审核结点表
 use Chain\Model\ChainModel; 
 use User\Model\UserModel; //用户表
+use Common\Classes;
 class IndexController extends AdminController{
      /**
       * 通过post模块取所有岗位信息传给用户点选
@@ -29,16 +30,24 @@ class IndexController extends AdminController{
     }
 
     //初始化审批列表
-    public function  indexAction(){
-        $model = new ExamineModel;
-        $data = $model->index();
-        $count = $model->getListsCount();
-        $page = I('get.p');
-        $this->assign('page',$page);
-        $this->assign('count',$count);
-        $this->assign('examine',$data);
-        $this->assign('YZBODY',$this->fetch('examinelist'));
-        $this->display(YZTemplate);
+    public function  indexAction(){ 
+        $tableheader = array('a','b','c','d','e');
+        $data = array(
+            array('1','小A','男','20','100'),
+            array('2','小B','男','20','101'),
+            array('3','小C','女','20','102'),
+            array('4','小D','女','20','103')
+        );
+        export_excel($tableheader,$data);
+        // $model = new ExamineModel;
+        // $data = $model->index();
+        // $count = $model->getListsCount();
+        // $page = I('get.p');
+        // $this->assign('page',$page);
+        // $this->assign('count',$count);
+        // $this->assign('examine',$data);
+        // $this->assign('YZBODY',$this->fetch('examinelist'));
+        // $this->display(YZTemplate);
     }
     
     //添加审批流程
@@ -102,9 +111,10 @@ class IndexController extends AdminController{
     //冻结审批流程
     public function freezenAction(){
         $id = I('get.id');
+        $p = I('get.p');
         $model = new ExamineModel;
         $model->freezen($id);
-        $this->success('操作成功',index);
+        $this->success('操作成功',index.'?p='.$p);
     }
 }
     
