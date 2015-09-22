@@ -1,33 +1,40 @@
-<select class="select2" name="cycle_id">
-	<option value="1">周期设置</option>
+<select class="select2" name="cycle_id" id="cycle">
+	<foreach name="cycles" item="cycle">
+	<php>
+		$cycleId = I('get.cycle_id');
+		$userId = I('get.user_id');
+	</php>
+		<option value="{$cycle['id']}" <eq name="cycle[id]" value="$cycleId">selected="selected"</eq>>{$cycle['name']}</option>
+	</foreach>
 </select>
-<select class="select2" name>
-	<option value="0">请选择</option>
+<select class="select2" name="user_id" id="user">
+	<option value="0">全部</option>
+	<foreach name="users" item="user">
+		<option value="{$user['id']}" <eq name="user['id']" value="$userId">selected="selected"</eq>>{$user['name']}</option>
+	</foreach>
 </select>
-<div class="info">本次数据生成时间：下次数据生成时间：</div>
+<div class="info">数据在线查看将耗费较多的服务器资源，请勿频繁使用。</div>
 <table>
 	<tr>
 		<th>序号</th>
 		<th>姓名</th>
-		<th>预期得分</th>
-		<th>实际得分</th>
-		<th>基础科研任务</th>
-		<th>岗位科研任务</th>
-		<th>任务分值</th>
-		<th>预期完成率</th>
-		<th>实际完成率</th>
+		<th><a href="{:order_by("totalScore")}">预期得分</a></th>
+		<th><a href="{:order_by("doneScore")}">实际得分</a></th>
+		<eq name="CONTROLLER_NAME" value="PostServiceEducation">
+			<include file="Index:indexTh" />
+		</eq>
 	</tr>
 	<foreach name="userDatas" item="userData">
 	<tr>
 		<td>{++$i}</td>
-		<td>{$userData['user_id']}</td>
-		<td>{$userData['totalScore']}</td>
-		<td>{$userData['doneTotalScore']}</td>
-		<td>{$userData['BaseScientificResearchTask']}</td>
-		<td>{$userData['PostScientificResearchTask']}</td>
-		<td>{$userData['totalTask']}</td>
-		<td>{$userData['totalPostScientificResearchPercent']}%</td>
-		<td>{$userData['donePostScientificResearchPercent']}%</td>
+		<td>{$userData['user_name']}</td>
+		<td>{$userData['score']}</td>
+		<td>{$userData['doneScore']}</td>
+		<eq name="CONTROLLER_NAME" value="PostServiceEducation">
+			<include file="Index:indexTd" />
+		</eq>
 	</tr>
 	</foreach>
 </table>
+<yunzhi:page totalCount="totalCount"></yunzhi:page>
+{$js}

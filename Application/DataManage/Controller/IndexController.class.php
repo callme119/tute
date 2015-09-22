@@ -6,56 +6,46 @@ namespace DataManage\Controller;
 use Admin\Controller\AdminController;
 use DataManage\Logic\DataManageLogic;		//数据导出逻辑
 use Cycle\Logic\CycleLogic;					//周期
-use Task\Logic\TaskLogic;		//任务量
+use Task\Logic\TaskLogic;					//任务量
+use User\Logic\UserLogic;					//用户
 class IndexController extends AdminController
 {
+	protected $cycles = array(); 			//考核周期
+	protected $projects = array();		//用户考核数据
+	protected $users = array();				//用户
+	protected $cycleId = 0;					//当前周期
 	public function indexAction()
 	{
 		try
 		{
-			//取传入周期传，未传入，证明是当前周期
-			$cycleId = (int)I('get.cycle_id');
-			if(!$cycleId)
-			{
-				$CycleL = new CycleLogic();
-				$cycleCurrent = $CycleL->getCurrentList();
-				$cycleId = $cycleCurrent['id'];
-			}
+			$this->init();
+			$cycleId = $this->cycleId;
+			$cycles = $this->cycles;			//取考核周期数据
+			$projects = $this->projects;	//取用户项目得分信息
+			$users = $this->users;				//用户信息
 
-			//取周期列表（正常）
-			$cycles = $CycleL->getAllListsByState();
-			// dump($cycles);
-
-			//取当前controller 送 type
-			$type = CONTROLLER_NAME;
-
-			//按type查看是否有缓存写入，如果有，直接取缓存信息，返回。
-			//TODO:
-
-			//取当前周期下的全部项目信息.包括：类别ID，模型ID，基础分值，
-			//计算出系数，
-			$DataManageL = new DataManageLogic();
-			$dataManages = $DataManageL->getAllListsByCycleIdType($cycleId , $type);
-			if($dataManages === false)
-			{
-				E("列表读取发生错误，当前cyclid:$cycleId,当前type：$type.错误信息：" . $DataManageL->getError());
-			}
-
-			// dump($dataManages);
-			//对用户进行分类运算,计算出总分
+			//初始化用户数据
 			$userDatas = array();
-			foreach($dataManages as $key => $dataManage)
+
+			//计算当前项目的完成总分数及审核中的总分数
+			foreach($projects as $key => $project)
 			{
-				$score = (int)ceil($dataManage['score_percent']*$dataManage['score']/$dataManage['sum_percent']);
-				if($dataManage['state'] == '0')
+				$score = (int)ceil($project['score_percent']*$project['score']/$project['sum_percent']);
+				if($project['state'] == '0')
 				{
-					$userDatas[$dataManage['user_id']]['doingTotalScore'] +=  $score;
+					$userDatas[$project['user_id']]['doingScore'] +=  $score;
 				}
 				else
 				{
-					$userDatas[$dataManage['user_id']]['doneTotalScore'] +=  $score;
+					$userDatas[$project['user_id']]['doneScore'] +=  $score;
 				}
-				$userDatas[$dataManage['user_id']]['totalScore'] +=  $score;
+				$userDatas[$project['user_id']]['score'] +=  $score;
+			}
+			
+			//拼接use_name字段，同时，将userDatas表中没有的用户信息补入
+			foreach($users as $key => $value)
+			{
+				$userDatas[$key]['user_name'] = $value['name'];
 			}
 
 			//追加总任务，并计算完成率追加
@@ -65,55 +55,116 @@ class IndexController extends AdminController
 				$userId = $key;
 				$value['user_id'] = $key;
 
-				$type = "BaseScientificResearch"; //查基础科研任务
+				$type = CONTROLLER_NAME; //查基础科研任务
 				$task = $TaskL->getListByUserIdCycleIdType($userId , $cycleId , $type);
-				$value[$type . "Task"] = (int)$task['value'];
 
-				//计算基础科研完成率
-				$value['baseScientificResearchPercent'] = (int)ceil($value['doneTotalScore']*100/$value['BaseScientificResearchTask']);
-				$type = "PostScientificResearch"; //查岗位科研任务
-				$task = $TaskL->getListByUserIdCycleIdType($userId , $cycleId , $type);
-				$value[$type . "Task"] = (int)$task['value'];
-
-				//计算总任务
-				$value["totalTask"] = $value["BaseScientificResearchTask"] + $value["PostScientificResearchTask"];
-
-				//计算岗位科研完成率
-				$remain = (int)$value['doneTotalScore']-$value['BaseScientificResearchTask'];
-				$remain = $remain > 0 ? $remain : 0;
-				$value['postScientificResearchPercent'] = (int)ceil($remain*100/$value['postScientificResearch']);
-
+				$value["task"] = (int)$task['value'];
+				
 				//总完成率
-				$value['donePostScientificResearchPercent'] = (int)ceil($value["doneTotalScore"]*100/$value["totalTask"]);
+				$value['donePercent'] = (int)ceil($value["doneScore"]*100/$value["task"]);
 
 				//总预期完成率
-				$value['totalPostScientificResearchPercent'] = (int)ceil($value["totalScore"]*100/$value["totalTask"]);
+				$value['totalPercent'] = (int)ceil($value["score"]*100/$value["task"]);
 
 				//传给原值 
 				$userDatas[$key] = $value;
 			}
-			dump($userDatas);
+			// dump($userDatas);
+
+			$order = (string)(I("get.order"));
+			switch ($order) {
+				case 'doneScore': //实际得分。已审核完成的项目 
+					break;
+				case "score":		//预期得分，已得分加未得分
+					break;
+				case "totalPercent":	//预期完成率
+					break;
+				default:
+					$type = "donePercent"; //实际完成率
+					break;
+			}
+
+			//获取正反向排序规则
+			$by = I("get.by") == 'asc' ? 'asc' : 'desc';
+			//进行快速排序
+			$userDatas = quick_sort($userDatas , $order , $by);
+
 			//取用户信息，为0，则证明取全部信息
 			$userId = (int)I('get.user_id');
-			if(!$userId)
+			if($userId)
 			{
-				//取个人信息
+				$temp[$userId] = $userDatas[$userId];
+				$userDatas = $temp;
 			}
-			
-			//取单个用户信息在当前周期 当前type下的所有信息的综合分值
-			//将数值写入缓存（每点一次就查一次，这受不了呀）
-			
-			$this->assign("cycles",$cycles);					//周期列表
-			$this->assign("users",$users);						//所有教工信息
-			$this->assign("userDatas",$userDatas);				//数据信息
-			$this->assign("YZBODY",$this->fetch('Index/index'));
-			$this->display(YZTemplate);
+			//计算多少条信息
+			$totalCount = count($userDatas);
+
+			//判断用户选取的当前页是超范围
+			if($this->p * $this->pageSize > $totalCount)
+			{
+				$this->p = (int)ceil($totalCount/$this->pageSize);
+			}
+
+			//截取数据
+			$offset = ($this->p-1)*$this->pageSize;
+			$userDatas = array_slice($userDatas, $offset , $this->pageSize);
+
+			$this->assign("totalCount",$totalCount);
+			$this->assign("cycles",$cycles);	//考核周期数据
+			$this->assign("users",$users);		//用户数据
+			$this->assign("userDatas",$userDatas);//用户数据信息
 		}
 		catch(\Think\Exception $e)
 		{
 			$this->error = $e;
 			$this->_empty();
 		}
+	}
+
+	/**
+	 * 初始化
+	 * 根据不同的控制器的名字，返回不同的信息
+	 * @return [type] [description]
+	 */
+	public function init()
+	{
+		//取传入周期传，未传入，证明是当前周期
+		$cycleId = (int)I('get.cycle_id');
+		$CycleL = new CycleLogic();
+		if(!$cycleId)
+		{
+			$cycleCurrent = $CycleL->getCurrentList();
+			$cycleId = $cycleCurrent['id'];
+		}
+
+		$this->cycleId = $cycleId;	//当前周期
+
+		//取周期列表（正常）
+		$this->cycles = $CycleL->getAllListsByState();
+		// dump($cycles);
+
+		//取当前controller 送 type
+		$type = CONTROLLER_NAME;
+
+		//按type查看是否有缓存写入，如果有，直接取缓存信息，返回。
+		//TODO:
+		// $projects = S("projects");
+		// if($projects === false)
+		// {
+		//取当前周期下的全部项目信息.包括：类别ID，模型ID，基础分值，
+		//计算出系数，
+		$DataManageL = new DataManageLogic();
+		$projects = $DataManageL->getAllListsByCycleIdType($cycleId , $type);
+		if($projects === false)
+		{
+			E("列表读取发生错误，当前cyclid:$cycleId,当前type：$type.错误信息：" . $DataManageL->getError());
+		}
+		$this->projects = $projects;
+
+		//取出所有的正常用户信息,将userDatas中没有信息的，进行置0处理。
+		$UserL = new UserLogic();
+		$users = $UserL->getAllLists();
+		$this->users = $users;
 	}
 
 	public function addAction()

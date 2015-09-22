@@ -1,0 +1,26 @@
+<script type="text/javascript">
+$(document).ready(function(){
+
+	//添加周期变动的事件
+	$(document).on("change","#cycle",function(){
+		console.log("change");
+		query();
+	});
+
+	//添加用户变动的事件
+	$(document).on("change","#user",function(){
+		console.log("change");
+		query();
+	});
+
+	//将考核周期、用户两项信息加入，然后进行跳转
+	var query = function(){
+		var user_id = $("#user").val();
+		var cycle_id = $("#cycle").val();
+		var url = "?user_id="+user_id+"&cycle_id="+cycle_id;
+		console.log("url is :"+url);
+		window.location.href = url;
+	};
+});
+
+</script>
