@@ -21,13 +21,12 @@ class IndexController extends AdminController
     {
         //获取部门列表
         $departmentModel = new DepartmentModel;
-        $departmentTree = $departmentModel -> getDepartmentTree(0,2,'_son');
-        $departmentList = tree_to_list($departmentTree,1,'_son','_level','order');
+        $departmentList = $departmentModel -> getDepartmentList(0,2,'_son');
         //url信息
         $url=array("editDepart"=>U('editDepart'),"post"=>U('post'),"people"=>U('people'),"delete"=>U('delete'));
         $departmentList = add_url($departmentList,'_url',$url,'id');
         //分页信息
-        $this->assign('count',100);
+        $this->assign('count',$departmentModel -> getTotalCount());
         //传值
         $this->assign('departmentList',$departmentList);
         $this->assign('YZBODY',$this->fetch());

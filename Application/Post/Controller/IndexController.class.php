@@ -22,6 +22,7 @@ class IndexController extends AdminController
         $url=array("deletePost"=>U('deletePost'),"editPost"=>U('editPost'));
         $postList = add_url($postList,'_url',$url,'id');
 
+        $this ->assign('totalCount',$postModel->getTotalCount());
         //传值
         $this->assign('postList',$postList);
         $this->assign('YZBODY',$this->fetch());

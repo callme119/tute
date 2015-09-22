@@ -15,12 +15,12 @@ class IndexController extends AdminController
     //初始化方法
     public function indexAction()
     {
-        //获取page信息
-        $page = I('get.id',1);
         //获取角色列表
         $roleModel = new RoleModel();
-        $roleList = $roleModel->getRoleList($page);
+        $roleList = $roleModel->getRoleList();
         $roleList = $this->_addurl($roleList,"_url");
+        
+        $this->assign('totalCount',$roleModel->getTotalCount());
         //传值
         $this->assign('roleList',$roleList);
         $this->assign('YZBODY',$this->fetch());

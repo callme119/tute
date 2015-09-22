@@ -9,13 +9,18 @@
 namespace Role\Model;
 use Think\Model;
 class RoleModel extends Model{
+    
+    public function __construct(){
+        parent::__construct();
+        $this -> totalCount = count($this -> select());
+    }
     /**
      * 获取角色列表方法
      * 
      * @return array
      */
-    public function getRoleList($page){
-    	$res = $this->page($page,C(PAGE_SIZE))->select();
+    public function getRoleList(){
+    	$res = $this->page($this->p,$this->pageSize)->select();
     	return $res;
     }
     /**

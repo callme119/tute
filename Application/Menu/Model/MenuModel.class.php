@@ -9,6 +9,17 @@
 namespace Menu\Model;
 use Think\Model;
 class MenuModel extends Model{
+
+    public function getMenuList(){
+        $menuTree = $this -> getMenuTree(null, null, 0, 3);
+        $menuList = tree_to_list($menuTree,0,'_son','_level','order');
+        //设置总条数
+        $this -> totalCount = count($menuList);
+        //截取该页的信息
+        $menuList = array_slice($menuList , ($this->p-1)*$this->pageSize , $this->pageSize);
+        return $menuList;
+
+    }
     /**
      * [getMenuTree 获取菜单树]
      * @param  [string]  $parentId  [根菜单id]

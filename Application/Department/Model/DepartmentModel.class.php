@@ -32,6 +32,23 @@ class DepartmentModel extends Model
 		exit();
 	}
 	/**
+	 * [getDepartmentList 获取部门列表，就是将树转化为列表
+	 * 然后根据分页信息截取返回部门列表]
+	 * @param  integer $rootDepatrmentId [description]
+	 * @param  [type]  $layer            [description]
+	 * @param  string  $keyWord          [description]
+	 * @return [type]                    [description]
+	 */
+	public function getDepartmentList($rootDepatrmentId = 0,$layer,$keyWord = '_son'){
+		$departmentTree = $this -> getDepartmentTree($rootDepatrmentId,$layer,$keyWord);
+		$departmentList = tree_to_list($departmentTree,1,$keyWord,'_level','order');
+		//设置总条数
+		$this -> totalCount = count($departmentList);
+		//截取该页的信息
+		$departmentList = array_slice($departmentList , ($this->p-1)*$this->pageSize , $this->pageSize);
+		return $departmentList;
+	}
+	/**
 	 * [getDepartmentTree 获取部门树形结构]
 	 * @param  integer $rootDepatrmentId [根元素id]
 	 * @param  [type]  $layer            [层级]

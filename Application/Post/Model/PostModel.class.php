@@ -9,6 +9,10 @@
 namespace Post\Model;
 use Think\Model;
 class PostModel extends Model{
+    public function __construct(){
+        parent::__construct();
+        $this -> totalCount = count($this -> select());
+    }
 /**
  * [getPostInfoById 通过id获取岗位信息]
  * @param  [type] $id [岗位id]
@@ -33,7 +37,7 @@ class PostModel extends Model{
  * @return [type] [岗位列表]
  */
     public function getPostList(){
-    	$data = $this -> select();
+    	$data = $this -> page($this->p,$this->pageSize) -> select();
     	return $data;
     }
     
@@ -46,6 +50,9 @@ class PostModel extends Model{
             $data = I('post.');
             $data['id'] = I('get.id');
             $state = $this -> save($data);
+            if($state == 0){
+                $state = true;
+            }
             return $state;
     }
 

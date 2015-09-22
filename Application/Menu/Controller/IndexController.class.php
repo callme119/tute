@@ -23,9 +23,7 @@ class IndexController extends AdminController
     {
         //获取菜单列表，并转化为数组
         $menuModel = new MenuModel();
-        $data = $menuModel->getMenuTree(null, null, 0, 3);
-        $menuList = tree_to_list($data,0,'_son','_level','order');
-
+        $menuList = $menuModel->getMenuList();
         foreach ($menuList as $key => $value) {
             $menuList[$key]['_url'] = array(
                 'add'=>U('addSon?id=' . $value['id']),
@@ -36,6 +34,7 @@ class IndexController extends AdminController
         $url = U('add');
         $this->assign('url',$url);
         $this->assign('data',$menuList);
+        $this -> assign('totalCount',$menuModel -> getTotalCount());
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
