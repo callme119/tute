@@ -6,7 +6,7 @@
  * 2015.9.22
  */
 namespace DataManage\Controller;
-class PostServiceEducationController extends IndexController
+class ServiceEducationController extends IndexController
 {
 	public function indexAction()
 	{
