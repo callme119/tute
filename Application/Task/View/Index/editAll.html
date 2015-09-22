@@ -1,4 +1,4 @@
-<form action="{:U('saveAll?p='. I('get.p') . '&cycleid=' . I('cycleid'))}" method="post">
+<form id="editAllForm" action="{:U('saveAll?p='. I('get.p') . '&cycleid=' . I('cycleid'))}" method="post">
 	<label for="">考核周期:</label><h5>{$cycle['name']}</h5>
 	<label>未设置工作量教工</label>
 	<h5 id="unsetList">
@@ -15,7 +15,7 @@
 	</h5>
 	<h5><input type="checkbox" data-value="setList" class="selectAll" id="set" /><label for="set">全选/反选</label></h5>
 	<input type="hidden" name="cycle_id" value="{:(int)I('get.cycleid')}" />
-	<label for="value">任务量:</label><h5><input type="text" name="value" id="value"></h5>
-	<button type="submit">提交</button>
+	<label for="value">任务量:</label><h5><input class="form-control" type="text" name="value" id="value"></h5>
+	<button class="btn btn-primary" type="submit">提交</button>
 </form>
 {$js}
