@@ -6,8 +6,9 @@
  */
 namespace Test\Controller;
 use Admin\Controller\AdminController;
-class IndexController extends AdminController {
+// use PHPExcel\Server\PHPExcelServer;		//
+class IndexController {
     public function indexAction(){ 
-    	$this->display();
+    	// $php = new PHPExcelServer();
     }
 }

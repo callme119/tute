@@ -14,6 +14,8 @@ class AdminController extends Controller{
     private $jsArr = null; //js
     private $cdnJsArr = null; //js for cdn
     private $ie9CdnJsArr = null; //js for ie9
+    protected $p = 1;
+    protected $pageSize = 20;
     
     public function addCss($css){
         $this->cssArr[] = $css;
@@ -70,6 +72,12 @@ class AdminController extends Controller{
             //判断是否已经登录
             $userId = get_user_id();
 
+            //当前页
+            $this->p = (int)I('get.p') ? (int)I('get.p') : 1;
+
+            //分页多少条
+            $this->pageSize = C("PAGE_SIZE") ? C("PAGE_SIZE") : $this->pageSize;
+
             //获取用户基础信息
             $userM = new UserModel;
             $user = $userM->getUserById($userId);
@@ -87,7 +95,8 @@ class AdminController extends Controller{
             //     $this->redirect( 'Fail/Index/fail');
             //     exit();
             // }
-            
+            //缓存初始化
+            // S(array('type'=>'File','expire'=>60));
             //获取该用户可见的菜单列表并传递给给Left菜单栏
             //获取用户id
             //通过用户id获取用户可见的菜单id

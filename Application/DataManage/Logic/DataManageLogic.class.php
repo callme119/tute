@@ -17,6 +17,12 @@ class DataManageLogic
 	}
 	/**
 	 * 获取全部的项目记录.
+	 * 1.先取project当前周期，当前类别下的所有信息
+	 * 2.查询数据时拼接类别信息，分数信息、工作流信息
+	 * 3.扩展项目模型的“扩展信息”，取出需要计算系数的字段。
+	 * 4.根据数据模型信息和类别信息、扩展信息，取出用户当前所存储值对应的系数值
+	 * 5.取出团队分数时，多个用户的占比的详细信息
+	 * 6.计算出多个用户团队占比的总和，并加入新的总和字段后统一返回.
 	 * @return array 二维数据
 	 */
 	public function getAllListsByCycleIdType($cycleId , $type)
@@ -133,6 +139,4 @@ class DataManageLogic
 		//加入缓存TODO:
 		return $totalScores;
 	}
-
-
 }

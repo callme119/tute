@@ -34,15 +34,21 @@ class IndexController extends Controller {
         //验证用户名密码
     	$model = new UserModel();
     	if($model->checkUser()){
+            //根据post的用户名取出用户信息，再将id与name存入session
+            $list = $model->getUserInfoByName(I('post.username'));
+            session('user_id',$list['id']);
+            session('user_name',$list['username']);
+            //登录成功后跳转
     		$this->success('登陆成功',U('Admin/Index/index'));
     	}else{
     		$this->error('用户名密码验证失败',U('Login/Index/index'));
     	}
-
     }
 
     //注销功能
     public function cancelAction(){
-        
+        session('user_id',null);
+        session('user_name',null);
+        $this->success('注销成功',U('Login/Index/index'));
     }
 }
