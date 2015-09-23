@@ -31,23 +31,15 @@ class IndexController extends AdminController{
 
     //初始化审批列表
     public function  indexAction(){ 
-        $tableheader = array('a','b','c','d','e');
-        $data = array(
-            array('1','小A','男','20','100'),
-            array('2','小B','男','20','101'),
-            array('3','小C','女','20','102'),
-            array('4','小D','女','20','103')
-        );
-        export_excel($tableheader,$data);
-        // $model = new ExamineModel;
-        // $data = $model->index();
-        // $count = $model->getListsCount();
-        // $page = I('get.p');
-        // $this->assign('page',$page);
-        // $this->assign('count',$count);
-        // $this->assign('examine',$data);
-        // $this->assign('YZBODY',$this->fetch('examinelist'));
-        // $this->display(YZTemplate);
+        $model = new ExamineModel;
+        $data = $model->index();
+        $count = $model->getListsCount();
+        $page = I('get.p');
+        $this->assign('page',$page);
+        $this->assign('count',$count);
+        $this->assign('examine',$data);
+        $this->assign('YZBODY',$this->fetch('examinelist'));
+        $this->display(YZTemplate);
     }
     
     //添加审批流程
