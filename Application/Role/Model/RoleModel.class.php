@@ -23,6 +23,10 @@ class RoleModel extends Model{
     	$res = $this->page($this->p,$this->pageSize)->select();
     	return $res;
     }
+    public function getAllLists(){
+        $res = $this -> select();
+        return $res;
+    }
     /**
      * [getRoleById description] 通过id获取角色信息
      * @param  [type] $id [description] 角色id

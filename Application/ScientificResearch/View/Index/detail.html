@@ -16,7 +16,10 @@
 				数据结构不好看，请先对projectDetail及dataModelDetail进行jump
 			</eq>
 			<eq name="value[type]" value="int">
-				{$dataModelDetail[$projectDetail[$value[name]]['value']]['title']}
+				{$projectDetail[$value[name]]['value']}
+			</eq>
+			<eq name="value[type]" value="text">
+				{$projectDetail[$value[name]]['value']}
 			</eq>
 		</p>
 	</neq>

@@ -7,7 +7,7 @@
 	<input type="hidden" name="id" value="{$dataModelDetail['id']}">
 	<input type="hidden" name="data_model_id" value="{$dataModel[id]}">
 	<label>显示字符串:</label><h5><input type="text" name="title" value="{$dataModelDetail['title']}"></h5>
-	<label>存储字段名(上级字段非根字段时，可不填写):</label><h5><input type="text" name="name" value="{$dataModelDetail['name']}"></h5>
+	<label>存储字段名(上级字段非根字段时，可不填写。注意：以下字段为系统保留字段<br /><span class="error">project_category_id , title , id , data_model_id , name , examine_id , check_user_id , score_percent</span><br />请勿使用:</label><h5><input type="text" name="name" value="{$dataModelDetail['name']}"></h5>
 	<label>样式(class):</label><h5><input type="text" name="class" value="{$dataModelDetail['class']}"></h5>
 	<label>上级字段</label>
 	<h5>

@@ -40,6 +40,14 @@ class PostModel extends Model{
     	$data = $this -> page($this->p,$this->pageSize) -> select();
     	return $data;
     }
+    /**
+     * [getAllLists description]
+     * @return [type] [description]
+     */
+    public function getAllLists(){
+        $data = $this -> select();
+        return $data;
+    }
     
     public function addPost(){
     	$data = I('post.');

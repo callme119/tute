@@ -19,7 +19,9 @@ class ProjectDetailModel extends Model
 				$data['value'] = $post[$root['name']];
 			}
 		}
-		if($this->add($data)){
+
+		if($this->create($data)){
+			$this->add();
 			return true;
 		}
 		else

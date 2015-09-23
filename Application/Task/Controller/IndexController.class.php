@@ -94,7 +94,8 @@ class IndexController extends AdminController
 
 			//取出当前周期、当前 类别下的 任务值
 			$TaskL = new TaskLogic();
-			$tasks = $TaskL->getAllListsByCycleId($cycleId);
+			$type = CONTROLLER_NAME;
+			$tasks = $TaskL->getAllListsByCycleIdType($cycleId , $type);
 
 			$state = "1";
 			$UserL = new UserL();

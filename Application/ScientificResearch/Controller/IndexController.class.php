@@ -20,8 +20,7 @@ use DataModelDetail\Model\DataModelDetailModel;         //数据模型扩展信�
 use ExamineDetail\Model\ExamineDetailModel;             //审核扩展信息
 use Workflow\Model\WorkflowModel;                       //工作流表
 use WorkflowLog\Model\WorkflowLogModel;                 //工作流扩展表
-
-use ProjectCategoryRatio\Model\ProjectCategoryRatioModel;   //项目类别系数表
+use ProjectCategoryRatio\Model\ProjectCategoryRatioModel;//项目类别系数表
 use ProjectDetail\Logic\ProjectDetailLogic;             //项目扩展信息
 use ProjectDetail\Model\ProjectDetailModel;             //项目扩展信息
 use Workflow\Service\WorkflowService;                   //审核流程
@@ -42,10 +41,8 @@ class IndexController extends AdminController {
         //取项目表信息
         $ProjectM = new ProjectModel();
 
-        $projects = $ProjectM->getListsByUserIdType($userId , $type);
-        $totalCount = $ProjectM->getTotalCount();
-
-        $projects = $ProjectM->getListsByUserId($userId);
+        // $projects = $ProjectM->getListsByUserIdType($userId , $type);;
+        $projects = $ProjectM->getListsJoinProjectCategoryByUserIdType($userId , $type);
         $totalCount = $ProjectM->getTotalCount();
         
         //传值
@@ -64,7 +61,7 @@ class IndexController extends AdminController {
      * 
      */
     public function saveAction() {
-        //dump(I('post.'));
+
         $userId = get_user_id();
 
         //取当前周期id
@@ -77,8 +74,8 @@ class IndexController extends AdminController {
         $ProjectCategoryM = new ProjectCategoryModel();
         if( !$projectCategory = $ProjectCategoryM->getListById($projectCategoryId) )
         {
-            $data['message'] = "please select project";
-            $this->ajaxReturn($data);
+            $this->error = "please select projectCategory";
+            $this->_empty();
         }
 
          //取数据模型扩展信息
@@ -99,8 +96,8 @@ class IndexController extends AdminController {
             $this->_empty();
         }
 
-        $examineId = (int)I('post.chain_id');
-        $checkUserId = (int)I('post.examine_id');
+        $examineId = (int)I('post.examine_id');
+        $checkUserId = (int)I('post.check_user_id');
 
         $WorkflowS = new WorkflowService();
         if(!$WorkflowS->add($userId , $examineId , $projectId, $checkUserId , $commit = "申请"))
@@ -138,7 +135,7 @@ class IndexController extends AdminController {
         $userId = get_user_id();
 
         $ProjectCategoryL = new ProjectCategoryLogic();
-        $projectCategoryTree = $ProjectCategoryL->getSonsTreeById($pid=0,$type='ScientificResearch');
+        $projectCategoryTree = $ProjectCategoryL->getSonsTreeById($pid=0,$type=CONTROLLER_NAME);
         $projectCategory = tree_to_list($projectCategoryTree , $id , '_son' );
 
         //获取当前用户部门岗位信息（数组）
@@ -148,9 +145,6 @@ class IndexController extends AdminController {
         //获取当前岗位下，对应的可用审核流程
         $ExamineM = new ExamineModel();
         $examineLists = $ExamineM->getListsByNowPosts($userDepartmentPosts);
-
-        // $projectM = new ProjectCategoryModel();
-        // $project = $projectM->init();
         
         $nameM = new UserModel();
         $name = $nameM->getAllName();
@@ -159,6 +153,7 @@ class IndexController extends AdminController {
         $this->assign("examineLists",$examineLists);
         $this->assign('name',$name);
         $this->assign('project',$projectCategory);
+        $this->assign("js",$this->fetch('Index/addJs'));
         $this->assign('YZBODY',$this->fetch('Index/add'));
         $this->display(YZTemplate);
     }
@@ -216,9 +211,14 @@ class IndexController extends AdminController {
                 E("用户无权限查看该记录", 1);    
             }    
 
+            $project_category_id = $project['project_category_id'];
+
+            $ProjectCategoryL = new ProjectCategoryLogic();
+            $projectCategory = $ProjectCategoryL->getListById($project_category_id);
+
             //取项目数据模型信息
             $DataModelM = new DataModelModel();
-            $dataModelId = $project['data_model_id'];
+            $dataModelId = $projectCategory['data_model_id'];
             if( !$dataModel = $DataModelM->where("id = $dataModelId")->find())
             {
                 E("当前记录选取的数据模型ＩＤ为$dataModelId,但该ＩＤ在数据库中未找到匹配的记录", 1);    
