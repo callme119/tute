@@ -3,6 +3,7 @@
  * 基础工作量管理
  */
 namespace BaseTeaching\Controller;
+use Task\Logic\TaskLogic;
 use Admin\Controller\AdminController;
 use Cycle\Logic\CycleLogic;			//周期
 use BaseTeaching\Logic\UserLogic as UserBaseTeachingLogic;	//用户－－基础教学任务量 链表
@@ -197,17 +198,43 @@ class ManageController extends AdminController
 		}
 	}
 
-	public function exportAction(){
+	public function exportAllAction(){
 		$UserL = new UserLogic();
 		$users = $UserL->getAllLists();
 		$lists = array();
+		//取当前周期id
+		$CycleL = new CycleLogic();
+		$cycle = $CycleL->getCurrentList();
+		$cycle_id = $cycle['id'];
+		//根绝用户id与周期id取出已完成工作量
+		$baseTeachings = array();
+		$BaseTeachingL = new BaseTeachingLogic();
+		foreach (array_values($users) as $key => $value) {		
+			$val = $BaseTeachingL->getListByUserIdCycleId($value['id'],$cycle_id);
+			if($val != null){
+				$baseTeachings[$value['id']] = $val;
+			}else{
+				$baseTeachings[$value['id']]['value'] = 0;
+			}
+		}
+		//取用户的任务工作量
+		$TaskL = new TaskLogic();
+		$taskTeachings = array();
+		foreach ($users as $key => $value) {
+			$type = MODULE_NAME;
+			$taskTeachings[$value['id']] = $TaskL->getListByUserIdCycleId($value['id'],$cycle_id,$type);
+		}	
 		//重新拼接users数组，去掉无用字段，且重新排序
 		foreach ($users as $key => $value) {
-			$lists[$key][]
+			 $lists[$key]['key'] = $key;	
+			 $lists[$key]['name'] = $value['name'];
+			 $lists[$key]['baseTeachings'] = $baseTeachings[$key]['value'];
+			 $lists[$key]['taskTeachings'] = $taskTeachings[$key]['value'];
 		}
+		// var_dump($lists);
 		$header = array('序号','教工','已完成工作量','任务工作量');
 		$letter = array('A','B','C','D');
 		$excel = new PHPExcelServer;
-		$excel->index($users,$header,$letter);
+		$excel->index(array_values($lists),$header,$letter);
 	}
 }
