@@ -54,7 +54,7 @@ class DataManageLogic
 		// $field['score.score_percent']				=	'score_percent';	//分值占比
 		$field['project.id'] 						=	'id'; 		//项目ID
 		$field['project.title'] 					= 	'title'; 	//项目名称		
-		$field['project.user_id'] 					= 	'commit_user_id'; 	//提交用户ID
+		$field['project.user_id'] 					= 	'user_id'; 	//提交用户ID
 		$field['project_category.score']			=	'score';			//项目总分
 		$field['project_category.is_team']			=	'is_team';			//是否为团队项目
 		$field['project_category.data_model_id']	=	'data_model_id';	//数据模型ID
