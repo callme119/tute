@@ -1,6 +1,7 @@
-<form action="{:U('save?p=' . I('get.p'))}" method="post">
+<form id="demoForm" action="{:U('save?p=' . I('get.p'))}" method="post">
 	<input type="hidden" name="id" value="{$dataModel[id]}">
 	<label>名称</label><h5><input type="text" name="name" value="{$dataModel[name]}" /></h5>
 	<label>描述</label><h5><input type="text" name="description" value="{$dataModel[description]}" /></h5>
 	<button type="submit">确定</button>
 </form>
+{$js}

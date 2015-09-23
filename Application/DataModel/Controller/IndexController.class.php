@@ -82,6 +82,7 @@ class IndexController extends AdminController{
 		$dataModel = $DataModelM->getListById($id);
 
 		$this->assign("dataModel",$dataModel);
+		$this->assign("js",$this->fetch('editJs'));
 		$this->assign("YZBODY",$this->fetch('edit'));
 		$this->display(YZTemplate);
 	}
