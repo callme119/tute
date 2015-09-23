@@ -36,6 +36,7 @@ class IndexController extends AdminController
         $subUrl = U('save');
         $this ->assign('subUrl',$subUrl);
 
+        $this->assign('js',$this->fetch('addPostJs'));
         //调用 界面
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
