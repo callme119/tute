@@ -4,7 +4,7 @@
  */
 namespace BaseTeaching\Controller;
 use Admin\Controller\AdminController;
-class BaseTeachingController extends AdminController
+class IndexController extends AdminController
 {
 	public function indexAction()
 	{

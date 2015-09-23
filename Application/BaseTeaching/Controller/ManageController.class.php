@@ -9,6 +9,7 @@ use BaseTeaching\Logic\UserLogic as UserBaseTeachingLogic;	//用户－－基础�
 use User\Logic\UserLogic;		// 用户
 use Admin\Widget\UserWidget;
 use BaseTeaching\Logic\BaseTeachingLogic;		//基础教学任务
+use PHPExcel\Server\PHPExcelServer;
 class ManageController extends AdminController
 {
 	public function indexAction()
@@ -194,5 +195,19 @@ class ManageController extends AdminController
 			$this->error = $e;
 			$this->_empty();
 		}
+	}
+
+	public function exportAction(){
+		$UserL = new UserLogic();
+		$users = $UserL->getAllLists();
+		$lists = array();
+		//重新拼接users数组，去掉无用字段，且重新排序
+		foreach ($users as $key => $value) {
+			$lists[$key][]
+		}
+		$header = array('序号','教工','已完成工作量','任务工作量');
+		$letter = array('A','B','C','D');
+		$excel = new PHPExcelServer;
+		$excel->index($users,$header,$letter);
 	}
 }
