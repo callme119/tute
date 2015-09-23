@@ -27,4 +27,31 @@ class ScoreLogic extends ScoreModel
 		// echo $this->getLastSql();
 		return $data;
 	}
+
+	public function addByUserIdProjectIdScorePercent($userId, $projectId , $scorePercent = 100)
+	{
+		if( !$data['user_id'] = (int)$userId )
+		{
+			$this->error = "传入了空的userId";
+			return false;
+		}
+
+		if( !$data['project_id'] = (int)$projectId )
+		{
+			$this->error = "传入了空的projectid";
+			return false;
+		}
+
+		$data['score_percent'] = (int)$scorePercent;
+
+		if($this->create($data))
+		{
+			$this->add();
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
