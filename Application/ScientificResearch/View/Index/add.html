@@ -53,13 +53,11 @@
                    <div class="col-md-3 form-group">
                     <div class="input-group">
                         <span class="input-group-addon">团队人员姓名</span>
-                        <select name="name[]" value="" class="selectpicker form-control select2">
-                            <option>请选择</option>
-
+                        <select name="name[]" class="selectpicker form-control select2">
+                            <option value="0">请选择</option>
                             <foreach name="name" item="value" key="key">
                                 <option value="{$value.id}">{$value.name}</option>
                             </foreach>
-
                         </select>
                     </div>
                 </div>
