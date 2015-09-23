@@ -1,12 +1,33 @@
 <script type="text/javascript">
-	$(document).ready(function() {
-    var c = new Array();
-    var c = eval('<?php echo json_encode($roleList);?>');
-   for (var i=0;i<c.length;i++) {
+//表单验证
+    $(document).ready(function(){
+        $("#demoForm").validate({
+            rules:{
+                email:{
+                    required:true,
+                    email:true
+                },
+                username:{
+                    required:true
+                },
+                name:{
+                    required:true
+                },
+                password:{
+                    required:true
+                },
+            },
+        })
+    },
+    function(){
+        var c = new Array();
+        var c = eval('<?php echo json_encode($roleList);?>');
+        for (var i=0;i<c.length;i++) {
         var k =c[i];
         $("#"+k).attr('checked','true');
     };
- });
+    }
+    );
     
 $(document).on("change","#department",function(){
 	$("#post").empty();
@@ -31,25 +52,5 @@ $("#plus").click(function(){
 $("#minus").click(function(){
     $(".team:gt(0):last").remove();
 });
-</script>
-<script>
-    $(document).ready(function(){
-        $("#addForm").validate({
-            rules:{
-                email:{
-                    required:true,
-                    email:true
-                },
-                username:{
-                    required:true
-                },
-                name:{
-                    required:true
-                },
-                password:{
-                    required:true
-                },
-            },
-        })
-    });
+
 </script>
