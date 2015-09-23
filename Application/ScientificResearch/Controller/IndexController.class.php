@@ -41,9 +41,6 @@ class IndexController extends AdminController {
         //取项目表信息
         $ProjectM = new ProjectModel();
 
-
-
-
         // $projects = $ProjectM->getListsByUserIdType($userId , $type);;
         $projects = $ProjectM->getListsJoinProjectCategoryByUserIdType($userId , $type);
         $totalCount = $ProjectM->getTotalCount();
@@ -214,9 +211,14 @@ class IndexController extends AdminController {
                 E("用户无权限查看该记录", 1);    
             }    
 
+            $project_category_id = $project['project_category_id'];
+
+            $ProjectCategoryL = new ProjectCategoryLogic();
+            $projectCategory = $ProjectCategoryL->getListById($project_category_id);
+
             //取项目数据模型信息
             $DataModelM = new DataModelModel();
-            $dataModelId = $project['data_model_id'];
+            $dataModelId = $projectCategory['data_model_id'];
             if( !$dataModel = $DataModelM->where("id = $dataModelId")->find())
             {
                 E("当前记录选取的数据模型ＩＤ为$dataModelId,但该ＩＤ在数据库中未找到匹配的记录", 1);    

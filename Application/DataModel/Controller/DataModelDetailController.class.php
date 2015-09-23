@@ -44,13 +44,19 @@
 	 		//取ID值，有传入值，则执行添加操作。无值传入，执行更新操作。
 	 		if($id)
 	 		{
-	 			$DataModelDetailL->savePostData();
+	 			if($DataModelDetailL->savePostData() === false)
+	 			{
+	 				E("数据保存发生错误，信息：" . $DataModelDetailL->getError());
+	 			}
 	 		}
 
 	 		//执行添加操作
 	 		else
 	 		{
-	 			$DataModelDetailL->addPostData();
+	 			if(!$DataModelDetailL->addPostData() === false)
+	 			{
+	 				E("数据保存发生错误，信息：" . $DataModelDetailL->getError());
+	 			}
 	 		}
 	 		
 	 		$this->success('',U('Index/detail?id=' . I('post.data_model_id')));

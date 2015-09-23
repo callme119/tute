@@ -76,11 +76,23 @@ class ProjectModel extends Model{
         $map['a.user_id'] = $userId;
         $map['b.type'] = $type;
 
+        $field["a.id"] = "id";
+        $field["a.title"] = "title";
+        $field["a.project_category_id"] = "project_category_id";
+        $field["a.time"] = "time";
+        $field["a.cycle_id"] = "cycle_id";
+
+        $field["b.score"] = "score";
+        $field["b.score"] = "score";
+        
+        $field["c.is_finished"] = "is_finished";
+        
+
         $this->alias("a");      //设置表别名
-        $this->totalCount = $this->join("left join __PROJECT_CATEGORY__ b on a.project_category_id = b.id")->where($map)->count();
+        $this->totalCount = $this->join("left join __PROJECT_CATEGORY__ b on a.project_category_id = b.id left join __WORKFLOW__ c on a.id=c.project_id")->where($map)->count();
 
         $this->alias("a");  
-        $return = $this->where($map)->join("left join __PROJECT_CATEGORY__ b on a.project_category_id = b.id")->page($this->p,$this->pageSize)->order($this->order)->select();   
+        $return = $this->where($map)->field($field)->join("left join __PROJECT_CATEGORY__ b on a.project_category_id = b.id left join __WORKFLOW__ c on a.id=c.project_id")->page($this->p,$this->pageSize)->order($this->order)->select();   
         // echo $this->getLastSql();
         return $return;
     }

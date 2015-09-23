@@ -89,6 +89,10 @@ class DataModelDetailLogic extends DataModelDetailModel
 	 */
 	public function savePostData()
 	{
+		if(!$this->_checkAllowOfPost())
+		{
+			return false;
+		}
 		$data = I('post.');
 		$this->data($data)->save();
 	}
@@ -98,7 +102,12 @@ class DataModelDetailLogic extends DataModelDetailModel
 	 */
 	public function addPostData()
 	{
-		if($hello = $this->create())
+		if(!$this->_checkAllowOfPost())
+		{
+			return false;
+		}
+
+		if($this->create())
 		{
 			$this->add();
 		}
@@ -106,6 +115,28 @@ class DataModelDetailLogic extends DataModelDetailModel
 		{
 			E($this->getError());
 		}
+
+	}
+
+	private function _checkAllowOfPost()
+	{
+		$deny = array(
+			"project_category_id", 
+			"title" ,
+			"id" ,
+			"data_model_id" , 
+			"name" ,
+			"examine_id", 
+			"check_user_id", 
+			"score_percent"
+		);
+		$name = I('post.name');
+		if(in_array($name, $deny))
+		{
+			$this->error = "传入的name值为$name,而该name值是系统保留字段";
+			return false;
+		}
+		return true;
 
 	}
 

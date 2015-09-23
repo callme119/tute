@@ -7,22 +7,26 @@
 
 namespace Myjob\Controller;
 use Admin\Controller\AdminController;
-use Workflow\Model\WorkflowModel; //工作流主表
+use Workflow\Model\WorkflowModel;                       //工作流主表
 use Myjob\Model\JobModel;
-use WorkflowLog\Model\WorkflowLogModel; //工作流副表
-use User\Model\UserModel; //用户表
-use Chain\Model\ChainModel; //审核流程具体审核顺序表
-use UserDepartmentPost\Model\UserDepartmentPostModel; //用户-部门-岗位表
-use Department\Model\DepartmentModel;//部门表
-use Post\Model\PostModel;//岗位表
-use Myjob\Logic\MyjobLogic; //逻辑层
-use DepartmentPost\Model\DepartmentPostModel; //
-use Project\Model\ProjectModel; //项目信息表
-use Project\Logic\ProjectLogic;        //项目信息
-use Chain\Logic\ChainLogic; //审核结点列表逻辑层。
-use WorkflowLog\Logic\WorkflowLogLogic; //工作流结点
-
-use Workflow\Service\WorkflowService;
+use WorkflowLog\Model\WorkflowLogModel;                 //工作流副表
+use User\Model\UserModel;                               //用户表
+use Chain\Model\ChainModel;                             //审核流程具体审核顺序表
+use UserDepartmentPost\Model\UserDepartmentPostModel;   //用户-部门-岗位表
+use Department\Model\DepartmentModel;                   //部门表
+use Post\Model\PostModel;                               //岗位表
+use Myjob\Logic\MyjobLogic;                             //逻辑层
+use DepartmentPost\Model\DepartmentPostModel;           //
+use Project\Model\ProjectModel;                         //项目信息表
+use Project\Logic\ProjectLogic;                         //项目信息
+use Chain\Logic\ChainLogic;                             //审核结点列表逻辑层。
+use WorkflowLog\Logic\WorkflowLogLogic;                 //工作流结点
+use ProjectCategory\Logic\ProjectCategoryLogic;         //项目类别
+use DataModel\Model\DataModelModel;                     //数据模型
+use DataModel\Logic\DataModelLogic;                     //数据模型
+use DataModelDetail\Model\DataModelDetailModel;         //数据模型扩展信息
+use ProjectDetail\Logic\ProjectDetailLogic;             //项目扩展数据
+use Workflow\Service\WorkflowService;                   //工作流
 class IndexController extends AdminController{
 
     public function testAction()
@@ -97,6 +101,31 @@ class IndexController extends AdminController{
         $projectL = new ProjectLogic();
         $project = $projectL->getListById($projectId);
 
+        $project_category_id = $project['project_category_id'];
+
+        $ProjectCategoryL = new ProjectCategoryLogic();
+        $projectCategory = $ProjectCategoryL->getListById($project_category_id);
+
+        //取项目数据模型信息
+        $DataModelM = new DataModelModel();
+        $dataModelId = $projectCategory['data_model_id'];
+        if( !$dataModel = $DataModelM->where("id = $dataModelId")->find())
+        {
+            E("当前记录选取的数据模型ＩＤ为$dataModelId,但该ＩＤ在数据库中未找到匹配的记录", 1);    
+        }
+
+        //取数据模型字段信息
+        $DataModelL = new DataModelLogic();
+        $dataModelCommon = $DataModelL->getCommonLists();
+
+        //取项目模型扩展信息
+        $dataModelDetailM = new DataModelDetailModel();
+        $dataModelDetail = $dataModelDetailM->getListsByDataModelId($dataModelId);
+
+        //取项目扩展信息
+        $ProjectDetailL = new ProjectDetailLogic();
+        $projectDetail = $ProjectDetailL->getListsByProjectId($projectId);
+
         //设置已读
         $WorkflowLogM->setIsClickedById($workflowLogId);
         //设置是否已办,未办则显示审核意见，已办则不需显示 
@@ -132,6 +161,8 @@ class IndexController extends AdminController{
         $this->assign("users",$users);
         $this->assign('showSuggestion',$showSuggestion);
         $this->assign('project',$project);
+        $this->assign("dataModelDetail",$dataModelDetail);
+        $this->assign("projectDetail",$projectDetail);
         $this->assign('workflowLogs',$workflowLogs);
         $this->assign('workflowLog',$workflowLog);
         $this->assign('chain',$chain);

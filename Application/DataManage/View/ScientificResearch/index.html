@@ -41,7 +41,7 @@
 						<foreach name="userDatas" item="userData">
 						<tr>
 							<td>{++$i}</td>
-							<td>{$userData['user_name']}</td>
+							<td><a href="{:U('detail?user_id=' . $userData[user_id])}">{$userData['user_name']}</a></td>
 							<td>{$userData['score']}</td>
 							<td>{$userData['doneTotalScore']}</td>
 							<td>{$userData['BaseTask']}</td>
