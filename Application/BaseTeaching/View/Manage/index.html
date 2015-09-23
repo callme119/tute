@@ -1,19 +1,19 @@
 <section class="content">
-    <div class="row">
-        <div class="col-xs-12">
-            <php>$userId = I('get.userid');</php>
-            <select class="select2" id="userSelect" name="user_id">
-                <option value="0">全部</option>
-            <foreach name="users" item="user">
-                <option value="{$user[id]}" <eq name="user[id]" value="$userId">selected="selected"</eq>>{$user['name']}</option>
-            </foreach>
-            </select>
-        </div>
-        <div class="col-xs-12">
-            <div class="box">
-                <div class="box-body table-responsive">
-                    <div class="panel-body">
-                        <a href="{:U('editAll?p=' . I('get.p'))}" class="btn btn-primary btn-block"><i class="glyphicon glyphicon-plus"></i>批量添加/编辑</a>
+    <div class="box">
+        <div class="box-body table-responsive">
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <php>$userId = I('get.userid');</php>
+                            <select class="select2" id="userSelect" name="user_id">
+                                <option value="0">全部</option>
+                                <foreach name="users" item="user">
+                                <option value="{$user[id]}" <eq name="user[id]" value="$userId">selected="selected"</eq>>{$user['name']}</option>
+                                </foreach>
+                            </select>
+                    </div>
+                    <div class="col-xs-2">
+                        <a href="{:U('editAll?p=' . I('get.p'))}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>批量添加/编辑</a>
                     </div>
                 </div>
                 <div class="box-body table-responsive">
@@ -46,8 +46,13 @@
                     </tbody>
                 </table>
                 <yunzhi:page totalCount="totalCount"></yunzhi:page>
-                <div>
-                <button>全部导出</button><button>导出当前</button>
+                <div class="row fixed-bottom">
+                    <div class="col-md-1">
+                        <button class="btn btn-primary">全部导出</button>
+                    </div>
+                    <div class="col-md-1">
+                        <button class="btn btn-info">导出当前</button>
+                    </div>
                 </div>
             </div>
         </div>
