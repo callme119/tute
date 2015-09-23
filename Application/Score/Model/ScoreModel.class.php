@@ -10,29 +10,40 @@ namespace Score\Model;
 use Think\Model;
 use User\Model\UserModel;
 class ScoreModel extends Model{
-	public function save($userId,$projectId)
-	{
+
+	public function save($projectId)
+	{	
+		//判断是不是传入了多条数据
+		//如果不是报错
+		//如果是保存
 		$userId = I('post.name');
 		$scorePercent = I('post.score_percent');
-		foreach ($userId as $key => $value) {
-			$data[project_id] = $projectId;
-			//判断是不是团队项目
-			//如果不是团队项目，百分比为100%
-			if(count($scorePercent[$key])==1 && $data[user_id]=="请选择" && $scorePercent[$key]=="")
-			{
-				$data[user_id] = $userId;
-				$data[score_percent] = '100';
-			}
-			else{
-				$data[user_id] = $value;
-				$data[score_percent] = $scorePercent[$key];
-			}
-			if($this->add($data)){
-				$res = ture;
-			}
-			else
-				$res = false;
+		if(count($userId)<2)
+		{
+			$this->error = "请添加完整团队人员";
+			return false;
 		}
-		return $res;
+		else{
+			foreach ($userId as $key => $value) {
+				if( !$data['project_id'] = (int)$projectId )
+				{
+					$this->error = "传入了空的projectid";
+					return false;
+				}
+				if(!$data[user_id] = (int)$value)
+				{
+					$this->error = "传入了空的userId";
+					return false;
+				}
+				$data[score_percent] = (int)$scorePercent[$key];
+				
+				if($this->add($data)){
+					$res = ture;
+				}
+				else
+					$res = false;
+			}
+			return $res;
+		}
 	}
 }
