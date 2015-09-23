@@ -9,6 +9,9 @@ namespace Admin\Controller;
 use Think\Controller;
 use Menu\Model\MenuModel;
 use User\Model\UserModel;
+use Role\Model\RoleModel;
+use RoleUser\Model\RoleUserModel;
+use RoleMenu\Logic\RoleMenuLogic;
 class AdminController extends Controller{
     private $cssArr = null; //css
     private $jsArr = null; //js
@@ -88,30 +91,31 @@ class AdminController extends Controller{
             //2.判读该用户是否有该权限
             $isJump = $this->_checkUrl($url);
             //3.判读该url是否有该菜单（判断应用位运算）
-            
-            // $menuMo = new MenuModel();
-            // $isHave = $menuMo->checkMenu($url);
-            // if(!($isJump && $isHave)){
-            //     $this->redirect( 'Fail/Index/fail');
-            //     exit();
-            // }
             //缓存初始化
             // S(array('type'=>'File','expire'=>60));
             //获取该用户可见的菜单列表并传递给给Left菜单栏
-            //获取用户id
-            //通过用户id获取用户可见的菜单id
-            //通过菜单获取菜单列表，传递到前台
-            //1.new菜单Model
-            $menu = new MenuModel();
-            //2.获取菜单的信息
-            $data = $menu->getMenuTree(null, null, 1, 2);
+
+            //1通过用户id获取角色id信息
+            $roleUserModel = new RoleUserModel;
+            $roleIdList = $roleUserModel -> getRoleIdListByUserId($userId);
+
+            //2通过角色id获取角色对应的菜单列表；
+            $roleMenuLogic = new RoleMenuLogic;
+            $menuIdList = $roleMenuLogic -> getMenuListByRoleList($roleIdList);
+
+            //3通过菜单获取菜单列表，传递到前台
+            $menuModel = new MenuModel();
+            if ($menuIdList) {
+                $where['id'] = array('in',$menuIdList);
+            }
+            $data = $menuModel -> getMenuTree(null,$where,1,2);
+
             $data = $this->_addMenuActive($data, $url, '_son');
-            
             //3.将获取到的信息传递给V层
             $this->assign('leftMenu',$data);
             
             //获取当前菜单信息
-            $currentMenu = $menu->getMenuByUrl($url);
+            $currentMenu = $menuModel ->getMenuByUrl($url);
             $this->assign('currentMenu',$currentMenu[0]);
 
             $this->assign("user",$user);         

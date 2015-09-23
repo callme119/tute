@@ -28,9 +28,6 @@ class IndexController extends AdminController {
     }
     //教工管理添加教工
     public function addAction(){
-        //获取部门列表信息(通过私有防发获取)
-        //获取岗位列表信息(通过私有防发获取)
-        //获取角色列表信息(通过私有防发获取)
         //传值，前台进行处理
         $url = U('save');
         $this->assign('url',$url);

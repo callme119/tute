@@ -9,6 +9,12 @@ namespace RoleUser\Model;
 use Think\Model;
 use User\Model\UserModel;
 class RoleUserModel extends Model{
+
+	public function getRoleIdListByUserId($userId){
+		$map['user_id'] = $userId;
+		$roleIdList = $this -> where($map) -> select();
+		return $roleIdList;
+	}
 	/**
 	 * [getStaffListByRoleId 通过角色id获取该角色中的教工列表]
 	 * @param  [string] $roleId [角色id]

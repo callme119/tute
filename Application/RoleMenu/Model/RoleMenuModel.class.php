@@ -19,7 +19,7 @@ class RoleMenuModel extends Model{
 		$menuData = $this->where($map)->select();
 		foreach ($menuData as $key => $value) {
 			$data[$key] = $value['menu_id'];
-		}
+		}		
 		return $data;
 	}
 

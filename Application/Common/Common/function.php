@@ -17,7 +17,7 @@ function isWeixinBrowser() {
  */
 function get_user_id()
 {
-    return "5";
+    return "10";
 }
 //向url上以POST方式提交数据
 //author:panjie 3792535@qq.com
@@ -985,4 +985,18 @@ function date_to_string($int , $param = 'Y-m-d')
     {
         return date($param,$int);
     }
+}
+/**
+ * [union_array 取两个数组的并集]
+ * @param  [type] $arr1 [数组1]
+ * @param  [type] $arr2 [数组2]
+ * @return [type]       [并集数组]
+ */
+function union_array($arr1,$arr2){
+    $res_array = array();
+    //取差集
+    $intersection  = array_diff($arr1, $arr2);
+    //取并集
+    $res_array = array_merge($arr2,$intersection);
+    return $res_array;
 }

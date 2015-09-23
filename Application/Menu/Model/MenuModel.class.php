@@ -31,6 +31,8 @@ class MenuModel extends Model{
         $map = array();
         $level = isset($layer)?$layer:1;
         $map = $where;
+      
+
         $map['parent_id'] = isset($parentId)?$parentId:0;
         if(APP_DEBUG == false)
         {
@@ -40,6 +42,7 @@ class MenuModel extends Model{
         {
             $map['show'] = $isShow;
         }
+
         $data = $this->_getMenuList($map, $level);
         return $data;
     }
