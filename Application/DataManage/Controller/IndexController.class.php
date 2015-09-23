@@ -8,6 +8,7 @@ use DataManage\Logic\DataManageLogic;		//数据导出逻辑
 use Cycle\Logic\CycleLogic;					//周期
 use Task\Logic\TaskLogic;					//任务量
 use User\Logic\UserLogic;					//用户
+use Project\Logic\ProjectLogic;				//项目信息
 class IndexController extends AdminController
 {
 	protected $cycles = array(); 			//考核周期
@@ -213,6 +214,42 @@ class IndexController extends AdminController
 		try
 		{
 			$this->success("操作成功",U("index?p=".I('get.p')));
+		}
+		catch(\Think\Exception $e)
+		{
+			$this->error = $e;
+			$this->_empty();
+		}
+	}
+
+	public function detailAction()
+	{
+		try
+		{
+			//取用户信息
+			$userId = (int)I("get.user_id");
+
+			$UserL = new UserLogic();
+			if(!$user = $UserL->getListById($userId))
+			{
+				E("未接到到正确的用户ID，当前USERID:$userId");
+			}
+
+			//获取当前周期信息
+			$CycleL = new CycleLogic();
+			if(!$currentCycle = $CycleL->getCurrentList())
+			{
+				E("未设置当前周期，或设置的当前周期不可用");
+			}
+
+			//取当前周期下用户的项目信息
+			$cycleId = $currentCycle['id'];
+			$ProjectL = new ProjectLogic();
+			$projects = $ProjectL->getListsByUserIdCycleId($userId , $cycleId);
+
+			dump($projects);
+			$this->assign("YZBODY",$this->fetch('Index/detail'));
+			$this->display(YZTemplate);
 		}
 		catch(\Think\Exception $e)
 		{

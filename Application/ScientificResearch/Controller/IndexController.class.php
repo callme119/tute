@@ -64,7 +64,7 @@ class IndexController extends AdminController {
      * 
      */
     public function saveAction() {
-        //dump(I('post.'));
+
         $userId = get_user_id();
 
         //取当前周期id
@@ -77,8 +77,8 @@ class IndexController extends AdminController {
         $ProjectCategoryM = new ProjectCategoryModel();
         if( !$projectCategory = $ProjectCategoryM->getListById($projectCategoryId) )
         {
-            $data['message'] = "please select project";
-            $this->ajaxReturn($data);
+            $this->error = "please select projectCategory";
+            $this->_empty();
         }
 
          //取数据模型扩展信息
@@ -99,8 +99,8 @@ class IndexController extends AdminController {
             $this->_empty();
         }
 
-        $examineId = (int)I('post.chain_id');
-        $checkUserId = (int)I('post.examine_id');
+        $examineId = (int)I('post.examine_id');
+        $checkUserId = (int)I('post.check_user_id');
 
         $WorkflowS = new WorkflowService();
         if(!$WorkflowS->add($userId , $examineId , $projectId, $checkUserId , $commit = "申请"))
@@ -156,6 +156,7 @@ class IndexController extends AdminController {
         $this->assign("examineLists",$examineLists);
         $this->assign('name',$name);
         $this->assign('project',$projectCategory);
+        $this->assign("js",$this->fetch('Index/addJs'));
         $this->assign('YZBODY',$this->fetch('Index/add'));
         $this->display(YZTemplate);
     }

@@ -1,0 +1,132 @@
+<script> 
+
+//增加团队人数
+var data = "<div class='row team'><div class='col-md-3 form-group'><div class='input-group'><span class='input-group-addon'>团队人员姓名</span><select name='name[]' class='selectpicker form-control select2'><option>请选择</option><foreach name='name' item='value' key='key'><option value='{$value.id}'>{$value.name}</option></foreach></select></div></div><div class='col-md-3 form-group'><div class='input-group'><span class='input-group-addon' id='basic-addon1'>团队分数占比</span><input name='score_percent[]' type='text' class='form-control' aria-describedby='basic-addon1'></div></div></div>";
+$("#plus").click(function(){
+    $(".team:last").after(data);
+    $(".select2").select2();
+
+});
+//减少团队人数
+$("#minus").click(function(){
+    $(".team:gt(0):last").remove();
+});
+
+    //使用on事件,将整个document做为选择器.
+    //注意,在这里的选择器,必须是已经存在的,不能是后期生成的.
+    //.project做为document的子元素出现,绑定了change事件.等同于onChange 
+    //实现点击后进行数据模型的设置
+    
+    $(document).on("change","#projectCategory",function(){
+        get_project_category_id_select($(this));
+    });
+
+    //项目类别改变时，获取项目类别的信息
+    var get_project_category_id_select = function($this){
+        //找到谁被点击了
+        var selected = $this.children('option:selected');
+        var type = selected.attr("data-type");
+        console.log("前项TYPE值"+type);
+        if(type == 'category')
+        {
+            $("#submit").removeClass("disabled");
+        }
+        else
+        {
+            $("#submit").addClass("disabled");
+        }
+        var projectCategoryId = $this.children('option:selected').val();//获取点击select下拉菜单的idis
+        console.log(projectCategoryId);
+        if(projectCategoryId == '0')
+        {
+            $("#dataModelDetail").html("");
+            console.log(projectCategoryId);
+        }
+        else
+        {
+            var url = "{:U('dataModelDetailAjax')}"+"?projectCategoryId="+projectCategoryId;
+            $.get(
+                url,
+                function(data){
+                    if(data.status==='success'){
+                        if(data.isTeam=='1'){
+                            $("#is_team").show();
+                            console.log(data.isTeam); 
+                        }
+                        else{
+                            $("#is_team").hide();
+                            console.log(data.isTeam);
+                        }
+                     $("#dataModelDetail").html(data.message);
+                     dataInit();
+                    console.log(data);   
+                    }
+                    
+                }
+            );
+        }
+    };
+
+    /*
+    用户选择审核流程后，后台取数据.
+    最终让用户选择：下一审核人。
+    panjie 
+    */
+    $(document).on("change","#examine_id",function(){
+       getNextexaminer($(this));
+    });
+    var getNextexaminer = function($this){
+         var examine_id = $this.children('option:selected').val();
+        console.log(examine_id);
+        var url = "{:U('examine/Index/getExamineUsers')}" + "?id=" + examine_id + "&name=check_user_id";
+        console.log(url);
+        $.get(
+            url,
+            function(data,state)
+            {
+                if(!state)
+                {
+                    return;
+                    console.log("未能在指定的时间内返回数据或未GET到URL");
+                }
+
+                //todo:写调用action返回值，然后将返回值添加到 下一审核人：type=radio
+                if(data.state == "success")
+                {
+                    $("#next_examiner").html(data.html);
+                    console.log(data.html);
+                }
+                else
+                {
+                    $("#next_examiner").html("");
+                    console.log(data.message);
+                }
+            });
+    };
+    //防刷新设置
+    get_project_category_id_select($("#projectCategory"));
+    getNextexaminer($("#examine_id"));
+    
+    //表单验证
+    $(document).ready(function(){
+        $("#demoForm").validate({
+            rules:{
+                project_category_id:{
+                    required:true,
+                },
+                title:{
+                    required:true,
+                },
+                examine_id:{
+                    required:true,
+                },
+                name:{
+                    required:true,
+                },
+                score_percent:{
+                    required:true,
+                },
+            },
+        })
+    });
+</script>

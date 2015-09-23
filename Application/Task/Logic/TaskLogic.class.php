@@ -32,10 +32,11 @@
  	 * 不考虑分页
  	 */
 
- 	public function getAllListsByCycleId($cycleId)
+ 	public function getAllListsByCycleIdType($cycleId , $type)
  	{
  		$cycleId = (int)$cycleId;
  		$map['cycle_id'] = $cycleId;
+ 		$map['type'] = $type;
  		return $this->where($map)->select();
  	}
 

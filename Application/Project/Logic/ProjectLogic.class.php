@@ -96,4 +96,25 @@ class ProjectLogic extends ProjectModel
 		return $this->where($map)->select();
 	}
 
+	public function getListsByUserIdCycleId($userId , $cycleId)
+	{
+		$userId = (int)$userId;
+		$cycleId = (int)$cycleId;
+		$map['user_id'] = $useId;
+		$map['cycle_id'] = $cycleId;
+		$return = $this->where($map)->page($this->p,$this->page)->order($this->order)->select();
+		return $return;
+	}
+
+	public function getListById($id)
+	{
+		$id = (int)$id;
+		$map['id'] = $id;
+		$return = $this->where($map)->find();
+		if($return == null)
+		{
+			$this->error = "ID为$id的纪录未找到";
+		}
+		return $return;
+	}
 }

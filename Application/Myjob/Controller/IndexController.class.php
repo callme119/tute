@@ -18,6 +18,7 @@ use Post\Model\PostModel;//岗位表
 use Myjob\Logic\MyjobLogic; //逻辑层
 use DepartmentPost\Model\DepartmentPostModel; //
 use Project\Model\ProjectModel; //项目信息表
+use Project\Logic\ProjectLogic;        //项目信息
 use Chain\Logic\ChainLogic; //审核结点列表逻辑层。
 use WorkflowLog\Logic\WorkflowLogLogic; //工作流结点
 
@@ -92,8 +93,9 @@ class IndexController extends AdminController{
         $workflow = $workflowM->getListById($workflowId);
 
         // //TODO取流程对应项目的基本信息
-        // $projectM = new ProjectModel();
-        // $project = getHtmlInfoById($workflow[project_id]);
+        $projectId = $workflow[project_id];
+        $projectL = new ProjectLogic();
+        $project = $projectL->getListById($projectId);
 
         //设置已读
         $WorkflowLogM->setIsClickedById($workflowLogId);

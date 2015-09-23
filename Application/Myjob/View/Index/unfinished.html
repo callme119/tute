@@ -20,14 +20,16 @@
                         <tbody>
                         <php>$i=1;</php>
                         <foreach name="workflowLogLists" item="value">
+                            <php>$project = W("Project/getListJoinCagegoryByWorkflowId",array($value[workflow_id]));</php>
                             <tr>
                                 <td>{$i++}</td>
                                 <td>{$workflowLists[$value[workflow_id]][id]}</td>
                                 <td>
-                                {$detail[$workflowLists[$value[workflow_id]][project_id]][project_title]}</td>
-                                <td>{$detail[$workflowLists[$value[workflow_id]][project_id]][category_description]}</td>
+                                {$project['name']}
+                                </td>
+                                <td>{$project['project_category_name']}</td>
                                 <td>
-                                <yunzhi:user name="test" id='$detail[$workflowLists[$value[workflow_id]][project_id]][user_id]'>
+                                <yunzhi:user name="test" id='$project[user_id]'>
                                 {:$test['name']}
                                 </yunzhi:user></td>
                                 <td>
