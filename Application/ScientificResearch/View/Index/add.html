@@ -184,4 +184,27 @@ $("#minus").click(function(){
     //防刷新设置
     get_project_category_id_select($("#projectCategory"));
     getNextexaminer($("#chain_id"));
+    
+    //表单验证
+    $(document).ready(function(){
+        $("#demoForm").validate({
+            rules:{
+                project_category_id:{
+                    required:true,
+                },
+                title:{
+                    required:true,
+                },
+                chain_id:{
+                    required:true,
+                },
+                name[]:{
+                    required:true,
+                },
+                score_percent[]:{
+                    required:true,
+                },
+            },
+        })
+    });
 </script>

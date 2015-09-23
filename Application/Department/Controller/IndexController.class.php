@@ -23,7 +23,7 @@ class IndexController extends AdminController
         $departmentModel = new DepartmentModel;
         $departmentList = $departmentModel -> getDepartmentList(0,2,'_son');
         //url信息
-        $url=array("editDepart"=>U('editDepart'),"post"=>U('post'),"people"=>U('people'),"delete"=>U('delete'));
+        $url=array("editDepart"=>U('editDepart',I('get.')),"post"=>U('post',I('get.')),"people"=>U('people'),"delete"=>U('delete',I('get.')));
         $departmentList = add_url($departmentList,'_url',$url,'id');
         //分页信息
         $this->assign('count',$departmentModel -> getTotalCount());
@@ -58,7 +58,7 @@ class IndexController extends AdminController
         $this->assign('departmentInfo',$departmentInfo);
 
         //设置提交url
-        $subUrl = U('update?id='.$id);
+        $subUrl = U('update?id='.$id,I('get.'));
         $this->assign('subUrl',$subUrl);
 
         //传递岗位列表和部门列表到前台
@@ -103,7 +103,7 @@ class IndexController extends AdminController
         $departmentPostModel->updataDepartmentPost();
 
         if($state){
-            $url = U('index');
+            $url = U('index?p='.I('get.p'));
             $this->success('保存成功',$url);
         }
     }
@@ -135,7 +135,7 @@ class IndexController extends AdminController
      */
     private function _fetchPostList(){
         $postModel = new PostModel;
-        $postList = $postModel -> getPostList();
+        $postList = $postModel -> getAllLists();
         return $postList;
     }
 }

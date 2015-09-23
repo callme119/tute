@@ -20,8 +20,7 @@ use DataModelDetail\Model\DataModelDetailModel;         //数据模型扩展信�
 use ExamineDetail\Model\ExamineDetailModel;             //审核扩展信息
 use Workflow\Model\WorkflowModel;                       //工作流表
 use WorkflowLog\Model\WorkflowLogModel;                 //工作流扩展表
-
-use ProjectCategoryRatio\Model\ProjectCategoryRatioModel;   //项目类别系数表
+use ProjectCategoryRatio\Model\ProjectCategoryRatioModel;//项目类别系数表
 use ProjectDetail\Logic\ProjectDetailLogic;             //项目扩展信息
 use ProjectDetail\Model\ProjectDetailModel;             //项目扩展信息
 use Workflow\Service\WorkflowService;                   //审核流程
@@ -42,10 +41,9 @@ class IndexController extends AdminController {
         //取项目表信息
         $ProjectM = new ProjectModel();
 
-        $projects = $ProjectM->getListsByUserIdType($userId , $type);
-        $totalCount = $ProjectM->getTotalCount();
 
-        $projects = $ProjectM->getListsByUserId($userId);
+        // $projects = $ProjectM->getListsByUserIdType($userId , $type);;
+        $projects = $ProjectM->getListsJoinProjectCategoryByUserIdType($userId , $type);
         $totalCount = $ProjectM->getTotalCount();
         
         //传值
@@ -138,7 +136,7 @@ class IndexController extends AdminController {
         $userId = get_user_id();
 
         $ProjectCategoryL = new ProjectCategoryLogic();
-        $projectCategoryTree = $ProjectCategoryL->getSonsTreeById($pid=0,$type='ScientificResearch');
+        $projectCategoryTree = $ProjectCategoryL->getSonsTreeById($pid=0,$type=CONTROLLER_NAME);
         $projectCategory = tree_to_list($projectCategoryTree , $id , '_son' );
 
         //获取当前用户部门岗位信息（数组）
@@ -148,9 +146,6 @@ class IndexController extends AdminController {
         //获取当前岗位下，对应的可用审核流程
         $ExamineM = new ExamineModel();
         $examineLists = $ExamineM->getListsByNowPosts($userDepartmentPosts);
-
-        // $projectM = new ProjectCategoryModel();
-        // $project = $projectM->init();
         
         $nameM = new UserModel();
         $name = $nameM->getAllName();

@@ -164,7 +164,7 @@ class IndexController extends AdminController {
      */
     public function _fetchRoleList(){
         $roleModel = new RoleModel;
-        $roleList = $roleModel -> getRoleList(1);
+        $roleList = $roleModel -> getAllLists();
         return $roleList;
     }
 
