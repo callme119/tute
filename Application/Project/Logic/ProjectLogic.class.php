@@ -100,10 +100,13 @@ class ProjectLogic extends ProjectModel
 	{
 		$userId = (int)$userId;
 		$cycleId = (int)$cycleId;
-		$map['user_id'] = $useId;
+		$map['user_id'] = $userId;
 		$map['cycle_id'] = $cycleId;
+		$this->totalCount = $this->where($map)->count();
 		$return = $this->where($map)->page($this->p,$this->page)->order($this->order)->select();
+		// echo $this->getLastSql();
 		return $return;
+
 	}
 
 	public function getListById($id)

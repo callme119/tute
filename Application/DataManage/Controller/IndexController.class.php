@@ -241,13 +241,16 @@ class IndexController extends AdminController
 			{
 				E("未设置当前周期，或设置的当前周期不可用");
 			}
-
+	
 			//取当前周期下用户的项目信息
 			$cycleId = $currentCycle['id'];
 			$ProjectL = new ProjectLogic();
 			$projects = $ProjectL->getListsByUserIdCycleId($userId , $cycleId);
+			$totalCount = $ProjectL->getTotalCount();
 
 			dump($projects);
+			$this->assign("projects",$projects);
+			$this->assign("totalCount",$totalCount);
 			$this->assign("YZBODY",$this->fetch('Index/detail'));
 			$this->display(YZTemplate);
 		}

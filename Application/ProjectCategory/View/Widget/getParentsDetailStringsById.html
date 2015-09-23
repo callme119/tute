@@ -1,0 +1,14 @@
+<php>
+	$returnString = '';
+	$i = 0;
+	while($projectCategoryTree)
+	{
+		if($i++)
+		{
+			$returnString .= $connector;
+		}
+		$returnString .= $projectCategoryTree[name];
+		$projectCategoryTree = $projectCategoryTree[_son];
+	}
+</php>
+{$returnString}

@@ -1,1 +1,28 @@
-hello
+<table>
+	<tr>
+		<th>序号</th>
+		<th>名称</th>
+		<th>类别</th>
+		<th>提交时间</th>
+		<th>状态</th>
+		<th>项目分值</th>
+		<th>得分</th>
+	</tr>
+	<foreach name="projects" item="project">
+	<tr>
+		<php>
+		//获得计算后的分数
+		$score = W('ProjectCategoryRatio/getScoreByProjectId',array($project['id']));
+		//获取状态
+		$state = W('Workflow/getStateByProjectId',array($project['id'] , 0 ,1));
+		</php>
+		<td>{++$i}</td>
+		<td><a href="{:U('projectDetail?project_id='.$project['id'] , I('get.'))}">{$project['title']}</a></td>
+		<td>{:W('ProjectCategory/getParentsDetailStringsById',array($project['project_category_id']))}</td>
+		<td>{$project['time']|date="Y/m/d",###}</td>
+		<td><eq name="state" value="0">审核中..<else/>已审核</eq></td>
+		<td>{$score}</td>
+		<td><eq name="state" value="0">0<else/>{$score}</eq></td>
+	</tr>
+	</foreach>
+</table>
