@@ -42,6 +42,8 @@ class IndexController extends AdminController {
         $ProjectM = new ProjectModel();
 
 
+
+
         // $projects = $ProjectM->getListsByUserIdType($userId , $type);;
         $projects = $ProjectM->getListsJoinProjectCategoryByUserIdType($userId , $type);
         $totalCount = $ProjectM->getTotalCount();
