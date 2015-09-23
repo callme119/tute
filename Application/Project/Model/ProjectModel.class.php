@@ -64,6 +64,28 @@ class ProjectModel extends Model{
     }
 
     /**
+     * 获取相关 用户ID TYPE值的列表信息
+     * JOIN 项目类别表
+     * @param  int $userId 用户ID
+     * @param  string $type   类型
+     * @return array         二维
+     */
+    public function getListsJoinProjectCategoryByUserIdType($userId , $type )
+    {
+        $map = array();
+        $map['a.user_id'] = $userId;
+        $map['b.type'] = $type;
+
+        $this->alias("a");      //设置表别名
+        $this->totalCount = $this->join("left join __PROJECT_CATEGORY__ b on a.project_category_id = b.id")->where($map)->count();
+
+        $this->alias("a");  
+        $return = $this->where($map)->join("left join __PROJECT_CATEGORY__ b on a.project_category_id = b.id")->page($this->p,$this->pageSize)->order($this->order)->select();   
+        // echo $this->getLastSql();
+        return $return;
+    }
+
+    /**
      * 获取当前用户当前项目的具体信息
      * @param  int $id     项目ＩＤ
      * @param  int $userId 用户ＩＤ

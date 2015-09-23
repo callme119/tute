@@ -42,10 +42,8 @@ class IndexController extends AdminController {
         //取项目表信息
         $ProjectM = new ProjectModel();
 
-        $projects = $ProjectM->getListsByUserIdType($userId , $type);
-        $totalCount = $ProjectM->getTotalCount();
-
-        $projects = $ProjectM->getListsByUserId($userId);
+        // $projects = $ProjectM->getListsByUserIdType($userId , $type);;
+        $projects = $ProjectM->getListsJoinProjectCategoryByUserIdType($userId , $type);
         $totalCount = $ProjectM->getTotalCount();
         
         //传值
