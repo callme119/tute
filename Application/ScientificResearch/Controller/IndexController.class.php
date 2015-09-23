@@ -13,6 +13,7 @@ use Examine\Model\ExamineModel;                         //审核基础数据表
 use Project\Model\ProjectModel;                         //教工添加公共细节表
 use Project\Logic\ProjectLogic;                         //项目表
 use Score\Model\ScoreModel;                             //分值表
+use Score\Logic\ScoreLogic;                             //项目分值 
 use DataModel\Model\DataModelModel;                     //数据模型
 use DataModel\Logic\DataModelLogic;                     //数据模型
 use DataModelDetail\Logic\DataModelDetailLogic;         //数据模型详情
@@ -88,6 +89,7 @@ class IndexController extends AdminController {
             $this->_empty();
         }
 
+        //存项目信息
         $ProjectM = new ProjectModel();
         $projectId = $ProjectM->save($userId,$cycleId);
         if($projectId === false)
@@ -96,9 +98,9 @@ class IndexController extends AdminController {
             $this->_empty();
         }
 
+        // 存工作流信息
         $examineId = (int)I('post.examine_id');
         $checkUserId = (int)I('post.check_user_id');
-
         $WorkflowS = new WorkflowService();
         if(!$WorkflowS->add($userId , $examineId , $projectId, $checkUserId , $commit = "申请"))
         {
@@ -107,13 +109,27 @@ class IndexController extends AdminController {
             $this->_empty();
         }
 
+        //存分数信息,如果是团队信息，存团队，如果不是，存个人
         $ScoreM = new ScoreModel();
-        $Score = $ScoreM->save($userId,$projectId);
-        if($Score === false)
+        $isTeam = $projectCategory['is_team'];
+        if($isTeam == 1)
         {
-            $this->error = "数据添加发生错误，代码" . $this->getError();
-            $this->_empty();
+            $Score = $ScoreM->save($userId,$projectId);
+            if($Score === false)
+            {
+                $this->error = "数据添加发生错误，代码" . $this->getError();
+                $this->_empty();
+            }  
         }
+        else
+        {
+            $ScoreL = new ScoreLogic();
+            if(!$ScoreL->addByUserIdProjectIdScorePercent($userId , $projectId))
+            {
+                E("添加分数信息时发生错误，错误信息：" . $ScoreL->getError());
+            }
+        }
+    
         
         $projectDetailM = new projectDetailModel();
         $projectDetail = $projectDetailM->save($projectId,$dataModelDetailRoots);
