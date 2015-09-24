@@ -18,7 +18,6 @@ class ExamineModel extends Model{
      * 无返回值
      */
     public function saveChain($post){
-
         //上下结点初始化
         $preId = 0;
         $nextId = 0;
@@ -48,8 +47,6 @@ class ExamineModel extends Model{
                 $data['next_id'] = $nextId;
                 $ChainMM = M('Chain');
                 $ChainMM->data($data)->save();
-                echo $ChainM->getLastSql();
-                dump($data);
             }
 
             //初始化下一循环
@@ -126,6 +123,7 @@ class ExamineModel extends Model{
     // @param string $name
     // 无返回值
     public function saveExamine($id,$name){
+
         $data = array();
         $data['chain_id'] = $id;
         $data['name'] = $name;

@@ -50,7 +50,7 @@ class IndexController extends AdminController{
         $page = I('get.p');
         //获取该审批对应的头结点id
         $id = $model->saveChain($post);
-        $name = I('post.name');
+        $name = I('post.tittle');
         $model->saveExamine($id,$name);
         $this->success('操作成功',index.'?p='.$page);
     }
