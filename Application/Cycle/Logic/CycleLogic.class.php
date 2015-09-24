@@ -25,6 +25,10 @@ class CycleLogic extends CycleModel
 		return $this->order($this->order)->page($this->p,$this->pageSize)->select();
 	}
 
+	public function getAllLists()
+	{
+		return $this->getAllListsByState($state = 0);
+	}
 	/**
 	 * 获取全部的记录录
 	 * @param  布尔 $state 0为正常，1为不正常,
@@ -33,7 +37,12 @@ class CycleLogic extends CycleModel
 	public function getAllListsByState($state = 0)
 	{
 		$state = (int)$state;
-		$map['state'] = $state;
+		
+		if($state < 2)
+		{
+			$map['state'] = $state;
+		}
+
 		$this->totlaCount = $this->where($map)->count();
 		return $this->where($map)->select();
 

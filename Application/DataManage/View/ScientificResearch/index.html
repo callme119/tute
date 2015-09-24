@@ -7,7 +7,6 @@
 						<select class="select2" name="cycle_id" id="cycle">
 							<foreach name="cycles" item="cycle">
 							<php>
-								$cycleId = I('get.cycle_id');
 								$userId = I('get.user_id');
 							</php>
 								<option value="{$cycle['id']}" <eq name="cycle[id]" value="$cycleId">selected="selected"</eq>>{$cycle['name']}</option>
@@ -41,7 +40,7 @@
 						<foreach name="userDatas" item="userData">
 						<tr>
 							<td>{++$i}</td>
-							<td><a href="{:U('detail?user_id=' . $userData[user_id])}">{$userData['user_name']}</a></td>
+							<td><a href="{:U('detailList?user_id=' . $userData[user_id].'&cycle_id=' . $cycleId)}">{$userData['user_name']}</a></td>
 							<td>{$userData['score']}</td>
 							<td>{$userData['doneTotalScore']}</td>
 							<td>{$userData['BaseTask']}</td>

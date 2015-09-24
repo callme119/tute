@@ -1,28 +1,35 @@
-<table>
-	<tr>
-		<th>序号</th>
-		<th>名称</th>
-		<th>类别</th>
-		<th>提交时间</th>
-		<th>状态</th>
-		<th>项目分值</th>
-		<th>得分</th>
-	</tr>
-	<foreach name="projects" item="project">
-	<tr>
-		<php>
-		//获得计算后的分数
-		$score = W('ProjectCategoryRatio/getScoreByProjectId',array($project['id']));
-		//获取状态
-		$state = W('Workflow/getStateByProjectId',array($project['id'] , 0 ,1));
-		</php>
-		<td>{++$i}</td>
-		<td><a href="{:U('projectDetail?project_id='.$project['id'] , I('get.'))}">{$project['title']}</a></td>
-		<td>{:W('ProjectCategory/getParentsDetailStringsById',array($project['project_category_id']))}</td>
-		<td>{$project['time']|date="Y/m/d",###}</td>
-		<td><eq name="state" value="0">审核中..<else/>已审核</eq></td>
-		<td>{$score}</td>
-		<td><eq name="state" value="0">0<else/>{$score}</eq></td>
-	</tr>
-	</foreach>
-</table>
+<label>项目名称</label><p>{$project['title']}</p>
+<label>提交时间</label><p>{$project['time']|date="Y/m/d",###}</p>
+	<label>项目分值</label><p>{:$score = W('ProjectCategoryRatio/getScoreByProjectId',array($project['id']))}</p>
+	<label>最终得分</label><p>
+	<php>$state = W('Workflow/getStateByProjectId',array($project['id'] , 0 ,1))</php>
+	<eq name="state" value="0">0<else/>{$score}</eq></p>
+<label>状态</label><p><eq name="state" value="0">审核中<else/>已审核</eq></p>
+<foreach name="dataModelDetail" item="value">
+<eq name="value['pid']" value="0">
+	<neq name="value['is_hidden']" value="0">
+		<label>{$value[title]}</label>
+		<p>
+			<eq name="value[type]" value="datatime">
+				{$projectDetail[$value[name]]['value']|date="Y/m/d",###}
+			</eq>
+			<eq name="value[type]" value="money">
+				todo:如果类型为ＭＯＮＥＹ，则调用格式化函数。格式化为万元。
+				数据结构不好看，请先对projectDetail及dataModelDetail进行jump
+			</eq>
+			<eq name="value[type]" value="int">
+				{$projectDetail[$value[name]]['value']}
+			</eq>
+			<eq name="value[type]" value="text">
+				{$projectDetail[$value[name]]['value']}
+			</eq>
+		</p>
+	</neq>
+</eq>
+</foreach>
+	<label>待/在办人：</label><p><yunzhi:user id="$todoList['user_id']" name="yunzhiuser">{$yunzhiuser[name]}</yunzhi:user></p>
+	<label>处理意见：</label><p>
+		<foreach name="workflowLog" item="value">
+			{$value['time']|date="Y/m/d H:i",###}&nbsp;<yunzhi:user id="$value['user_id']" name="yunzhiuser">{$yunzhiuser[name]}</yunzhi:user>:{$value['commit']}<br />
+		</foreach></p>
+		<a href="javascript:history.go(-1);">返回</a>

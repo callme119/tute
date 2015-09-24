@@ -9,7 +9,7 @@ use Project\Model\ProjectModel;
 class ProjectLogic extends ProjectModel
 {
 	protected $tableName = '';	//数据表后缀
-
+	protected $order = 'time desc';
 	//通过后缀设置数据表
 	public function setTableSuffix($suffix)
 	{
@@ -76,7 +76,35 @@ class ProjectLogic extends ProjectModel
 	{
 		$cycleId = (int)$cycleId;
 		$map['cycle_id'] = $cycleId;
-		return $this->where($map)->page($this->p,$this->pageSize)->select();
+		$this->totalCount = $this->where($map)->count();
+		return $this->where($map)->page($this->p,$this->pageSize)->order($this->order)->select();
+	}
+
+	/**
+	 * 根据周期ID 类目类别的类型 获取相关数据信息
+	 * @param  int $cycleId 周期ID
+	 * @param string $type 项目类别类型
+	 * @return array          二维数据或empty
+	 */
+	public function getListsByCycleIdType($cycleId , $type)
+	{
+		$cycleId = (int)$cycleId;
+		$type = trim($type);
+
+		$map['a.cycle_id'] = $cycleId;
+		$map['b.type'] = $type;
+
+		$field['a.id'] = "id";
+		$field['a.title'] = "title";
+		$field['a.project_category_id'] = "project_category_id";
+		$field['a.time'] = "time";
+		$field['a.user_id'] = "user_id";
+
+		$this->alias("a");
+		$this->totalCount = $this->where($map)->join("left join __PROJECT_CATEGORY__ b on a.project_category_id = b.id")->count();
+
+		$this->alias("a");
+		return $this->where($map)->field($field)->join("left join __PROJECT_CATEGORY__ b on a.project_category_id = b.id")->page($this->p,$this->pageSize)->order($this->order)->select();
 	}
 
 	/**
@@ -103,10 +131,41 @@ class ProjectLogic extends ProjectModel
 		$map['user_id'] = $userId;
 		$map['cycle_id'] = $cycleId;
 		$this->totalCount = $this->where($map)->count();
-		$return = $this->where($map)->page($this->p,$this->page)->order($this->order)->select();
+		$return = $this->where($map)->page($this->p,$this->pageSize)->order($this->order)->select();
 		// echo $this->getLastSql();
 		return $return;
 
+	}
+	
+	/**
+	 * 返回 特定用户 特定周期 特别类目类型 下的当前页记录
+	 * @param  int $userId   用户ID
+	 * @param  int $cycleId 周期ID
+	 * @param  string $type    项目类别类型
+	 * @return array          二维
+	 */
+	public function getListsByUserIdCycleIdType($userId , $cycleId , $type)
+	{
+		$userId = (int)$userId;
+		$cycleId = (int)$cycleId;
+		$type = trim($type);
+
+		$map['user_id'] = $userId;
+		$map['cycle_id'] = $cycleId;
+
+		$field['a.id'] = "id";
+		$field['a.title'] = "title";
+		$field['a.project_category_id'] = "project_category_id";
+		$field['a.time'] = "time";
+		$field['a.user_id'] = "user_id";
+
+		$this->alias("a");
+		$this->totalCount = $this->where($map)->join("left join __PROJECT_CATEGORY__ b on a.project_category_id = b.id")->count();
+
+		$this->alias("a");
+		$return = $this->where($map)->field($field)->join("left join __PROJECT_CATEGORY__ b on a.project_category_id = b.id")->page($this->p,$this->pageSize)->order($this->order)->select();
+		// echo $this->getLastSql();
+		return $return;
 	}
 
 	public function getListById($id)

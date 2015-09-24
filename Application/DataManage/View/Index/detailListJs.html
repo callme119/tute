@@ -1,0 +1,10 @@
+<script type="text/javascript">
+	//切换不同用户时触发的事件
+	$(document).on("change","#users,#cycles",function(){
+		var userId = $("#users").val();
+		var cycleId = $("#cycles").val();
+		var url = "?user_id="+userId+"&cycle_id="+cycleId;
+		console.log(url);
+		window.location.href = url;
+	})
+</script>

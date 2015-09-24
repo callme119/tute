@@ -4,11 +4,18 @@
  */
 namespace DataManage\Controller;
 use Admin\Controller\AdminController;
-use DataManage\Logic\DataManageLogic;		//数据导出逻辑
-use Cycle\Logic\CycleLogic;					//周期
-use Task\Logic\TaskLogic;					//任务量
-use User\Logic\UserLogic;					//用户
-use Project\Logic\ProjectLogic;				//项目信息
+use DataManage\Logic\DataManageLogic;				//数据导出逻辑
+use Cycle\Logic\CycleLogic;							//周期
+use Task\Logic\TaskLogic;							//任务量
+use User\Logic\UserLogic;							//用户
+use Project\Logic\ProjectLogic;						//项目信息
+use ProjectDetail\Logic\ProjectDetailLogic;			//项目扩展详情
+use ProjectCategory\Logic\ProjectCategoryLogic;		//项目类别
+use DataModel\Model\DataModelModel;					//数据模型
+use DataModel\Logic\DataModelLogic;					//数据模型
+use DataModelDetail\Model\DataModelDetailModel;		//数据模型扩展信息
+use Workflow\Model\WorkflowModel;					//工作流
+use WorkflowLog\Model\WorkflowLogModel;				//工作流详情
 class IndexController extends AdminController
 {
 	protected $cycles = array(); 			//考核周期
@@ -110,6 +117,7 @@ class IndexController extends AdminController
 			$offset = ($this->p-1)*$this->pageSize;
 			$userDatas = array_slice($userDatas, $offset , $this->pageSize);
 
+			$this->assign("cycleId",$cycleId);
 			$this->assign("totalCount",$totalCount);
 			$this->assign("cycles",$cycles);	//考核周期数据
 			$this->assign("users",$users);		//用户数据
@@ -222,35 +230,112 @@ class IndexController extends AdminController
 		}
 	}
 
+	/**
+	 * 详情列表
+	 * @return [type] [description]
+	 */
+	public function detailListAction()
+	{
+		try
+		{
+			//取用户信息,周期信息
+			$userId = (int)I("get.user_id");
+			$cycleId = (int)I("get.cycle_id");
+			$type = CONTROLLER_NAME;
+
+			//取所有用户的列表
+			$UserL = new UserLogic();
+			$users = $UserL->getAllLists();
+
+			//获取周期信息
+			$CycleL = new CycleLogic();
+			$cycles = $CycleL->getAllLists();
+	
+			//取当前周期下用户的项目信息
+			$ProjectL = new ProjectLogic();
+
+			//取当一用户
+			if($userId)
+			{
+				$projects = $ProjectL->getListsByUserIdCycleIdType($userId , $cycleId);
+				$totalCount = $ProjectL->getTotalCount();
+			}
+			else
+			{
+				$projects = $ProjectL->getListsByCycleIdType($cycleId , $type);
+				$totalCount = $ProjectL->getTotalCount();
+			}
+
+			$this->assign("cycles",$cycles);			//全部周期信息
+			$this->assign("users",$users);				//全部用户信息
+			$this->assign("projects",$projects);		//项目信息
+			$this->assign("totalCount",$totalCount);	//总条数
+			$this->assign("js",$this->fetch('Index/detailListJs'));	//加载JS
+			$this->assign("YZBODY",$this->fetch('Index/detailList'));
+			$this->display(YZTemplate);
+		}
+		catch(\Think\Exception $e)
+		{
+			$this->error = $e;
+			$this->_empty();
+		}
+	}
+
 	public function detailAction()
 	{
 		try
 		{
-			//取用户信息
-			$userId = (int)I("get.user_id");
+			//取项目基础信息
+            $projectId = I('get.id');
+            $ProjectL = new ProjectLogic();
+            if( !$project = $ProjectL->getListById($projectId) )
+            {
+                E("该记录不存在或已删除，传入projectId:$projectId");    
+            }    
 
-			$UserL = new UserLogic();
-			if(!$user = $UserL->getListById($userId))
-			{
-				E("未接到到正确的用户ID，当前USERID:$userId");
-			}
+            $project_category_id = $project['project_category_id'];
 
-			//获取当前周期信息
-			$CycleL = new CycleLogic();
-			if(!$currentCycle = $CycleL->getCurrentList())
-			{
-				E("未设置当前周期，或设置的当前周期不可用");
-			}
-	
-			//取当前周期下用户的项目信息
-			$cycleId = $currentCycle['id'];
-			$ProjectL = new ProjectLogic();
-			$projects = $ProjectL->getListsByUserIdCycleId($userId , $cycleId);
-			$totalCount = $ProjectL->getTotalCount();
+            $ProjectCategoryL = new ProjectCategoryLogic();
+            $projectCategory = $ProjectCategoryL->getListById($project_category_id);
 
-			dump($projects);
-			$this->assign("projects",$projects);
-			$this->assign("totalCount",$totalCount);
+            //取项目数据模型信息
+            $DataModelM = new DataModelModel();
+            $dataModelId = $projectCategory['data_model_id'];
+            if( !$dataModel = $DataModelM->where("id = $dataModelId")->find())
+            {
+                E("当前记录选取的数据模型ＩＤ为$dataModelId,但该ＩＤ在数据库中未找到匹配的记录", 1);    
+            }
+
+            //取数据模型字段信息
+            $DataModelL = new DataModelLogic();
+            $dataModelCommon = $DataModelL->getCommonLists();
+
+            //取项目模型扩展信息
+            $dataModelDetailM = new DataModelDetailModel();
+            $dataModelDetail = $dataModelDetailM->getListsByDataModelId($dataModelId);
+
+            //取项目扩展信息
+            $ProjectDetailL = new ProjectDetailLogic();
+            $projectDetail = $ProjectDetailL->getListsByProjectId($projectId);
+
+            //取审核信息
+            $WorkflowM = new WorkflowModel();
+            $workflow = $WorkflowM->where("project_id = $projectId")->find();
+
+            //取审核扩展信息
+            $workflowId = $workflow["id"];
+            $WorkflowLogM = new WorkflowLogModel();
+            $workflowLog = $WorkflowLogM->getListsByWorkflowId($workflowId);
+            
+            $todoList = $WorkflowLogM->getTodoListByWorkflowId($workflowId);
+            
+            //取审核扩展信息
+            $this->assign("project",$project);
+            $this->assign("dataModel",$dataModel);
+            $this->assign("dataModelDetail",$dataModelDetail);
+            $this->assign("projectDetail",$projectDetail);
+            $this->assign("workflowLog",$workflowLog);
+            $this->assign("todoList",$todoList);
 			$this->assign("YZBODY",$this->fetch('Index/detail'));
 			$this->display(YZTemplate);
 		}
@@ -259,5 +344,6 @@ class IndexController extends AdminController
 			$this->error = $e;
 			$this->_empty();
 		}
+		
 	}
 }

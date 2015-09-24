@@ -138,6 +138,7 @@ class ScientificResearchController extends IndexController
 			//取单个用户信息在当前周期 当前type下的所有信息的综合分值
 			//将数值写入缓存（每点一次就查一次，这受不了呀）
 			
+			$this->assign("cycleId",$cycleId);
 			$this->assign("totalTask",$totalTask);				//总任务
 			$this->assign("totalScore",$totalScore);			//预期完成总分
 			$this->assign("totalDoneScore",$totalDoneScore);	//已完成总分

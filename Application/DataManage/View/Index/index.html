@@ -27,7 +27,7 @@
 	<foreach name="userDatas" item="userData">
 	<tr>
 		<td>{++$i}</td>
-		<td><a href="{:U('detail?p=1&user_id=' . $userData['user_id'] , I('get.'))}">{$userData['user_name']}</a></td>
+		<td><a href="{:U('detailList?p=1&user_id=' . $userData['user_id'] .'&$cycle_id=' . $cycleId , I('get.'))}">{$userData['user_name']}</a></td>
 		<td>{$userData['score']}</td>
 		<td>{$userData['doneScore']}</td>
 		<eq name="CONTROLLER_NAME" value="PostServiceEducation">
