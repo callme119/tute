@@ -4,15 +4,15 @@
 	        <div class="box-body table-responsive">
 	            <div class="panel-body">
 	            	<div class="row">  
-	                    <div class="col-md-2">
+	                    <div class="col-md-2 col-xs-4">
 							<select class="select2" id="cycle">
 								<foreach name="cycles" item="cycle">
 									<option value="{$cycle[id]}" <eq name="cycle['id']" value="$cycleId">selected="selected"</eq>>{$cycle['name']}</option>
 								</foreach>
 							</select>
 						</div>
-						<div class="col-md-2">
-							<a href="{:U('editAll?p=' . I('get.p') . '&cycleid=' . $cycleId)}" class="btn btn-block btn-primary">批量添加/编辑</a>
+						<div class="col-md-2 col-xs-4">
+							<a href="{:U('editAll?p=' . I('get.p') . '&cycleid=' . $cycleId)}" class="btn btn-primary">批量添加/编辑</a>
 						</div>
 					</div>
 				</div>
