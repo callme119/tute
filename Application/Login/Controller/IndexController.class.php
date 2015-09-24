@@ -39,9 +39,9 @@ class IndexController extends Controller {
             session('user_id',$list['id']);
             session('user_name',$list['username']);
             //登录成功后跳转
-    		$this->success('登陆成功',U('Admin/Index/index'));
+    		redirect_url(U('Admin/Index/index'));
     	}else{
-    		$this->error('用户名密码验证失败',U('Login/Index/index'));
+    		redirect_url(U('Login/Index/index'));
     	}
     }
 

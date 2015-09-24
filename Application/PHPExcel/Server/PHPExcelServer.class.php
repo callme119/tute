@@ -19,9 +19,11 @@ class PHPExcelServer extends \PHPExcel
 		header('Content-Disposition: attachment;filename="01simple.xlsx"');
 		header('Cache-Control: max-age=0');
 
-		//针对IE 9浏览器做的优化
+		//针对	做的优化
 		// If you're serving to IE 9, then the following may be needed
-		header('Cache-Control: max-age=1');
+		if(if(strpos($_SERVER["HTTP_USER_AGENT"],"MSIE 9.0"))){
+			header('Cache-Control: max-age=1');
+		}
 
 		//用SSL 服务证书则需要将以下注释去掉
 		// If you're serving to IE over SSL, then the following may be needed

@@ -30,7 +30,7 @@ class IndexController extends AdminController{
     }
 
     //初始化审批列表
-    public function  indexAction(){ 
+    public function  indexAction(){
         $model = new ExamineModel;
         $data = $model->index();
         $count = $model->getListsCount();
