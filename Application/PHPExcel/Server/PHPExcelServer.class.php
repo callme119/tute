@@ -4,67 +4,26 @@
  */
 namespace PHPExcel\Server;
 Vendor('PHPExcel.PHPExcel');
+Vendor('PHPExcel.PHPExcel.Writer.Excel5');
+vendor("PHPExcel.PHPExcel.IOFactory");
 class PHPExcelServer extends \PHPExcel
 {	
-	protected $fileType = 'xls';	//文件类型(xls,xlsx)	
-	protected $fileName = "梦云智";
-	/**
-	 * 设置文件类型,是2007还是2003
-	 * @param [type] $fileType [description]
-	 */
-	public function setFileType($fileType)
-	{
-		if($fileType == "xls" || $fileType == "xlsx")
-		{
-			$this->fileType = $fileType;
-		}
-	}
 
 	/**
-	 * 设置文件名
-	 * @param string $fileName 文件名
+	 * 设置header, 设置后，触发用户下载行为.
 	 */
-	public function setFileName($fileName)
+	public function setHeader()
 	{
-		$this->fileName = trim($fileName);
-	}
-
-	public function __construct()
-	{
-		parent::__construct();
-		$this->fileName = $this->fileName . (string)time();
-	}
-	/**
-	 * 触发用户下载行为
-	 * @return file xls或是xlsx文件
-	 */
-	public function download()
-	{
-		$this->getProperties()->setCreator("www.mengyunzhi.com")
-							 ->setLastModifiedBy("www.mengyunzhi.com")
-							 ->setTitle("Power By:梦云智")
-							 ->setSubject("Power By: ThinkPHP")
-							 ->setDescription("Power By:PHPExcel")
-							 ->setKeywords("梦云智 PHP THINKPHP PHPEXCEL")
-							 ->setCategory("mengyunzhi");
-
-
-		if($this->fileType == 'xlsx')
-		{
-			// Redirect output to a client’s web browser (Excel2007)
-			header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		}
-		else
-		{
-			// Redirect output to a client’s web browser (Excel5)
-			header('Content-Type: application/vnd.ms-excel');
-		}
-		header('Content-Disposition: attachment;filename="' . $this->fileName . '.' . $this->fileType. '"');
+		// Redirect output to a client’s web browser (Excel2007)
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment;filename="01simple.xlsx"');
 		header('Cache-Control: max-age=0');
 
-		//针对IE 9浏览器做的优化
+		//针对	做的优化
 		// If you're serving to IE 9, then the following may be needed
-		// header('Cache-Control: max-age=1');
+		if(strpos($_SERVER["HTTP_USER_AGENT"],"MSIE 9.0"))){
+			header('Cache-Control: max-age=1');
+		}
 
 		//用SSL 服务证书则需要将以下注释去掉
 		// If you're serving to IE over SSL, then the following may be needed
@@ -72,17 +31,7 @@ class PHPExcelServer extends \PHPExcel
 		// header ('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT'); // always modified
 		// header ('Cache-Control: cache, must-revalidate'); // HTTP/1.1
 		// header ('Pragma: public'); // HTTP/1.0
-		if($this->fileType == 'xls')
-		{
-			$objWriter = IOFactoryServer::createWriter($this, 'Excel5');
-		}
-		else
-		{
-			$objWriter = IOFactoryServer::createWriter($this, 'Excel2007');
-		}
-		$objWriter->save('php://output');
 	}
-
 
 	//根据传入的数据导出excel
 	public function index($data,$header,$letter){
