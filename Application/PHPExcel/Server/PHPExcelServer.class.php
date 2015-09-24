@@ -11,7 +11,6 @@ class PHPExcelServer extends \PHPExcel
 	public function index($data,$header,$letter){
 		$excel = new \PHPExcel();
 		$tableheader = $header;
-		var_dump($data);
 		for($i = 0;$i < count($tableheader);$i++) {
 			$excel->getActiveSheet()->setCellValue("$letter[$i]1","$tableheader[$i]");
 		}
