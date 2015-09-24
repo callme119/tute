@@ -108,7 +108,7 @@ class AdminController extends Controller{
                 如果你是开发人员的话，请在菜单管理中添加相关菜单";
                 throw new \Think\Exception($this->error,1);
             }
-            $this->assign('currentMenu',$currentMenu[0]);
+            $this->assign('currentMenu',$currentMenu);
             $this->assign("user",$user);         
         }
         catch(\Think\Exception $e)

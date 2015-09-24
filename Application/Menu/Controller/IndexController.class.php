@@ -26,9 +26,9 @@ class IndexController extends AdminController
         $menuList = $menuModel->getMenuList();
         foreach ($menuList as $key => $value) {
             $menuList[$key]['_url'] = array(
-                'add'=>U('addSon?id=' . $value['id']),
-                'edit'=>U('edit?id=' . $value['id']),
-                'delete'=>U('delete?id=' . $value['id']));
+                'add'=>U('addSon?id=' . $value['id'],I('get.')),
+                'edit'=>U('edit?id=' . $value['id'],I('get.')),
+                'delete'=>U('delete?id=' . $value['id'],I('get.')));
         }
         //var_dump($menuList);
         $url = U('add');
@@ -91,7 +91,7 @@ class IndexController extends AdminController
         $menuModel = new MenuModel();
         $state = $menuModel->saveMenu($data);
         if($state == "success"){
-            $this->success('新增成功', 'index');
+            $this->success('新增成功', U('index',I('get.')));
         }
     }
     public function deleteAction(){    
@@ -99,7 +99,7 @@ class IndexController extends AdminController
         $menuModel = new MenuModel();
         $state = $menuModel->deleteMenu($id);
         if($state){
-           $this->success('删除成功', U("Menu/Index/index")); 
+           $this->success('删除成功', U("Menu/Index/index",I('get.'))); 
         }
     }
     /**

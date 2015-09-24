@@ -8,7 +8,7 @@
                     <div class="panel-body">
                         <button type="button" class="btn btn-info" onclick="javascript:history.back(-1);">返回</button>
                     </div>
-                    <form class="form-horizontal" action="{:U('save')}" method = 'post' id="demoForm">
+                    <form class="form-horizontal" action="{:U('save',I('get.'))}" method = 'post' id="demoForm">
                         <div style="display:none">
                             <input name="edit" value="{$data.edit}">
                             <input name="id" value="{$data.id}">
