@@ -216,32 +216,14 @@ class ScientificResearchController extends IndexController
 				"基础科研任务",
 				"岗位科研任务",
 				"总任务",
-				"预期完成率",
-				"实际完成率",
+				"预期完成率%",
+				"实际完成率%",
 				);
+			//设置宽度
+			$headersWidth = array(4,6,8,8,12,12,6,12,12);
+
 			$count = count($headers);
 
-			//设置列宽
-			$row = 'A';
-			// $objPHPExcel->getActiveSheet()->getColumnDimension($ROW)->setAutoSize(true); //自动列宽
-			$objPHPExcel->getActiveSheet()->getColumnDimension($row)->setWidth(6);
-			$row = chr(ord($row)+1);
-			$objPHPExcel->getActiveSheet()->getColumnDimension($row)->setWidth(6);
-			$row = chr(ord($row)+1);
-			$objPHPExcel->getActiveSheet()->getColumnDimension($row)->setWidth(6);
-			$row = chr(ord($row)+1);
-			$objPHPExcel->getActiveSheet()->getColumnDimension($row)->setWidth(6);
-			$row = chr(ord($row)+1);
-			$objPHPExcel->getActiveSheet()->getColumnDimension($row)->setWidth(6);
-			$row = chr(ord($row)+1);
-			$objPHPExcel->getActiveSheet()->getColumnDimension($row)->setWidth(6);
-			$row = chr(ord($row)+1);
-			$objPHPExcel->getActiveSheet()->getColumnDimension($row)->setWidth(6);
-			$row = chr(ord($row)+1);
-			$objPHPExcel->getActiveSheet()->getColumnDimension($row)->setWidth(6);
-			$row = chr(ord($row)+1);
-			$objPHPExcel->getActiveSheet()->getColumnDimension($row)->setWidth(6);
-			$row = chr(ord($row)+1);
 
 			//初始化行 列
 			$col = 1;
@@ -266,17 +248,18 @@ class ScientificResearchController extends IndexController
 			$objPHPExcel->getActiveSheet()->mergeCells("$row$col:$endRow$col");
 
 			//获取当前活动 sheet
-			$activeSheet->setCellValue($row.$col, "天职师大经管学院绩效报表--教科研绩效");
+			$activeSheet->setCellValue($row.$col, "天职师大经管学院绩效报表--教科研业绩");
 			$col++;
 
 			$objPHPExcel->getActiveSheet()->mergeCells("$row$col:$endRow$col");
 			$activeSheet->setCellValue($row.$col, "统计日期:" . date("Y/m/d"));
 			$col++;
 			
-			//输出TH			
-			foreach($headers as $header)
+			//输出TH	，给列宽	
+			foreach($headers as $key => $header)
 			{
 				$activeSheet->setCellValue($row.$col, "$header");
+				$objPHPExcel->getActiveSheet()->getColumnDimension($row)->setWidth($headersWidth[$key]);
 				$row = chr(ord($row)+1);	//字符加1
 			}
 
@@ -349,26 +332,46 @@ class ScientificResearchController extends IndexController
 			$row = chr(ord($row)+1);
 
 			//求完成率
-			$activeSheet->setCellValue("$row$col", "=sum($totalRow$col*100/$totalTaskRow$col)");
+			$activeSheet->setCellValue("$row$col", (int)ceil($this->totalScore*100/$this->totalTask));
 			$row = chr(ord($row)+1);
-			$activeSheet->setCellValue("$row$col", "=sum($doneRow$col*100/$totalTaskRow$col)");
+			$activeSheet->setCellValue("$row$col", (int)ceil($this->totalDoneScore*100/$this->totalTask));
 			$col++;
 			$row = $beginRow;
 
 			$objPHPExcel->getActiveSheet()->mergeCells("$row$col:$endRow$col");
-			$activeSheet->setCellValue($row.$col, "POWER By:梦云智");
+			$activeSheet->setCellValue($row.$col, "Power By:梦云智");
 			$col++;
 
 			//设置格式,标题居中
 			$activeSheet->getStyle("A1:I1")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 			$activeSheet->getStyle("A2:I2")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
-			//设置字体
+			//设置标题与副标题字体
 	        $objPHPExcel->getActiveSheet()->getStyle("A1:" . $endRow. "1")->getFont()->setSize(20);
 	        $objPHPExcel->getActiveSheet()->getStyle("A1:" . $endRow. "1")->getFont()->setBold(true);
-	        
 	        $objPHPExcel->getActiveSheet()->getStyle("A2:" . $endRow. "2")->getFont()->setSize(16);
 
+	        //序号设置居中
+	        //设置格式,第一列序号居中
+			$activeSheet->getStyle("A$beginCol:A$endCol")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+	
+			//设置边框
+			//设置第一行单元格边框
+        	$objPHPExcel->getActiveSheet()->getStyle("A".($beginCol-1) . ":$endRow".($beginCol-1))->getBorders()->getTop()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+        	$objPHPExcel->getActiveSheet()->getStyle("A".($beginCol-1) . ":$endRow".($beginCol-1))->getBorders()->getBottom()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+			
+			//设置最后一行单元格边框
+        	$objPHPExcel->getActiveSheet()->getStyle("A$endCol:$endRow$endCol")->getBorders()->getBottom()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
+			
+			for($i=$beginCol+1; $i <= $endCol ; $i += 2)
+			{
+				//设置单元格边框
+				//$objStyleA5->getFill();  
+				$objPHPExcel->getActiveSheet()->getStyle("A$i:$endRow$i")->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);  
+				$objPHPExcel->getActiveSheet()->getStyle("A$i:$endRow$i")->getFill()->getStartColor()->setARGB('FFEEEEEE');
+
+				// $objPHPExcel->getActiveSheet()->getStyle("A".$beginCol+$i.":$endRow$endCol")->getStartColor()->setARGB('FFEEEEEE');
+			}  
 			$objPHPExcel->createSheet();
 			$objPHPExcel->setActiveSheetIndex(1);
 			$objPHPExcel->getActiveSheet()->setTitle('Simple1');
