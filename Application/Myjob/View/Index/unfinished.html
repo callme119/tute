@@ -37,7 +37,7 @@
                                 </td>
                                 <td>
                                 {$value["time"]|date="Y/m/d h:i",###}</td>
-                                <td><a class="btn btn-primary" href="{:U("taskDetail?id=$value[id]&from=". ACTION_NAME . "&p=" . I('get.p'))}"><i class="fa fa-pencil"></i>查看</a></td>
+                                <td><a class="btn btn-sm btn-primary" href="{:U("taskDetail?id=$value[id]&from=". ACTION_NAME . "&p=" . I('get.p'))}"><i class="fa fa-pencil"></i>查看</a></td>
                             </tr>
                         </foreach>
                         </tbody>

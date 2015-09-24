@@ -59,7 +59,7 @@ class MenuModel extends Model{
         $map['module'] = $url['module'];
         $map['controller'] = $url['controller'];
         $map['action'] = $url['action'];
-        $menu = $this->where($map)->select();
+        $menu = $this->where($map)->find();
         return $menu;
     }
     /**

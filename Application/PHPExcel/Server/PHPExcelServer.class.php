@@ -21,7 +21,7 @@ class PHPExcelServer extends \PHPExcel
 
 		//针对	做的优化
 		// If you're serving to IE 9, then the following may be needed
-		if(if(strpos($_SERVER["HTTP_USER_AGENT"],"MSIE 9.0"))){
+		if(strpos($_SERVER["HTTP_USER_AGENT"],"MSIE 9.0"))){
 			header('Cache-Control: max-age=1');
 		}
 

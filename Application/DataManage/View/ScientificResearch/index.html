@@ -7,7 +7,7 @@
 						<select class="select2" name="cycle_id" id="cycle">
 							<foreach name="cycles" item="cycle">
 							<php>
-								$userId = I('get.user_id');
+								$userId = (int)I('get.user_id') ? (int)I('get.user_id') : 0;
 							</php>
 								<option value="{$cycle['id']}" <eq name="cycle[id]" value="$cycleId">selected="selected"</eq>>{$cycle['name']}</option>
 							</foreach>
@@ -52,6 +52,7 @@
 						</foreach>
 					</tbody>
 				</table>
+				<a href="{:U('dataExport?user_id=' . $userId . '&cycle_id=' . $cycleId ,I('get.'))}">数据导出</a>
 				<yunzhi:page totalCount="totalCount"></yunzhi:page>             
             </div>
         </div>

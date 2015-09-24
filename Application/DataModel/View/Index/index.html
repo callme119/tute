@@ -28,7 +28,7 @@
 								<td>{$value[description]}</td>
 								<td><eq name="value.type" value="1">基础模型<else/>普通模型</eq></td>
 								<td><eq name="value.state" value="0">正常<else/>冻结</eq></td>
-								<td><a href="{:U("DataModel/Index/detail?id=$value[id]&p=" . I('get.p'))}" class="btn btn-info"><i class="fa fa-tags"></i>&nbsp;扩展信息</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{:U("DataModel/Index/edit?id=$value[id]&p=" . I('get.p'))}" class="btn btn-primary"><i class="fa fa-pencil"></i>&nbsp;修改</a>&nbsp;&nbsp;<a href="{:U("delete?id=$value[id]&p=" . I('get.p'))}" class="btn btn-danger"><i class="fa fa-trash-o"></i>&nbsp;删除</a></td>
+								<td><a href="{:U("DataModel/Index/detail?id=$value[id]&p=" . I('get.p'))}" class="btn btn-sm btn-info"><i class="fa fa-tags"></i>&nbsp;扩展信息</a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="{:U("DataModel/Index/edit?id=$value[id]&p=" . I('get.p'))}" class="btn btn-sm btn-primary"><i class="fa fa-pencil"></i>&nbsp;修改</a>&nbsp;&nbsp;<a href="{:U("delete?id=$value[id]&p=" . I('get.p'))}" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i>&nbsp;删除</a></td>
 							</tr>
 						</foreach>
 					</tbody>

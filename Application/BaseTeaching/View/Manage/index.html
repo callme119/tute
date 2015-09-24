@@ -3,7 +3,7 @@
         <div class="box-body table-responsive">
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-xs-2">
+                    <div class="col-md-2 col-xs-4">
                         <php>$userId = I('get.userid');</php>
                             <select class="select2" id="userSelect" name="user_id">
                                 <option value="0">全部</option>
@@ -12,7 +12,7 @@
                                 </foreach>
                             </select>
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-md-2 col-xs-4">
                         <a href="{:U('editAll?p=' . I('get.p'))}" class="btn btn-primary"><i class="glyphicon glyphicon-plus"></i>批量添加/编辑</a>
                     </div>
                 </div>

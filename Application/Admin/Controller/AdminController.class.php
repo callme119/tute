@@ -9,9 +9,7 @@ namespace Admin\Controller;
 use Think\Controller;
 use Menu\Model\MenuModel;
 use User\Model\UserModel;
-use Role\Model\RoleModel;
-use RoleUser\Model\RoleUserModel;
-use RoleMenu\Logic\RoleMenuLogic;
+use Admin\Logic\AdminLogic;
 class AdminController extends Controller{
     private $cssArr = null; //css
     private $jsArr = null; //js
@@ -88,36 +86,29 @@ class AdminController extends Controller{
             //开始进行菜单访问权限判断
             //1.获取用户点击或输入的url
             $url = $this->_getUrl();
-            //2.判读该用户是否有该权限
-            $isJump = $this->_checkUrl($url);
             //3.判读该url是否有该菜单（判断应用位运算）
             //缓存初始化
             // S(array('type'=>'File','expire'=>60));
             //获取该用户可见的菜单列表并传递给给Left菜单栏
-
-            //1通过用户id获取角色id信息
-            $roleUserModel = new RoleUserModel;
-            $roleIdList = $roleUserModel -> getRoleIdListByUserId($userId);
-
-            //2通过角色id获取角色对应的菜单列表；
-            $roleMenuLogic = new RoleMenuLogic;
-            $menuIdList = $roleMenuLogic -> getMenuListByRoleList($roleIdList);
-
-            //3通过菜单获取菜单列表，传递到前台
-            $menuModel = new MenuModel();
-            if ($menuIdList) {
-                $where['id'] = array('in',$menuIdList);
-            }
-            $data = $menuModel -> getMenuTree(null,$where,1,2);
-
+            
+            $adminLogic = new AdminLogic();
+            $data = $adminLogic -> getPersonalMenuListByUserId($userId);
             $data = $this->_addMenuActive($data, $url, '_son');
             //3.将获取到的信息传递给V层
             $this->assign('leftMenu',$data);
             
             //获取当前菜单信息
+            $menuModel = new MenuModel;
             $currentMenu = $menuModel ->getMenuByUrl($url);
-            $this->assign('currentMenu',$currentMenu[0]);
 
+            //2.判读该用户是否有该权限
+            $isJump = $adminLogic->checkUrl($currentMenu,$userId);
+            if(!$isJump){
+                $this -> error = "你没有该权限,
+                如果你是开发人员的话，请在菜单管理中添加相关菜单";
+                throw new \Think\Exception($this->error,1);
+            }
+            $this->assign('currentMenu',$currentMenu[0]);
             $this->assign("user",$user);         
         }
         catch(\Think\Exception $e)
@@ -147,17 +138,6 @@ class AdminController extends Controller{
         $url['controller'] = CONTROLLER_NAME;
         $url['action'] = ACTION_NAME;
         return $url;
-    }
-    /**
-     * 验证该用户是否有权限
-     * @param type $url 获取到的url信息
-     * @param type $userId 用户id
-     * @return boolean 是否有权限进行跳转
-     * 2015年7月18日19:29:51
-     */
-    private function _checkUrl($url,$userId){
-        //进行url判断
-        return true;
     }
     /**
      * 
