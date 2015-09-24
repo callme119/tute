@@ -9,12 +9,41 @@ $(document).ready(
             },
         })
 	},
-	function() {
+    function() {
     var c = new Array();
     var c = eval('<?php echo json_encode($originalPermission);?>');
    for (var i=0;i<c.length;i++) {
         var k =c[i];
         $("."+k).attr('checked','true');
-    };
- });
+    }
+    });
+    // 全选、反选事件
+    $(document).on("change",".selectAll",function(){
+        //获取当前点击状态
+        var state = $(this).is(":checked");
+
+        //获取需要操作的select列表
+        var lists = $(this).attr("data-value");
+        console.log(lists);
+
+        //如果为选中，则全部选中。
+        if(state === true)
+        {
+            console.log(state);
+
+            //each进行循环。注意：需要弃用attr方法，改为prop方法
+            $("#"+lists+" :checkbox").each(function(){
+                $(this).prop("checked",true);
+                console.log("checked");
+            });
+        }
+        else
+        {
+            console.log(state);
+            $("#"+lists+" :checkbox").each(function(){
+                $(this).prop("checked",false);
+                console.log("unchecked");
+            });
+        }
+    });
 </script>
