@@ -106,7 +106,7 @@ class IndexController extends AdminController{
         $p = I('get.p');
         $model = new ExamineModel;
         $model->freezen($id);
-        $this->success('操作成功',index.'?p='.$p);
+        $this->success('操作成功',U('Examine/Index/index'.'?p='.$p));
     }
 }
     

@@ -231,7 +231,6 @@ class ManageController extends AdminController
 			 $lists[$key]['baseTeachings'] = $baseTeachings[$key]['value'];
 			 $lists[$key]['taskTeachings'] = $taskTeachings[$key]['value'];
 		}
-		// var_dump($lists);
 		$header = array('序号','教工','已完成工作量','任务工作量');
 		$letter = array('A','B','C','D');
 		$excel = new PHPExcelServer;
