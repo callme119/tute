@@ -41,8 +41,24 @@ class AdminLogic{
 		if($url == null && $userId == null){
 			return false;
 		}else{
-			$menuIdList = $this -> getPersonalMenuListByUserId($userId);
-			$res = in_array($url, $menuIdList);
+			//1通过用户id获取角色id信息
+		            $roleUserModel = new RoleUserModel;
+		            $roleIdList = $roleUserModel -> getRoleIdListByUserId($userId);
+
+		            //2通过角色id获取角色对应的菜单id列表；
+		            $roleMenuLogic = new RoleMenuLogic;
+		            $menuIdList = $roleMenuLogic -> getMenuListByRoleList($roleIdList);
+		            if(!$menuIdList){
+			            	if(APP_DEBUG){
+			            		$menuIdLists = array();
+			            		$menuModel = new MenuModel;
+			            		$menuIdList = $menuModel -> field('id') -> select();
+			            		foreach ($menuIdList as $key => $value) {
+			            			$menuIdLists[] = $value['id'];
+			            		}
+			            }
+		            }
+			$res = in_array($url['id'], $menuIdLists);
            			return $res;
 		}
 	   	
