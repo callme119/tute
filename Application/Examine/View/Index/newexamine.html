@@ -24,9 +24,9 @@
                         <div id="mian" style="width:450px">
                             <div class="btn-group ">
                                 <select name="chain[]" class="btn btn-default btn-sm btn-flat dropdown-toggle">
-                                    <option>请选择</option>
+                                    <!-- <option>请选择</option> -->
                                     <foreach name="post" item="value" key="key">
-                                        <option value="{$value.id}">{$value.name}</option>
+                                        <option name="postname" value="{$value.id}">{$value.name}</option>
                                     </foreach>>
                                 </select>
                             </div>

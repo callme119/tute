@@ -6,7 +6,7 @@ $(function() {
 var i = 1;  
 // alert(randomNumber); 
 var $parent = $("#mian"); 
-$parent.append("<div id='remove'><div id='remove' class='btn-group'><select name='chain[]'  type='button' class='btn btn-default btn-sm btn-flat dropdown-toggle'><option>请选择</option><foreach name='post' item='value' key='key'><option value='{$value.id}'>{$value.name}</option></foreach></select></div></div>"); 
+$parent.append("<div id='remove'><div id='remove' class='btn-group'><select name='chain[]'  type='button' class='btn btn-default btn-sm btn-flat dropdown-toggle'><foreach name='post' item='value' key='key'><option value='{$value.id}'>{$value.name}</option></foreach></select></div></div>"); 
 }) 
     $("#button").click(function(){
         $("#remove").remove();
@@ -18,6 +18,12 @@ $parent.append("<div id='remove'><div id='remove' class='btn-group'><select name
 		$("#demoForm").validate({
 			rules:{
 				tittle:{
+					required:true
+				},
+				postname:{
+					required:true
+				},
+				post:{
 					required:true
 				}
 			},
