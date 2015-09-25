@@ -24,7 +24,7 @@
                                 <td>{$value.name}</td>
                                 <td>{:W("User/showDepartmentPostById", array($value[id]))}</td>
                                 <td>教工</td>
-                                <td class="dongjie">冻结</td>
+                                <td><eq name="value.state" value="1">正常<else /><span class="badge">冻结</span></eq></td>
                                 <td>
                                 <button class="btn btn-sm btn-primary" onclick="location='{$value._url.edit}'"><i class="fa fa-pencil"></i>编辑</button>
                                 <button class="btn btn-sm btn-danger" onclick="location='{$value._url.delete}'"><i class="fa fa-trash-o"></i>删除</button>
