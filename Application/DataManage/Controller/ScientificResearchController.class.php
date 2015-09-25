@@ -188,6 +188,7 @@ class ScientificResearchController extends IndexController
 		$this->users = $users;
 		$this->userDatas = $userDatas;
 		$this->lastCacheTime = $lastCacheTime;
+		return ture;
 	}
 	/**
 	 * 数据导出
@@ -202,8 +203,10 @@ class ScientificResearchController extends IndexController
 			}
 
 			//计算当前需要导出的数据
-			$this->index($action = 'dataExport');
-
+			if(!$this->index($action = 'dataExport'))
+			{
+				E("数据处理有误,请退出后重试,或联系系统管理员");
+			}
 			//初始化
 			$objPHPExcel = new PHPExcelServer();
 
@@ -212,7 +215,23 @@ class ScientificResearchController extends IndexController
 			$objPHPExcel->setActiveSheetIndex(0);
 
 			//设置文件名
-			$fileName = "梦云智" .time();
+			if( $userId = (int)I('get.user_id') )
+			{
+				$UserL = new UserLogic();
+				$user = $UserL->getListById($userId);
+				$userName = $user['name'];
+			}
+			else
+			{
+				$userName = "全部";
+			}
+
+			$cycleId = (int)I('get.cycle_id');
+			$CycleL = new CycleLogic();
+			$cycle = $CycleL->getListById($cycleId);
+			$cycleName = $cycle['name'];
+
+			$fileName = "教科研数据-" . $userName . "-" . $cycleName . "-" . date("YmdHi");
 			$objPHPExcel->setFileName($fileName);
 
 			//设置sheet 标题
