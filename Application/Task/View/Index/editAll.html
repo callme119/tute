@@ -6,7 +6,8 @@
 			{:W('User/getUserCheckBoxByUserId',array($user['id']))}
 		</foreach>
 	</h5>
-	<h5><input type="checkbox" class="selectAll" data-value="unsetList" id="unset"/><label for="unset">全选/反选</label></h5>
+	<h5><input type="checkbox" class="selectAll" data-value="unsetList" id="unset"/>
+	<label for="unset">全选/反选</label></h5>
 	<label>已设置工作量教工</label>
 	<h5 id="setList">
 		<foreach name="tasks" item="task">
@@ -15,7 +16,9 @@
 	</h5>
 	<h5><input type="checkbox" data-value="setList" class="selectAll" id="set" /><label for="set">全选/反选</label></h5>
 	<input type="hidden" name="cycle_id" value="{:(int)I('get.cycleid')}" />
-	<label for="value">任务量:</label><h5><input class="form-control" type="text" name="value" id="value"></h5>
+	<label for="value">任务量:</label><h5>
+	<input class="form-control input-define" type="text" name="value" id="value"></h5>
 	<button class="btn btn-primary" type="submit">提交</button>
 </form>
 {$js}
+{$css}
