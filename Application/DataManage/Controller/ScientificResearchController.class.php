@@ -201,189 +201,89 @@ class ScientificResearchController extends IndexController
 				E("请通过浏览器方问该页");
 			}
 
+			//计算当前需要导出的数据
 			$this->index($action = 'dataExport');
 
-			//初始化,并将当有活动sheet给activeSheet
+			//初始化
 			$objPHPExcel = new PHPExcelServer();
-			$activeSheet = $objPHPExcel->setActiveSheetIndex(0);
 
-			//设置TH
-			$headers = array(
-				"序号",
-				"姓名",
-				"预期得分",
-				"实际得分",
-				"基础科研任务",
-				"岗位科研任务",
-				"总任务",
-				"预期完成率%",
-				"实际完成率%",
-				);
-			//设置宽度
-			$headersWidth = array(4,6,8,8,12,12,6,12,12);
+			//新建sheet,并将0号sheet设置为当前需要写入的sheet
+			$objPHPExcel->createSheet();
+			$objPHPExcel->setActiveSheetIndex(0);
 
-			$count = count($headers);
+			//设置文件名
+			$fileName = "梦云智" .time();
+			$objPHPExcel->setFileName($fileName);
 
-
-			//初始化行 列
-			$col = 1;
-			$beginRow = $row = 'A';
-
-
-			
-			//设置标题
+			//设置sheet 标题
 			$CycleL = new CycleLogic();
 			$cycle = $CycleL->getListById($this->cycleId);
-			if(!$title = $cycle['name'])
+			if(!$sheetTitle = $cycle['name'])
 			{
-				$title = "mengyunzhi";
+				$sheetTitle = "mengyunzhi";
 			}
-			$activeSheet->setTitle($title);
+			$objPHPExcel->setSheetTitle($sheetTitle);
 
-			//设置居中
-			//设置字体
-			//合并单元格
+			//设置标题
+			$title = "天职师大经管学院绩效报表--教科研业绩";
+			$objPHPExcel->setTitle($title);
 
-			$endRow = chr(ord($row)+$count-1);
-			$objPHPExcel->getActiveSheet()->mergeCells("$row$col:$endRow$col");
+			//设置副标题
+			$subTitle = "统计日期:" . date("Y/m/d");
+			$objPHPExcel->setSubTitle($subTitle);
 
-			//获取当前活动 sheet
-			$activeSheet->setCellValue($row.$col, "天职师大经管学院绩效报表--教科研业绩");
-			$col++;
+			//设置header
+			$header = array("姓名","预期得分","实际得分","基础科研任务","岗位科研任务","总任务","预期完成率%","实际完成率%",);
+			$objPHPExcel->setHeader($header);
 
-			$objPHPExcel->getActiveSheet()->mergeCells("$row$col:$endRow$col");
-			$activeSheet->setCellValue($row.$col, "统计日期:" . date("Y/m/d"));
-			$col++;
+			//设置列宽
+			$width = array(8,10,10,14,14,8,14,14);
+			$objPHPExcel->setWidth($width);
 			
-			//输出TH	，给列宽	
-			foreach($headers as $key => $header)
+			//设置数据
+			$objPHPExcel->setDatas($this->userDatas);
+
+			//设置数据及类型 ,类型string 字符串, int 整形 ,money以元为单位
+			$key = array("user_name","score","doneScore","BaseTask","PostTask","totalTask","totalPercent","donePercent");
+			$objPHPExcel->setKey($key);
+
+			//type暂时还没有用到,用来格式化,当然了,最好是按要求的二维数组
+			$type = array("string","int","int","int","int","int","int","int");
+			$objPHPExcel->setType($type);
+
+			//创建数据
+			$objPHPExcel->create();
+
+			//写入footer,取当前行号,并上移一行
+			$row = $objPHPExcel->getRow() - 1;
+			$beginRow = $objPHPExcel->getBeginRow();
+			$endRow = $objPHPExcel->getEndRow();
+			$colLetters = $objPHPExcel->getColLetters();
+
+			//写入总计
+			$activeSheet = $objPHPExcel->getActiveSheet();
+			$activeSheet->setCellValue($colLetters[0] . $row , "总计:");
+
+			//从第三列开始,到第7列,分别求和
+			for($col++;$col<6;)
 			{
-				$activeSheet->setCellValue($row.$col, "$header");
-				$objPHPExcel->getActiveSheet()->getColumnDimension($row)->setWidth($headersWidth[$key]);
-				$row = chr(ord($row)+1);	//字符加1
-			}
-
-			//开始写数据
-			$keys = array(
-				"",
-				"user_name",
-				"score",
-				"doneScore",
-				"BaseTask",
-				"PostTask",
-				"totalTask",
-				"totalPercent",
-				"donePercent"
-				);
-
-			$row = $beginRow;
-			$beginCol = ++$col;
-			$i = 0;
-			$j = 1;
-			foreach($this->userDatas as $userData)
-			{	
-				$i = 0;
-				foreach($keys as $key)
-				{
-					//首元素则直接给序号
-					if( $i == 0)
-					{
-						$i++;
-						$activeSheet->setCellValue("$row$col", "$j");
-						$row = chr(ord($row)+1);
-						continue;
-					}
-					$value = isset($userData[$key]) ? $userData[$key] : 0;
-					$activeSheet->setCellValue("$row$col", "$value");
-					$row = chr(ord($row)+1);
-				}
-				$endRow = chr(ord($row)-1);
-				$row = $beginRow;
-				$endCol = $col;
 				$col++;
-				$j++;
+				$activeSheet->setCellValue($colLetters[$col] . $row , "=sum(" . $colLetters[$col].$beginRow.":".$colLetters[$col].$endRow .")");
 			}
-			
-			//记录结束单元格,用于统计
-			
-			$row = $beginRow;
 
-			//总计:
-			$activeSheet->setCellValue("$row$col", "总计:");
-			$row = chr(ord($row)+2);
-
-			//总分数\总任务求和
-			$activeSheet->setCellValue("$row$col", "=sum($row$beginCol:$row$endCol)");
-			$totalRow = $row;
-			$row = chr(ord($row)+1);
-
-			$activeSheet->setCellValue("$row$col", "=sum($row$beginCol:$row$endCol)");
-			$doneRow = $row;	//记录预期分数的ROW
-			$row = chr(ord($row)+1);
-
-			$activeSheet->setCellValue("$row$col", "=sum($row$beginCol:$row$endCol)");
-			$row = chr(ord($row)+1);	//记录已完成分数的ROW
-
-			$activeSheet->setCellValue("$row$col", "=sum($row$beginCol:$row$endCol)");
-			$row = chr(ord($row)+1);
-
-			$activeSheet->setCellValue("$row$col", "=sum($row$beginCol:$row$endCol)");
-			$totalTaskRow = $row;	//记录总的任务ROW
-			$row = chr(ord($row)+1);
-
-			//求完成率
-			$activeSheet->setCellValue("$row$col", (int)ceil($this->totalScore*100/$this->totalTask));
-			$row = chr(ord($row)+1);
-			$activeSheet->setCellValue("$row$col", (int)ceil($this->totalDoneScore*100/$this->totalTask));
+			//计算完成率
 			$col++;
-			$row = $beginRow;
-
-			$objPHPExcel->getActiveSheet()->mergeCells("$row$col:$endRow$col");
-			$activeSheet->setCellValue($row.$col, "Power By:梦云智");
+			$activeSheet->setCellValue($colLetters[$col] . $row , "=".$colLetters[2]. $row . "*100/" .$colLetters[6]. $row . ")");
 			$col++;
-
-			//设置格式,标题居中
-			$activeSheet->getStyle("A1:I1")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-			$activeSheet->getStyle("A2:I2")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-
-			//设置标题与副标题字体
-	        $objPHPExcel->getActiveSheet()->getStyle("A1:" . $endRow. "1")->getFont()->setSize(20);
-	        $objPHPExcel->getActiveSheet()->getStyle("A1:" . $endRow. "1")->getFont()->setBold(true);
-	        $objPHPExcel->getActiveSheet()->getStyle("A2:" . $endRow. "2")->getFont()->setSize(16);
-
-	        //序号设置居中
-	        //设置格式,第一列序号居中
-			$activeSheet->getStyle("A$beginCol:A$endCol")->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+			$activeSheet->setCellValue($colLetters[$col] . $row , "=".$colLetters[3]. $row . "*100/" .$colLetters[6]. $row . ")");
 	
-			//设置边框
-			//设置第一行单元格边框
-        	$objPHPExcel->getActiveSheet()->getStyle("A".($beginCol-1) . ":$endRow".($beginCol-1))->getBorders()->getTop()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
-        	$objPHPExcel->getActiveSheet()->getStyle("A".($beginCol-1) . ":$endRow".($beginCol-1))->getBorders()->getBottom()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
-			
-			//设置最后一行单元格边框
-        	$objPHPExcel->getActiveSheet()->getStyle("A$endCol:$endRow$endCol")->getBorders()->getBottom()->setBorderStyle(\PHPExcel_Style_Border::BORDER_THIN);
-			
-			for($i=$beginCol+1; $i <= $endCol ; $i += 2)
-			{
-				//设置单元格边框
-				//$objStyleA5->getFill();  
-				$objPHPExcel->getActiveSheet()->getStyle("A$i:$endRow$i")->getFill()->setFillType(\PHPExcel_Style_Fill::FILL_SOLID);  
-				$objPHPExcel->getActiveSheet()->getStyle("A$i:$endRow$i")->getFill()->getStartColor()->setARGB('FFEEEEEE');
+			//下载下载格式
+			$fileType = 'xls';
+			$objPHPExcel->setFileType($fileType);
 
-				// $objPHPExcel->getActiveSheet()->getStyle("A".$beginCol+$i.":$endRow$endCol")->getStartColor()->setARGB('FFEEEEEE');
-			}  
-			$objPHPExcel->createSheet();
-			$objPHPExcel->setActiveSheetIndex(1);
-			$objPHPExcel->getActiveSheet()->setTitle('Simple1');
-			// Set active sheet index to the first sheet, so Excel opens this as the first sheet
-			$objPHPExcel->setActiveSheetIndex(0);
-			$objPHPExcel->setFileType('xls');
+			//下载文件
 			$objPHPExcel->download();
-			// $objWriter = IOFactoryServer::createWriter($objPHPExcel, 'Excel2007');
-			// // $objWriter->save('php://output');
-			// $objWriter->save('php://output');
-			exit;
-
+			exit();
 		}
 		catch(\Think\Exception $e)
 		{
