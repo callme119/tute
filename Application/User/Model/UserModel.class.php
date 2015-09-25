@@ -7,6 +7,7 @@
  * 164408119@qq.com
  */
 namespace User\Model;
+use RoleUser\Model\RoleUserModel;
 use Think\Model;
 class UserModel extends Model{
 	protected $totalCount = 0; 	//记录总数
@@ -87,6 +88,10 @@ class UserModel extends Model{
 	//获取教工列表
 	public function getStaffList(){
 		$data = $this -> select();
+		$roleUserModel = new RoleUserModel();
+		foreach ($data as $key => $value) {
+			$data[$key]['_role'] = $roleUserModel -> getRoleIdListByUserId($value['id']);
+		}
 		return $data;
 	}
 	//获取固定id的教工的信息
