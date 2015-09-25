@@ -254,7 +254,7 @@ class PHPExcelServer extends \PHPExcel
 
 		//写主标题,合并单元格,设置字体,居中
 		$activeSheet->setCellValue($this->colLetters[$this->col].$this->row, $this->title);
-		$activeSheet->getStyle($this->colLetters[$this->col].$this->row)->getFont()->setSize(20);
+		$activeSheet->getStyle($this->colLetters[$this->col].$this->row)->getFont()->setSize(16);
 	    $activeSheet->getStyle($this->colLetters[$this->col].$this->row)->getFont()->setBold(true);
 		$activeSheet->mergeCells($this->colLetters[$this->col].$this->row .":".$this->colLetters[($this->col+$length)].$this->row);
 		$activeSheet->getStyle($this->colLetters[$this->col].$this->row .":".$this->colLetters[($this->col+$length)].$this->row)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
@@ -263,7 +263,7 @@ class PHPExcelServer extends \PHPExcel
 
 		//写副标题 ,合并单元格,设置字体,居中
 		$activeSheet->setCellValue($this->colLetters[$this->col].$this->row, $this->subTitle);
-		$activeSheet->getStyle($this->colLetters[$this->col].$this->row)->getFont()->setSize(16);
+		$activeSheet->getStyle($this->colLetters[$this->col].$this->row)->getFont()->setSize(14);
 		$activeSheet->mergeCells($this->colLetters[$this->col].$this->row .":".$this->colLetters[($this->col+$length)].$this->row);
 		$activeSheet->getStyle($this->colLetters[$this->col].$this->row .":".$this->colLetters[($this->col+$length)].$this->row)->getAlignment()->setHorizontal(\PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 		$this->row++;

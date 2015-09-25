@@ -28,4 +28,14 @@ class ExcessController extends IndexController
 			$this->_empty();
 		}
 	}
+
+	/**
+	 * *列表数据导出
+	 * @return [type] [description]
+	 */
+	public function listDataExportAction()
+	{
+		$this->type = "Excess"; //设置类型
+		$this->listDataExport();
+	}
 }

@@ -18,9 +18,9 @@
 	<tr>
 		<th>序号</th>
 		<th>姓名</th>
-		<th><a href="{:order_by("totalScore")}">预期得分</a></th>
+		<th><a href="{:order_by("score")}">预期得分</a></th>
 		<th><a href="{:order_by("doneScore")}">实际得分</a></th>
-		<eq name="CONTROLLER_NAME" value="PostServiceEducation">
+		<eq name="CONTROLLER_NAME" value="ServiceEducation">
 			<include file="Index:indexTh" />
 		</eq>
 	</tr>
@@ -30,11 +30,12 @@
 		<td><a href="{:U('detailList?p=1&user_id=' . $userData['user_id'] .'&$cycle_id=' . $cycleId , I('get.'))}">{$userData['user_name']}</a></td>
 		<td>{$userData['score']}</td>
 		<td>{$userData['doneScore']}</td>
-		<eq name="CONTROLLER_NAME" value="PostServiceEducation">
+		<eq name="CONTROLLER_NAME" value="ServiceEducation">
 			<include file="Index:indexTd" />
 		</eq>
 	</tr>
 	</foreach>
 </table>
 <yunzhi:page totalCount="totalCount"></yunzhi:page>
+<a href="{:U('listDataExport',I('get.'))}">数据导出</a>
 {$js}

@@ -53,7 +53,7 @@ class ScientificResearchController extends IndexController
 		}
 	}
 
-	public function index($type = 'index')
+	public function index($action = 'index')
 	{
 		parent::init();
 		$cycleId = $this->cycleId;
@@ -171,7 +171,7 @@ class ScientificResearchController extends IndexController
 		}
 
 		//如果是ACTION则截取数据,如果不是,则给出全部数据
-		if($type == 'index')
+		if($action == 'index')
 		{
 			//截取数据
 			$offset = ($this->p-1)*$this->pageSize;
@@ -193,7 +193,7 @@ class ScientificResearchController extends IndexController
 	/**
 	 * 数据导出
 	 */
-	public function DataExportAction()
+	public function listDataExportAction()
 	{
 		try
 		{
@@ -309,5 +309,15 @@ class ScientificResearchController extends IndexController
 			$this->error = $e;
 			$this->_empty();
 		}
+	}
+
+	/**
+	 * 详情列表数据导出
+	 * @return [type] [description]
+	 */
+	public function detailListDataExportAction()
+	{
+		$this->type = "ScientificResearch";
+		$this->detailListDataExport();
 	}
 }
