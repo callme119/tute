@@ -7,13 +7,13 @@
  */
 namespace Admin\Logic;
 use Think\Model;
-use RoleUser\Model\RoleUserModel;
+use UserRole\Model\UserRoleModel;
 use RoleMenu\Logic\RoleMenuLogic;
 use Menu\Model\MenuModel;
 class AdminLogic{
 	public function getPersonalMenuListByUserId($userId){
 		//1通过用户id获取角色id信息
-	            $roleUserModel = new RoleUserModel;
+	            $roleUserModel = new UserRoleModel;
 	            $roleIdList = $roleUserModel -> getRoleIdListByUserId($userId);
 
 	            //2通过角色id获取角色对应的菜单id列表；
@@ -42,7 +42,7 @@ class AdminLogic{
 			return false;
 		}else{
 			//1通过用户id获取角色id信息
-		            $roleUserModel = new RoleUserModel;
+		            $roleUserModel = new UserRoleModel;
 		            $roleIdList = $roleUserModel -> getRoleIdListByUserId($userId);
 
 		            //2通过角色id获取角色对应的菜单id列表；

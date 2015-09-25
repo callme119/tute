@@ -7,10 +7,21 @@
  * 164408119@qq.com
  */
 namespace User\Model;
-use RoleUser\Model\RoleUserModel;
+use Role\Model\RoleModel;
 use Think\Model;
-class UserModel extends Model{
+use Think\Model\RelationModel;
+class UserModel extends RelationModel{
 	protected $totalCount = 0; 	//记录总数
+
+	protected $_link = array(
+        		'Role'=>array(
+		            'mapping_type'      => self::MANY_TO_MANY,
+		            'class_name'        => 'Role',
+		            'foreign_key'       =>  'user_id',
+    			'relation_foreign_key'  =>  'role_id',
+    			'relation_table'    =>  'yunzhi_user_role'
+		            ),
+        	);
 	public function getTotalCount()
 	{
 		return $this->totalCount;
@@ -87,11 +98,8 @@ class UserModel extends Model{
 
 	//获取教工列表
 	public function getStaffList(){
-		$data = $this -> select();
-		$roleUserModel = new RoleUserModel();
-		foreach ($data as $key => $value) {
-			$data[$key]['_role'] = $roleUserModel -> getRoleIdListByUserId($value['id']);
-		}
+		$data = $this ->relation(true)->select();
+		//拼接教工的角色信息
 		return $data;
 	}
 	//获取固定id的教工的信息

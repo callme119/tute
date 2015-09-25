@@ -20,7 +20,6 @@ class IndexController extends AdminController {
         $staffModel = new UserModel();
         $staffList = $staffModel -> getStaffList();
         $staffList = $this -> _addurl($staffList,'_url');
-        //dump($staffList);
 
         $this->assign('staffList',$staffList);
         $this->assign('css',$this->fetch("addCss"));
@@ -64,7 +63,7 @@ class IndexController extends AdminController {
         $this->assign('css',$this->fetch("addCss"));
         $this->assign('js',$this->fetch("addJs"));
 
-        $this->assign('YZBODY',$this->fetch('add'));
+        $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);  
     }
     //删除教工

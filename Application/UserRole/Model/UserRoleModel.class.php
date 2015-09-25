@@ -5,10 +5,10 @@
  * @author xuao
  * 295184686@qq.com
  */
-namespace RoleUser\Model;
+namespace UserRole\Model;
 use Think\Model;
 use User\Model\UserModel;
-class RoleUserModel extends Model{
+class UserRoleModel extends Model{
 
 	public function getRoleIdListByUserId($userId){
 		$map['user_id'] = $userId;
