@@ -20,7 +20,7 @@ class IndexController extends AdminController {
         $role = $RoleModel->getRoleNameByUserId($id);
         $user = new UserModel;
         $info = $user->getUserById($id);
-           
+
         $this->assign('info',$info);
         $this->assign('role',$role);
         $this->assign('lists',$lists);

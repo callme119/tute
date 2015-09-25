@@ -20,6 +20,8 @@ class IndexController extends AdminController {
         $staffModel = new UserModel();
         $staffList = $staffModel -> getStaffList();
         $staffList = $this -> _addurl($staffList,'_url');
+        //dump($staffList);
+
         $this->assign('staffList',$staffList);
         $this->assign('css',$this->fetch("addCss"));
         $this->assign('YZBODY',$this->fetch());
