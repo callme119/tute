@@ -29,8 +29,8 @@
     }
     );
     
-$(document).on("change","#department",function(){
-	$("#post").empty();
+$(document).on("change",".department",function(){
+	$(".post").empty();
 	var department_id = $(this).children('option:selected').val();
 
 	var departmentPostList = new Array();
@@ -41,10 +41,10 @@ $(document).on("change","#department",function(){
                 }
             };
     	for (var key in postList) {
-    		$("#post").append("<option>"+postList[key]+"</option>");
+    		$(".post").append("<option>"+postList[key]+"</option>");
     	};
 });
-var data = "<div class='row form-group team'><div class='form-group col-md-2'></div><div class='col-md-3'><div class='input-group'><span for='inputEmail3' id='next_examiner' class='input-group-addon'>部门</span><select id='department' class='selectpicker form-control'><foreach name='departmentPostList' item = 'value'><option value='{$value[id]}'>{$value.name}</option></foreach></select></div></div><div class='col-md-3'><div class='input-group'><span for='inputEmail3' class='input-group-addon' id='basic-addon1'>岗位</span><select id='post' class='selectpicker form-control'><foreach  name='departmentPostList[0][_post]' key='key' item='value'><option value='{$key}'>{$value}</option></foreach></select></div></div></div>";
+var data = "<div class='row form-group team'><div class='form-group col-md-2'></div><div class='col-md-3'><div class='input-group'><span for='inputEmail3' id='next_examiner' class='input-group-addon'>部门</span><select class='department selectpicker form-control'><foreach name='departmentPostList' item = 'value'><option value='{$value[id]}'>{$value.name}</option></foreach></select></div></div><div class='col-md-3'><div class='input-group'><span for='inputEmail3' class='input-group-addon' id='basic-addon1'>岗位</span><select class='post selectpicker form-control'><foreach  name='departmentPostList[0][_post]' key='key' item='value'><option value='{$key}'>{$value}</option></foreach></select></div></div></div>";
 $("#plus").click(function(){
     $(".team:last").after(data);
 });

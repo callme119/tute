@@ -33,7 +33,7 @@
                                         <div class="input-group">
                                             <lable for="" id="next_examiner" class="input-group-addon">部门
                                             </lable>
-                                            <select id="department" class="selectpicker form-control">
+                                            <select class="department selectpicker form-control">
                                                 <foreach  name="departmentPostList" item = "value">
                                                     <option value="{$value[id]}">{$value.name}</option>
                                                 </foreach>
@@ -43,7 +43,7 @@
                                     <div class="col-sm-4">
                                         <div class="input-group">
                                             <lable for="inputEmail3" class="input-group-addon" id="basic-addon1">岗位</lable>
-                                            <select id="post" class='selectpicker form-control'>
+                                            <select class='post selectpicker form-control'>
                                                     <foreach name = "departmentPostList['0']['_post']" item = "value">
                                                             <option value="{$value[id]}">{$value}</option>
                                                     </foreach>
