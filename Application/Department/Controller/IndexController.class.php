@@ -116,7 +116,7 @@ class IndexController extends AdminController
         $hasPost = $departmentPostModel -> getDepartmentPostInfoByDepartId($id);
 
         //判断该部门是否存在下级部门
-        //如果有就不能删除；如果没有，可以 删除
+        //如果有就不能删除；如果没有，可以删除
         $departmentModel = new DepartmentModel;
         $hasChildDepartment = $departmentModel -> getDepartmentTree($id,1,null);
 

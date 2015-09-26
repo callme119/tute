@@ -8,6 +8,7 @@
 namespace Post\Controller;
 use Admin\Controller\AdminController;
 use Post\Model\PostModel;
+use Post\Logic\PostLogic;
 class IndexController extends AdminController
 {
     /**
@@ -64,11 +65,17 @@ class IndexController extends AdminController
     //删除岗位
     public function deletePostAction(){
         $id = I('get.id');
-        $postModel = new PostModel;
-        $state = $postModel ->deletePostById($id);
-        if($state){
+        $postLogic = new PostLogic;
+        $beDelete = $postLogic ->beDelete($id);
+        if($beDelete){
+            $postModel  = new PostModel();
+            $state = $postModel -> deletePostById($id);
             $url = U('index');
             $this->success('删除成功',$url);
+        }
+        else{
+            $this -> error = "该岗位中有用户存在，不能删除";
+            throw new \Think\Exception($this->error,1);
         }
     }
     //添加保存
