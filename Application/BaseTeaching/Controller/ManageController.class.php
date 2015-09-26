@@ -13,6 +13,11 @@ use BaseTeaching\Logic\BaseTeachingLogic;		//基础教学任务
 use PHPExcel\Server\PHPExcelServer;
 class ManageController extends AdminController
 {
+	private $cycle;
+	private $users;
+	private $baseTeachings;
+
+
 	public function indexAction()
 	{
 		try
@@ -34,7 +39,7 @@ class ManageController extends AdminController
 			$BaseTeachingL = new BaseTeachingLogic();
 			$baseTeachings = $BaseTeachingL->getListsByCycleId($cycleId ,$userId );
 
-
+			$this->assign('userid',$userId);
 			$this->assign("users",$users);
 			$this->assign("cycle",$cycle);
 			$this->assign("baseTeachings",$baseTeachings);
@@ -205,35 +210,98 @@ class ManageController extends AdminController
 		//取当前周期id
 		$CycleL = new CycleLogic();
 		$cycle = $CycleL->getCurrentList();
-		$cycle_id = $cycle['id'];
-		//根绝用户id与周期id取出已完成工作量
-		$baseTeachings = array();
-		$BaseTeachingL = new BaseTeachingLogic();
-		foreach (array_values($users) as $key => $value) {		
-			$val = $BaseTeachingL->getListByUserIdCycleId($value['id'],$cycle_id);
-			if($val != null){
-				$baseTeachings[$value['id']] = $val;
-			}else{
-				$baseTeachings[$value['id']]['value'] = 0;
+			$cycle_id = $cycle['id'];
+			//根绝用户id与周期id取出已完成工作量
+			$baseTeachings = array();
+			$BaseTeachingL = new BaseTeachingLogic();
+			foreach (array_values($users) as $key => $value) {		
+				$val = $BaseTeachingL->getListByUserIdCycleId($value['id'],$cycle_id);
+				if($val != null){
+					$baseTeachings[$value['id']] = $val;
+				}else{
+					$baseTeachings[$value['id']]['value'] = 0;
+				}
 			}
-		}
-		//取用户的任务工作量
-		$TaskL = new TaskLogic();
-		$taskTeachings = array();
-		foreach ($users as $key => $value) {
-			$type = MODULE_NAME;
-			$taskTeachings[$value['id']] = $TaskL->getListByUserIdCycleId($value['id'],$cycle_id,$type);
-		}	
-		//重新拼接users数组，去掉无用字段，且重新排序
-		foreach ($users as $key => $value) {
-			 $lists[$key]['key'] = $key;	
-			 $lists[$key]['name'] = $value['name'];
-			 $lists[$key]['baseTeachings'] = $baseTeachings[$key]['value'];
-			 $lists[$key]['taskTeachings'] = $taskTeachings[$key]['value'];
-		}
-		$header = array('序号','教工','已完成工作量','任务工作量');
-		$letter = array('A','B','C','D');
-		$excel = new PHPExcelServer;
-		$excel->index(array_values($lists),$header,$letter);
+			//取用户的任务工作量
+			$TaskL = new TaskLogic();
+			$taskTeachings = array();
+			foreach ($users as $key => $value) {
+				$type = MODULE_NAME;
+				$val = $TaskL->getListByUserIdCycleId($value['id'],$cycle_id,$type);
+				if($val != null){
+					$taskTeachings[$value['id']] = $val;
+				}else{
+					$taskTeachings[$value['id']]['value'] = 0;
+				}
+			}	
+			//重新拼接users数组，去掉无用字段，且重新排序
+			foreach ($users as $key => $value) {
+				 $lists[$key]['key'] = $key;	
+				 $lists[$key]['name'] = $value['name'];
+				 $lists[$key]['baseTeachings'] = $baseTeachings[$key]['value'];
+				 $lists[$key]['taskTeachings'] = $taskTeachings[$key]['value'];
+			}
+			
+			$excel = new PHPExcelServer;
+
+			$width = array('12','20','20');
+			$excel->setWidth($width);
+
+			$excel->setTitle('天职师大经管学院绩效报表-教科研业绩');
+			$excel->setDatas(array_values($lists));
+
+			$header = array('教工','已完成工作量','任务工作量');
+			$excel->setHeader($header);
+
+			$key = array('name','baseTeachings','taskTeachings');
+			$excel->setkey($key);
+			
+			$subTitle = "统计日期:" . date("Y/m/d") . "  教工:" . $userName;
+			$excel->setSubTitle($subTitle);
+			//设置文件名
+			if(I('get.userid'))
+			{
+				$UserL = new UserLogic();
+				if(!$user = $UserL->getListById($this->userId))
+				{
+					E("传用的用户ID$userId有误");
+				}
+				$userName = $user['name'];
+			}
+			else
+			{
+				$userName = "全部";
+			}
+			$fileName = $typeName . "数据-". $userName . "-" . $cycle['name'] . "-" . date("YmdHi");
+			$excel->setFileName($fileName);
+
+			$excel->create();
+
+			$row = $excel->getRow() - 1;
+			$beginRow = $excel->getBeginRow();
+			$endRow = $excel->getEndRow();
+			$colLetters = $excel->getColLetters();
+
+			//写入总计
+			$activeSheet = $excel->getActiveSheet();
+			$activeSheet->setCellValue($colLetters[0] . $row , "总计:");
+
+			//如果有数据则写入总和,没有，则给0
+			//从第6列开始,到第7列,分别求和
+			for($col =1;$col<3;)
+			{
+				$col++;
+				if($endRow > 3)
+				{
+					$activeSheet->setCellValue($colLetters[$col] . $row , "=sum(" . $colLetters[$col].$beginRow.":".$colLetters[$col].$endRow .")");
+				}
+				else
+				{
+					$activeSheet->setCellValue($colLetters[$col] . $row , 0);
+				}
+			}
+
+			$excel->download();
+		// $excel->index(array_values($lists),$header,$letter);
 	}
 }

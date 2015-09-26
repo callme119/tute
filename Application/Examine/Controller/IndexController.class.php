@@ -32,9 +32,17 @@ class IndexController extends AdminController{
     //初始化审批列表
     public function  indexAction(){
         $model = new ExamineModel;
-        $data = $model->index();
         $count = $model->getListsCount();
         $page = I('get.p');
+        //当初始化page为空时赋值
+        if($page == null);{
+            $page = 1;
+        }
+        //当输入page值超过最大页数时,将最大页数值代替默认值
+        if($page > (int)$count/C('PAGE_SIZE')){
+            $page = (int)$count/C('PAGE_SIZE');
+        }
+        $data = $model->index($page);
         $this->assign('page',$page);
         $this->assign('count',$count);
         $this->assign('examine',$data);
@@ -46,8 +54,8 @@ class IndexController extends AdminController{
     public function saveAction() {
         //先将post过来的岗位信息存审批对应的链表信息
         $post = I('post.chain');
-        var_dump($post) ;
-        if($post == array("请选择")){
+
+        if(count($post) == 1){
             $this->error('审批岗位不能为空,请重新添加审批岗位',U('Examine/Index/newexamine'));
         }
         $model = new ExamineModel;
@@ -56,7 +64,7 @@ class IndexController extends AdminController{
         $id = $model->saveChain($post);
         $name = I('post.tittle');
         $model->saveExamine($id,$name);
-        $this->success('操作成功',index.'?p='.$page);
+        redirect_url(U('index').'?id='.$page);
     }
     /**
      * 通过GET过来的流程ID值，查找当前用户，当前流程下的下一环节审核人员
@@ -110,7 +118,7 @@ class IndexController extends AdminController{
         $p = I('get.p');
         $model = new ExamineModel;
         $model->freezen($id);
-        $this->success('操作成功',U('Examine/Index/index'.'?p='.$p));
-    }
+        redirect_url(U('Examine/Index/index'.'?p='.$p));
+    }  
 }
     
