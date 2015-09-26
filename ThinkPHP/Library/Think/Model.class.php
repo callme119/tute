@@ -96,7 +96,7 @@ class Model {
         }
 
         //设置page信息
-        $this->p = isset((int)I('get.p')) ? 1 : (int)I('get.p');
+        $this->p = (I('get.p') === null) ? 1 : I('get.p');
         $this->pageSize = C("PAGE_SIZE") === null ? 20 : C("PAGE_SIZE");
         // 数据库初始化操作
         // 获取数据库操作对象
