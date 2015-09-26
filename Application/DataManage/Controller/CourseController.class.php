@@ -38,4 +38,15 @@ class CourseController extends IndexController
 		$this->type = "Course"; //设置类型
 		$this->listDataExport();
 	}
+
+
+	/**
+	 * 详情列表数据导出
+	 * @return [type] [description]
+	 */
+	public function detailListDataExportAction()
+	{
+		$this->type = "Course";
+		$this->detailListDataExport();
+	}
 }

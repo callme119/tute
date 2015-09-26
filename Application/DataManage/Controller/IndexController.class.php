@@ -15,6 +15,8 @@ use DataModel\Model\DataModelModel;					//数据模型
 use DataModel\Logic\DataModelLogic;					//数据模型
 use DataModelDetail\Model\DataModelDetailModel;		//数据模型扩展信息
 use Workflow\Model\WorkflowModel;					//工作流
+use Workflow\Logic\WorkflowLogic;					//工作流
+use ProjectCategoryRatio\Logic\ProjectCategoryRatioLogic;	//项目类别系数表
 use WorkflowLog\Model\WorkflowLogModel;				//工作流详情
 use PHPExcel\Server\PHPExcelServer;					//PHPEXCEL 服务
 class IndexController extends AdminController
@@ -168,8 +170,8 @@ class IndexController extends AdminController
 	public function detailList($action = "")
 	{
 		//取用户信息,周期信息
-		$userId = (int)I("get.user_id");
-		$cycleId = (int)I("get.cycle_id");
+		$this->userId = $userId = (int)I("get.user_id");
+		$this->cycleId = $cycleId = (int)I("get.cycle_id");
 		$type = CONTROLLER_NAME;
 
 		//取所有用户的列表
@@ -186,7 +188,7 @@ class IndexController extends AdminController
 		//取当一用户
 		if($userId)
 		{
-			$projects = $ProjectL->getListsByUserIdCycleIdType($userId , $cycleId);
+			$projects = $ProjectL->getListsByUserIdCycleIdType($userId , $cycleId , $type);
 			$totalCount = $ProjectL->getTotalCount();
 		}
 		else
@@ -389,7 +391,14 @@ class IndexController extends AdminController
 		for($col++;$col<4;)
 		{
 			$col++;
-			$activeSheet->setCellValue($colLetters[$col] . $row , "=sum(" . $colLetters[$col].$beginRow.":".$colLetters[$col].$endRow .")");
+			if($endRow > 3)
+			{
+				$activeSheet->setCellValue($colLetters[$col] . $row , "=sum(" . $colLetters[$col].$beginRow.":".$colLetters[$col].$endRow .")");
+			}
+			else
+			{
+				$activeSheet->setCellValue($colLetters[$col] . $row , 0);
+			}
 		}
 
 		//计算完成率
@@ -416,8 +425,170 @@ class IndexController extends AdminController
 		//数据初始化
 		$this->detailList();
 
+		$ProjectCategoryL = new ProjectCategoryLogic();
+		$UserL = new UserLogic();
+		$WorkflowL = new WorkflowLogic();
+		$ProjectCategoryRatioL = new ProjectCategoryRatioLogic();
+
+		//添加其它信息
+		foreach($this->projects as $key => $project)
+		{
+			//转换日期
+			$this->projects[$key]['date'] = date("Y/m/d",$project['time']);
+
+			//取类别信息
+			$projectCategoryId = $project['project_category_id'];
+			$projectCategoryChainName = $ProjectCategoryL->getTreeHtmlBySonId($projectCategoryId , $connecter = "->");
+			$this->projects[$key]['project_category_chain_name'] = $projectCategoryChainName;
+
+			//取用户信息
+			$userId = $project['user_id'];
+			$user = $UserL->getListById($userId);
+			$userName = $user['name'];
+			$this->projects[$key]['user_name'] = $userName;
+
+			//取审核状态
+			$projectId = $project['id'];
+			$workflow = $WorkflowL->getListByProjectId($projectId);
+			$status = $workflow['is_finished'] ? "已审核" : "审核中";
+			$this->projects[$key]['status'] = $status;
+
+			//取分数
+			$score = $ProjectCategoryRatioL->getScoreByProjectId($projectId);
+			$this->projects[$key]['score'] = $score;
+			$this->projects[$key]['donScore'] = $workflow['is_finished'] ? $score : 0;
+		}
+
+		//进行execl数据输出
+		if (PHP_SAPI == 'cli')
+		{
+			E("请通过浏览器方问该页");
+		}
+
+		//初始化
+		$objPHPExcel = new PHPExcelServer();
+
+		//新建sheet,并将0号sheet设置为当前需要写入的sheet
+		$objPHPExcel->createSheet();
+		$objPHPExcel->setActiveSheetIndex(0);
+
+		//设置文件名
+		if( $this->userId)
+		{
+			$UserL = new UserLogic();
+			if(!$user = $UserL->getListById($this->userId))
+			{
+				E("传用的用户ID$userId有误");
+			}
+			$userName = $user['name'];
+		}
+		else
+		{
+			$userName = "全部";
+		}
+
+		$CycleL = new CycleLogic();
+		if( !$cycle = $CycleL->getListById($this->cycleId))
+		{
+			E("传入的周期值".$this->cycleId."有误");
+		}
+		$cycleName = $cycle['name'];
+
+		//判断是否是程序允许的类型 
+		switch ($this->type) {
+			case 'ScientificResearch':
+				$typeName = "教科研";
+				break;
+			case 'ServiceEducation':
+				$typeName = "服务育人";
+				break;		
+			case "Course":
+				$typeName = "学科业绩";
+				break;	
+			case "Excess":
+				$typeName = "超额育人";
+				break;	
+			case "Education":
+				$typeName = "教学建设";
+				break;
+			default:
+				E("传入了错误的TYPE类型:" . $this->type);
+				break;
+		}
+		$fileName = $typeName . "详情数据-". $userName . "-" . $cycleName . "-" . date("YmdHi");
+		$objPHPExcel->setFileName($fileName);
+
+		//设置sheet 标题
+		$CycleL = new CycleLogic();
+		$cycle = $CycleL->getListById($this->cycleId);
+		if(!$sheetTitle = $cycle['name'])
+		{
+			$sheetTitle = "mengyunzhi";
+		}
+		$objPHPExcel->setSheetTitle($sheetTitle);
+
+		//设置标题
+		$title = "天职师大经管学院绩效报表--" . $typeName . "业绩详情";
+		$objPHPExcel->setTitle($title);
+
+		//设置副标题
+		$subTitle = "统计日期:" . date("Y/m/d") . "  教工:" . $userName;
+		$objPHPExcel->setSubTitle($subTitle);
+
+		//设置header
+		$header = array("名称","类别","提交时间","申请人","状态","分值","得分");
+		$objPHPExcel->setHeader($header);
+
+		//设置数据及类型 ,类型string 字符串, int 整形 ,money以元为单位
+		$key = array("title","project_category_chain_name","date","user_name","status","score","donScore");
+		$objPHPExcel->setKey($key);
+
+		//设置列宽
+		$width = array(20,20,10,8,8,6,6);
+		$objPHPExcel->setWidth($width);
 		
-		dump($this->projects);
+		//设置数据
+		$objPHPExcel->setDatas($this->projects);
+
+		//type暂时还没有用到,用来格式化,当然了,最好是按要求的二维数组
+		$type = array("string","string","date","string","string","int","int");
+		$objPHPExcel->setType($type);
+
+		//创建数据
+		$objPHPExcel->create();
+
+		//写入footer,取当前行号,并上移一行
+		$row = $objPHPExcel->getRow() - 1;
+		$beginRow = $objPHPExcel->getBeginRow();
+		$endRow = $objPHPExcel->getEndRow();
+		$colLetters = $objPHPExcel->getColLetters();
+
+		//写入总计
+		$activeSheet = $objPHPExcel->getActiveSheet();
+		$activeSheet->setCellValue($colLetters[0] . $row , "总计:");
+
+		//如果有数据则写入总和,没有，则给0
+		//从第6列开始,到第7列,分别求和
+		for($col =5;$col<7;)
+		{
+			$col++;
+			if($endRow > 3)
+			{
+				$activeSheet->setCellValue($colLetters[$col] . $row , "=sum(" . $colLetters[$col].$beginRow.":".$colLetters[$col].$endRow .")");
+			}
+			else
+			{
+				$activeSheet->setCellValue($colLetters[$col] . $row , 0);
+			}
+		}
+
+		//下载下载格式
+		$fileType = 'xls';
+		$objPHPExcel->setFileType($fileType);
+
+		//下载文件
+		$objPHPExcel->download();
+		exit();
 	}
 
 	/**
