@@ -56,6 +56,25 @@ class ProjectCategoryLogic extends ProjectCategoryModel
 	    return $return;
 	}
 
+	public function getTreeHtmlBySonId($id , $connecter = "->" , $type ='' , $keyWord = "_son")
+	{
+		//获取目录树
+		$tree = $this->getTreeBySonId($id);
+
+		$html = "";
+		$con = "";
+		do
+		{
+			$html .= $con.$tree['name'];
+			$con = $connecter;
+			$tree = $tree[$keyWord];
+		}
+		while(is_array($tree));
+		return $html;
+	}
+
+
+
 	/**
 	 * 返回本结点及全部子结点信息
 	 * @return tree 目录树
