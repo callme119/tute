@@ -46,7 +46,6 @@ class IndexController extends AdminController{
     public function saveAction() {
         //先将post过来的岗位信息存审批对应的链表信息
         $post = I('post.chain');
-        var_dump($post) ;
         if($post == array("请选择")){
             $this->error('审批岗位不能为空,请重新添加审批岗位',U('Examine/Index/newexamine'));
         }
