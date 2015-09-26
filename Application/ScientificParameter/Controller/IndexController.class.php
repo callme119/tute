@@ -32,7 +32,8 @@ class IndexController extends AdminController {
     $ProjectCategoryL = new ProjectCategoryLogic();
     $id = 0;
 
-    $projectCategoryTree = $ProjectCategoryL->getSonsTreeById($id);
+    $type = CONTROLLER_NAME;
+    $projectCategoryTree = $ProjectCategoryL->getSonsTreeById($id , $type);
     $projectCategory = tree_to_list($projectCategoryTree , $id , '_son' );
     
     //取数据模型列表
