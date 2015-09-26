@@ -150,8 +150,9 @@ class ProjectLogic extends ProjectModel
 		$cycleId = (int)$cycleId;
 		$type = trim($type);
 
-		$map['user_id'] = $userId;
-		$map['cycle_id'] = $cycleId;
+		$map['a.user_id'] = $userId;
+		$map['a.cycle_id'] = $cycleId;
+		$map['b.type'] = $type;
 
 		$field['a.id'] = "id";
 		$field['a.title'] = "title";
@@ -164,7 +165,7 @@ class ProjectLogic extends ProjectModel
 
 		$this->alias("a");
 		$return = $this->where($map)->field($field)->join("left join __PROJECT_CATEGORY__ b on a.project_category_id = b.id")->page($this->p,$this->pageSize)->order($this->order)->select();
-		// echo $this->getLastSql();
+		 // echo $this->getLastSql();
 		return $return;
 	}
 
