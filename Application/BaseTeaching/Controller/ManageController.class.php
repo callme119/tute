@@ -13,6 +13,11 @@ use BaseTeaching\Logic\BaseTeachingLogic;		//基础教学任务
 use PHPExcel\Server\PHPExcelServer;
 class ManageController extends AdminController
 {
+	private $cycle;
+	private $users;
+	private $baseTeachings;
+
+
 	public function indexAction()
 	{
 		try

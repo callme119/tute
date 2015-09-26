@@ -57,7 +57,7 @@ class ExamineModel extends Model{
     }
     
     //根据审批表与审批链表取的审理流程信息
-    public function index($str = "->") {
+    public function index($page,$str = "->") {
         $chain = new ChainModel;
         //取出审批对应的基本信息
         $list = array();
@@ -65,7 +65,7 @@ class ExamineModel extends Model{
         $map = array();
         //对lists数组进行排除，，将type为1的排除
         $map['type'] = 0; 
-        $data = $this->where($map)->page($this->p,$this->pageSize)->select();
+        $data = $this->where($map)->page($page,$this->pageSize)->select();
 
         //根据对应的num firstpost endpost取出整个审批流程
         $examine = array();
