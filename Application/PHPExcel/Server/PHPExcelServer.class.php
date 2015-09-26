@@ -228,21 +228,21 @@ class PHPExcelServer extends \PHPExcel
 		//判断 header key 的长度
 		if( $length != count($this->key) )
 		{
-			$this->error = "the length of 'key' and 'header' is not eq";
+			E("the length of 'key' and 'header' is not eq");
 			return false;
 		}
 
 		//判断如果有width的长度
 		if( !empty($this->width) && $length != count($this->width))
 		{
-			$this->error = "the length of 'width' and 'header' is not eq";
+			E("the length of 'width' and 'header' is not eq");
 			return false;
 		}
 
 		//判断如果有type的长度
 		if( !empty($this->type) && $length != count($this->type))
 		{
-			$this->error = "the length of 'type' and 'header' is not eq";
+			E("the length of 'type' and 'header' is not eq");
 			return false;
 		}
 
