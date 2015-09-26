@@ -28,7 +28,7 @@
                         <div class="form-group">
                             <label for="parent_id" class="col-sm-2 control-label">上级菜单</label>
                             <div class="col-sm-4">
-                            <select class="selectpicker form-control" name="parent_id">
+                            <select class="selectpicker form-control select2" name="parent_id">
                                 <option value="0">根菜单</option>
                                 <foreach name="menuList" item="menu">
                                     <option value="{$menu.id}" <if condition="$menu['id'] eq $data['parent_id']"> selected="selected"</if> >

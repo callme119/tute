@@ -109,6 +109,7 @@ class DepartmentModel extends Model
 		return $state;
 		//添加成功返回添加的部门id
 	}
+
 	/**
 	 * [addDepartment 删除部门]
 	 */
