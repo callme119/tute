@@ -28,9 +28,10 @@
     };
     }
     );
-    
+var order = 0;
 $(document).on("change",".department",function(){
-	$(".post").empty();
+	$("#post_" + currentOrder).empty();
+    var currentOrder = $(this).attr("data-order");
 	var department_id = $(this).children('option:selected').val();
 
 	var departmentPostList = new Array();
@@ -40,16 +41,23 @@ $(document).on("change",".department",function(){
                     var postList = departmentPostList[i]['_post'];
                 }
             };
+        $("#post_"+ currentOrder).html("");
     	for (var key in postList) {
-    		$(".post").append("<option>"+postList[key]+"</option>");
+            
+    		$("#post_"+ currentOrder).append("<option value="+key+">"+postList[key]+"</option>");
     	};
 });
-var data = "<div class='row form-group team'><div class='form-group col-md-2'></div><div class='col-md-3'><div class='input-group'><span for='inputEmail3' id='next_examiner' class='input-group-addon'>部门</span><select class='department selectpicker form-control'><foreach name='departmentPostList' item = 'value'><option value='{$value[id]}'>{$value.name}</option></foreach></select></div></div><div class='col-md-3'><div class='input-group'><span for='inputEmail3' class='input-group-addon' id='basic-addon1'>岗位</span><select class='post selectpicker form-control'><foreach  name='departmentPostList[0][_post]' key='key' item='value'><option value='{$key}'>{$value}</option></foreach></select></div></div></div>";
+var data1 = "<div class='row form-group team'><label class='col-sm-2 control-label'></label><div class='col-sm-10'><div class='row'></div><div class='col-sm-4'><div class='input-group'><span for='inputEmail3' id='next_examiner' class='input-group-addon'>部门</span><select data-order='";
+var data2 ="'  class='department selectpicker form-control'><foreach name='departmentPostList' item = 'value'><option value='{$value[id]}'>{$value.name}</option></foreach></select></div></div><div class='col-sm-4'><div class='input-group'><span for='inputEmail3' class='input-group-addon' id='basic-addon1'>岗位</span><select id='post_";
+var data3 = "' class='selectpicker form-control'><foreach  name='departmentPostList[0][_post]' key='key' item='value'><option value='{$key}'>{$value}</option></foreach></select></div></div></div></div></div>";
 $("#plus").click(function(){
+    order++;
+    data = data1+order+data2+order+data3;
     $(".team:last").after(data);
 });
 //减少团队人数
 $("#minus").click(function(){
+    order--;
     $(".team:gt(0):last").remove();
 });
 

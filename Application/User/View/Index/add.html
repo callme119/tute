@@ -33,7 +33,7 @@
                                         <div class="input-group">
                                             <lable for="" id="next_examiner" class="input-group-addon">部门
                                             </lable>
-                                            <select class="department selectpicker form-control">
+                                            <select data-order="0" class="department selectpicker form-control">
                                                 <foreach  name="departmentPostList" item = "value">
                                                     <option value="{$value[id]}">{$value.name}</option>
                                                 </foreach>
@@ -43,9 +43,10 @@
                                     <div class="col-sm-4">
                                         <div class="input-group">
                                             <lable for="inputEmail3" class="input-group-addon" id="basic-addon1">岗位</lable>
-                                            <select class='post selectpicker form-control'>
-                                                    <foreach name = "departmentPostList['0']['_post']" item = "value">
-                                                            <option value="{$value[id]}">{$value}</option>
+                                            <select data-order="department_0" id="post_0" class='post selectpicker form-control'>
+                                                    <foreach name = "departmentPostList['0']['_post']" key="key" item = "value">
+
+                                                            <option value="{$key}">{$value}</option>
                                                     </foreach>
                                             </select>
                                         </div>
@@ -65,9 +66,9 @@
                             <label for="inputEmail3" class="col-sm-2 control-label">角色</label>
                             <div class="col-sm-6">
                                 <div class=" role row">
-                                <foreach  name="roleList" item = "value">
+                                <foreach  name="roleList" item = "value" key="key">
                                     <div class="col-sm-4">
-                                        <input id="{$value.id}" name="{$value.id}"type="checkbox" />
+                                        <input value="{$key}" name="{$value[name]}" type="checkbox" />
                                         <lable>{$value.name}</lable>
                                     </div>
                                 </foreach>
