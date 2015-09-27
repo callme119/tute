@@ -93,6 +93,7 @@ class WorkflowLogLogic extends Model
 			$data = array();
 			$data['id'] = $workflowId;
 			$data['state'] = '1';
+			$data['is_finished'] = '1';
 			$WorkflowM->data($data)->save();
 		}
 

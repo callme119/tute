@@ -53,5 +53,12 @@ class DataModelLogic extends DataModelModel
 	{
 		return $this->where("id = $id")->delete();
 	}
+
+	public function getListById($id)
+	{
+		$id = (int)$id;
+		$map['id'] = $id;
+		return $this->where($map)->find();
+	}
 }
 	

@@ -74,6 +74,10 @@ class IndexController extends AdminController{
         //取流程基本信息
         $WorkflowLogM = new WorkflowLogModel();
         $workflowLog = $WorkflowLogM->getListById($workflowLogId);
+        if($workflowLog == null)
+        {
+            E("workfolw log data not find. workflowlogid is $workflowLogId");
+        }
 
         //获取当前用户信息
         $userId = get_user_id();
@@ -91,25 +95,42 @@ class IndexController extends AdminController{
 
         //取该流程对应的所有审核意见
         $workflowLogs = $WorkflowLogM->getListsByWorkflowId($workflowId);
-        
+        if(count($workflowLogs) == 0)
+        {
+            E("该项目对应的审核流程日志在数据库中未找到。wrokflowId is $workflowId");
+        }   
+
         //取流程基本信息
         $workflowM = new WorkflowModel();
         $workflow = $workflowM->getListById($workflowId);
+        if($workfolw == null)
+        { 
+            E("该项目对应的审核流程在数据库中未找到。wrokflowId is $workflowId");
+        }
 
         // //TODO取流程对应项目的基本信息
         $projectId = $workflow[project_id];
         $projectL = new ProjectLogic();
         $project = $projectL->getListById($projectId);
+        if($project == null)
+        {
+            E("未找到相关项目信息。projectId is $projectId");
+        }
 
         $project_category_id = $project['project_category_id'];
 
         $ProjectCategoryL = new ProjectCategoryLogic();
         $projectCategory = $ProjectCategoryL->getListById($project_category_id);
+        if($projectCategory == null)
+        {
+            E("未找到相关项目信息。project_category_id is $project_category_id");
+        }
 
         //取项目数据模型信息
-        $DataModelM = new DataModelModel();
+        $DataModelL = new DataModelLogic();
         $dataModelId = $projectCategory['data_model_id'];
-        if( !$dataModel = $DataModelM->where("id = $dataModelId")->find())
+
+        if( !$dataModel = $DataModelL->getListById($dataModelId))
         {
             E("当前记录选取的数据模型ＩＤ为$dataModelId,但该ＩＤ在数据库中未找到匹配的记录", 1);    
         }
