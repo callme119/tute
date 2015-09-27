@@ -1,8 +1,12 @@
 <label>项目名称</label><p>{$project['title']}</p>
 <label>提交时间</label><p>{$project['time']|date="Y/m/d",###}</p>
-	<label>项目分值</label><p><php> echo $score = W("Project/getRatioById",array($project[id]));</php></p>
-	<label>最终得分</label><p><eq name="project['is_finished']" value="1">{$score}<else />0</eq></p>
-<label>状态</label><p><eq name="project['is_commited']" value="0">未提交<else/><eq name="project['is_finished']" value="0">审核中<else/>已审核</eq></eq></p>
+	<label>项目总分</label><p><php> echo $score = W("Project/getScoreById",array($project[id]));</php></p>
+	<label>完成人及得分</label><p>
+		<foreach name="usersPercent" item="value">
+			{:W("User/getNameById",array($value[user_id]))}:<php>echo ceil($score*$value[score_percent]/$value[sum_percent]);</php><br />
+		</foreach>
+	</p>
+<label>状态</label><p><eq name="workflow['is_finished']" value="0">审核中<else/>已审核</eq></p>
 <foreach name="dataModelDetail" item="value">
 <eq name="value['pid']" value="0">
 	<neq name="value['is_hidden']" value="0">

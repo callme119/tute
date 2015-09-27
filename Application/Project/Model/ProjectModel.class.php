@@ -76,6 +76,7 @@ class ProjectModel extends Model{
         $map['a.user_id'] = $userId;
         $map['b.type'] = $type;
 
+        $field["a.user_id"] = "user_id";
         $field["a.id"] = "id";
         $field["a.title"] = "title";
         $field["a.project_category_id"] = "project_category_id";

@@ -20,12 +20,14 @@ use DataModelDetail\Logic\DataModelDetailLogic;         //数据模型详情
 use DataModelDetail\Model\DataModelDetailModel;         //数据模型扩展信息
 use ExamineDetail\Model\ExamineDetailModel;             //审核扩展信息
 use Workflow\Model\WorkflowModel;                       //工作流表
+use Workflow\Loigc\WorkflowLoigc;                       //工作流
 use WorkflowLog\Model\WorkflowLogModel;                 //工作流扩展表
 use ProjectCategoryRatio\Model\ProjectCategoryRatioModel;//项目类别系数表
 use ProjectDetail\Logic\ProjectDetailLogic;             //项目扩展信息
 use ProjectDetail\Model\ProjectDetailModel;             //项目扩展信息
 use Workflow\Service\WorkflowService;                   //审核流程
 use Cycle\Logic\CycleLogic;                             //周期表
+use ProjectCategoryRatio\Logic\ProjectCategoryRatioLogic;            //项目类别系数
 
 class IndexController extends AdminController {
     /**
@@ -43,9 +45,11 @@ class IndexController extends AdminController {
         $ProjectM = new ProjectModel();
 
         // $projects = $ProjectM->getListsByUserIdType($userId , $type);;
-        $projects = $ProjectM->getListsJoinProjectCategoryByUserIdType($userId , $type);
-        $totalCount = $ProjectM->getTotalCount();
-        
+        // $projects = $ProjectM->getListsJoinProjectCategoryByUserIdType($userId , $type);
+        // $totalCount = $ProjectM->getTotalCount();
+        $ScoreL = new ScoreLogic();
+        $projects= $ScoreL->getListsJoinProjectCategoryByUserIdType($userId , $type);
+
         //传值
         $this->assign("totalCount",$totalCount);
         $this->assign("projects",$projects);
@@ -261,11 +265,21 @@ class IndexController extends AdminController {
             $WorkflowLogM = new WorkflowLogModel();
             $workflowLog = $WorkflowLogM->getListsByWorkflowId($workflowId);
             
+            //取待办信息
             $todoList = $WorkflowLogM->getTodoListByWorkflowId($workflowId);
 
-            $score = W("Project/getRatioById",array($project[id]));
+            //取项目总分
+            $ProjectCategoryRatioL = new ProjectCategoryRatioLogic();
+            $score = $ProjectCategoryRatioL->getScoreByProjectId($projectId);
+            
+            //取各用户的占比
+            $ScoreL = new ScoreLogic();
+            $usersPercent = $ScoreL->getUsersPercentsByProjectId($projectId);
+
             //取审核扩展信息
+            $this->assign("usersPercent",$usersPercent);
             $this->assign("project",$project);
+            $this->assign("workflow",$workflow);
             $this->assign("dataModel",$dataModel);
             $this->assign("dataModelDetail",$dataModelDetail);
             $this->assign("projectDetail",$projectDetail);
