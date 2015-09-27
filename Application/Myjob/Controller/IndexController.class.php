@@ -103,9 +103,9 @@ class IndexController extends AdminController{
         //取流程基本信息
         $workflowM = new WorkflowModel();
         $workflow = $workflowM->getListById($workflowId);
-        if($workfolw == null)
+        if($workflow == null)
         { 
-            E("该项目对应的审核流程在数据库中未找到。wrokflowId is $workflowId");
+            E("该项目对应的审核流程在数据库中未找到。workflowId is $workflowId");
         }
 
         // //TODO取流程对应项目的基本信息
