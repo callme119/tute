@@ -192,8 +192,8 @@ public function appendAction()
 
       //查看项目表中，是否有项目的类别已选该类别，已选则不能删。
       $ProjectL = new ProjectLogic();
-      $return = $ProjectL -> getListsByProjectCategoryId($projectCategoryId;
-      if(!empty($return)))
+      $return = $ProjectL -> getListsByProjectCategoryId($projectCategoryId);
+      if(!empty($return))
       {
           $this->error("已有项目信息建立在该类别上，请先删除相关项目信息",U('index?p=' . I('get.p')));
           return;
