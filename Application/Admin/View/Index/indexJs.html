@@ -1,0 +1,44 @@
+<script src="__JS__/raphael-2.1.4.min.js"></script> 
+<script src="__JS__/justgage-1.1.0.min.js"></script>
+<script>
+//设置4个小转盘,显示完成百分比
+var ScientificResearchDone, ScientificResearch, TeachingLoad, ServiceEducation;
+
+    document.addEventListener("DOMContentLoaded", function(event) {
+        var ScientificResearchDone = new JustGage({
+            id: "ScientificResearchDone",
+            value: {$totalDoneScore|get_default},
+            min: 0,
+            max: {$task},
+            title: "教科研",
+            label: "已审核"
+        });
+
+        var ScientificResearch = new JustGage({
+            id: "ScientificResearch",
+            value: {$totalScore|get_default},
+            min: 0,
+            max: {$task},
+            title: "教科研预期",
+            label: "预期(含未审核)"
+        });
+
+        var TeachingLoad = new JustGage({
+            id: "TeachingLoad",
+            value: {$baseTeachingScore},
+            min: 0,
+            max: {$baseTeachingTask|get_default},
+            title: "教学工作量",
+            label: "已完成分值"
+        });
+
+        var ServiceEducation = new JustGage({
+            id: "ServiceEducation",
+            value: {$ServiceEducationScore},
+            min: 0,
+            max: {$serviceEducationTask|get_default},
+            title: "服务育人",
+            label: "已完成分值"
+        });
+    });
+</script>

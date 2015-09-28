@@ -1,4 +1,3 @@
-
 <section class="content">
     <div class="row">
         <div class="col-lg-3 col-md-6">
@@ -9,12 +8,12 @@
                             <i class="fa fa-tags fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">4</div>
-                            <div>我的审批</div>
+                            <div class="huge">{$_UserTodoCount}</div>
+                            <div>待办工作</div>
                         </div>
                     </div>
                 </div>
-                <a href="{:U('Myjob/Index/index')}">
+                <a href="{:U('Myjob/Index/unfinished')}">
                     <div class="panel-footer">
                         <span class="pull-left">更多信息</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -31,12 +30,12 @@
                             <i class="fa fa-list-ol fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">800</div>
-                            <div>已得分</div>
+                            <div class="huge">{$totalDoneScore}</div>
+                            <div>教科研得分</div>
                         </div>
                     </div>
                 </div>
-                <a href="{:U('ScientificResearch/Index/audited')}">
+                <a href="{:U('ScientificResearch/ScientificResearch/index')}">
                     <div class="panel-footer">
                         <span class="pull-left">更多信息</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -53,12 +52,12 @@
                             <i class="fa fa-sort-numeric-asc fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">1200</div>
-                            <div>预期得分</div>
+                            <div class="huge">{$totalScore}</div>
+                            <div>教科研预期得分</div>
                         </div>
                     </div>
                 </div>
-                <a href="{:U('ScientificResearch/Index/saved')}">
+                <a href="{:U('ScientificResearch/ScientificResearch/index')}">
                     <div class="panel-footer">
                         <span class="pull-left">更多信息</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -75,12 +74,12 @@
                             <i class="fa fa-bar-chart-o fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">66<sup style="font-size: 20px">%</sup></div>
-                            <div>完成率</div>
+                            <div class="huge">{$task}<sup style="font-size: 20px"></sup></div>
+                            <div>教科研任务</div>
                         </div>
                     </div>
                 </div>
-                <a href="#">
+                <a href="{:U('ScientificResearch/ScientificResearch/index')}">
                     <div class="panel-footer">
                         <span class="pull-left">更多信息</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -91,29 +90,18 @@
         </div>
     </div>
     <!-- /.row -->
+
+    <!--以下几个显示百分比的小转盘-->
     <div class="row">
-            <div class="col-md-4 connectedSortable">
-                 
-            </div><!-- /.col -->
+        <div id="ScientificResearchDone" class="col-md-3 col-xs-3">
+        </div>
+        <div id="ScientificResearch" class="col-md-3 col-xs-3">
+        </div>
+        <div id="TeachingLoad" class="col-md-3 col-xs-3">
+        </div>
+        <div id="ServiceEducation" class="col-md-3 col-xs-3">
+        </div>
     </div>
-    
-    <div class="row">
-        <div class="col-md-12 connectedSortable"> 
-            <!-- Box (with bar chart) -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <i class="fa fa-bar-chart-o fa-fw"></i> 绩效总览
-                </div>
-                <div class="panel-body">
-                    <div class="flot-chart">
-                        <div class="flot-chart-content" id="flot-pie-chart"></div>
-                    </div>
-                    <a href="#" class="btn btn-default btn-block">查看更多</a>
-                </div>
-                <!-- /.panel-body -->
-            </div>
-        </div>           
-    </div>
+    <!-- /.row -->
 </section>
-{$css}
 {$js}
