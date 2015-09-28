@@ -130,6 +130,7 @@ class ScoreLogic extends ScoreModel
 
         $this->totalCount = $ScoreV->where($map)->count();
         $return = $ScoreV->where($map)->select();
+        // echo $ScoreV->getLastSql();
         return $return;
     }
 
@@ -140,6 +141,33 @@ class ScoreLogic extends ScoreModel
         $map['type'] = $type;
         $this->totalCount = $ScoreV->where($map)->count();
         $return = $ScoreV->where($map)->select();
+        return $return;
+    }
+
+    /**
+     * 通过 用户ID 周期ID 项目类别type 获取完成的总分数
+     * @param  int $userId  用户
+     * @param  int $cycleid 周期
+     * @param  string $type    项目类别的类型
+     * @return int          
+     */
+    public function getScoresByUserIdCycleIdType($userId ,$cycleId ,$type)
+    {
+        $scores = $this->getListsByUserIdCycleIdType($userId ,$cycleId ,$type);
+        $totalDoneScore = 0;
+        $totalScore = 0;
+        foreach($scores as $key => $score)
+        {
+            if($score['state'] == 1)
+            {
+                $totalDoneScore += (int)ceil($score['score_percent']*$score['project_category_score']/100);
+            }
+            $totalScore += (int)ceil($score['score_percent']*$score['project_category_score']/100);
+        } 
+
+        $return['total_score'] = $totalScore;
+        $return['total_done_score'] = $totalDoneScore;
+
         return $return;
     }
 }

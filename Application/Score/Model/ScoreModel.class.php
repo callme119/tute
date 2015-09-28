@@ -24,6 +24,9 @@ class ScoreModel extends Model{
 			return false;
 		}
 		else{
+			$sumPercent = 0;
+
+			//计算总分值
 			foreach ($userId as $key => $value) {
 				if( !$data['project_id'] = (int)$projectId )
 				{
@@ -35,9 +38,16 @@ class ScoreModel extends Model{
 					$this->error = "传入了空的userId";
 					return false;
 				}
-				$data[score_percent] = (int)$scorePercent[$key];
-				
-				if($this->add($data)){
+				$sumPercent += (int)$scorePercent[$key];
+			}
+
+			//添加数据
+			foreach ($userId as $key => $value)
+			{
+				//计算分值
+				$data[score_percent] = (int)ceil($scorePercent[$key]*100/$sumPercent);
+				if($this->create($data)){
+					$this->add();
 					$res = ture;
 				}
 				else
