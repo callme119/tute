@@ -3,7 +3,7 @@
  * 我的工作初始化模块
  * creat by 邓浩洋 2015年7月15日14:44:26
  * 2751111108@qq.com
- */
+*/
 
 namespace Myjob\Controller;
 use Admin\Controller\AdminController;
@@ -117,35 +117,6 @@ class IndexController extends AdminController{
             E("未找到相关项目信息。projectId is $projectId");
         }
 
-        $project_category_id = $project['project_category_id'];
-
-        $ProjectCategoryL = new ProjectCategoryLogic();
-        $projectCategory = $ProjectCategoryL->getListById($project_category_id);
-        if($projectCategory == null)
-        {
-            E("未找到相关项目信息。project_category_id is $project_category_id");
-        }
-
-        //取项目数据模型信息
-        $DataModelL = new DataModelLogic();
-        $dataModelId = $projectCategory['data_model_id'];
-
-        if( !$dataModel = $DataModelL->getListById($dataModelId))
-        {
-            E("当前记录选取的数据模型ＩＤ为$dataModelId,但该ＩＤ在数据库中未找到匹配的记录", 1);    
-        }
-
-        //取数据模型字段信息
-        $DataModelL = new DataModelLogic();
-        $dataModelCommon = $DataModelL->getCommonLists();
-
-        //取项目模型扩展信息
-        $dataModelDetailM = new DataModelDetailModel();
-        $dataModelDetail = $dataModelDetailM->getListsByDataModelId($dataModelId);
-
-        //取项目扩展信息
-        $ProjectDetailL = new ProjectDetailLogic();
-        $projectDetail = $ProjectDetailL->getListsByProjectId($projectId);
 
         //设置已读
         $WorkflowLogM->setIsClickedById($workflowLogId);
@@ -172,20 +143,14 @@ class IndexController extends AdminController{
         $chain = $ChainM->where($map)->find();
         if($chain == null)
         {
-            $this->error = "审核链接点数据取出错误，chainId值为$chainId";
+            $this->error = "审核链接点数据取出错误,该错误可能是删除了已建立了审核流程造成的，chainId值为$chainId";
             $this->_empty();
             return false;
         }
 
         //传值
-        $this->assign('doUser',$doUser);
-        $this->assign("users",$users);
-        $this->assign('showSuggestion',$showSuggestion);
-        $this->assign('project',$project);
-        $this->assign("dataModelDetail",$dataModelDetail);
-        $this->assign("projectDetail",$projectDetail);
-        $this->assign('workflowLogs',$workflowLogs);
-        $this->assign('workflowLog',$workflowLog);
+        $this->assign("workflowLog",$workflowLog);
+        $this->assign("projectId",$projectId);
         $this->assign('chain',$chain);
         $this->assign('workflow',$workflow);
         $this->assign('YZBODY',$this->fetch('taskdetail'));
