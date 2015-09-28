@@ -60,6 +60,7 @@ class UserRoleModel extends Model{
 	public function saveRoleUser(){
 		$data = I('post.');
 		//清空原有数据
+	
 		$map['user_id'] = $data['id'];
 		$this-> where($map)->delete();
 
@@ -70,6 +71,7 @@ class UserRoleModel extends Model{
 				$userRole[] = array('user_id' => $data['id'],'role_id' => $key,'state' => 1);
 			}
 		}
+
 		//更新
 		$this->addAll($userRole);
 		return true;

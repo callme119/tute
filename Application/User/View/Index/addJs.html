@@ -1,6 +1,7 @@
 <script type="text/javascript">
 //表单验证
     $(document).ready(function(){
+        roleCheck();
         $("#demoForm").validate({
             rules:{
                 email:{
@@ -18,16 +19,7 @@
                 },
             },
         })
-    },
-    function(){
-        var c = new Array();
-        var c = eval('<?php echo json_encode($roleList);?>');
-        for (var i=0;i<c.length;i++) {
-        var k =c[i];
-        $("#"+k).attr('checked','true');
-    };
-    }
-    );
+    });
 var order = 0;
 $(document).on("change",".department",function(){
 	$("#post_" + currentOrder).empty();
@@ -61,4 +53,13 @@ $("#minus").click(function(){
     $(".team:gt(0):last").remove();
 });
 
+function roleCheck(){
+    var c = new Array();
+    var c = eval('<?php echo json_encode($hasRole);?>');
+    for (var i=0;i<c.length;i++) {
+        var k =c[i]['id'];
+
+        $("#"+k).attr('checked','true');
+    }
+}
 </script>

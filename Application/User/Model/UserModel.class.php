@@ -56,7 +56,7 @@ class UserModel extends RelationModel{
 		}
 
 		$map['id'] = $userId;
-		return $this->where($map)->find();
+		return $this-> where($map)->find();
 	}
 	/**
 	 * 通过包括有USERID的数组获取用户信息
@@ -105,7 +105,7 @@ class UserModel extends RelationModel{
 	//获取固定id的教工的信息
 	public function getStaffById($id){
 		$map['id'] = $id;
-		$data = $this -> where($map) ->find();
+		$data = $this -> relation(true) ->where($map) ->find();
 		return $data;
 	}
 	//添加教工
@@ -119,8 +119,9 @@ class UserModel extends RelationModel{
 	//编辑教工
 	public function updateStaff(){
 		//保存教工信息
-		$data = I('post.');
+		$data['email'] = I('post.email');
 		$data['id'] = I('get.id');
+		
 		$this -> save($data);
 		//post id给教工-部门岗位和教工-角色调用
 		$_POST['id'] = $data['id'];
