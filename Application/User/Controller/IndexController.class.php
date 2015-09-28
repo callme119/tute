@@ -12,6 +12,7 @@ use Department\Model\DepartmentModel;
 use Post\Model\PostModel;
 use DepartmentPost\Model\DepartmentPostModel;
 use UserRole\Model\UserRoleModel;
+use UserDepartmentPost\Model\UserDepartmentPostModel;
 class IndexController extends AdminController {
 
     //教工列表显示
@@ -55,6 +56,11 @@ class IndexController extends AdminController {
         //设置url
         $url = U('update?id='.$id);
         $this->assign('url',$url);
+
+        //传递该用户已有的职位
+        $UserDepartmentPostM = new UserDepartmentPostModel();
+        $userDepartmentPosts = $UserDepartmentPostM->getDepartmentPostInfoListsById($id);
+        $this -> assign('userDepartmentPosts',$userDepartmentPosts);
 
         //传递角色列表（编辑教工的角色复选框）
         $this -> assign('roleList',$this -> _fetchRoleList());
