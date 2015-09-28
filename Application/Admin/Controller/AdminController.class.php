@@ -10,6 +10,7 @@ use Think\Controller;
 use Menu\Model\MenuModel;
 use User\Model\UserModel;
 use Admin\Logic\AdminLogic;
+use WorkflowLog\Logic\WorkflowLogLogic;        //工作流日志
 class AdminController extends Controller{
     private $cssArr = null; //css
     private $jsArr = null; //js
@@ -108,6 +109,16 @@ class AdminController extends Controller{
                 如果你是开发人员的话，请在菜单管理中添加相关菜单";
                 throw new \Think\Exception($this->error,1);
             }
+
+            $WorkflowLogL = new WorkflowLogLogic();
+            //取当前用户待办工作个数
+            $_UserTodoCount = $WorkflowLogL->getTodoCountByUserId($userId);
+
+            //取当用户在工作工作个数
+            $_UserDoingCount = $WorkflowLogL->getDoingCountByUserId($userId);
+
+            $this->assign("_UserTodoCount",$_UserTodoCount);
+            $this->assign("_UserDoingCount",$_UserDoingCount);
             $this->assign('currentMenu',$currentMenu);
             $this->assign("user",$user);         
         }
