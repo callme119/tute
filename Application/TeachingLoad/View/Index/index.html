@@ -16,8 +16,8 @@
                     <tr>
                         <td>{++$i}</td>
                         <td>{$cycle['name']}</td>
-                        <td>{$userId}</td>
-                        <td>{$userId}{$cycle[id]}</td>
+                        <td>{:W('BaseTeaching/getValueByUserIdCycleId', array($userId,$cycle['id']))}</td>
+                        <td>{:W('Task/getValueByUserIdCycleId',array($userId,$cycle[id]))}</td>
                     </tr>
                     </foreach>
                     </tbody>

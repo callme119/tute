@@ -10,8 +10,8 @@ class TaskWidget extends Controller
 	public function getListByUserIdCycleIdAction($userId , $cycleId , $defaultValue = '-')
 	{
 		$TaskL = new TaskLogic();
-		$type = MODULE_NAME;
-		$task = $TaskL->getListByUserIdCycleId($userId,$cycleId,$type);
+		$type = "BaseTeaching";
+		$task = $TaskL->getListByUserIdCycleIdType($userId,$cycleId,$type);
 
 		echo isset($task['value']) ? $task['value'] : $defaultValue;
 	}
