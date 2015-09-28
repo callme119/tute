@@ -113,7 +113,9 @@ class UserDepartmentPostModel EXTENDS Model{
 	{
 		$map['a.user_id'] = $userId;
 		$field['a.id'] = 'id';
+		$field['c.id'] = 'department_id';
 		$field['c.name'] = 'department_name';
+		$field['d.id'] = 'post_id';
 		$field['d.name'] = 'post_name';
 		$data = $this->alias("a")->field($field)->where($map)->join("left join __DEPARTMENT_POST__ b on a.department_post_id = b.id left join __DEPARTMENT__ c on b.department_id = c.id left join __POST__ d on b.post_id = d.id")->select();
 		return $data;

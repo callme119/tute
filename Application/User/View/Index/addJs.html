@@ -2,6 +2,7 @@
 //表单验证
     $(document).ready(function(){
         roleCheck();
+        addDepartmentPost();
         $("#demoForm").validate({
             rules:{
                 email:{
@@ -61,5 +62,56 @@ function roleCheck(){
 
         $("#"+k).attr('checked','true');
     }
+}
+function addDepartmentPost(){
+    //取现有的部门-岗位
+    var hasDepartmentPost = new Array();
+    var hasDepartmentPost = eval(<?php echo json_encode($userDepartmentPosts);?>);
+
+    //显示出有几个部门-岗位的值
+    for (var i = 0; i < hasDepartmentPost.length; i++) {
+        //拼接主体select的字符
+        var fream = getDepartmentPost(i);
+        $("#department_post").append(fream);
+        
+        //拼接select的下拉选项的字符串
+        var departmentOption = getDepartmentOption();
+        $("#department_"+i).append(departmentOption);
+        //alert(hasDepartmentPost[i]['department_id']);
+        var postOption = getPostOption(hasDepartmentPost[i]['department_id']);
+        $("#post_"+i).append(postOption);
+    };  
+  alert("hello");
+}
+//获得一个部门-岗位下拉框的html代码字符串
+function getDepartmentPost(id){
+    var fream = "<div class='row'><div class='col-sm-4'><div class='input-group'><lable for='' class='input-group-addon'>部门</lable><select class='department selectpicker form-control' id='department_"+id+"'></select></div></div><div class='col-sm-4'><div class='input-group'><lable for='inputEmail3' class='input-group-addon'>岗位</lable><select id='post_"+id+"' class='post selectpicker form-control'></select></div></div></div>";
+    return fream;
+}
+//获取部门的下拉选项的html代码字符串
+function getDepartmentOption(){
+    var departmentPostList = new Array();
+    var departmentPostList = eval(<?php echo json_encode($departmentPostList);?>);
+    var departmentOption = "";
+    for (var i = 0; i < departmentPostList.length; i++) {
+        departmentOption += "<option value='"+departmentPostList[i]['id']+"'>"+departmentPostList[i]['name']+"</option>";
+    };
+    return departmentOption;
+}
+//获取岗位的下拉选项的html代码字符串
+function getPostOption(departmentId){
+    var departmentId = departmentId;
+    var departmentPostList = new Array();
+    var postList = new Array();
+    var postOption = "";
+    var departmentPostList = eval(<?php echo json_encode($departmentPostList);?>);
+    for (var i = 0; i < departmentPostList.length; i++) {
+        if(departmentPostList[i]['id'] == departmentId);
+        var postList = departmentPostList[i]['_post'];
+    };
+    for (var key in postList) {
+        postOption += "<option value='"+key+"'>"+postList[key]+"</option>";
+    };
+    return postOption;
 }
 </script>

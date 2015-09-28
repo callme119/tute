@@ -28,29 +28,12 @@
                         <div class="row form-group team">
                             <label for="" class="col-sm-2 control-label">部门岗位</label>
                             <div class="col-sm-10">
+                            <!-- 显示部门岗位；通过js传值-->
+                                <div class = "row" id = "department_post">
+                                            
+                                </div>
+
                                 <div class="row">
-                                <foreach name = "userDepartmentPosts" item = "departPost">
-                                    <div class="col-sm-4">
-                                        <div class="input-group">
-                                            <lable for="" id="next_examiner" class="input-group-addon">部门
-                                            </lable>
-                                            <select data-order="0" class="department selectpicker form-control">
-                                                <foreach  name="departmentPostList" item = "value">
-                                                    <option value="{$value[id]}">{$value.name}</option>
-                                                </foreach>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="input-group">
-                                            <lable for="inputEmail3" class="input-group-addon" id="basic-addon1">岗位</lable>
-                                            <select data-order="department_0" id="post_0" class='post selectpicker form-control'>
-                                                <foreach name = "departmentPostList['0']['_post']" key="key" item = "value">
-                                                            <option value="{$key}">{$value}</option>
-                                                </foreach>
-                                            </select>
-                                        </div>
-                                    </foreach>
                                     <div class="col-sm-1">
                                         <span id="plus" onmouseover="this.style.backgroundColor='green';" onmouseout="this.style.backgroundColor='';" class="input-group-addon btn">
                                             <span class="glyphicon glyphicon-plus"></span>

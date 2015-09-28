@@ -67,7 +67,7 @@ class IndexController extends AdminController {
         $this -> assign('roleList',$this -> _fetchRoleList());
         //传递部门-岗位列表（添加教工页面的部门-岗位下拉选框。要求：二级联动）
         $this -> assign('departmentPostList',$this -> _fetchDepartmentPostList());
-        
+        var_dump($this -> _fetchDepartmentPostList());
         $this->assign('css',$this->fetch("addCss"));
         $this->assign('js',$this->fetch("addJs"));
 
