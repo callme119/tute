@@ -204,44 +204,61 @@ class ManageController extends AdminController
 	}
 
 	public function exportAllAction(){
-		$UserL = new UserLogic();
-		$users = $UserL->getAllLists();
-		$lists = array();
-		//取当前周期id
+		$user_id = I('get.userid');
+		//取当前周期编号
 		$CycleL = new CycleLogic();
 		$cycle = $CycleL->getCurrentList();
-			$cycle_id = $cycle['id'];
+		$cycle_id = $cycle['id'];
+		//当userid为0时取所有数据
+		if($user_id == 0){
+			$UserL = new UserLogic();
+			$users = $UserL->getAllLists();
+			$lists = array();
+			//取当前周期id
+			
 			//根绝用户id与周期id取出已完成工作量
 			$baseTeachings = array();
 			$BaseTeachingL = new BaseTeachingLogic();
 			foreach (array_values($users) as $key => $value) {		
-				$val = $BaseTeachingL->getListByUserIdCycleId($value['id'],$cycle_id);
-				if($val != null){
-					$baseTeachings[$value['id']] = $val;
-				}else{
-					$baseTeachings[$value['id']]['value'] = 0;
-				}
+					$val = $BaseTeachingL->getListByUserIdCycleId($value['id'],$cycle_id);
+					if($val != null){
+						$baseTeachings[$value['id']] = $val;
+					}else{
+						$baseTeachings[$value['id']]['value'] = 0;
+					}
 			}
 			//取用户的任务工作量
 			$TaskL = new TaskLogic();
 			$taskTeachings = array();
 			foreach ($users as $key => $value) {
-				$type = MODULE_NAME;
-				$val = $TaskL->getListByUserIdCycleId($value['id'],$cycle_id,$type);
-				if($val != null){
-					$taskTeachings[$value['id']] = $val;
-				}else{
-					$taskTeachings[$value['id']]['value'] = 0;
-				}
+					$type = MODULE_NAME;
+					$val = $TaskL->getListByUserIdCycleId($value['id'],$cycle_id,$type);
+					if($val != null){
+						$taskTeachings[$value['id']] = $val;
+					}else{
+						$taskTeachings[$value['id']]['value'] = 0;
+					}
 			}	
-			//重新拼接users数组，去掉无用字段，且重新排序
+				//重新拼接users数组，去掉无用字段，且重新排序
 			foreach ($users as $key => $value) {
-				 $lists[$key]['key'] = $key;	
-				 $lists[$key]['name'] = $value['name'];
-				 $lists[$key]['baseTeachings'] = $baseTeachings[$key]['value'];
-				 $lists[$key]['taskTeachings'] = $taskTeachings[$key]['value'];
+					 $lists[$key]['key'] = $key;	
+					 $lists[$key]['name'] = $value['name'];
+					 $lists[$key]['baseTeachings'] = $baseTeachings[$key]['value'];
+					 $lists[$key]['taskTeachings'] = $taskTeachings[$key]['value'];
 			}
-			
+		}else{
+			$lists = array();
+			$UserL = new UserLogic();
+			$BaseTeachingL = new BaseTeachingLogic();
+			$TaskL = new TaskLogic();
+			$lists[0]['key'] = 0;
+			$lists[0]['name'] = $UserL->getListById($user_id)['name'];
+			$BaseTeachingL = new BaseTeachingLogic();
+			$lists[0]['baseTeachings'] = $BaseTeachingL->getListByUserIdCycleId($user_id,$cycle_id)['value'];
+			$TaskL = new TaskLogic();
+			$type = MODULE_NAME;
+			$lists[0]['taskTeachings'] = $TaskL->getListByUserIdCycleId($user_id,$cycle_id,$type)['value'];
+		}
 			$excel = new PHPExcelServer;
 
 			$width = array('12','20','20');
@@ -256,13 +273,12 @@ class ManageController extends AdminController
 			$key = array('name','baseTeachings','taskTeachings');
 			$excel->setkey($key);
 			
-			$subTitle = "统计日期:" . date("Y/m/d") . "  教工:" . $userName;
-			$excel->setSubTitle($subTitle);
+			
 			//设置文件名
 			if(I('get.userid'))
 			{
 				$UserL = new UserLogic();
-				if(!$user = $UserL->getListById($this->userId))
+				if(!$user = $UserL->getListById(I('get.userid')))
 				{
 					E("传用的用户ID$userId有误");
 				}
@@ -272,6 +288,11 @@ class ManageController extends AdminController
 			{
 				$userName = "全部";
 			}
+			//设计统计日期以及教工名
+			$subTitle = "统计日期:" . date("Y/m/d") . "  教工:" . $userName;
+			$excel->setSubTitle($subTitle);
+
+			//设定文件名
 			$fileName = $typeName . "数据-". $userName . "-" . $cycle['name'] . "-" . date("YmdHi");
 			$excel->setFileName($fileName);
 
@@ -302,6 +323,6 @@ class ManageController extends AdminController
 			}
 
 			$excel->download();
-		// $excel->index(array_values($lists),$header,$letter);
+		
 	}
 }
