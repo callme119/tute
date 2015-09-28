@@ -10,6 +10,34 @@ function isWeixinBrowser() {
     }
     return true;
 }
+
+function get_default($value ,$type = "int")
+{
+    if($type == 'int')
+    {
+        if((int)$value == '0')
+        {
+            return 0;
+        }
+        else
+        {
+            return (int)$value;
+        }
+    }
+
+    if($type == 'string')
+    {
+        if(trim($value) == "")
+        {
+            return "";
+        }
+        else
+        {
+            return trim($value);
+        }
+    }
+}
+
 /**
  * 获取用户id
  * todo:用session来实现 
