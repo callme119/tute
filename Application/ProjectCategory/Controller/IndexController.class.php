@@ -9,7 +9,8 @@ use DataModel\Model\DataModelModel;               //数据模型
 use ProjectCategory\Logic\ProjectCategoryLogic;   //项目类别
 use DataModelDetail\Model\DataModelDetailModel;
 use ProjectCategoryRatio\Logic\ProjectCategoryRatioLogic; //项目类别系数表
-use Project\Logic\ProjectLogic;      
+use Project\Logic\ProjectLogic;
+use DataModel\Logic\DataModelLogic;			//数据模型表      
 class IndexController extends AdminController
 {
 	public function indexAction()
@@ -146,6 +147,10 @@ public function appendAction()
     {
       //取相关信息
       $dataModelId = I('get.datamodelid');
+      $dataModelL = new DataModelLogic();
+      $dataModel = $dataModelL->getListById($dataModelId);
+      $return['description'] = $dataModel['description'];
+
       $dataModelDetailM = new DataModelDetailModel();
       $dataModelDetails = $dataModelDetailM->where("data_model_id = $dataModelId")->select();
 

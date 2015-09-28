@@ -1,10 +1,16 @@
 <!--设置数据模型系数设置模板内容-->
 <script id="entry-template" type="text/x-handlebars-template">
 {{#compare state '==' 'success'}}
+<h3>{{description}}</h3>
 <h3>请设置系数0-100</h3>
     {{#each dataModelDetails}}
     {{#compare pid '==' '0'}}
+        
+        {{#compare type '==' 'money'}}
+        {{title}}:<input type="money" name="data_model_detail_id[{{id}}]" value="{{_ratio}}"/>分数/万元<br />
+        {{else}}
         {{title}}<br />
+    {{/compare}}
     {{else}}
         {{title}}:<input type="text" name="data_model_detail_id[{{id}}]" value="{{_ratio}}"/>%<br />
     {{/compare}}

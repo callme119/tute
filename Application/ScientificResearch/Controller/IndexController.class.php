@@ -44,9 +44,9 @@ class IndexController extends AdminController {
         //取项目表信息
         $ProjectM = new ProjectModel();
 
-        // $projects = $ProjectM->getListsByUserIdType($userId , $type);;
-        // $projects = $ProjectM->getListsJoinProjectCategoryByUserIdType($userId , $type);
-        // $totalCount = $ProjectM->getTotalCount();
+        $projects = $ProjectM->getListsByUserIdType($userId , $type);;
+        $projects = $ProjectM->getListsJoinProjectCategoryByUserIdType($userId , $type);
+        $totalCount = $ProjectM->getTotalCount();
         $ScoreL = new ScoreLogic();
         $projects= $ScoreL->getListsJoinProjectCategoryByUserIdType($userId , $type);
 
@@ -84,7 +84,7 @@ class IndexController extends AdminController {
         }
 
          //取数据模型扩展信息
-        $dataModelId = $projectCategory['data_model_id'];
+        $dataModelId = (int)$projectCategory['data_model_id'];
         $DataModelDetailL = new DataModelDetailLogic();
         $dataModelDetailRoots = $DataModelDetailL->getRootListsByDataModelId($dataModelId);
         if($dataModelDetailRoots === false)
@@ -134,14 +134,15 @@ class IndexController extends AdminController {
             }
         }
     
-        
-        $projectDetailM = new projectDetailModel();
-        $projectDetail = $projectDetailM->save($projectId,$dataModelDetailRoots);
-        if($projectDetail === false)
-        {
-           $this->error = "数据添加发生错误，代码" . $this->getError();
-           $this->_empty();
+        if($dataModelId!==1){
+            $projectDetailM = new projectDetailModel();
+            $projectDetail = $projectDetailM->save($projectId,$dataModelDetailRoots);
+            if($projectDetail === false)
+            {
+               $this->error = "数据添加发生错误，代码" . $this->getError();
+               $this->_empty();
 
+            }
         }
         else
             $this->success("操作成功",'index');

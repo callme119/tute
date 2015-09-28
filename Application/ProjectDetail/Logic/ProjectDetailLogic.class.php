@@ -23,6 +23,11 @@ class ProjectDetailLogic extends ProjectDetailModel
 		}
 		return $return;
 	}
+	public function getListByProjectId($projectId)
+	{
+		$map['project_id'] = $projectId;
+		return $this->where($map)->find();
+	}
 
 	public function deleteById($id)
 	{

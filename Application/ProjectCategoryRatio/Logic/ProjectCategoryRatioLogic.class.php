@@ -94,6 +94,10 @@ class ProjectCategoryRatioLogic extends ProjectCategoryRatioModel
 		//取项目表后缀。
 		$projectId = $projectId;
 
+		$projectDetailL = new ProjectDetailLogic();
+		$projectDetail = $projectDetailL->getListsByProjectId($projectId);
+
+
 		$ProjectM = new ProjectModel();
 		$project = $ProjectM->where("id = $projectId")->find();
 		// dump($project);
@@ -110,7 +114,7 @@ class ProjectCategoryRatioLogic extends ProjectCategoryRatioModel
 		$map['html_type'] = "select";
 		$dataModelSelectRoots = 	$DataModelDetailL->getRootListsByDataModelId($dataModelId , $map);
 		$dataModelSons	=	$DataModelDetailL->getSonListsArrayByDataModelId($dataModelId);
-
+		//dump($dataModelSelectRoots);
 		//取项目对应的 项目分类 信息
 		$projectCategoryId = $project['project_category_id'];
 
@@ -133,15 +137,28 @@ class ProjectCategoryRatioLogic extends ProjectCategoryRatioModel
 		//先取出name信息 ，再取出name字段对应的选项ID，再取出该ID对应的系数 。
 		foreach($dataModelSelectRoots as $root)
 		{
-			$key = $root['name'];
+			//判断是select还是money
+			if($root['type']=="money"){
+				$key = $root['name'];
 
-			//如果存在，证明该系数已经设置，如果不存在，证明项目的系数未被设置。
-			//该原因，可能是先有的项目，后来增的数据模型的系数引起的。
-			//归避该BUG的方法，可以在修改数据模型前，给出是否有项目类别使用该项目模型的判断。
-			if( isset($projectDetails[$key]['value']))
-			{
-				$value = $projectDetails[$key]['value'];
-				$score =  floor($score*$projectCategoryRatios[$value]['ratio']/100);	
+				
+				if( isset($projectDetails[$key]['value']))
+				{
+					$value = $projectDetails[$key]['value'];
+					$score =  floor($projectDetail['value']*$projectCategoryRatios[$value]['ratio']);	
+				}
+			}
+			else{
+				$key = $root['name'];
+
+				//如果存在，证明该系数已经设置，如果不存在，证明项目的系数未被设置。
+				//该原因，可能是先有的项目，后来增的数据模型的系数引起的。
+				//归避该BUG的方法，可以在修改数据模型前，给出是否有项目类别使用该项目模型的判断。
+				if( isset($projectDetails[$key]['value']))
+				{
+					$value = $projectDetails[$key]['value'];
+					$score =  floor($score*$projectCategoryRatios[$value]['ratio']/100);	
+				}
 			}
 		}
 
