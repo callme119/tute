@@ -120,4 +120,11 @@ class UserDepartmentPostModel EXTENDS Model{
 		$data = $this->alias("a")->field($field)->where($map)->join("left join __DEPARTMENT_POST__ b on a.department_post_id = b.id left join __DEPARTMENT__ c on b.department_id = c.id left join __POST__ d on b.post_id = d.id")->select();
 		return $data;
 	}
+
+	//根据部门岗位Id去对应的用户列表
+	public function getListsByDepartmentPostId($id){
+		$map['department_post_id'] = $id;
+		return $this->where($map)->select();
+	}
 }
+

@@ -1,22 +1,21 @@
 <script type="text/javascript">
 $(document).ready(
 	function(){
+        var c = new Array();
+        var c = eval('<?php echo json_encode($originalPermission);?>');
+        for (var i=0;i<c.length;i++) {
+        var k =c[i];
+        $(".title_"+k).attr('checked','true');
+        };
 		$("#demoForm").validate({
             rules:{
                 name:{
                     required:true
                 },
             },
-        })
-	},
-    function() {
-    var c = new Array();
-    var c = eval('<?php echo json_encode($originalPermission);?>');
-   for (var i=0;i<c.length;i++) {
-        var k =c[i];
-        $("."+k).attr('checked','true');
-    }
-    });
+        });
+        
+	});
     // 全选、反选事件
     $(document).on("change",".selectAll",function(){
         //获取当前点击状态

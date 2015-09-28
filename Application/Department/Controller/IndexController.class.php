@@ -15,6 +15,7 @@ use Admin\Controller\AdminController;
 use Department\Model\DepartmentModel;
 use Post\Model\PostModel;
 use DepartmentPost\Model\DepartmentPostModel;
+use UserDepartmentPost\Model\UserDepartmentPostModel;
 class IndexController extends AdminController
 {
     public function indexAction()
@@ -52,6 +53,9 @@ class IndexController extends AdminController
     public function editDepartAction(){
         //获取要编辑的部门id
         $id = I('get.id');
+        $haveUsersPosts = array();
+        $haveUsersPosts = $this->checkUserByDepartmentId($id);
+        dump($haveUsersPosts);
         //获取要编辑的部门信息
         $departmentModel = new DepartmentModel;
         $departmentInfo = $departmentModel ->getDepartmentInfoById($id);
@@ -61,6 +65,9 @@ class IndexController extends AdminController
         //设置提交url
         $subUrl = U('update?id='.$id,I('get.'));
         $this->assign('subUrl',$subUrl);
+
+        //将有用户的岗位编号数组传递到前台
+        $this->assign('haveUsersPosts',$haveUsersPosts);
 
         //传递岗位列表和部门列表到前台
         $this->assign('departmentList',$this->_fetchDepartmentList());
@@ -151,5 +158,30 @@ class IndexController extends AdminController
         $postModel = new PostModel;
         $postList = $postModel -> getAllLists();
         return $postList;
+    }
+
+    /*
+     *  根据传入的部门Id判断该部门下哪些岗位仍有员工
+     *  @return [array] [返回岗位列表]
+     */
+    public function checkUserByDepartmentId($department_Id){
+        
+        //根据岗位id取出部门岗位数组
+        $departmentPostModel = new DepartmentPostModel;
+        $departmentPostInfo = array();
+        $departmentPostInfo = $departmentPostModel->getDepartmentPostInfoByDepartId($department_Id);
+
+        //进行循环判断，将对应用户的部门岗位筛选出来
+        $haveUsersPosts = array();
+        $UserDepartmentPostModel = new UserDepartmentPostModel;
+        foreach ($departmentPostInfo as $key => $value) {
+            $users = $UserDepartmentPostModel->getListsByDepartmentPostId($value['id']);
+            if(count($users) != 0){
+                $haveUsersPosts[] = $value['post_id'];
+             }
+        }
+        return $haveUsersPosts;
+        
+
     }
 }

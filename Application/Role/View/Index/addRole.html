@@ -20,24 +20,24 @@
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">权限</label>
                             <div class="col-sm-6">
-                                <div class=" role" id="unsetList"s>
+                                <div class=" role" id="unsetList">
                                 <foreach  name="permissionList" item = "value">
                                      <div class="row title ">
-                                        <input class="{$value.id}" name="{$value.id}"type="checkbox" />
-                                        <lable>{$value.title}</lable>
+                                        <input class="title_{$value.id}" name="title_{$value.id}"type="checkbox" />
+                                        <lable for="title_{$value.id}">{$value.title}</lable>
                                     </div>
                                     <if condition="$value._son != null">  
                                         <foreach name="value._son" item="son">
                                             <div class="row subtitle">
-                                                <input class="{$son.id}" name="{$son.id}" type="checkbox" />
-                                                <lable>{$son.title}</lable>
+                                                <input id="title_{$son.id}" class="title_{$son.id}" name="title_{$son.id}" type="checkbox" />
+                                                <lable for="title_{$son.id}">{$son.title}</lable>
                                             </div>
                                                 <if condition="$son._son != null">
-                                                <div class="row subtitle">
+                                                <div class="row subsubtitle">
                                                         <foreach name="son._son" item="grandson">
                                                             <div class=col-sm-4>
-                                                            <input class="{$grandson.id}" name="{$grandson.id}" type="checkbox" />
-                                                            <lable>{$grandson.title}</lable>
+                                                            <input class="title_{$grandson.id}" name="title_{$grandson.id}" type="checkbox" />
+                                                            <lable for="title_{$grandson.id}">{$grandson.title}</lable>
                                                             </div>
                                                         </foreach>
                                                 </div>
