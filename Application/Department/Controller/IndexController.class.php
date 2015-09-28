@@ -44,6 +44,7 @@ class IndexController extends AdminController
         $this->assign('postList',$this->_fetchPostList());
 
         $this->assign('css',$this->fetch("departCss"));
+        $this->assign('js',$this->fetch("adddepartJs"));
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }

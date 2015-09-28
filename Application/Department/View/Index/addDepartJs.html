@@ -1,0 +1,12 @@
+<script type="text/javascript">
+$(document).ready(function() {
+    var c = new Array();
+    var c = eval('<?php echo json_encode($departmentPostInfo);?>');
+   for (var i=0;i<c.length;i++) {
+
+        var k =c[i]['post_id'];
+
+        $("#"+k).attr('checked','true');
+    };
+ });
+</script>
