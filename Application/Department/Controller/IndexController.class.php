@@ -55,6 +55,7 @@ class IndexController extends AdminController
         $id = I('get.id');
         $haveUsersPosts = array();
         $haveUsersPosts = $this->checkUserByDepartmentId($id);
+        dump($haveUsersPosts);
         //获取要编辑的部门信息
         $departmentModel = new DepartmentModel;
         $departmentInfo = $departmentModel ->getDepartmentInfoById($id);
@@ -77,7 +78,7 @@ class IndexController extends AdminController
         $departmentPostInfo = $departmentPostModel -> getDepartmentPostInfoByDepartId($id);
         $this->assign('departmentPostInfo',$departmentPostInfo);
 
-        $this->assign('js',$this->fetch("addDepartJs"));S
+        $this->assign('js',$this->fetch("addDepartJs"));
         $this->assign('css',$this->fetch("departCss"));
         $this->assign('YZBODY',$this->fetch('addDepart'));
         $this->display(YZTemplate);

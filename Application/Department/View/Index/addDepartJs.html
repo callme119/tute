@@ -8,5 +8,11 @@ $(document).ready(function() {
 
         $(".postList_"+k).attr('checked','true');
     };
+    var d=new Array();
+    var d=eval('<?php echo json_encode($haveUsersPosts);?>');
+    for(var i=0;i<d.length;i++){
+    	var k=d[i];
+    	$(".postList_"+k).attr('disabled','true');
+    }
  });
 </script>
