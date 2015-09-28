@@ -94,7 +94,9 @@
  		$map['cycle_id'] = $cycleId;
  		$map['type'] = $type;
 
- 		return $this->where($map)->find();
+ 		$return = $this->where($map)->find();
+ 		// echo $this->getlastSql();
+ 		return $return;
   	}
 
   	public function getListByUserIdCycleIdType($userId,$cycleId,$type)
