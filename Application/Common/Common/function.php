@@ -44,8 +44,14 @@ function get_default($value ,$type = "int")
  * @return [type]
  */
 function get_user_id()
-{
-    return "5";
+{   
+    $user_id = session('user_id');
+    if(isset($user_id)){
+        return $user_id;
+    }else{
+        redirect_url(U('Login/Index/index'));
+        exit();
+    }
 }
 //向url上以POST方式提交数据
 //author:panjie 3792535@qq.com

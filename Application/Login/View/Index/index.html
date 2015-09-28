@@ -60,7 +60,7 @@
                                 <!-- Change this to a button or input when using this as a form -->
                                 <button type="submit" class="btn btn-lg btn-success btn-block">登录</button>
                                 <php>if (APP_DEBUG==true): </php>
-                                <a href="./admin.php"  class="btn btn-lg btn-success btn-block">直接登录</a>
+                                <a href="{:U('Login/Index/loginDirect')}"  class="btn btn-lg btn-success btn-block">直接登录</a>
                                 <php>endif</php>
                             </fieldset>
                         </form>
