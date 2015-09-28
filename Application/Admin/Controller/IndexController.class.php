@@ -69,6 +69,7 @@ class IndexController extends AdminController
 	    	$this->assign("totalDoneScore",$ScientificResearchScores['total_done_score']);
 	    	$this->assign("task",$taskValue);
 	    	$this->assign('js',$this->fetch('indexJs'));
+	    	$this->assign('css',$this->fetch('indexCss'));
 	    	$this->assign('YZBODY',$this->fetch());
 	    	$this->display(YZTemplate);
     	}
