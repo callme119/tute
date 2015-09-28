@@ -61,7 +61,8 @@ class IndexController extends AdminController {
         $UserDepartmentPostM = new UserDepartmentPostModel();
         $userDepartmentPosts = $UserDepartmentPostM->getDepartmentPostInfoListsById($id);
         $this -> assign('userDepartmentPosts',$userDepartmentPosts);
-
+        var_dump($userDepartmentPosts);
+        
         //传递角色列表（编辑教工的角色复选框）
         $this -> assign('roleList',$this -> _fetchRoleList());
         //传递部门-岗位列表（添加教工页面的部门-岗位下拉选框。要求：二级联动）
@@ -70,7 +71,7 @@ class IndexController extends AdminController {
         $this->assign('css',$this->fetch("addCss"));
         $this->assign('js',$this->fetch("addJs"));
 
-        $this->assign('YZBODY',$this->fetch('add'));
+        $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);  
     }
     //删除教工
