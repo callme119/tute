@@ -221,49 +221,7 @@ class IndexController extends AdminController
                 E("该记录不存在或已删除，传入projectId:$projectId");    
             }    
 
-            $project_category_id = $project['project_category_id'];
-
-            $ProjectCategoryL = new ProjectCategoryLogic();
-            $projectCategory = $ProjectCategoryL->getListById($project_category_id);
-
-            //取项目数据模型信息
-            $DataModelM = new DataModelModel();
-            $dataModelId = $projectCategory['data_model_id'];
-            if( !$dataModel = $DataModelM->where("id = $dataModelId")->find())
-            {
-                E("当前记录选取的数据模型ＩＤ为$dataModelId,但该ＩＤ在数据库中未找到匹配的记录", 1);    
-            }
-
-            //取数据模型字段信息
-            $DataModelL = new DataModelLogic();
-            $dataModelCommon = $DataModelL->getCommonLists();
-
-            //取项目模型扩展信息
-            $dataModelDetailM = new DataModelDetailModel();
-            $dataModelDetail = $dataModelDetailM->getListsByDataModelId($dataModelId);
-
-            //取项目扩展信息
-            $ProjectDetailL = new ProjectDetailLogic();
-            $projectDetail = $ProjectDetailL->getListsByProjectId($projectId);
-
-            //取审核信息
-            $WorkflowM = new WorkflowModel();
-            $workflow = $WorkflowM->where("project_id = $projectId")->find();
-
-            //取审核扩展信息
-            $workflowId = $workflow["id"];
-            $WorkflowLogM = new WorkflowLogModel();
-            $workflowLog = $WorkflowLogM->getListsByWorkflowId($workflowId);
-            
-            $todoList = $WorkflowLogM->getTodoListByWorkflowId($workflowId);
-            
-            //取审核扩展信息
-            $this->assign("project",$project);
-            $this->assign("dataModel",$dataModel);
-            $this->assign("dataModelDetail",$dataModelDetail);
-            $this->assign("projectDetail",$projectDetail);
-            $this->assign("workflowLog",$workflowLog);
-            $this->assign("todoList",$todoList);
+           	$this->assign("projectId",$projectId);
 			$this->assign("YZBODY",$this->fetch('Index/detail'));
 			$this->display(YZTemplate);
 		}

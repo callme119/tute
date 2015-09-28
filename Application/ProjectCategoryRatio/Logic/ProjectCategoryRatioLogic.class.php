@@ -74,28 +74,15 @@ class ProjectCategoryRatioLogic extends ProjectCategoryRatioModel
 	}
 	public function getScoreByProjectIdUserId($projectId , $userId)
 	{
-		$score = $this->getScoreByProjectId($projectId);
+		$projectScore = $this->getScoreByProjectId($projectId);
 			//取分值表
 		$ScoreL = new ScoreLogic();
-		$scores = $ScoreL->getAllListsByProjectId($projectId);
-
-		//统计当前用户及总共的百分比。
-		$userPercent = 0;
-		$sumPercent = 0;
-		foreach($scores as $value)
-		{
-			$sumPercent += $value['score_percent'];
-			if($value['user_id'] == $userId)
-			{
-				$userPercent = $value['score_percent'];
-			}
-		}
+		$score = $ScoreL->getListsByProjectIdUserId($projectId , $userId);
 
 		//通过百分比计算出分数
-		$score = (int)ceil($score*$userPercent/$sumPercent);
-		return $score;
+		$return = (int)ceil($projectScore*$score['score_percent']/100);
+		return $return;
 	}
-
 
 	/**
 	 * 通过项目ID，取出来项目的总分值

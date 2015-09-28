@@ -41,8 +41,9 @@ class IndexController extends Controller {
             //登录成功后跳转
     		redirect_url(U('Admin/Index/index'));
     	}else{
-    		redirect_url(U('Login/Index/index'));
+    		$this->error('用户名密码错误',U('Login/Index/index'));
     	}
+        
     }
 
     //注销功能
@@ -50,5 +51,18 @@ class IndexController extends Controller {
         session('user_id',null);
         session('user_name',null);
         $this->success('注销成功',U('Login/Index/index'));
+    }
+
+    //直接登录
+    public function loginDirectAction(){
+        
+        if(APP_DEBUG)
+        {
+            session('user_id',5);
+            redirect_url(U('Admin/Index/index'));
+        }else{
+            exit();
+        }
+
     }
 }

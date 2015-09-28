@@ -4,51 +4,9 @@
 
          <!-- Default panel contents -->
          <div class="panel-body">
-            
             <form class="form-horizontal" id="detail_form" method="post" action="{:U("save?from=" . I('get.from') . "&p=" . I('get.p') )}">
-            <input type="hidden" id="id" name="id" value="{$workflowLog['id']}" />
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">项目名称</label>
-                    <h5>{$project['title']}</h5>
-                </div>		        
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">申请人</label>
-                    <h5>{:W("User/GetUserNameById",array($project['user_id']))}</h5>
-                </div>
-                <foreach name="dataModelDetail" item="value">
-                <eq name="value['pid']" value="0">
-                    <neq name="value['is_hidden']" value="0">
-                    <div class="form-group">
-                        <label  class="col-sm-2 control-label">{$value[title]}</label>
-                        <h5>
-                            <eq name="value[type]" value="datatime">
-                                {$projectDetail[$value[name]]['value']|date="Y/m/d",###}
-                            </eq>
-                            <eq name="value[type]" value="money">
-                                todo:如果类型为ＭＯＮＥＹ，则调用格式化函数。格式化为万元。
-                                数据结构不好看，请先对projectDetail及dataModelDetail进行jump
-                            </eq>
-                            <eq name="value[type]" value="int">
-                                {$projectDetail[$value[name]]['value']}
-                            </eq>
-                            <eq name="value[type]" value="text">
-                                {$projectDetail[$value[name]]['value']}
-                            </eq>
-                        </h5>
-                    </div>
-                    </neq>
-                </eq>
-                </foreach>
-                <div class="form-group">
-                    <label for="inputEmail3" class="col-sm-2 control-label">审核意见</label>
-                    <h5 class="col-sm-8">
-                        <foreach name="workflowLogs" item="value">
-                            <eq name="value.is_commited" value="1">
-                                &nbsp;{$value[time]|date="Y.m.d H:i",###}&nbsp;{:W("User/GetUserNameById",array($value[user_id]))}：&nbsp;{$value[commit]}<br/>
-                            </eq>
-                        </foreach>
-                    </h5>
-                </div>
+                <input type="hidden" id="id" name="id" value="{$workflowLog['id']}" />
+               {:W('project/getDetailById',array($projectId))}
                 <eq name="workflowLog.is_commited" value="0">
                     <eq name="workflowLog.is_shelved" value="0">
                         <include file="taskdetail_suggestion" />
@@ -62,7 +20,7 @@
                         </div>
                     </eq>
                 <else/>
-                    <include file="taskdetail_show" />
+                    
                 </eq>              
             </form>
         </div>

@@ -170,4 +170,22 @@ class ScoreLogic extends ScoreModel
 
         return $return;
     }
+
+    /**
+     * 返户某用户 某个项目下的具体信息
+     * @param  int $projectId  项目ID
+     * @param  it $userId    用户ID
+     * @return 一维数据            [description]
+     */
+    public function getListsByProjectIdUserId($projectId , $userId)
+    {
+        $map['project_id'] = (int)$projectId;
+        $map['user_id'] = (int)$userId;
+        return $this->where($map)->find();
+    }
+
+    public function getListByProjectIdUserId($projectId ,$userId)
+    {
+        return $this->getListsByProjectIdUserId($projectId , $userId);
+    }
 }
