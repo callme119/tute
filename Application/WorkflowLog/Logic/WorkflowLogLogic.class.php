@@ -196,4 +196,35 @@ class WorkflowLogLogic extends Model
 		$this->workflowLog  = $workflowLog ;
 		return true;
 	}
+
+	/**
+	 * 获取用户的待办工作个数
+	 * @param  int $userId  用户ID
+	 * @return int         
+	 */
+	public function getTodoCountByUserId($userId)
+	{
+		$userId = (int)$userId;
+
+		$map['user_id'] = $userId;
+		$map['is_clicked'] = 0;
+		$count = $this->where($map)->count();
+		return $count;
+	}
+
+	/**
+	 * 获取用户的 在办工作 个数
+	 * @param  int $userId 用户
+	 * @return int         个数
+	 */
+	public function getDoingCountByUserId($userId)
+	{
+		$map['user_id'] = (int)$userId;
+		$map['is_clicked'] = 1;
+		$map['is_commited'] = 0;
+		$map['is_shelved'] = 0;
+
+		$count = $this->where($map)->count();
+		return $count;
+	}
 }
