@@ -68,7 +68,7 @@
                                 <div class=" role row">
                                 <foreach  name="roleList" item = "value" key="key">
                                     <div class="col-sm-4">
-                                        <input id='{$value['id']}' name="{$value[id]}" type="checkbox"/>
+                                        <input value="{$key}" name="{$value[name]}" type="checkbox" />
                                         <lable>{$value.name}</lable>
                                     </div>
                                 </foreach>

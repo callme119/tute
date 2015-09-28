@@ -77,7 +77,7 @@ class IndexController extends AdminController
         $departmentPostInfo = $departmentPostModel -> getDepartmentPostInfoByDepartId($id);
         $this->assign('departmentPostInfo',$departmentPostInfo);
 
-        $this->assign('js',$this->fetch("addDepartJs"));
+        $this->assign('js',$this->fetch("addDepartJs"));S
         $this->assign('css',$this->fetch("departCss"));
         $this->assign('YZBODY',$this->fetch('addDepart'));
         $this->display(YZTemplate);

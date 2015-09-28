@@ -60,6 +60,7 @@ class IndexController extends AdminController {
         //传递该用户已有的职位
         $UserDepartmentPostM = new UserDepartmentPostModel();
         $userDepartmentPosts = $UserDepartmentPostM->getDepartmentPostInfoListsById($id);
+        dump($userDepartmentPosts);
         $this -> assign('userDepartmentPosts',$userDepartmentPosts);
         var_dump($userDepartmentPosts);
         
