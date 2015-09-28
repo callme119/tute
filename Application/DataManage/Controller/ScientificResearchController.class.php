@@ -58,25 +58,25 @@ class ScientificResearchController extends IndexController
 		parent::init();
 		$cycleId = $this->cycleId;
 		$cycles = $this->cycles;			//取考核周期数据
-		$projetcs = $this->projects;	//取用户项目得分信息
+		$project = $this->projects;	//取用户项目得分信息
 		$users = $this->users;				//用户信息
 
 		//进行数据缓存
-		// S("projetcs" , $projetcs , 60*60);
-		// S("projetcsTime" , time());
+		// S("project" , $project , 60*60);
+		// S("projectTime" , time());
 		// }
-		// echo S("projetcsTime");
-		// $lastCacheTime = S("projetcsTime");
+		// echo S("projectTime");
+		// $lastCacheTime = S("projectTime");
 
-		// dump($projetcs);
+		// dump($project);
 		//对用户进行分类运算,计算出总分
 		
 		$userDatas = array();
 		$totalScore	= 0 ;  //预期完成总分（已审核 + 未审核）
 		$totalDoneScore = 0; //已完成总分
-		foreach($projetcs as $key => $project)
+		foreach($project as $key => $project)
 		{
-			$score = (int)ceil($project['score_percent']*$project['score']/$project['sum_percent']);
+			$score = $project['score'];
 			if($project['state'] == '0')
 			{
 				$userDatas[$project['user_id']]['doingScore'] +=  $score;

@@ -3,10 +3,10 @@
  * 项目 逻辑
  */
 namespace DataManage\Logic;
-use Score\Logic\ScoreLogic;			//分值占比
-use Project\Logic\ProjectLogic;		//项目逻辑
-use ProjectDetail\Logic\ProjectDetailLogic;		//项目扩展信息
-use DataModelDetail\Logic\DataModelDetailLogic;		//数据模型扩展信息
+use Score\Logic\ScoreLogic;										//分值占比
+use Project\Logic\ProjectLogic;									//项目分值分布
+use ProjectDetail\Logic\ProjectDetailLogic;						//项目扩展信息
+use DataModelDetail\Logic\DataModelDetailLogic;					//数据模型扩展信息
 use ProjectCategoryRatio\Logic\ProjectCategoryRatioLogic;		//项目类别系数
 class DataManageLogic
 {
@@ -41,32 +41,36 @@ class DataManageLogic
 		//查看是否有缓存
 		//todo:
 		
-		//初始化项目
-		$ProjectL = new ProjectLogic();
-		$ProjectL->alias("project");
+		//初始化分值分布表
+		$ScoreL = new ScoreLogic();
 
-		//
+		//选择条件
 		$map['project.cycle_id']			=	$cycleId;
 		$map['project_category.type']		=	$type;
 
 		// //
 		// $field['score.user_id']						=	'user_id';			//用户ID
 		// $field['score.score_percent']				=	'score_percent';	//分值占比
-		$field['project.id'] 						=	'id'; 		//项目ID
-		$field['project.title'] 					= 	'title'; 	//项目名称		
-		$field['project.user_id'] 					= 	'user_id'; 	//提交用户ID
-		$field['project_category.score']			=	'score';			//项目总分
+		$field['score.user_id']						=	'user_id';			//用户
+		$field['score.score_percent']				=	'score_percent';	//用户分值占比
+		$field['project.id'] 						=	'id'; 				//项目ID
+		$field['project.title'] 					= 	'title'; 			//项目名称		
+		$field['project.user_id'] 					= 	'commit_user_id'; 	//提交用户ID
+		$field['project_category.score']			=	'project_category_score';			//项目总分
 		$field['project_category.is_team']			=	'is_team';			//是否为团队项目
 		$field['project_category.data_model_id']	=	'data_model_id';	//数据模型ID
 		$field['project_category.type']				=	'type';				//数据所属类型（科研、育人）
 		$field['project_category.id']				=	'category_id';		//
-		$field['workflow.state']					=   'state';		//是否审核完成
+		$field['workflow.state']					=   'state';			//是否审核完成
 
 		//先取项目信息
-		$projects = $ProjectL->field($field)->join("
+		$ScoreL->alias("score");
+		$projects = $ScoreL->field($field)->join("
+			left join __PROJECT__ as project on score.project_id = project.id
 			left join __PROJECT_CATEGORY__ as project_category on project.project_category_id = project_category.id
 			left join __WORKFLOW__ as workflow on project.id = workflow.project_id
 			")->where($map)->select();	
+		// echo $ScoreL->getLastSql();
 		// echo $ProjectL->getLastSql();	 
 		// dump($projects);
 
@@ -119,24 +123,19 @@ class DataManageLogic
 			//$sumPercent = $ScoreL->getSumPercentByProjectId($projectId);
 			//计算分值占比总和
 			$sumPercent = 0;
-			foreach($scores as $key => $score)
+			foreach($scores as $score)
 			{
 				$sumPercent += (int)$score['score_percent'];
 			}
 
-			//添加分值占比总和
-			foreach($scores as $key => $score)
-			{
-				$score['sum_percent'] = $sumPercent;
-				$scores[$key] = array_merge($score,$project);
-			}
-			// echo "接拼前";
-			// dump($scores);
-			$totalScores = array_merge($totalScores , $scores);
+			//计算当前用户的占比
+			$projects[$key][sum_percent] = $sumPercent;
+			$projects[$key][score] = (int)ceil($project['project_category_score']*$project['score_percent']/$sumPercent);
+
 			// echo "接拼后";
 			// dump($totalScores);	
 		}
-		//加入缓存TODO:
-		return $totalScores;
+
+		return $projects;
 	}
 }

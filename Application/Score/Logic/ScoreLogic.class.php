@@ -3,7 +3,8 @@
  * 项目用户分值占比 逻辑
  */
 namespace Score\Logic;
-use Score\Model\ScoreModel;		//分值 占比表
+use Score\Model\ScoreModel;		       //分值 占比表
+use Score\Model\ScoreViewModel;        //分值 占比表
 class ScoreLogic extends ScoreModel
 {
 	public function getAllListsByProjectId($projectId)
@@ -110,5 +111,35 @@ class ScoreLogic extends ScoreModel
     		$datas[$key]['sum_percent'] = $sumPercent;
     	}
     	return $datas;
+    }
+
+    /**
+     * 通过 用户 周期 类型 获取相当记录集
+     * @param  [type] $userId  [description]
+     * @param  [type] $cycleId [description]
+     * @param  [type] $type    [description]
+     * @return [type]          [description]
+     */
+    public function getListsByUserIdCycleIdType($userId ,$cycleId , $type)
+    {
+        $ScoreV = new ScoreViewModel();
+
+        $map['user_id'] = $userId;
+        $map['cycle_id'] = $cycleId;
+        $map['type'] = $type;
+
+        $this->totalCount = $ScoreV->where($map)->count();
+        $return = $ScoreV->where($map)->select();
+        return $return;
+    }
+
+    public function getListsByCycleIdType($cycleId , $type)
+    {
+        $ScoreV = new ScoreViewModel();
+        $map['cycle_id'] = $cycleId;
+        $map['type'] = $type;
+        $this->totalCount = $ScoreV->where($map)->count();
+        $return = $ScoreV->where($map)->select();
+        return $return;
     }
 }

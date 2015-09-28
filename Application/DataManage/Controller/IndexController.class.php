@@ -18,6 +18,7 @@ use Workflow\Model\WorkflowModel;					//工作流
 use Workflow\Logic\WorkflowLogic;					//工作流
 use ProjectCategoryRatio\Logic\ProjectCategoryRatioLogic;	//项目类别系数表
 use WorkflowLog\Model\WorkflowLogModel;				//工作流详情
+use Score\Logic\ScoreLogic;							//项目分值分布
 use PHPExcel\Server\PHPExcelServer;					//PHPEXCEL 服务
 class IndexController extends AdminController
 {
@@ -183,18 +184,18 @@ class IndexController extends AdminController
 		$cycles = $CycleL->getAllLists();
 
 		//取当前周期下用户的项目信息
-		$ProjectL = new ProjectLogic();
+		$ScoreL = new ScoreLogic();
 
 		//取当一用户
 		if($userId)
 		{
-			$projects = $ProjectL->getListsByUserIdCycleIdType($userId , $cycleId , $type);
-			$totalCount = $ProjectL->getTotalCount();
+			$projects = $ScoreL->getListsByUserIdCycleIdType($userId , $cycleId , $type);
+			$totalCount = $ScoreL->getTotalCount();
 		}
 		else
 		{
-			$projects = $ProjectL->getListsByCycleIdType($cycleId , $type);
-			$totalCount = $ProjectL->getTotalCount();
+			$projects = $ScoreL->getListsByCycleIdType($cycleId , $type);
+			$totalCount = $ScoreL->getTotalCount();
 		}
 
 		$this->projects	= $projects;
@@ -454,7 +455,7 @@ class IndexController extends AdminController
 			$this->projects[$key]['status'] = $status;
 
 			//取分数
-			$score = $ProjectCategoryRatioL->getScoreByProjectId($projectId);
+			$score = $ProjectCategoryRatioL->getScoreByProjectIdUserId($projectId,$userId);
 			$this->projects[$key]['score'] = $score;
 			$this->projects[$key]['donScore'] = $workflow['is_finished'] ? $score : 0;
 		}
