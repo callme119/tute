@@ -15,6 +15,23 @@
                }
             }
         })
+        $("#login").click(function(){
+            var username=document.getElementById("username").value;
+            var password=document.getElementById("password").value;
+            $.post(
+                "{:U('Login/Index/checkAjax')}?username="+username+"&password="+password,
+                {},
+                function(data){
+                    if(data.state == "error"){                     
+                        location = "{:U('Login/Index/index')}";
+                        $(".error").append(data.msg);
+                    }else
+                    {
+                        location = "{:U('Admin/Index/index')}";
+                    }
+                }
+            );
+        })
     });
 </script>
 

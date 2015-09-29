@@ -44,13 +44,13 @@
                         <h3 class="panel-title">请登录</h3>
                     </div>
                     <div class="panel-body">
-                        <form role="form"  id="loginform" method = 'post' action="{:U('Login/Index/login')}">
+                        <!-- <form role="form"  id="loginform" method = 'post' action="{:U('Login/Index/login')}"> -->
                             <fieldset>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="用户名" name="username"  value="{$username}">
+                                    <input class="form-control" placeholder="用户名" name="username" id="username" value="{$username}">
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="密码" name="password" type="password" value="{$psw}">
+                                    <input class="form-control" placeholder="密码" name="password" id="password" type="password" value="{$psw}">
                                 </div>
                                 <div class="checkbox">
                                     <label>
@@ -58,7 +58,7 @@
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <button type="submit" class="btn btn-lg btn-success btn-block">登录</button>
+                                <button class="btn btn-lg btn-success btn-block" id="login">登录</button>
                                 <php>if (APP_DEBUG==true): </php>
                                 <a href="{:U('Login/Index/loginDirect')}"  class="btn btn-lg btn-success btn-block">直接登录</a>
                                 <php>endif</php>
@@ -69,6 +69,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="error">
     </div>
 
     <!-- jQuery -->
@@ -83,7 +85,6 @@
     <!-- Custom Theme JavaScript -->
     <script src="{:add_root_path("/SBAdmin2/js/sb-admin-2.js")}"></script>
     <script src="{:add_root_path("/SBAdmin2/js/jquery.validate.js")}"></script>
-    <script src="__JS__/errorClass.js"></script>
     {$js}
 
 </body>

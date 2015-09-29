@@ -69,4 +69,32 @@ class IndexController extends Controller {
         }
 
     }
+
+    public function checkAjaxAction(){
+        $data = array();
+        $model = new UserModel();
+        $username = I('get.username');
+        $password = I('get.password');
+        switch ($model->checkUser($username,$password)) {
+            case '1':
+                //根据post的用户名取出用户信息，再将id与name存入session
+                $list = $model->getUserInfoByName(I('post.username'));
+                session('user_id',$list['id']);
+                session('user_name',$list['username']);
+                //登录成功后跳转
+                $data['state'] = "success";
+                $this->ajaxReturn($data);
+                break;
+            case '0':
+                $data['state'] = "error";
+                $data['msg'] = "用户名密码错误" ;
+                $this->ajaxReturn($data);
+                break;
+            case '2':
+                $data['state'] = "error";
+                $data['msg'] = "无此用户名" ;
+                $this->ajaxReturn($data);
+                break;
+        }
+    }
 }
