@@ -9,6 +9,7 @@ use Admin\Controller\AdminController;
 use Role\Model\RoleModel;
 use Menu\Model\MenuModel;
 use RoleMenu\Model\RoleMenuModel;
+use UserRole\Model\UserRoleModel;
 use RoleStaff\Model\RoleStaffModel;
 class IndexController extends AdminController
 {
@@ -89,9 +90,22 @@ class IndexController extends AdminController
     //删除角色
     public function deleteRoleAction(){
         //判断该角色下是否有用户
-        //如果有，提示不能删除
-        //如果没有，删除该角色
-
+        $roleId = I('get.id');
+        $userRoleM = new UserRoleModel;
+        $hasUser = $userRoleM -> getInRoleStaffByRoleId($roleId);
+        if($hasUser){
+            //如果有，提示不能删除
+            $url = U('index',I('get.'));
+            $this -> error('该角色下有用户存在，不能删除',$url);
+        }else{
+            //如果没有，删除该角色
+            $roleM = new RoleModel;
+            $state = $roleM -> deleteRoleByRoleId($roleId);
+            if($state){
+                $url = U('index',I('get.'));
+                $this -> success('删除成功',$url);
+            }
+        }
     }
     //保存
      public function updateAction(){

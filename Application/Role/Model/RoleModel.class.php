@@ -71,4 +71,10 @@ class RoleModel extends Model{
         $lists = $this->where($map)->find();
         return $lists[name];
     }
+
+    public function deleteRoleByRoleId($roleId){
+        $map['id'] = $roleId;
+        $this->where($map) -> delete();
+        return true;
+    }
 }

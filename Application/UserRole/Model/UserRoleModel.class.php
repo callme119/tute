@@ -23,14 +23,7 @@ class UserRoleModel extends Model{
 	public function getInRoleStaffByRoleId($roleId){
 		//从角色-教工表中获取教工id
 		$map['role_id'] = $roleId;
-		$data = $this -> where($map) ->field('staff_id')-> select();
-		$data = change_key($data,'staff_id');
-
-		//根据教工id获取教工信息
-		$staffModel = new UserModel;
-		foreach ($data as $key => $value) {
-			$data[$key] = $staffModel->getStaffById($value['staff_id']);
-		}
+		$data = $this -> where($map) ->field('user_id')-> select();
 		return $data;
 	}
 
