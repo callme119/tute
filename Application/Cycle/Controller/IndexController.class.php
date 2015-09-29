@@ -14,6 +14,7 @@ class IndexController extends AdminController
 
 		$this->assign("cycles",$cycles);
 		$this->assign("totalCount",$totalCount);
+		$this->assign('js',$this->fetch("indexJs"));
 		$this->assign('YZBODY',$this->fetch());
 		$this->display(YZTemplate);
 	}
