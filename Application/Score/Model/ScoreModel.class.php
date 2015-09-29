@@ -53,4 +53,12 @@ class ScoreModel extends Model{
 			return $res;
 		}
 	}
+	public function addOneself($projectId,$userId)
+	{
+		$data[user_id] = (int)$userId;
+		$data[score_percent] = (int)0;
+		$data[project_id] = (int)$projectId;
+		return $this->add($data);
+
+	}
 }
