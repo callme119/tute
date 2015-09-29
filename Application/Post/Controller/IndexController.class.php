@@ -74,8 +74,8 @@ class IndexController extends AdminController
             $this->success('删除成功',$url);
         }
         else{
-            $this -> error = "该岗位中有用户存在，不能删除";
-            throw new \Think\Exception($this->error,1);
+           $url = U('index');
+            $this->error('岗位下有用户，不能删除',$url);
         }
     }
     //添加保存
