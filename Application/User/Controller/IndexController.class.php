@@ -133,9 +133,20 @@ class IndexController extends AdminController {
             $data[$key][$string] = array(
                 'edit'=>U('edit?id='.$value['id']),
                 'delete'=>U('delete?id='.$value['id']),
+                'resetPassword'=>U('resetPassword?id='.$value['id']),
                 );
         }
         return $data;
+    }
+
+    public function resetPasswordAction(){
+        $userId = I('get.id');
+        $userM = new UserModel;
+        $state = $userM -> resetPassword($userId);
+        if($state){
+            $url = U('index');
+            $this ->success('重置密码成功',$url);
+        }
     }
 
     //修改用户邮箱，手机号，密码等个人信息
@@ -154,7 +165,7 @@ class IndexController extends AdminController {
         if($newpsw == 0){
             if($model->changePhoneOrEmail($userId)){
                 $this->success('修改信息成功');
-            }     
+            }
         }else{
             if($model->changePsw($newpsw,$userId)){
                 $this->success('修改密码成功');

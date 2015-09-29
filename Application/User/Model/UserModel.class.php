@@ -112,6 +112,7 @@ class UserModel extends RelationModel{
 	public function addStaff(){
 		$data['id'] = I('post.id');
 		$data['username'] = I('post.username');
+		$data['password'] = sha1("mengyunzhi");
 		$data['name'] = I('post.name');
 		$data['email'] = I('post.email');
 		$id = $this->add($data);
@@ -134,6 +135,24 @@ class UserModel extends RelationModel{
 		$data['id'] = I('get.id');
 		$state = $this -> where($data) ->delete();
 		return $state;
+	}
+	/**
+	 * [resetPassword 重置密码]
+	 * 重置密码为mengyunzhi
+	 * @param  [type] $userId [用户id]
+	 * @return [type]         [description]
+	 */
+	public function resetPassword($userId){
+		if ($userId == null) {
+			$this ->error = "系统错误!";
+			throw new \Think\Exception($this->error,1);
+		}else{
+			$data['id'] = $userId;
+			$data['password'] = sha1("mengyunzhi");
+			$this->save($data);
+			return true;
+		}
+		
 	}
 	//将原密码sha1后与数据库进行对比
 	public function checkPsw($oldpsw,$userId){
