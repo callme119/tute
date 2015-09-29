@@ -79,6 +79,7 @@ class ScoreLogic extends ScoreModel
         $field["s.project_id"] = "id";
         $field["p.title"] = "title";
         $field["p.project_category_id"] = "project_category_id";
+        $field["p.user_id"] = "commit_user_id";
         $field["p.time"] = "time";
         $field["p.cycle_id"] = "cycle_id";
 

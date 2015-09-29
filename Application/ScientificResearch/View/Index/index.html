@@ -28,7 +28,7 @@
                                 <td>{:W("ProjectCategory/getParentsDetailStringsById",array($project['project_category_id']))}</td>
                                 <td>{:W('Cycle/getNameById',array($project[cycle_id]))}</td>
                                 <td>{$project[time]|date="Y/m/d",###}</td>
-                                <td>{:W('User/getNameById',array($project['user_id']))}</td>
+                                <td>{:W('User/getNameById',array($project['commit_user_id']))}</td>
                                 <td><eq name="project[is_finished]" value="1">已办结<else />已提交</eq></td>
                                 <td>{:W("Project/getScoreByIdUserId",array($project[id] , $project[user_id]))}</td>
                             </tr>
