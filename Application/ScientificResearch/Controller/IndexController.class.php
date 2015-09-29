@@ -144,8 +144,8 @@ class IndexController extends AdminController {
 
             }
         }
-        else
-            $this->success("操作成功",'index');
+        
+        $this->success("操作成功",'index');
     }
     public function auditedAction() {
         $this->assign('YZBODY',$this->fetch());
