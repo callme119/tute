@@ -16,7 +16,13 @@ $(document).ready(
         });
         
 	});
+    //选中父标签子标签自动选中
+    $(document).on("change",".title_{$value.id}",function(){
+        //获取当前点击状态
+        var state=$(this).is(":checked");
+    });
     // 全选、反选事件
+
     $(document).on("change",".selectAll",function(){
         //获取当前点击状态
         var state = $(this).is(":checked");

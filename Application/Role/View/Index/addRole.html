@@ -22,18 +22,18 @@
                             <div class="col-sm-6">
                                 <div class=" role" id="unsetList">
                                 <foreach  name="permissionList" item = "value">
-                                     <div class="row title ">
+                                     <div class="row title title_{$value.id}">
                                         <input class="title_{$value.id}" name="title_{$value.id}"type="checkbox" />
                                         <lable for="title_{$value.id}">{$value.title}</lable>
                                     </div>
                                     <if condition="$value._son != null">  
                                         <foreach name="value._son" item="son">
-                                            <div class="row subtitle">
+                                            <div class="row subtitle title_{$son.id}">
                                                 <input id="title_{$son.id}" class="title_{$son.id}" name="title_{$son.id}" type="checkbox" />
                                                 <lable for="title_{$son.id}">{$son.title}</lable>
                                             </div>
                                                 <if condition="$son._son != null">
-                                                <div class="row subsubtitle">
+                                                <div class="row subsubtitle title_{$grandson.id}">
                                                         <foreach name="son._son" item="grandson">
                                                             <div class=col-sm-4>
                                                             <input class="title_{$grandson.id}" name="title_{$grandson.id}" type="checkbox" />
