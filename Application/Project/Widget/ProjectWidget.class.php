@@ -76,7 +76,8 @@ class ProjectWidget extends Controller
 	        //取项目总分
 	        $ProjectCategoryRatioL = new ProjectCategoryRatioLogic();
 	        $sumScore = $ProjectCategoryRatioL->getScoreByProjectId($projectId);
-	        
+	        dump($sumScore);
+
 	        //取各用户的占比
 	        $ScoreL = new ScoreLogic();
 	        $scores = $ScoreL->getAllListsByProjectId($projectId);

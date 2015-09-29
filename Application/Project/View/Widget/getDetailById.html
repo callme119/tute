@@ -3,7 +3,7 @@
 	<label>项目总分</label><p>{$sumScore}</p>
 	<label>完成人及得分</label><p>
 		<foreach name="scores" item="value">
-			<yunzhi:user id="$value['user_id']" name="yunzhiuser">{$yunzhiuser[name]}</yunzhi:user>:{:(int)ceil($value['score_percent']*$sumScore/100)}分<br />
+			<yunzhi:user id="$value['user_id']" name="yunzhiuser">{$yunzhiuser[name]}</yunzhi:user>:{:floor(($value['score_percent']*$sumScore/100)+0.5)}分<br />
 		</foreach>
 	</p>
 <label>状态</label><p><eq name="workflow['is_finished']" value="0">审核中<else/>已审核</eq></p>
