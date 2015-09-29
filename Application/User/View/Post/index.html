@@ -1,0 +1,31 @@
+<h5><a href="{:U('Index/index', I('get.'))}">返回教工列表</a></h5>
+<h4>当前教工:{:W('User/getNameById',array($userId))}</h4>
+<form action="{:U('save',I('get.'))}" method="post">
+	<input type="hidden" name="user_id" value="{$userId}">
+	<select id="department">
+		<foreach  name="departments" item="value">
+			<option value="{$value['id']}">{$value['name']}</option>
+		</foreach>
+	</select>
+	<select name="department_post_id" id="department_post_id">
+
+	</select> 
+	<button>添加岗位</button>
+</form>
+<table>
+	<tr>
+		<th>序号</th>
+		<th>部门</th>
+		<th>岗位</th>
+		<th>操作</th>
+	</tr>
+	<foreach name="userDepartmentPosts" item="value">
+	<tr>
+		<td>{++$i}</td>
+		<td>{$value['department_name']}</td>
+		<td>{$value['post_name']}</td>
+		<td><a class="" href="{:U('delete?user_department_post_id=' . $value['id'] , I('get.'))}">删除</a></td>
+	</tr>
+	</foreach>
+</table>
+{$js}

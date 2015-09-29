@@ -1,0 +1,50 @@
+<script id="department_post_option" type="text/x-handlebars-template">
+{{! 定义handerbars模板 }}
+	{{#each data}}
+	<option value="{{id}}">{{post_name}}</option>
+	{{/each}}
+</script>
+
+<script>
+$(document).ready(function(){
+	//handlebars模板引擎初始化
+    var source   = $("#department_post_option").html();
+    var template = Handlebars.compile(source);
+
+	//部门改变后触发AJAX
+	$(document).on("change","#department",function(){
+		var departmentId = $(this).val();
+		console.log(departmentId);
+		getPostOption(departmentId);
+	});
+
+	//获取岗位列表信息
+	var getPostOption = function(departmentId){
+		var url = "{:U('getPostsByDepartmentIdAjax')}?department_id=" +  departmentId;
+		$.get(
+			url,
+			function(data,state){
+				if(state == "success")
+				{
+					$("#department_post_id").html(template(data));
+					console.log(template(data));
+				}
+				else
+				{
+					console.log("error");
+				}
+			}
+		);
+	}
+
+	//界面初始化函数
+	var init = function(){
+		var departmentId = $("#department").val();
+		getPostOption(departmentId);
+	}
+
+	//初始化
+	init();
+});
+	
+</script>
