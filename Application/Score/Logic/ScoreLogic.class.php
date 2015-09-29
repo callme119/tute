@@ -7,6 +7,12 @@ use Score\Model\ScoreModel;		       //分值 占比表
 use Score\Model\ScoreViewModel;        //分值 占比表
 class ScoreLogic extends ScoreModel
 {
+    protected $order = "time desc";
+    
+    public function setOrder($order)
+    {
+        $this->order = $order;
+    }
 	public function getAllListsByProjectId($projectId)
 	{
 		$map['project_id'] = (int)$projectId;
@@ -79,12 +85,11 @@ class ScoreLogic extends ScoreModel
         $field["pc.score"] = "score";
         
         $field["w.is_finished"] = "is_finished";
-        
 
         $this->alias("s");      //设置表别名
         $this->totalCount = $this->join("left join __PROJECT__ p on s.project_id = p.id left join __PROJECT_CATEGORY__ pc on p.project_category_id = pc.id left join __WORKFLOW__ w on p.id=w.project_id")->where($map)->count();
         $this->alias("s");  
-        $return = $this->where($map)->field($field)->join("left join __PROJECT__ p on s.project_id = p.id left join __PROJECT_CATEGORY__ pc on p.project_category_id = pc.id left join __WORKFLOW__ w on p.id=w.project_id")->page($this->p,$this->pageSize)->order($this->order)->select();   
+        $return = $this->where($map)->order($order)->field($field)->join("left join __PROJECT__ p on s.project_id = p.id left join __PROJECT_CATEGORY__ pc on p.project_category_id = pc.id left join __WORKFLOW__ w on p.id=w.project_id")->page($this->p,$this->pageSize)->order($this->order)->select();   
         // echo $this->getLastSql();
         return $return;
     }

@@ -40,15 +40,11 @@ class IndexController extends AdminController {
         //取用户信息
         $userId = get_user_id();
         $type = CONTROLLER_NAME;
-
-        //取项目表信息
-        $ProjectM = new ProjectModel();
-
-        $projects = $ProjectM->getListsByUserIdType($userId , $type);;
-        $projects = $ProjectM->getListsJoinProjectCategoryByUserIdType($userId , $type);
-        $totalCount = $ProjectM->getTotalCount();
+        
+        //取分值分布\项目\类别等联合信息
         $ScoreL = new ScoreLogic();
         $projects= $ScoreL->getListsJoinProjectCategoryByUserIdType($userId , $type);
+        $totalCount = $ScoreL->getTotalCount();
 
         //传值
         $this->assign("totalCount",$totalCount);
