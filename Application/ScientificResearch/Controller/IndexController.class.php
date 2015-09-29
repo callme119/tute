@@ -120,7 +120,7 @@ class IndexController extends AdminController {
         {
             $name = I('post.name');
             if(!in_array($userId, $name)){
-                $addOneself = $ScoreM->addOneself($userId);
+                $addOneself = $ScoreM->addOneself($projectId,$userId);
             }
             $Score = $ScoreM->save($projectId);
             if($Score === false)
