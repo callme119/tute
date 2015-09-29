@@ -2,6 +2,8 @@
 namespace Department\Model;
 use Think\Model;
 use Think\Model\RelationModel;
+use DepartmentPost\Model\DepartmentPostModel;
+use UserDepartmentPost\Model\UserDepartmentPostModel;
 class DepartmentModel extends Model
 {
 	/*protected $_link = array(
@@ -163,4 +165,26 @@ class DepartmentModel extends Model
 		while($parentId != "0" );
 		return $return;
 	}
+	/*
+     *  根据传入的部门Id判断该部门下哪些岗位仍有员工
+     *  @return [array] [返回岗位列表]
+     */
+    public function checkUserByDepartmentId($department_Id){
+        
+        //根据岗位id取出部门岗位数组
+        $departmentPostModel = new DepartmentPostModel;
+        $departmentPostInfo = array();
+        $departmentPostInfo = $departmentPostModel->getDepartmentPostInfoByDepartId($department_Id);
+
+        //进行循环判断，将对应用户的部门岗位筛选出来
+        $haveUsersPosts = array();
+        $UserDepartmentPostModel = new UserDepartmentPostModel;
+        foreach ($departmentPostInfo as $key => $value) {
+            $users = $UserDepartmentPostModel->getListsByDepartmentPostId($value['id']);
+            if(count($users) != 0){
+                $haveUsersPosts[] = $value['post_id'];
+             }
+        }
+        return $haveUsersPosts;
+    }
 }

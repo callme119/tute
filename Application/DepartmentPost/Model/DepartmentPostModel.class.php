@@ -1,6 +1,7 @@
 <?php
 namespace DepartmentPost\Model;
 use Think\Model;
+use Department\Model\DepartmentModel;
 class DepartmentPostModel EXTENDS Model
 {
 	/**
@@ -55,16 +56,19 @@ class DepartmentPostModel EXTENDS Model
 		//删除原来该部门下的岗位信息
 		$data = I('post.');
 		$map['department_id'] = $data['id'];
-		$this-> where($map)->delete();
-		
-		//添加现有的部门岗位信息
-		$department_post = array();
-		foreach ($data as $key => $value) {
-			if($value == 'on'){
-				$department_post[] = array('department_id' => $data['id'],'post_id' => $key,'state' => 1);
+		$initialdata = $this-> where($map)->select();
+		$departmentModel = new DepartmentModel;
+		$hasPostIdList = $departmentModel -> checkUserByDepartmentId($data['id']);
+		foreach ($initialdata as $key => $value) {
+			if(!in_array($value['post_id'], $hasPostIdList)){
+				$this -> where('id='.$value['id']) ->delete();
 			}
 		}
-		
+		//添加现有的部门岗位信息
+		$department_post = array();
+		foreach ($data['postId'] as $key => $value) {
+			$department_post[] = array('department_id' => $data['id'],'post_id' => $value,'state' => 1);
+		}
 		//保存信息
 		$this->addAll($department_post);
 		return true;
