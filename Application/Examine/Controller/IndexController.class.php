@@ -46,6 +46,7 @@ class IndexController extends AdminController{
         $this->assign('page',$page);
         $this->assign('count',$count);
         $this->assign('examine',$data);
+        $this->assign('js',$this->fetch("examinelistJs"));
         $this->assign('YZBODY',$this->fetch('examinelist'));
         $this->display(YZTemplate);
     }
