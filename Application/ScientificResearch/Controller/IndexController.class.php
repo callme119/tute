@@ -118,12 +118,10 @@ class IndexController extends AdminController {
         $isTeam = $projectCategory['is_team'];
         if($isTeam == 1)
         {
-            // $name = I('post.name');
-            // foreach ($name as $key => $value) {
-            //     if (!isset($value==$userId)) {
-            //         $addOneself = $ScoreM->addOneself($userId);
-            //     }
-            // }
+            $name = I('post.name');
+            if(!in_array($userId, $name)){
+                $addOneself = $ScoreM->addOneself($userId);
+            }
             $Score = $ScoreM->save($projectId);
             if($Score === false)
             {
