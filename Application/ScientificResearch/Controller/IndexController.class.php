@@ -46,9 +46,9 @@ class IndexController extends AdminController {
 
         // $projects = $ProjectM->getListsByUserIdType($userId , $type);;
         // $projects = $ProjectM->getListsJoinProjectCategoryByUserIdType($userId , $type);
-        $totalCount = $ProjectM->getTotalCount();
         $ScoreL = new ScoreLogic();
         $projects= $ScoreL->getListsJoinProjectCategoryByUserIdType($userId , $type);
+        $totalCount = $ScoreL->getTotalCount();
         //传值
         $this->assign("totalCount",$totalCount);
         $this->assign("projects",$projects);
