@@ -97,13 +97,16 @@ class ProjectCategoryRatioLogic extends ProjectCategoryRatioModel
 		$projectDetailL = new ProjectDetailLogic();
 		$projectDetail = $projectDetailL->getListsByProjectId($projectId);
 
-
 		$ProjectM = new ProjectModel();
 		$project = $ProjectM->where("id = $projectId")->find();
-		// dump($project);
+		
+		$projectCategoryId = $project['project_category_id'];
+		$ProjectCategoryL = new ProjectCategoryLogic();
+		$projectCategory = $ProjectCategoryL->getListById($projectCategoryId);
+		// dump($projectCategory);
 
 		//取项目模型信息
-		$dataModelId = $project['data_model_id'];
+		$dataModelId = $projectCategory['data_model_id'];
 		$DataModelM = new DataModelModel();
 		$dataModel = $DataModelM->getListById($dataModelId);
 		// dump($dataModel);
@@ -111,19 +114,17 @@ class ProjectCategoryRatioLogic extends ProjectCategoryRatioModel
 		//取出项目模型详情中字段为select的项.
 		//同时将项目模型的所有子结点
 		$DataModelDetailL = new DataModelDetailLogic();
-		$map['html_type'] = "select";
-		$dataModelSelectRoots = 	$DataModelDetailL->getRootListsByDataModelId($dataModelId , $map);
+		$map['type'] = "select";
+		$dataModelSelectRoots = $DataModelDetailL->getRootListsByDataModelId($dataModelId , $map);
 		$dataModelSons	=	$DataModelDetailL->getSonListsArrayByDataModelId($dataModelId);
-		//dump($dataModelSelectRoots);
-		//取项目对应的 项目分类 信息
-		$projectCategoryId = $project['project_category_id'];
 
-		$ProjectCategoryL = new ProjectCategoryLogic();
-		$projectCategory = $ProjectCategoryL->getListById($projectCategoryId);
+		$map['type'] = "money";
+		$dataModelMoneyRoots = 	$DataModelDetailL->getRootListsByDataModelId($dataModelId , $map);
 
 		//取项目系数信息
 		$ProjectCategoryRatioL = new ProjectCategoryRatioLogic();
 		$projectCategoryRatios = $ProjectCategoryRatioL->getListsByProjectCategoryId($projectCategoryId);
+		// dump($projectCategoryRatios);
 
 		//取项目扩展信息
 		$ProjectDetailL = new ProjectDetailLogic();
@@ -133,36 +134,43 @@ class ProjectCategoryRatioLogic extends ProjectCategoryRatioModel
 
 		//取总分
 		$score = $projectCategory['score'];
-
-		//先取出name信息 ，再取出name字段对应的选项ID，再取出该ID对应的系数 。
+		// dump($score);
+		
+		//取selected的系数 先取出name信息 ，再取出name字段对应的选项ID，再取出该ID对应的系数 。
 		foreach($dataModelSelectRoots as $root)
 		{
-			//判断是select还是money
-			if($root['type']=="money"){
-				$key = $root['name'];
 
-				
-				if( isset($projectDetails[$key]['value']))
-				{
-					$value = $projectDetails[$key]['value'];
-					$score =  floor($projectDetail['value']*$projectCategoryRatios[$value]['ratio']);	
-				}
-			}
-			else{
-				$key = $root['name'];
-
-				//如果存在，证明该系数已经设置，如果不存在，证明项目的系数未被设置。
-				//该原因，可能是先有的项目，后来增的数据模型的系数引起的。
-				//归避该BUG的方法，可以在修改数据模型前，给出是否有项目类别使用该项目模型的判断。
-				if( isset($projectDetails[$key]['value']))
-				{
-					$value = $projectDetails[$key]['value'];
-					$score =  floor($score*$projectCategoryRatios[$value]['ratio']/100);	
-				}
+			$key = $root['name'];
+			//如果存在，证明该系数已经设置，如果不存在，证明项目的系数未被设置。
+			//该原因，可能是先有的项目，后来增的数据模型的系数引起的。
+			//归避该BUG的方法，可以在修改数据模型前，给出是否有项目类别使用该项目模型的判断。
+			if( isset($projectDetails[$key]['value']))
+			{
+				$value = $projectDetails[$key]['value'];
+				$score = $score*$projectCategoryRatios[$value]['ratio']/100;	
 			}
 		}
 
-		//输出
-		return $score;
+		//取money的系数
+		// dump($dataModelMoneyRoots);
+		foreach($dataModelMoneyRoots as $root)
+		{
+			$key  = $root['name'];
+			$dataModelDetailId = $root['id'];
+
+			//判断是否在项目详情中,存了该项的分值 在项目类型系数设置表中,存了该 数据详情项的系数
+			if( isset($projectDetails[$key]['value']) && isset($projectCategoryRatios[$dataModelDetailId]) )
+			{
+				$value = $projectDetails[$key]['value'];
+				$ratio = $projectCategoryRatios[$dataModelDetailId]['ratio'];
+
+				//将百分比转为小数(/100) 将元转化为万元(/10000)
+				$score =  $score*$value*$ratio/(100*10000);
+			}
+
+		}
+		
+		//输出(4舍5入)
+		return (int)floor($score+0.5);
 	}
 }
