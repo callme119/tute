@@ -110,9 +110,10 @@ class IndexController extends AdminController
 			$this->assign("unSetedUsers",$users);//未设置任务的用户
 			$this->assign("tasks",$tasks);		//已设置任务的用户
 			$this->assign("cycle",$cycle);			//用户选择周期
-			$this -> assign('css',$this->fetch("Index/editAllCss"));
-			$this->assign("YZBODY",$this->fetch('Index/editAll'));
+			$this->assign('css',$this->fetch("Index/editAllCss"));
 			$this->assign("js",$this->fetch('Index/editAllJs'));
+			
+			$this->assign("YZBODY",$this->fetch('Index/editAll'));
 			$this->display(YZTemplate);
 		}
 		catch(\Think\Exception $e)
