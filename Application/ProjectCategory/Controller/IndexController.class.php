@@ -31,6 +31,7 @@ class IndexController extends AdminController
 		    //传值
 		    $this->assign("totalCount",count($projectCategoryLists));
 		    $this->assign("lists",$lists);
+		    $this->assign("js",$this->fetch("Index/indexJs"));
 			$this->assign("YZBODY",$this->fetch("Index/index"));
 			$this->display(YZTemplate);
 		}
