@@ -25,52 +25,13 @@
                                 
                             </div>
                         </div>
-                        <div class="row form-group team">
-                            <label for="" class="col-sm-2 control-label">部门岗位</label>
-                            <div class="col-sm-10">
-                                <div class="row">
-                                    <div class="col-sm-4">
-                                        <div class="input-group">
-                                            <lable for="" id="next_examiner" class="input-group-addon">部门
-                                            </lable>
-                                            <select data-order="0" class="department selectpicker form-control">
-                                                <foreach  name="departmentPostList" item = "value">
-                                                    <option value="{$value[id]}">{$value.name}</option>
-                                                </foreach>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-4">
-                                        <div class="input-group">
-                                            <lable for="inputEmail3" class="input-group-addon" id="basic-addon1">岗位</lable>
-                                            <select data-order="department_0" id="post_0" class='post selectpicker form-control'>
-                                                    <foreach name = "departmentPostList['0']['_post']" key="key" item = "value">
-
-                                                            <option value="{$key}">{$value}</option>
-                                                    </foreach>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-1">
-                                        <span id="plus" onmouseover="this.style.backgroundColor='green';" onmouseout="this.style.backgroundColor='';" class="input-group-addon btn">
-                                            <span class="glyphicon glyphicon-plus"></span>
-                                        </span>
-                                    </div>
-                                    <div class="col-sm-1">
-                                        <span id="minus" onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='';"  class="input-group-addon btn"><span class="glyphicon glyphicon-minus"></span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">角色</label>
                             <div class="col-sm-6">
                                 <div class=" role row">
                                 <foreach  name="roleList" item = "value" key="key">
                                     <div class="col-sm-4">
-                                        <input value="{$key}" name="{$value[name]}" type="checkbox" />
+                                        <input name="{$value['id']}" type="checkbox" />
                                         <lable>{$value.name}</lable>
                                     </div>
                                 </foreach>

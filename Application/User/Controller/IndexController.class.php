@@ -94,7 +94,7 @@ class IndexController extends AdminController {
         $state = $staffModel -> addStaff();
 
         //添加教工-角色信息(RoleUserModel)
-        $roleUserModel = new RoleUserModel;
+        $roleUserModel = new UserRoleModel;
         $roleUserModel -> addRoleUser();
         
         //添加教工-部门岗位信息(UserDepartmentPostModel)
