@@ -110,7 +110,7 @@ class ScientificResearchController extends IndexController
 			$value["BaseTask"] = (int)$task['value'];
 
 			//计算基础科研完成率
-			$value['basePercent'] = (int)ceil($value['doneScore']*100/$value['BaseTask']);
+			$value['basePercent'] = (int)floor($value['doneScore']*100/$value['BaseTask'] + 0.5);
 			$type = "PostScientificResearch"; //查岗位科研任务
 			$task = $TaskL->getListByUserIdCycleIdType($userId , $cycleId , $type);
 			$value["PostTask"] = (int)$task['value'];
@@ -123,13 +123,13 @@ class ScientificResearchController extends IndexController
 			$remain = $remain > 0 ? $remain : 0;
 
 			//岗位业绩完成率
-			$value['postPercent'] = (int)ceil($remain*100/$value['postScientificResearch']);
+			$value['postPercent'] = (int)floor($remain*100/$value['postScientificResearch'] + 0.5);
 
 			//总完成率
-			$value['donePercent'] = (int)ceil($value["doneScore"]*100/$value["totalTask"]);
+			$value['donePercent'] = (int)floor($value["doneScore"]*100/$value["totalTask"] + 0.5);
 
 			//总预期完成率
-			$value['totalPercent'] = (int)ceil($value["score"]*100/$value["totalTask"]);
+			$value['totalPercent'] = (int)floor($value["score"]*100/$value["totalTask"] + 0.5);
 
 			//传给原值 
 			$userDatas[$key] = $value;

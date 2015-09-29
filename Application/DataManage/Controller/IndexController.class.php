@@ -570,7 +570,7 @@ class IndexController extends AdminController
 		//计算当前项目的完成总分数及审核中的总分数
 		foreach($projects as $key => $project)
 		{
-			$score = (int)ceil($project['score_percent']*$project['score']/$project['sum_percent']);
+			$score = (int)floor($project['score_percent']*$project['score']/100+0.5);
 			if($project['state'] == '0')
 			{
 				$userDatas[$project['user_id']]['doingScore'] +=  $score;
@@ -601,10 +601,10 @@ class IndexController extends AdminController
 			$value["task"] = (int)$task['value'];
 			
 			//总完成率
-			$value['donePercent'] = (int)ceil($value["doneScore"]*100/$value["task"]);
+			$value['donePercent'] = (int)floor($value["doneScore"]*100/$value["task"]+0.5);
 
 			//总预期完成率
-			$value['totalPercent'] = (int)ceil($value["score"]*100/$value["task"]);
+			$value['totalPercent'] = (int)floor($value["score"]*100/$value["task"]+0.5);
 
 			//传给原值 
 			$userDatas[$key] = $value;
