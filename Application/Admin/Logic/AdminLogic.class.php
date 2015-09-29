@@ -59,7 +59,8 @@ class AdminLogic{
 			            }
 		            }
 			$res = in_array($url['id'], $menuIdLists);
-           			return $res;
+			
+           			return true;
 		}
 	   	
 	}

@@ -104,6 +104,7 @@ class AdminController extends Controller{
 
             //2.判读该用户是否有该权限
             $isJump = $adminLogic->checkUrl($currentMenu,$userId);
+
             if(!$isJump){
                 $this -> error = "你没有该权限,
                 如果你是开发人员的话，请在菜单管理中添加相关菜单";
