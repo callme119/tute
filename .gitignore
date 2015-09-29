@@ -17,3 +17,5 @@ Application/Common/Conf/debug.php
 Application/Common/Conf/debug.php
 *.tags
 *.tags_sorted_by_file
+
+Application/Common/Conf/config.php
