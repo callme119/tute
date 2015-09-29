@@ -406,6 +406,11 @@ class IndexController extends AdminController
 			$userName = $user['name'];
 			$this->projects[$key]['user_name'] = $userName;
 
+			$userId = $project['commit_user_id'];
+			$user = $UserL->getListById($userId);
+			$userName = $user['name'];
+			$this->projects[$key]['commit_user_name'] = $userName;
+
 			//取审核状态
 			$projectId = $project['id'];
 			$workflow = $WorkflowL->getListByProjectId($projectId);
@@ -495,22 +500,22 @@ class IndexController extends AdminController
 		$objPHPExcel->setSubTitle($subTitle);
 
 		//设置header
-		$header = array("名称","类别","提交时间","申请人","状态","分值","得分");
+		$header = array("名称","类别","提交时间","申请人","得分人","状态","分值","得分");
 		$objPHPExcel->setHeader($header);
 
 		//设置数据及类型 ,类型string 字符串, int 整形 ,money以元为单位
-		$key = array("title","project_category_chain_name","date","user_name","status","score","donScore");
+		$key = array("title","project_category_chain_name","date","commit_user_name","user_name","status","score","donScore");
 		$objPHPExcel->setKey($key);
 
 		//设置列宽
-		$width = array(20,20,10,8,8,6,6);
+		$width = array(20,20,10,8,8,8,6,6);
 		$objPHPExcel->setWidth($width);
 		
 		//设置数据
 		$objPHPExcel->setDatas($this->projects);
 
 		//type暂时还没有用到,用来格式化,当然了,最好是按要求的二维数组
-		$type = array("string","string","date","string","string","int","int");
+		$type = array("string","string","date","string","string","string","int","int");
 		$objPHPExcel->setType($type);
 
 		//创建数据
@@ -527,8 +532,8 @@ class IndexController extends AdminController
 		$activeSheet->setCellValue($colLetters[0] . $row , "总计:");
 
 		//如果有数据则写入总和,没有，则给0
-		//从第6列开始,到第7列,分别求和
-		for($col =5;$col<7;)
+		//从第7列开始,到第8列,分别求和
+		for($col =6;$col<8;)
 		{
 			$col++;
 			if($endRow > 3)

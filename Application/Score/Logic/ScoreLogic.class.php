@@ -135,7 +135,7 @@ class ScoreLogic extends ScoreModel
         $map['type'] = $type;
 
         $this->totalCount = $ScoreV->where($map)->count();
-        $return = $ScoreV->where($map)->select();
+        $return = $ScoreV->where($map)->order($this->order)->select();
         // echo $ScoreV->getLastSql();
         return $return;
     }

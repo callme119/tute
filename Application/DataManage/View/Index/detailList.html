@@ -23,6 +23,7 @@
 		<th>类别</th>
 		<th>提交时间</th>
 		<th>申请人</th>
+		<th>得分人</th>
 		<th>状态</th>
 		<th>项目分值</th>
 		<th>得分</th>
@@ -33,6 +34,7 @@
 		<td><a href="{:U('detail?id='.$project['id'] , I('get.'))}">{$project['title']}</a></td>
 		<td>{:W('ProjectCategory/getParentsDetailStringsById',array($project['project_category_id']))}</td>
 		<td>{$project['time']|date="Y/m/d",###}</td>
+		<td>{:W('User/getNameById' , array($project['commit_user_id']))}</td>
 		<td>{:W('User/getNameById' , array($project['user_id']))}</td>
 		<td><php>$state = W('Workflow/getStateByProjectId',array($project['id'] , 0 ,1));</php><eq name="state" value="0">审核中..<else/>已审核</eq></td>
 		<td>{:$score = W('ProjectCategoryRatio/getScoreByProjectIdUserId',array($project['id'] , $project['user_id']))}</td>
@@ -40,6 +42,5 @@
 	</tr>
 	</foreach>
 </table>
-<yunzhi:page totalcount="totalCount" ></yunzhi:page>
 <a href="{:U('detailListDataExport',I('get.'))}">数据导出</a>
 {$js}
