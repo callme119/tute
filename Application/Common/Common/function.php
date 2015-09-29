@@ -46,7 +46,6 @@ function get_default($value ,$type = "int")
 function get_user_id()
 {   
 
-    return 3;
     $userId = session('user_id');
     if(isset($userId)){
         return $userId;
