@@ -23,7 +23,7 @@ class IndexController extends AdminController {
         $staffList = $this -> _addurl($staffList,'_url');
         //dump($staffList);
         $this->assign('staffList',$staffList);
-        $this->assign('css',$this->fetch("addCss"));
+        $this->assign('js',$this->fetch("indexJs"));
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
