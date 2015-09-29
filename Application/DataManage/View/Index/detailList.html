@@ -1,46 +1,66 @@
-<php>
-	$cycleId = I('get.cycle_id'); //获取周期ID
-	$userId = I('get.user_id');		//获取用户ID 
-</php>
-<div>
-	<a href="{:U('index')}">切换至总体列表</a>
-</div>
-<select id="cycles" name="cycles" class="select2">
-	<foreach name="cycles" item="cycle">
-		<option value="{$cycle['id']}" <eq name="cycle['id']" value="$cycleId">selected="selected"</eq>>{$cycle['name']}</option>
-	</foreach>
-</select>
-<select id="users" name="user" class="select2">	
-	<option value="0">全部</option>
-	<foreach name="users" item="user">
-		<option value="{$user['id']}" <eq name="user['id']" value="$userId">selected="selected"</eq>>{$user['name']}</option>
-	</foreach>
-</select>
-<table>
-	<tr>
-		<th>序号</th>
-		<th>名称</th>
-		<th>类别</th>
-		<th>提交时间</th>
-		<th>申请人</th>
-		<th>得分人</th>
-		<th>状态</th>
-		<th>项目分值</th>
-		<th>得分</th>
-	</tr>
-	<foreach name="projects" item="project">
-	<tr>
-		<td>{++$i}</td>
-		<td><a href="{:U('detail?id='.$project['id'] , I('get.'))}">{$project['title']}</a></td>
-		<td>{:W('ProjectCategory/getParentsDetailStringsById',array($project['project_category_id']))}</td>
-		<td>{$project['time']|date="Y/m/d",###}</td>
-		<td>{:W('User/getNameById' , array($project['commit_user_id']))}</td>
-		<td>{:W('User/getNameById' , array($project['user_id']))}</td>
-		<td><php>$state = W('Workflow/getStateByProjectId',array($project['id'] , 0 ,1));</php><eq name="state" value="0">审核中..<else/>已审核</eq></td>
-		<td>{:$score = W('ProjectCategoryRatio/getScoreByProjectIdUserId',array($project['id'] , $project['user_id']))}</td>
-		<td><eq name="state" value="0">0<else/>{$score}</eq></td>
-	</tr>
-	</foreach>
-</table>
-<a href="{:U('detailListDataExport',I('get.'))}">数据导出</a>
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-body table-responsive">
+                    <div class="panel-body">
+						<php>
+							$cycleId = I('get.cycle_id'); //获取周期ID
+							$userId = I('get.user_id');		//获取用户ID 
+						</php>
+						<div class="row">
+							<div class="col-md-8 col-xs-4">
+								<select id="cycles" name="cycles" class="select2">
+									<foreach name="cycles" item="cycle">
+										<option value="{$cycle['id']}" <eq name="cycle['id']" value="$cycleId">selected="selected"</eq>>{$cycle['name']}</option>
+									</foreach>
+								</select>
+								<select id="users" name="user" class="select2">	
+									<option value="0">全部</option>
+									<foreach name="users" item="user">
+										<option value="{$user['id']}" <eq name="user['id']" value="$userId">selected="selected"</eq>>{$user['name']}</option>
+									</foreach>
+								</select>
+							</div>
+							<div class="col-md-2 col-xs-3 pull-right">
+								<a class="btn btn-info" href="{:U('index')}">切换至总体列表</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<table class="table table-bordered table-striped table-hover">
+					<thead>
+					<tr>
+						<th>序号</th>
+						<th>名称</th>
+						<th>类别</th>
+						<th>提交时间</th>
+						<th>申请人</th>
+						<th>得分人</th>
+						<th>状态</th>
+						<th>项目分值</th>
+						<th>得分</th>
+					</tr>
+					</thead>
+					<tbody>
+					<foreach name="projects" item="project">
+					<tr>
+						<td>{++$i}</td>
+						<td><a href="{:U('detail?id='.$project['id'] , I('get.'))}">{$project['title']}</a></td>
+						<td>{:W('ProjectCategory/getParentsDetailStringsById',array($project['project_category_id']))}</td>
+						<td>{$project['time']|date="Y/m/d",###}</td>
+						<td>{:W('User/getNameById' , array($project['commit_user_id']))}</td>
+						<td>{:W('User/getNameById' , array($project['user_id']))}</td>
+						<td><php>$state = W('Workflow/getStateByProjectId',array($project['id'] , 0 ,1));</php><eq name="state" value="0">审核中..<else/>已审核</eq></td>
+						<td>{:$score = W('ProjectCategoryRatio/getScoreByProjectIdUserId',array($project['id'] , $project['user_id']))}</td>
+						<td><eq name="state" value="0">0<else/>{$score}</eq></td>
+					</tr>
+					</foreach>
+					</tbody>
+				</table>
+				<a class="btn btn-primary" href="{:U('detailListDataExport',I('get.'))}">数据导出</a>
+			</div>
+        </div>
+    </div>
+</section>
 {$js}
