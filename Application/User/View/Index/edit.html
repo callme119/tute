@@ -8,20 +8,20 @@
                         <div class="form-group">
                             <label for="username" class="col-sm-2 control-label">用户名</label>
                             <div class="col-sm-4">
-                                <input name="username" class="form-control" placeholder="用户名" <eq name="staffInfo['name']" value=""><else />disabled="disabled"</eq> value="{$staffInfo.username}">
+                                <input id="username" name="username" class="form-control" placeholder="用户名" <eq name="staffInfo['name']" value=""><else />disabled="disabled"</eq> value="{$staffInfo.username}">
                             </div>
                             <p class="bitian col-sm-1">*</p>
                         </div>
                         <div class="form-group">
                             <label for="name" class="col-sm-2 control-label">姓名</label>
                             <div class="col-sm-4">
-                                <input name="name" class="form-control" placeholder="姓名" value="{$staffInfo.name}" <eq name="staffInfo['name']" value=""><else />disabled="disabled"</eq> />
+                                <input id="name" name="name" class="form-control" placeholder="姓名" value="{$staffInfo.name}" <eq name="staffInfo['name']" value=""><else />disabled="disabled"</eq> />
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="email" class="col-sm-2 control-label">邮箱</label>
                             <div class="col-sm-4">
-                                <input name="email" class="form-control" id="" placeholder="邮箱" value="{$staffInfo.email}">
+                                <input name="email" class="form-control" id="email" placeholder="邮箱" value="{$staffInfo.email}">
                                 
                             </div>
                         </div>
