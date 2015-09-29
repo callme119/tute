@@ -46,7 +46,7 @@ class IndexController extends AdminController {
 
         // $projects = $ProjectM->getListsByUserIdType($userId , $type);;
         // $projects = $ProjectM->getListsJoinProjectCategoryByUserIdType($userId , $type);
-        // $totalCount = $ProjectM->getTotalCount();
+        $totalCount = $ProjectM->getTotalCount();
         $ScoreL = new ScoreLogic();
         $projects= $ScoreL->getListsJoinProjectCategoryByUserIdType($userId , $type);
         //传值
@@ -118,12 +118,12 @@ class IndexController extends AdminController {
         $isTeam = $projectCategory['is_team'];
         if($isTeam == 1)
         {
-            $name = I('post.name');
-            foreach ($name as $key => $value) {
-                if (!isset($value==$userId)) {
-                    $addOneself = $ScoreM->addOneself($userId);
-                }
-            }
+            // $name = I('post.name');
+            // foreach ($name as $key => $value) {
+            //     if (!isset($value==$userId)) {
+            //         $addOneself = $ScoreM->addOneself($userId);
+            //     }
+            // }
             $Score = $ScoreM->save($projectId);
             if($Score === false)
             {
@@ -168,7 +168,7 @@ class IndexController extends AdminController {
         //获取当前用户部门岗位信息（数组）
         $UserDepartmentPostM = new UserDepartmentPostModel();
         $userDepartmentPosts = $UserDepartmentPostM->getListsByUserId($userId);
-
+        // dump($userDepartmentPosts);
         //获取当前岗位下，对应的可用审核流程
         $ExamineM = new ExamineModel();
         $examineLists = $ExamineM->getListsByNowPosts($userDepartmentPosts);
