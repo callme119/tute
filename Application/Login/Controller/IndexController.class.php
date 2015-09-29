@@ -33,17 +33,21 @@ class IndexController extends Controller {
         }
         //验证用户名密码
     	$model = new UserModel();
-    	if($model->checkUser()){
-            //根据post的用户名取出用户信息，再将id与name存入session
-            $list = $model->getUserInfoByName(I('post.username'));
-            session('user_id',$list['id']);
-            session('user_name',$list['username']);
-            //登录成功后跳转
-    		redirect_url(U('Admin/Index/index'));
-    	}else{
-    		$this->error('用户名密码错误',U('Login/Index/index'));
-    	}
-        
+    	switch ($model->checkUser()) {
+            case '1':
+                //根据post的用户名取出用户信息，再将id与name存入session
+                $list = $model->getUserInfoByName(I('post.username'));
+                session('user_id',$list['id']);
+                session('user_name',$list['username']);
+                //登录成功后跳转
+                redirect_url(U('Admin/Index/index'));
+                break;
+            case '0':
+                $this->error('用户名密码错误',U('Login/Index/index'));
+                break;
+            case '2':
+                $this->error('无此用户名',U('Login/Index/index'));
+        }       
     }
 
     //注销功能

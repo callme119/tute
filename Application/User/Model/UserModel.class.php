@@ -165,7 +165,9 @@ class UserModel extends RelationModel{
 		//根据用户名获取用户密码与用户信息
 		$user = array();
 		$user = $this->getUserInfoByName($list['username']);
-		if($user['password'] == sha1($list['password'])){
+		if($user == null){
+			return 2;//代表无此用户名
+		}else if($user['password'] == sha1($list['password'])){
 			return 1;//代表验证成功
 		}else{
 			return 0;//代表验证失败
