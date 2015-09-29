@@ -16,8 +16,7 @@
 				{$projectDetail[$value[name]]['value']|date="Y/m/d",###}
 			</eq>
 			<eq name="value[type]" value="money">
-				todo:如果类型为ＭＯＮＥＹ，则调用格式化函数。格式化为万元。
-				数据结构不好看，请先对projectDetail及dataModelDetail进行jump
+				{$projectDetail[$value[name]]['value']/10000}&nbsp;万元
 			</eq>
 			<eq name="value[type]" value="int">
 				{$projectDetail[$value[name]]['value']}
