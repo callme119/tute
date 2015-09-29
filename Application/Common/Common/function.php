@@ -45,9 +45,11 @@ function get_default($value ,$type = "int")
  */
 function get_user_id()
 {   
-    $user_id = session('user_id');
-    if(isset($user_id)){
-        return $user_id;
+
+    return 3;
+    $userId = session('user_id');
+    if(isset($userId)){
+        return $userId;
     }else{
         redirect_url(U('Login/Index/index'));
         exit();
