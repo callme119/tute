@@ -104,6 +104,7 @@ class IndexController extends AdminController
     }
     //编辑保存
     public function updateAction(){
+
         //更新部门信息
         $departmentModel = new DepartmentModel;
         $state = $departmentModel -> updateDepartment();

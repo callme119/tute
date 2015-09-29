@@ -36,7 +36,7 @@
                                     <div class="row">
                                         <foreach name="postList" item="value">
                                             <div class="col-sm-4">
-                                                <input class="postList_{$value.id} menu" id="postListname" name="postList_{$value.id}" type="checkbox"/>
+                                                <input class="postList_{$value.id} menu" id="postListname" name="{$value.id}" type="checkbox"/>
                                                 <lable for="postListname">{$value.name}</lable>
                                             </div>
                                         </foreach>
