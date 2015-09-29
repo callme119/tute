@@ -29,14 +29,26 @@
                                     <else/>
                                     <div class="row ">
                                         <h4>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$value.department_name}[{$value.post_name}]
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$value.department_name}[{$value.post_name}]
                                         </h4>
                                     </div>
                                     </eq>
                                 </foreach>
-                            <div class="row">
-                                <h4>角色：&nbsp;{$role}</h4>
-                            </div>
+                                <foreach name="role" item="value" key ="k">
+                                    <eq name="k" value="0">
+                                    <div class="row ">
+                                        <h4>角色：
+                                                [{$value}]
+                                        </h4>
+                                    </div>
+                                    <else/>
+                                    <div class="row ">
+                                        <h4>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[{$value}]
+                                        </h4>
+                                    </div>
+                                    </eq>
+                                </foreach>
                         <form id="personalCenter" class="form-horizontal" method = 'post' action="{:U('User/Index/changeUserInfo')}?id={$info.id}">
                             <div class="row hang ">
                                 <div class="input-group">

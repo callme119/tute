@@ -67,7 +67,7 @@ class RoleModel extends Model{
     public function getRoleNameByUserId($id){
         $roleId = $this->getRoleById($id);
         $map = array();
-        $map[id] = $id;
+        $map['id'] = $id;
         $lists = $this->where($map)->find();
         return $lists[name];
     }
