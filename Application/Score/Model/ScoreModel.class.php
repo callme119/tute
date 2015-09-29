@@ -17,6 +17,7 @@ class ScoreModel extends Model{
 		//如果不是报错
 		//如果是保存
 		$userId = I('post.name');
+		var_dump($userId);
 		$scorePercent = I('post.score_percent');
 		if(count($userId)<2)
 		{
@@ -33,17 +34,12 @@ class ScoreModel extends Model{
 					$this->error = "传入了空的projectid";
 					return false;
 				}
-				if(!$data[user_id] = (int)$value)
+				if(!$data['user_id'] = (int)$value)
 				{
 					$this->error = "传入了空的userId";
 					return false;
 				}
 				$sumPercent += (int)$scorePercent[$key];
-			}
-
-			//添加数据
-			foreach ($userId as $key => $value)
-			{
 				//计算分值
 				$data[score_percent] = (int)ceil($scorePercent[$key]*100/$sumPercent);
 				if($this->create($data)){
@@ -53,6 +49,8 @@ class ScoreModel extends Model{
 				else
 					$res = false;
 			}
+
+			
 			return $res;
 		}
 	}

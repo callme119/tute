@@ -117,7 +117,7 @@ class IndexController extends AdminController {
             $Score = $ScoreM->save($projectId);
             if($Score === false)
             {
-                $this->error = "数据添加发生错误，代码" . $this->getError();
+                $this->error = "数据添加发生错误，代码" . $ScoreM->getError();
                 $this->_empty();
             }  
         }
