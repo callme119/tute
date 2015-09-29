@@ -23,7 +23,7 @@ class IndexController extends AdminController {
         $staffList = $this -> _addurl($staffList,'_url');
         //dump($staffList);
         $this->assign('staffList',$staffList);
-        $this->assign('css',$this->fetch("addCss"));
+        $this->assign('js',$this->fetch("indexJs"));
         $this->assign('YZBODY',$this->fetch());
         $this->display(YZTemplate);
     }
@@ -94,7 +94,7 @@ class IndexController extends AdminController {
         $state = $staffModel -> addStaff();
 
         //添加教工-角色信息(RoleUserModel)
-        $roleUserModel = new RoleUserModel;
+        $roleUserModel = new UserRoleModel;
         $roleUserModel -> addRoleUser();
         
         //添加教工-部门岗位信息(UserDepartmentPostModel)

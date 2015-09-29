@@ -40,12 +40,15 @@ class IndexController extends AdminController {
         //取用户信息
         $userId = get_user_id();
         $type = CONTROLLER_NAME;
-        
-        //取分值分布\项目\类别等联合信息
+
+        //取项目表信息
+        $ProjectM = new ProjectModel();
+
+        // $projects = $ProjectM->getListsByUserIdType($userId , $type);;
+        // $projects = $ProjectM->getListsJoinProjectCategoryByUserIdType($userId , $type);
+        // $totalCount = $ProjectM->getTotalCount();
         $ScoreL = new ScoreLogic();
         $projects= $ScoreL->getListsJoinProjectCategoryByUserIdType($userId , $type);
-        $totalCount = $ScoreL->getTotalCount();
-
         //传值
         $this->assign("totalCount",$totalCount);
         $this->assign("projects",$projects);
@@ -110,10 +113,17 @@ class IndexController extends AdminController {
         }
 
         //存分数信息,如果是团队信息，存团队，如果不是，存个人
+        //团队的话还要判断是不是包含自己，不包含分值百分比变为零
         $ScoreM = new ScoreModel();
         $isTeam = $projectCategory['is_team'];
         if($isTeam == 1)
         {
+            $name = I('post.name');
+            foreach ($name as $key => $value) {
+                if (!isset($value==$userId)) {
+                    $addOneself = $ScoreM->addOneself($userId);
+                }
+            }
             $Score = $ScoreM->save($projectId);
             if($Score === false)
             {

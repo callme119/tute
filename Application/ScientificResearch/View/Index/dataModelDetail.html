@@ -6,6 +6,9 @@
 			<eq name="root[type]" value="date">
                 <input name="{$root[name]}" class="date form-control" size="16" type="text" value="" readonly>
 			</eq>
+			<eq name="root[type]" value="textarea">
+                <textarea name="{$root[name]}"  class="form-control" rows="3"></textarea>
+			</eq>
 			<eq name="root[type]" value="text">
 			<input class="form-control" aria-describedby="basic-addon1" type="text" name="{$root[name]}" id="{$root[name]}" class="{$root['class']}" /></eq>
 			<eq name="root[type]" value="money">

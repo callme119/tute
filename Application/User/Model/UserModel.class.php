@@ -110,7 +110,10 @@ class UserModel extends RelationModel{
 	}
 	//添加教工
 	public function addStaff(){
-		$data = I('post.');
+		$data['id'] = I('post.id');
+		$data['username'] = I('post.username');
+		$data['name'] = I('post.name');
+		$data['email'] = I('post.email');
 		$id = $this->add($data);
 		//post id给教工-部门岗位和教工-角色调用
 		$_POST['id'] = $id;

@@ -120,19 +120,29 @@ class IndexController extends AdminController
     //删除保存
     public function deleteAction(){
         $id = I('get.id');
-        //判断该部门是否有岗位
-        //如果有就不能删除;如果没有，删除
+        //获取该部门下的岗位
         $departmentPostModel = new DepartmentPostModel;
-        $hasPost = $departmentPostModel -> getDepartmentPostInfoByDepartId($id);
+        $departmentPostList = $departmentPostModel -> getDepartmentPostInfoByDepartId($id);
+        
+        $departmentPostIdList = array();
+        foreach ($departmentPostList as $key => $value) {
+            $departmentPostIdList[$key] = $value['id'];
+        }
 
+        $userDepartmentPostModel = new UserDepartmentPostModel;
+        $hasUser = $userDepartmentPostModel -> getFirstListsByDepartmentPostIds($departmentPostIdList);
+        if($hasUser){
+            $url = U('index');
+            $this->error('该部门关联的岗位中存在用户，如果直接删除会导致系统错误',$url);
+        }
         //判断该部门是否存在下级部门
         //如果有就不能删除；如果没有，可以删除
         $departmentModel = new DepartmentModel;
         $hasChildDepartment = $departmentModel -> getDepartmentTree($id,1,null);
 
-        if($hasPost || $hasChildDepartment){
+        if($hasChildDepartment){
             $url = U('index');
-            $this->error('该部门中存在岗位或包含下级部门，如果直接删除会导致系统错误',$url);
+            $this->error('该部门中包含下级部门，如果直接删除会导致系统错误',$url);
         }else{
             $state = $departmentModel -> deleteDepartment();
         }
