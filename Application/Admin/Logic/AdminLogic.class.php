@@ -19,14 +19,15 @@ class AdminLogic{
 	            //2通过角色id获取角色对应的菜单id列表；
 	            $roleMenuLogic = new RoleMenuLogic;
 	            $menuIdList = $roleMenuLogic -> getMenuListByRoleList($roleIdList);
-
+	            
 	            //3.获取相对应的左侧菜单树
 	            $menuModel = new MenuModel();
 	            if ($menuIdList) {
 	                $where['id'] = array('in',$menuIdList);
+	                $data = $menuModel -> getMenuTree(null,$where,1,2);
+	            }else{
+	            		$data = null;
 	            }
-	            $data = $menuModel -> getMenuTree(null,$where,1,2);
-
 	            //返回菜单树给C层
             		return $data;
 	}
