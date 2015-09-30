@@ -18,13 +18,14 @@
         $("#login").click(function(){
             var username=document.getElementById("username").value;
             var password=document.getElementById("password").value;
+            var remember=$("#remember").is(':checked');
             $.post(
-                "{:U('Login/Index/checkAjax')}?username="+username+"&password="+password,
+                "{:U('Login/Index/checkAjax')}?username="+username+"&password="+password+"&remember="+remember,
                 {},
                 function(data){
                     if(data.state == "error"){                     
-                        location = "{:U('Login/Index/index')}";
-                        $(".error").append(data.msg);
+                        $(".error").html("<div>"+data.msg+"</div>");
+                        return false;
                     }else
                     {
                         location = "{:U('Admin/Index/index')}";
