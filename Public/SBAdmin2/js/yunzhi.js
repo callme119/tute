@@ -65,6 +65,18 @@ var dataInit = function(){
 };
 
 //日期插件初始化
-
-dataInit();
-$(".select2").select2();
+$(document).ready(function(){
+	dataInit();
+	$(".select2").select2();
+	$(document).on("click",".delete",function(){
+		alertify.set({ labels: { ok: "确定", cancel: "取消" } });
+		alertify.confirm("您确定要删除吗?", function (e) {
+			if (e) {
+				return true;
+			} else {
+				alertify.error("删除已取消");
+			}
+		});
+		return false;
+	});
+});
