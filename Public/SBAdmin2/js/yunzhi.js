@@ -72,13 +72,13 @@ $(document).ready(function(){
 		$this = $(this);
 		//堵塞默认事件
 		event.preventDefault();
-		alertify.set({ labels: { ok: "确定", cancel: "取消" } });
-		alertify.confirm("您确定要删除吗?", function (e) {
+		alertify.set({ labels: { ok: "确认", cancel: "取消" } });
+		alertify.confirm("梦云智 提醒您: 此操作不可逆，请您再次确认", function (e) {
 			if (e) {
 				location.href = $this.attr("href");
 				return false;
 			} else {
-				alertify.error("删除已取消");
+				alertify.error("操作已取消");
 				return false;
 			}
 		});
