@@ -17,17 +17,36 @@
         })
         $("#login").click(function(){
             var username=document.getElementById("username").value;
+            if(username.length < 4 || username.length > 20)
+            {
+                alertify.error("用户名长度不符合要求");
+                $("#username").focus();
+                return false;
+            }
+            console.log(username);
             var password=document.getElementById("password").value;
+            if(password.length < 6 || username.length > 20 )
+            {
+                alertify.error("密码长度不符合要求");
+                $("#password").focus();
+                return false;
+            }
             var remember=$("#remember").is(':checked');
             $.post(
-                "{:U('Login/Index/checkAjax')}?username="+username+"&password="+password+"&remember="+remember,
-                {},
+                "{:U('Login/Index/checkAjax')}",
+                {
+                    username:username,
+                    password:password,
+                    remember:remember
+                },
                 function(data){
-                    if(data.state == "error"){                     
-                        $(".error").html("<div>"+data.msg+"</div>");
+                    if(data.state == "error"){    
+                        alertify.error(data.msg);
+                        $("#password").focus();
                         return false;
                     }else
                     {
+                        alertify.success("登陆成功,正在为您跳转")
                         location = "{:U('Admin/Index/index')}";
                     }
                 }

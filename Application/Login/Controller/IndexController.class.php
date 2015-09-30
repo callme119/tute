@@ -72,42 +72,42 @@ class IndexController extends Controller {
 
     public function checkAjaxAction(){
         //检测是否勾选记住密码，传入cookie信息
-        $data = cookie('remember');
-        if(empty($data)){
-            if(I('get.remember') == 'true'){
-                cookie('password',I('get.password'),30*24*60*60);
-                cookie('username',I('get.username'),30*24*60*60);
-                cookie('remember','checked',30*24*60*60);
-            }
-        }else{
-            if(I('get.remember') == 'false'){
-                cookie('password',null);
-                cookie('username',null);
-                cookie('remember',null);
-            }
+        if(I('post.remember') == 'true'){
+            cookie('password',I('post.password'),30*24*60*60);
+            cookie('username',I('post.username'),30*24*60*60);
+            cookie('remember',true,30*24*60*60);
         }
+        else{
+            cookie('password',null);
+            cookie('username',null);
+            cookie('remember',null);
+        }
+
         $return = array();
         $model = new UserModel();
-        $username = I('get.username');
-        $password = I('get.password');
+        $username = trim(I('post.username'));
+        $password = trim(I('post.password'));
         switch ($model->checkUser($username,$password)) {
             case '1':
                 //根据post的用户名取出用户信息，再将id与name存入session
                 $list = $model->getUserInfoByName($username);
                 session('user_id',$list['id']);
                 session('user_name',$list['username']);
+
                 //登录成功后跳转
                 $return['state'] = "success";
                 $this->ajaxReturn($return);
                 break;
+
             case '0':
                 $return['state'] = "error";
                 $return['msg'] = "用户名密码错误" ;
                 $this->ajaxReturn($return);
                 break;
+
             case '2':
                 $return['state'] = "error";
-                $return['msg'] = "无此用户名" ;
+                $return['msg'] = "用户名密码错误" ;
                 $this->ajaxReturn($return);
                 break;
         }
