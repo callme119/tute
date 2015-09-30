@@ -145,7 +145,7 @@ class IndexController extends AdminController {
         $state = $userM -> resetPassword($userId);
         if($state){
             $url = U('index');
-            $this ->success('重置密码成功',$url);
+            $this ->success('您的密码已重置，新密码为:'.C(DEFAULT_PASSWORD),$url);
         }
     }
 

@@ -3,6 +3,7 @@ return array(
     'DEFAULT_MODULE'        => 'Login',  // 默认模块
     'ACTION_SUFFIX'         => 'Action',//设置ACTION前缀为action
     'TAGLIB_PRE_LOAD'       =>  'Yunzhi',   // 需要额外加载的标签库(须指定标签库名称)，多个以逗号分隔 
+    'DEFAULT_PASSWORD' => 'mengyunzhi',
     /* 数据库配置 */
     'DB_TYPE'   => 'mysqli', // 数据库类型
     'DB_HOST'   => 'callme119.mysql.rds.aliyuncs.com', 

@@ -112,7 +112,7 @@ class UserModel extends RelationModel{
 	public function addStaff(){
 		$data['id'] = I('post.id');
 		$data['username'] = I('post.username');
-		$data['password'] = sha1("mengyunzhi");
+		$data['password'] = sha1(C(DEFAULT_PASSWORD));
 		$data['name'] = I('post.name');
 		$data['email'] = I('post.email');
 		$id = $this->add($data);
@@ -148,7 +148,7 @@ class UserModel extends RelationModel{
 			throw new \Think\Exception($this->error,1);
 		}else{
 			$data['id'] = $userId;
-			$data['password'] = sha1("mengyunzhi");
+			$data['password'] = sha1(C(DEFAULT_PASSWORD));
 			$this->save($data);
 			return true;
 		}
