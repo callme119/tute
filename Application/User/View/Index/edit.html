@@ -32,8 +32,8 @@
                                 <div class=" role row">
                                 <foreach  name="roleList" item = "value" key="key">
                                     <div class="col-sm-4">
-                                        <input id='{$value['id']}' name="{$value[id]}" type="checkbox"/>
-                                        <lable>{$value.name}</lable>
+                                        <input id='role_{$value['id']}' name="{$value[id]}" type="checkbox"/>
+                                        <label for="role_{$value['id']}">{$value.name}</label>
                                     </div>
                                 </foreach>
                                 </div>

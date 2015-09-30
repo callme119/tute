@@ -33,10 +33,13 @@ class IndexController extends AdminController
 
         //参考私有方法_getPermissionList()获取权限信息
         $permissionList = $this->_getPermissionList();
+
+        $menuList = $this->_treeToList($permissionList);
+
         //定义提交url
         $submitUrl = U('save');
         //页面显示
-        $this->assign('permissionList',$permissionList);
+        $this->assign('menuList',$menuList);
         $this->assign('submitUrl',$submitUrl);
         $this->assign("js",$this->fetch("addRoleJs"));
         $this->assign("css",$this->fetch("addRoleCss"));
@@ -60,14 +63,14 @@ class IndexController extends AdminController
         $originalPermission = $roleMenuModel->getMenuListByRoleId($id);
         $this->assign('originalPermission',$originalPermission);
 
-
-        $this->assign("menuList" , $this->_treeToList($permissionList));
-
+        $menuList = $this->_treeToList($permissionList);
+        
         //定义提交url
         $submitUrl = U('update?id='.$id);
         $this->assign('submitUrl',$submitUrl);
 
         //页面显示
+        $this->assign('menuList',$menuList);
         $this->assign('roleInfo',$roleInfo);
         $this->assign("js",$this->fetch("addRoleJs"));
         $this->assign("css",$this->fetch("addRoleCss"));
