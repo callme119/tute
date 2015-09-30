@@ -68,15 +68,20 @@ var dataInit = function(){
 $(document).ready(function(){
 	dataInit();
 	$(".select2").select2();
-	$(document).on("click",".delete",function(){
+	$(document).on("click",".delete",function(event){
+		//堵塞默认事件
+		event.preventDefault();
 		alertify.set({ labels: { ok: "确定", cancel: "取消" } });
 		alertify.confirm("您确定要删除吗?", function (e) {
 			if (e) {
-				return true;
+				location.href = this.href;
+				return false;
 			} else {
 				alertify.error("删除已取消");
 				return false;
 			}
 		});
 	});
+
+	
 });
