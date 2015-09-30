@@ -107,7 +107,7 @@ class IndexController extends Controller {
 
             case '2':
                 $return['state'] = "error";
-                $return['msg'] = "用户名密码错误" ;
+                $return['msg'] = "无此用户名" ;
                 $this->ajaxReturn($return);
                 break;
         }
