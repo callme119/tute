@@ -119,6 +119,14 @@ class IndexController extends AdminController {
         if($isTeam == 1)
         {
             $name = I('post.name');
+            //判断是否团队添加了同一个人两次
+            if (count($name) != count(array_unique($name))) {
+                $this->error = "不能添加同一个人两次";
+                $this->_empty();
+            }   
+
+            //判断团队中是否有提交人本人
+            //如果没有加入，他的占比为0
             if(!in_array($userId, $name)){
                 $addOneself = $ScoreM->addOneself($projectId,$userId);
             }
