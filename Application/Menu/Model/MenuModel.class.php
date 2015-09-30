@@ -11,7 +11,7 @@ use Think\Model;
 class MenuModel extends Model{
 
     public function getMenuList(){
-        $menuTree = $this -> getMenuTree(null, null, 0, 3);
+        $menuTree = $this -> getMenuTree(null, $where, 0, 3);
         $menuList = tree_to_list($menuTree,0,'_son','_level','order');
         //设置总条数
         $this -> totalCount = count($menuList);
@@ -36,7 +36,7 @@ class MenuModel extends Model{
         $map['parent_id'] = isset($parentId)?$parentId:0;
         if(APP_DEBUG == false)
         {
-            $map['development'] = 1;
+            $map['development'] = 0;
         }
         if($isShow == 1)
         {
