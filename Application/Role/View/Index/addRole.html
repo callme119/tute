@@ -19,34 +19,16 @@
 
                         <div class="form-group">
                             <label for="inputEmail3" class="col-sm-2 control-label">权限</label>
-                            <div class="col-sm-6">
-                                <div class=" role" id="unsetList">
-                                <foreach  name="permissionList" item = "value">
-                                     <div class="row title title_{$value.id}">
-                                        <input class="title_{$value.id}" name="{$value.id}"type="checkbox" />
-                                        <lable for="title_{$value.id}">{$value.title}</lable>
+                            <div class="col-sm-6 col-xs-12 col-lg-6">
+                                <foreach name="menuList" item="value">
+                                <div class="row">
+                                    <div class="col-xs-12 title_sub_{:count($value['_parents'])} title_{$value.id}">
+                                        <input id="title_{$value.id}" class="title_{$value.id}<php>foreach($value[_parents] as $parent) echo " parent_$parent";</php>" name="{$value.id}"type="checkbox" data-value="{$value.id}" />
+                                        <label for="title_{$value.id}"><php>for($j = 1 ;$j < count($value['_parents']); $j++) echo "|--";</php>{$value.title}</label>
                                     </div>
-                                    <if condition="$value._son != null">  
-                                        <foreach name="value._son" item="son">
-                                            <div class="row subtitle title_{$son.id}">
-                                                <input id="title_{$son.id}" class="title_{$son.id}" name="{$son.id}" type="checkbox" />
-                                                <lable for="title_{$son.id}">{$son.title}</lable>
-                                            </div>
-                                                <if condition="$son._son != null">
-                                                <div class="row subsubtitle title_{$grandson.id}">
-                                                        <foreach name="son._son" item="grandson">
-                                                            <div class=col-sm-4>
-                                                            <input class="title_{$grandson.id}" name="{$grandson.id}" type="checkbox" />
-                                                            <lable for="title_{$grandson.id}">{$grandson.title}</lable>
-                                                            </div>
-                                                        </foreach>
-                                                </div>
-                                            </if>
-                                        </foreach>
-                                    </if>
-                                </foreach>
-                                <h5><input type="checkbox" class="selectAll" data-value="unsetList" id="unset"/><label for="unset">全选/反选</label></h5>
                                 </div>
+                                </foreach>
+                                <h5><input type="checkbox" class="parent_0 selectAll" data-value="0" id="unset"/><label for="unset">全选/反选</label></h5>
                             </div>
                         </div>
                         <div class="form-group">

@@ -60,6 +60,9 @@ class IndexController extends AdminController
         $originalPermission = $roleMenuModel->getMenuListByRoleId($id);
         $this->assign('originalPermission',$originalPermission);
 
+
+        $this->assign("menuList" , $this->_treeToList($permissionList));
+
         //定义提交url
         $submitUrl = U('update?id='.$id);
         $this->assign('submitUrl',$submitUrl);
@@ -71,6 +74,27 @@ class IndexController extends AdminController
         $this->assign('YZBODY',$this->fetch('addRole'));
 
         $this->display(YZTemplate);
+    }
+
+    /**
+     * 获取树状的HTML信息
+     * 由于需要用到递归,将前台的处理变为后台处理.
+     * @return html 
+     */
+    private function _treeToList($tree , $list = array() , $parentIds = array("0") )
+    {  
+        foreach($tree as $value)
+        {   
+            $value['_parents'] = $parentIds;
+            array_push($list , $value);
+            if(is_array($value['_son']))
+            {
+                array_push($parentIds , $value['id']);
+                $list = $this->_treeToList($value['_son'] , $list , $parentIds);
+                array_pop($parentIds);
+            }
+        }
+        return $list;
     }
     //显示角色人员信息
     public function peopleAction(){
