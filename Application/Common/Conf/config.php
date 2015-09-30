@@ -22,7 +22,7 @@ return array(
     'UPLOAD_ROOT_PATH' => '/Uploads',//附件上传根路径
     'SESSION_AUTO_START' => true, //开启session
     'PAGE_SIZE' => '10',//分页中，每页显示的条数使用C(PAGE_SIZE)读取;
-
+    'URL_CASE_INSENSITIVE'  =>false,//控制开发模式启动后区分大小写
     'TMPL_PARSE_STRING'  =>array(
          '__PUBLIC__' => __ROOT__ , // 更改默认的/Public 替换规则
          '__JS__'     => __ROOT__ . '/SBAdmin2/js', // 增加新的JS类库路径替换规则
