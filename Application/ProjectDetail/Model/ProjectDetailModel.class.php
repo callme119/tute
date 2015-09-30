@@ -18,13 +18,14 @@ class ProjectDetailModel extends Model
 			else{
 				$data['value'] = $post[$root['name']];
 			}
-		}
-
-		if($this->create($data)){
+			if($this->create($data)){
 			$this->add();
-			return true;
+			$res = true;
 		}
 		else
-			return false;
+			$res = false;
+		}
+
+		return $res;
 	}
 }
