@@ -75,10 +75,8 @@ $(document).ready(function(){
 				return true;
 			} else {
 				alertify.error("删除已取消");
+				return false;
 			}
 		});
-		return false;
 	});
-
-	
 });
