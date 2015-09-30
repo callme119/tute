@@ -88,13 +88,6 @@ class IndexController extends AdminController
 		$CycleL = new CycleLogic();
 		try
 		{
-			//再看自己否是有子周期。
-			if($CycleL->getListByPid($id))
-			{
-				$this->error("该周期下挂有子周期，请先删除子周期",U("index?p=" . I('get.p')));
-				return;
-			}
-
 			//先检查是否有项目已经添加到了这个周期上。
 			$ProjectL = new ProjectLogic();
 			$project = $ProjectL->getListsByCycleId($id);
