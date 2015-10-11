@@ -8,7 +8,7 @@ class UserLogic extends UserModel
 {
 	public function getJoinUserListsByCycleId($cycleId)
 	{
-		$by = empty(I('get.by')) ?  "desc" : I('get.by');
+		$by = (I('get.by') == "") ?  "desc" : I('get.by');
 		$order = "b.value " . $by;
 		$field['a.id'] 			= 'id'; //用户ID
 		$field['a.name'] 		= 'name';//用户姓名
