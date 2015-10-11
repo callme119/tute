@@ -145,7 +145,7 @@ class ScientificResearchController extends IndexController
 			case "totalPercent":	//预期完成率
 				break;
 			default:
-				$type = "donePercent"; //实际完成率
+				$order = "donePercent"; //实际完成率
 				break;
 		}
 

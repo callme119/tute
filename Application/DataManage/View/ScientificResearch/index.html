@@ -20,7 +20,6 @@
 						<option value="{$user['id']}" <eq name="user['id']" value="$userId">selected="selected"</eq>>{$user['name']}</option>
 					</foreach>
 				</select>
-				<span>预期完成总分：{$totalScore}。已完成总分:{$totalDoneScore}。总任务：{$totalTask}。总预期完成率：总完成率。TODO:此处用图表来实现</span>
 				<div class="info"></div>
 			</div>
 			<div class="col-md-2 col-xs-2">
@@ -32,8 +31,8 @@
 				<tr>
 					<th>序号</th>
 					<th>姓名</th>
-					<th><a href="{:order_by("totalScore")}">预期得分</a></th>
-					<th><a href="{:order_by("doneTotalScore")}">实际得分</a></th>
+					<th><a href="{:order_by("score")}">预期得分</a></th>
+					<th><a href="{:order_by("doneScore")}">实际得分</a></th>
 					<th>基础科研任务</th>
 					<th>岗位科研任务</th>
 					<th>任务分值</th>
