@@ -27,8 +27,10 @@
         }
     </php>
     <foreach name="users" item="value">
-    <php>$user = W("User\getUserById" ,array($value[user_id]));</php>
-    <input type="radio" name="user_id" value="{$user.id}" />{$user.name}
+    <php>$CheckUserW = new Myjob\Widget\UserWidget();
+        $checkUser = $CheckUserW->getUserByIdAction($value['user_id']);
+    </php>
+    <input type="radio" id="user_id_{$checkUser[id]}" name="user_id" value="{$checkUser.id}" /><label for="user_id_{$checkUser[id]}">{$checkUser.name}</label>
     </foreach>
 </div>
 <div class="form-group" align="center"><br/></div>
