@@ -35,11 +35,15 @@ class ChainModel extends Model {
     }
 
     //根据传入的examineid值，按着链表的方式依次取出审批的过程
-    public function getExamine() {
-        //根据firstpost利用循环找出审批的头结点
+    public function getExamine($id) {
+
         $postid = array();
+        $data = $this->getListById($id);
+        $postid[] = $data['now_post'];
+
         do {
-            $data = $this->getNextPost($data[id]);
+            $data = $this->getNextPost($id);
+            $id = $data[id];
             $postid[] = $data['now_post'];
         }while ($data[next_id] != 0);
         //根据岗位编号取出岗位名称 返回审批
