@@ -11,6 +11,16 @@ use Think\Model;
 use Chain\Model\ChainModel;
 use Post\Model\PostModel;
 class ExamineModel extends Model{
+    protected $orderBy = 'id desc';
+    public function setOrderBy($orderBy)
+    {
+        $this->orderBy .= $orderBy;
+    }
+
+    public function initOrderBy()
+    {
+        $this->orderBy = '';
+    }
     //保存create信息
     /**
      * 根据传入的用户点击的信息存入数组再加上从界面上获取的岗位数量进行存库
@@ -132,9 +142,18 @@ class ExamineModel extends Model{
     }
 
     //获取所有审批流程名称及编号
-    public function getLists(){
-        $lists = $this->field('id,name')->select();
-        return $lists;
+    public function getLists($type = 0){
+        $map = array();
+
+        if($type == 0 || $type == 1)
+        {
+            $map['type'] = $type;
+        }
+
+        $data = $this->where($map)->order($this->orderBy)->page($this->p,$this->pageSize)->select();
+        // echo $this->getLastSql();
+        $this->totalCount = $this->where($map)->count();
+        return $data;
     }
     /**
      * 根据传入的包括岗位信息的获取审核流程基础信息
@@ -189,4 +208,6 @@ class ExamineModel extends Model{
         $array = $this->where($map)->select();
         return count($array);
     }
+
+
 }

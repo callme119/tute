@@ -32,18 +32,9 @@ class IndexController extends AdminController{
     //初始化审批列表
     public function  indexAction(){
         $model = new ExamineModel;
-        $count = $model->getListsCount();
-        $page = I('get.p');
-        //当初始化page为空时赋值
-        if($page == null);{
-            $page = 1;
-        }
-        //当输入page值超过最大页数时,将最大页数值代替默认值
-        if($page > (int)$count/C('PAGE_SIZE')){
-            $page = (int)$count/C('PAGE_SIZE');
-        }
-        $data = $model->index($page);
-        $this->assign('page',$page);
+        $data = $model->getLists();
+        $count = $model->getTotalCount();
+
         $this->assign('count',$count);
         $this->assign('examine',$data);
         $this->assign('js',$this->fetch("examinelistJs"));
@@ -115,11 +106,10 @@ class IndexController extends AdminController{
 
     //冻结审批流程
     public function freezenAction(){
-        $id = I('get.id');
-        $p = I('get.p');
+        $id = (int)I('get.id');
         $model = new ExamineModel;
         $model->freezen($id);
-        redirect_url(U('Examine/Index/index'.'?p='.$p));
+        $this->success('操作成功',U('Examine/Index/index?id=',I('get.')));
     }  
 }
     
