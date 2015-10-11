@@ -149,6 +149,7 @@ class IndexController extends AdminController{
         }
 
         //传值
+        $this->assign('users',$users);
         $this->assign("workflowLog",$workflowLog);
         $this->assign("projectId",$projectId);
         $this->assign('chain',$chain);
