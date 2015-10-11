@@ -18,12 +18,12 @@ class UserLogic extends UserModel
 			
 		//取总数
 		$map = array();
-		$map['state'] = 1;
-		$map['cycle_id'] = $cycleId;
-		$map['type'] = CONTROLLER_NAME;
-		$this->totalCount = $this->where($map)->count();
+		$map['a.state'] = 1;
+		$map['b.cycle_id'] = $cycleId;
+		$map['b.type'] = CONTROLLER_NAME;
+		$this->totalCount = $this->alias('a')->where($map)->join("left join __TASK__ b on a.id=b.user_id")->count();
 
-		//取任务信息
+   		//取任务信息
 		$map = array();
 		$map['a.state'] 		= 1;
 		$map['b.cycle_id'] = $cycleId;
