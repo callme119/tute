@@ -180,7 +180,7 @@ class ExamineModel extends Model{
             }
 
             $map['now_post'] = $value[$keyWord];
-            $map['a.state'] = 0;
+            $map['a.type'] = 0;
             $field['a.id'] = 'id';
             $field['a.name'] = 'name';
             $field['a.chain_id'] = 'chain_id';
