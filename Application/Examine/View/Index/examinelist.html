@@ -27,10 +27,10 @@
                                 <td class="id">{++$key}</td>
                                 <td class="name">{$value.name}</td>
                                 <td class="name">
-                                    {$value.string}
+                                    {:W("Chain/getDetailsById",array($value[chain_id]))}
                                 </td>
-                                <td class="delete">
-                                    <a class="btn btn-sm btn-danger delete"  type="button" href="{:U('Examine/Index/freezen?id='.$value[id].'&p='.$page)}"><i class="fa fa-trash-o "></i>删除</a>
+                                <td>
+                                    <a class="btn btn-sm btn-danger delete" href="{:U('Examine/Index/freezen?id='.$value[id], I('get.'))}"><i class="fa fa-trash-o "></i>删除</a>
                                 </td>
                             </tr>
                             </foreach>
