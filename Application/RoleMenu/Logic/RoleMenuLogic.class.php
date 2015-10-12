@@ -24,4 +24,16 @@ class RoleMenuLogic extends RoleMenuModel{
 		
 	}
 
+	public function getListByRoleIdMenuId($roleId , $menuId , $value = 1)
+	{
+		$roleId = (int)$roleId;
+		$menuId = (int)$menuId;
+		$map = array();
+		$map['role_id'] = $roleId;
+		$map['menu_id'] = $menuId;
+		$map['value'] = $value;
+		$data = $this->where($map)->find();
+		return $data;
+	}
+
 }

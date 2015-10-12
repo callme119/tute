@@ -42,25 +42,32 @@ class AdminLogic{
 		if($url == null && $userId == null){
 			return false;
 		}else{
-			//1通过用户id获取角色id信息
-		            $roleUserModel = new UserRoleModel;
-		            $roleIdList = $roleUserModel -> getRoleIdListByUserId($userId);
+			//判断当前菜单是否为开发环境　
+			$is_dev = $url['development'];
+			if($is_dev && !APP_DEBUG)
+			{
+				return false;
+			}
 
-		            //2通过角色id获取角色对应的菜单id列表；
-		            $roleMenuLogic = new RoleMenuLogic;
-		            $menuIdList = $roleMenuLogic -> getMenuListByRoleList($roleIdList);
-		            if(!$menuIdList){
-			            	if(APP_DEBUG){
-			            		$menuIdLists = array();
-			            		$menuModel = new MenuModel;
-			            		$menuIdList = $menuModel -> field('id') -> select();
-			            		foreach ($menuIdList as $key => $value) {
-			            			$menuIdLists[] = $value['id'];
-			            		}
-			            }
-		            }
-			$res = in_array($url['id'], $menuIdList);
-           			return $res;
+			//1通过用户id获取角色id信息
+            $roleUserModel = new UserRoleModel;
+            $roleIdLists = $roleUserModel -> getRoleIdListByUserId($userId);
+
+            //判断角色是否拥有此权限
+            $roleMenuLogic = new RoleMenuLogic;
+
+         	foreach($roleIdLists as $roleId)
+         	{
+         		foreach($url as $u)
+         		{
+         			$menuId = $u['id'];
+         			if($roleMenuLogic->getListByRoleIdMenuId($roleId[role_id] , $menuId) != null)
+         			{
+         				return true;
+         			}
+         		}
+         	}
+         	return false;
 		}
 	   	
 	}
