@@ -7,7 +7,7 @@
                     <div class="col-md-3 form-group">
                         <div class="input-group">
                             <span class="input-group-addon">项目类别</span>
-                            <select name="project_category_id" id="projectCategory" class="selectpicker form-control">
+                            <select name="project_category_id" id="projectCategory" class="selectpicker form-control select2">
                                 <option value="0">请选择</option>
                                 <foreach name="project" item="project">
                                     <option data-type="<neq name="project[data_model_id]" value="0">category</neq>" value="{$project.id}"><php>for($j = 0 ; $j < $project[_level] ; $j++ ) : echo "|--"; endfor;</php><neq name="project[data_model_id]" value="0">[{$project.name}]<else/>{$project.name}</neq></option>
