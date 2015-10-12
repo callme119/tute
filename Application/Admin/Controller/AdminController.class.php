@@ -120,7 +120,7 @@ class AdminController extends Controller{
 
             $this->assign("_UserTodoCount",$_UserTodoCount);
             $this->assign("_UserDoingCount",$_UserDoingCount);
-            $this->assign('currentMenu',$currentMenu);
+            $this->assign('currentMenu',$currentMenu[0]);
             $this->assign("user",$user);         
         }
         catch(\Think\Exception $e)
