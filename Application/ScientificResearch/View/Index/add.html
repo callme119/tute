@@ -7,7 +7,7 @@
                     <div class="col-md-3 form-group">
                         <div class="input-group">
                             <span class="input-group-addon">项目类别</span>
-                            <select name="project_category_id" id="projectCategory" class="selectpicker form-control select2">
+                            <select name="project_category_id" id="projectCategory" class="selectpicker form-control">
                                 <option value="0">请选择</option>
                                 <foreach name="project" item="project">
                                     <option data-type="<neq name="project[data_model_id]" value="0">category</neq>" value="{$project.id}"><php>for($j = 0 ; $j < $project[_level] ; $j++ ) : echo "|--"; endfor;</php><neq name="project[data_model_id]" value="0">[{$project.name}]<else/>{$project.name}</neq></option>
@@ -20,7 +20,7 @@
                     <div class="col-md-3 form-group">
                         <div class="input-group">
                             <span class="input-group-addon" id="basic-addon1">名称</span>
-                            <input type="text" name="title" value="" class="form-control"  aria-describedby="basic-addon1">
+                            <input type="text" id="title" name="title" value="" class="form-control"  aria-describedby="basic-addon1">
                         </div>
                     </div>
                 </div>
@@ -80,7 +80,7 @@
                 <input type="hidden" id="dtp_input2" value="" />
             </div> -->
             <div class="row">
-                <div class="col-md-1 col-md-offset-3"><button id="submit" type="submit" class="btn btn-success disabled"><i class="fa fa-check "></i>确认</button></div>
+                <div class="col-md-1 col-md-offset-3"><a id="submit" href="javascript:void(0);" class="btn btn-success disabled"><i class="fa fa-check "></i>确认</a></div>
                 <div class="col-md-1"><a href="" class="btn btn-warning" ><i class="fa fa-repeat "></i>重置</a></div>
             </div>
         </form>
