@@ -3,40 +3,40 @@
     <div class="mailbox row">
         <div class="col-xs-12">
             <div class="box box-solid">
+            <!-- {:dump($workflowLogLists)} -->
                 <div class="box-body table-responsive">
                     <table class="table table-bordered table-striped table-hover">
                         <thead>
                             <tr>
                                 <th class="id">序号</th>
-                                <th class="workflow_id">审核编号</th>
                                 <th class="name">项目名称</th>
                                 <th class="type">项目类别</th>
-                                <th class="subject">申请人</th>
                                 <th>提交人</th>
                                 <th class="time">提交时间</th>
+                                <th class="">审核状态</th>
+                                <th class="">待/在办人</th>
                                 <th class="job">操作</th>
                             </tr>
                         </thead>
                         <tbody>
                         <php>$i=1;</php>
                         <foreach name="workflowLogLists" item="value">
-                            <php>$project = W("Project/getListJoinCagegoryByWorkflowId",array($value[workflow_id]));</php>
+                            <php>$project = W("Project/getListJoinCagegoryByWorkflowId",array($value[workflow_id]));
+                            $status=$workflowLists[$value[workflow_id]][is_finished];
+                            $projectid=$workflowLists[$value[workflow_id]][project_id];</php>
                             <tr>
                                 <td>{$i++}</td>
-                                <td>{$workflowLists[$value[workflow_id]][id]}</td>
                                 <td>
                                 {$project['name']}
                                 </td>
                                 <td>{$project['project_category_name']}</td>
                                 <td>
-                                <yunzhi:user name="test" id='$project[user_id]'>
-                                {:$test['name']}
-                                </yunzhi:user></td>
-                                <td>
                                 {:W('WorkflowLog/getUserNameById',array($value[pre_id]))}
                                 </td>
                                 <td>
                                 {$value["time"]|date="Y/m/d h:i",###}</td>
+                                <td><eq name="status" value="0">审核中<else />已完成</eq></td>
+                                <td>{:W('Project/getTodoUserNameByProjectId',array($workflowLists[$value[workflow_id]][project_id]))}</td>
                                 <td><a class="btn btn-sm btn-primary" href="{:U("taskDetail?id=$value[id]&from=". ACTION_NAME . "&p=" . I('get.p'))}"><i class="fa fa-pencil"></i>查看</a></td>
                             </tr>
                         </foreach>
