@@ -22,6 +22,8 @@ class IndexController extends AdminController {
         $staffList = $staffModel -> getStaffList();
         $staffList = $this -> _addurl($staffList,'_url');
         //dump($staffList);
+        $totalCount = $staffModel->getTotalCount();
+        $this->assign('totalCount',$totalCount);
         $this->assign('staffList',$staffList);
         $this->assign('js',$this->fetch("indexJs"));
         $this->assign('YZBODY',$this->fetch());

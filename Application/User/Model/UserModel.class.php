@@ -12,6 +12,12 @@ use Think\Model;
 use Think\Model\RelationModel;
 class UserModel extends RelationModel{
 	protected $totalCount = 0; 	//记录总数
+	
+	//继承主类方法，添加totalCount值
+    public function __construct(){
+        parent::__construct();
+        $this -> totalCount = count($this -> select());
+    }
 
 	protected $_link = array(
         		'Role'=>array(
@@ -98,7 +104,8 @@ class UserModel extends RelationModel{
 
 	//获取教工列表
 	public function getStaffList(){
-		$data = $this ->relation(true)->select();
+		$data = $this ->relation(true)->page($this->p,$this->pageSize)->select();
+
 		//拼接教工的角色信息
 		return $data;
 	}

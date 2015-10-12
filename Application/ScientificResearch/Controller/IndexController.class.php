@@ -119,23 +119,37 @@ class IndexController extends AdminController {
         if($isTeam == 1)
         {
             $name = I('post.name');
+
+            //判断团队成员只有自己
+            //name为空时，存操作人自己
+            if((count(array_unique($name))<2 && array_unique($name)[0]==0) || (count($name)<2 && in_array($userId, $name))){
+                $ScoreL = new ScoreLogic();
+                if(!$ScoreL->addByUserIdProjectIdScorePercent($userId , $projectId))
+                {
+                    E("添加分数信息时发生错误，错误信息：" . $ScoreL->getError());
+                }
+            }
+            else{
+
             //判断是否团队添加了同一个人两次
-            if (count($name) != count(array_unique($name))) {
-                $this->error = "不能添加同一个人两次";
-                $this->_empty();
-            }   
+                if (count($name) != count(array_unique($name))) {
+                    $this->error = "不能添加同一个人两次";
+                    $this->_empty();
+                }   
 
             //判断团队中是否有提交人本人
             //如果没有加入，他的占比为0
-            if(!in_array($userId, $name)){
-                $addOneself = $ScoreM->addOneself($projectId,$userId);
+                if(!in_array($userId, $name)){
+                    $addOneself = $ScoreM->addOneself($projectId,$userId);
+                }
+                $Score = $ScoreM->save($projectId);
+                if($Score === false)
+                {
+                    $this->error = "数据添加发生错误，代码" . $ScoreM->getError();
+                    $this->_empty();
+                }
             }
-            $Score = $ScoreM->save($projectId);
-            if($Score === false)
-            {
-                $this->error = "数据添加发生错误，代码" . $ScoreM->getError();
-                $this->_empty();
-            }  
+
         }
         else
         {
@@ -145,63 +159,63 @@ class IndexController extends AdminController {
                 E("添加分数信息时发生错误，错误信息：" . $ScoreL->getError());
             }
         }
-    
+
         if($dataModelId!==1){
             $projectDetailM = new projectDetailModel();
             $projectDetail = $projectDetailM->save($projectId,$dataModelDetailRoots);
             if($projectDetail === false)
             {
-               $this->error = "数据添加发生错误，代码" . $this->getError();
-               $this->_empty();
+             $this->error = "数据添加发生错误，代码" . $this->getError();
+             $this->_empty();
 
-            }
-        }
-        
-        $this->success("操作成功",'index');
-    }
-    public function auditedAction() {
-        $this->assign('YZBODY',$this->fetch());
-        $this->display(YZTemplate);
-    }
-    public function addAction() {
+         }
+     }
+
+     $this->success("操作成功",'index');
+ }
+ public function auditedAction() {
+    $this->assign('YZBODY',$this->fetch());
+    $this->display(YZTemplate);
+}
+public function addAction() {
         //获取当前用户ID
-        $userId = get_user_id();
+    $userId = get_user_id();
 
-        $ProjectCategoryL = new ProjectCategoryLogic();
-        $projectCategoryTree = $ProjectCategoryL->getSonsTreeById($pid=0,$type=CONTROLLER_NAME);
-        $projectCategory = tree_to_list($projectCategoryTree , $id , '_son' );
+    $ProjectCategoryL = new ProjectCategoryLogic();
+    $projectCategoryTree = $ProjectCategoryL->getSonsTreeById($pid=0,$type=CONTROLLER_NAME);
+    $projectCategory = tree_to_list($projectCategoryTree , $id , '_son' );
 
         //获取当前用户部门岗位信息（数组）
-        $UserDepartmentPostM = new UserDepartmentPostModel();
-        $userDepartmentPosts = $UserDepartmentPostM->getListsByUserId($userId);
+    $UserDepartmentPostM = new UserDepartmentPostModel();
+    $userDepartmentPosts = $UserDepartmentPostM->getListsByUserId($userId);
         // dump($userDepartmentPosts);
         //获取当前岗位下，对应的可用审核流程
-        $ExamineM = new ExamineModel();
-        $examineLists = $ExamineM->getListsByNowPosts($userDepartmentPosts);
-        
-        $nameM = new UserModel();
-        $name = $nameM->getAllName();
+    $ExamineM = new ExamineModel();
+    $examineLists = $ExamineM->getListsByNowPosts($userDepartmentPosts);
+
+    $nameM = new UserModel();
+    $name = $nameM->getAllName();
 
         //传值
-        $this->assign("examineLists",$examineLists);
-        $this->assign('name',$name);
-        $this->assign('project',$projectCategory);
-        $this->assign("js",$this->fetch('Index/addJs'));
-        $this->assign('YZBODY',$this->fetch('Index/add'));
-        $this->display(YZTemplate);
-    }
-    public function auditprocessAction() {
-        $this->assign('YZBODY',$this->fetch());
-        $this->display(YZTemplate);
-    }
-    public function submittedAction() {
-        $this->assign('YZBODY',$this->fetch());
-        $this->display(YZTemplate);
-    }
-    public function auditsuggestionAction() {
-        $this->assign('YZBODY',$this->fetch());
-        $this->display(YZTemplate);
-    }
+    $this->assign("examineLists",$examineLists);
+    $this->assign('name',$name);
+    $this->assign('project',$projectCategory);
+    $this->assign("js",$this->fetch('Index/addJs'));
+    $this->assign('YZBODY',$this->fetch('Index/add'));
+    $this->display(YZTemplate);
+}
+public function auditprocessAction() {
+    $this->assign('YZBODY',$this->fetch());
+    $this->display(YZTemplate);
+}
+public function submittedAction() {
+    $this->assign('YZBODY',$this->fetch());
+    $this->display(YZTemplate);
+}
+public function auditsuggestionAction() {
+    $this->assign('YZBODY',$this->fetch());
+    $this->display(YZTemplate);
+}
     /**
  *  通过js传过来id，追加select的内容
  *  1.判断穿过来的id的type是否为0（如果为0还有子项目）
@@ -288,7 +302,7 @@ class IndexController extends AdminController {
             $this->error = $DataModelDetailL->getError();
             $this->_empty();
         }
-       
+
 
         //取项目类别系数信息（以data_model_detailID为KEY）
         $ProjectCategoryRatioM = new ProjectCategoryRatioModel();
@@ -310,4 +324,4 @@ class IndexController extends AdminController {
 }
 
 
-    
+
