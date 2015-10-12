@@ -30,7 +30,7 @@
                                         </php>
                                         {$list[name]}</td>
                                     <td>{$list[score]}</td>
-                                    <td>{$list[data_model_id]}</td>
+                                    <td>{:W('DataModel/getNamebyDataModelId',array($list[data_model_id]))}</td>
                                     <td><eq name="list[is_team]" value="0">否<else/>是</eq></td>
                                     <td>
                                         <a class="btn btn-sm btn-success"  href="{:U('add?id='.$list['id']. '&pid='.$list['id'] . "&p=".I("get.p").'&type='.I('get.type'))}" ><i class="fa fa-plus-square"></i>添加子类别</a>
