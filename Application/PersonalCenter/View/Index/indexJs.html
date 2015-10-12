@@ -13,7 +13,12 @@
 					required:true,
 				},
 				oldpsw:{
-					required:true,
+					minlength:6,
+					maxlength:20,
+				},
+				newpsw:{
+					minlength:6,
+					maxlength:20,
 				},
 				againpsw:{
 					equalTo:"#newpsw",
