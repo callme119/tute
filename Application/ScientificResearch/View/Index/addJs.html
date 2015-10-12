@@ -44,20 +44,20 @@ $("#minus").click(function(){
         //做判断
         if(title == "")
         {
-            alert("名称不能为空");
             $("#title").focus();
+            alertify.alert("名称不能为空");
             return false;
         }
 
         if(dataType != 'category')
         {
-            alert("您选择的项目类别有误");
+            alertify.alert("您选择的项目类别有误");
             return false;
         }
 
         if(checkUserId == undefined)
         {
-            alert("请选择下一审核人");
+            alertify.alert("请选择审核人");
             return false;
         }
 
