@@ -16,6 +16,7 @@
                                 <th>考核周期</th>
                                 <th>申请时间</th>
                                 <th>申请人</th>
+                                <th>待/在办人</th>
                                 <th>状态</th>
                                 <th>分值</th>
                             </tr>
@@ -29,6 +30,7 @@
                                 <td>{:W('Cycle/getNameById',array($project[cycle_id]))}</td>
                                 <td>{$project[time]|date="Y/m/d",###}</td>
                                 <td>{:W('User/getNameById',array($project['commit_user_id']))}</td>
+                                <td>{:W('Project/getTodoUserNameByProjectId',array($project[id]))}</td>
                                 <td><eq name="project[is_finished]" value="1">已办结<else />已提交</eq></td>
                                 <td>{:W("Project/getScoreByIdUserId",array($project[id] , $project[user_id]))}</td>
                             </tr>

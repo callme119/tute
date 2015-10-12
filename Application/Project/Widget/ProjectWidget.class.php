@@ -144,4 +144,38 @@ class ProjectWidget extends Controller
 		return $return;
 
 	}
+
+	public function getTodoUserNameByProjectIdAction($projectId)
+	{
+		try
+		{
+			//取审核信息
+	        $WorkflowM = new WorkflowModel();
+	        $workflow = $WorkflowM->where("project_id = $projectId")->find();
+
+	        //取审核扩展信息
+	        $workflowId = $workflow["id"];
+	        $WorkflowLogM = new WorkflowLogModel();
+	        $workflowLog = $WorkflowLogM->getListsByWorkflowId($workflowId);
+	        
+	        //取待办信息
+	        $todoList = $WorkflowLogM->getTodoListByWorkflowId($workflowId);
+
+	        if($todoList == null)
+	        {
+	        	return;
+	        }
+
+	        //取用户信息
+	        $userId  = $todoList['user_id'];
+	        $UserL = new UserLogic();
+	        $user = $UserL->getListById($userId);
+	        return $user['name'];
+		}
+		catch(\Think\Exception $e)
+		{
+			return false;
+		}
+		
+	}
 }
