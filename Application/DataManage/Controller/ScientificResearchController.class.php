@@ -144,6 +144,14 @@ class ScientificResearchController extends IndexController
 				break;
 			case "totalPercent":	//预期完成率
 				break;
+			case "BaseTask":	//预期完成率
+				break;
+			case "PostTask":	//预期完成率
+				break;
+			case "totalTask":	//预期完成率
+				break;
+			case "donePercent":	//预期完成率
+				break;
 			default:
 				$order = "donePercent"; //实际完成率
 				break;
