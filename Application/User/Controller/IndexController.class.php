@@ -161,15 +161,9 @@ class IndexController extends AdminController {
         }
         //进行分类，如果新密码为空，我们认为是仅修改邮箱或手机
         //不为空，我们认为修改密码
-        if($newpsw == null){
-            if($model->changePhoneOrEmail($userId)){
+        if($model->changePhoneOrEmail($userId)||$model->changePsw($newpsw,$userId)){
                 $this->success('修改信息成功');
-            }
-        }else{
-            if($model->changePsw($newpsw,$userId)){
-                $this->success('修改密码成功');
-            }
-        };
+        }
     }
     /**
      * [_fetchRoleList 获取角色列表传递到前台]
