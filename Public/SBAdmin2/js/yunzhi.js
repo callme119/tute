@@ -64,6 +64,12 @@ var dataInit = function(){
     });
 };
 
+//定义trim去空格函数
+String.prototype.trim = function()
+{
+    return this.replace(/(^[\\s]*)|([\\s]*$)/g, "");
+}
+
 //日期插件初始化
 $(document).ready(function(){
 	dataInit();

@@ -21,6 +21,51 @@ $("#minus").click(function(){
         get_project_category_id_select($(this));
     });
 
+    //绑定　确定　点击事件
+    $("#submit").click(function(){
+        
+        //取标题值　
+        var title = $("#title").val();
+
+        //取项目类型值
+        var dataType = $("#projectCategory :selected").attr("data-type");
+
+        //取审核人员信息值
+        var checkUserId = $("input[name='check_user_id']:checked").val();
+
+        //去空格
+        title = title.trim();
+
+        //写日志
+        console.log(title);
+        console.log(dataType);
+        console.log(checkUserId);
+
+        //做判断
+        if(title == "")
+        {
+            alert("名称不能为空");
+            $("#title").focus();
+            return false;
+        }
+
+        if(dataType != 'category')
+        {
+            alert("您选择的项目类别有误");
+            return false;
+        }
+
+        if(checkUserId == undefined)
+        {
+            alert("请选择下一审核人");
+            return false;
+        }
+
+        //表单提交
+        $("form").submit();
+
+    });
+
     //项目类别改变时，获取项目类别的信息
     var get_project_category_id_select = function($this){
         //找到谁被点击了
