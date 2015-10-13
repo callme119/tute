@@ -13,6 +13,9 @@ use Post\Model\PostModel;
 use DepartmentPost\Model\DepartmentPostModel;
 use UserRole\Model\UserRoleModel;
 use UserDepartmentPost\Model\UserDepartmentPostModel;
+use UserRole\Logic\UserRoleLogic;                               //用户－角色
+use UserDepartmentPost\Logic\UserDepartmentPostLogic;           //用户－部门－岗位　表
+use User\Logic\UserLogic;                                       //用户
 class IndexController extends AdminController {
 
     //教工列表显示
@@ -79,15 +82,31 @@ class IndexController extends AdminController {
     }
     //删除教工
     public function deleteAction(){
-        //删除该教工
-        //删除该教工与角色的对应信息
-        //删除该教工与部门岗位的对应信息
-        $id = I('get.id');
-        $staffModel = new UserModel();
-        $state = $staffModel -> deleteStaff($id);
-        if($state){
+        try
+        {
+            //获取用户ＩＤ
+            $userId = (int)I('get.id');
+
+            //删除该教工与角色的对应信息
+            $UserRoleL = new UserRoleLogic();
+            $UserRoleL->deleteByUserId($userId);
+
+            //删除该教工与部门岗位的对应信息
+            $UserDepartmentPostL = new UserDepartmentPostLogic();
+            $UserDepartmentPostL = $UserDepartmentPostL->deleteByUserId($userId);
+            
+            //删除该教工
+            $UserL = new UserLogic();
+            $UserL = $UserL->deleteById($userId);
+            
             $this->success('删除成功', U('index'));
         }
+        catch(\Think\Exception $e)
+        {
+            $this->error = $e->getMessage();
+            $this->_empty();
+        }
+        
     }
     //添加教工完成
     public function saveAction(){

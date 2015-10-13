@@ -34,4 +34,12 @@ class UserLogic extends UserModel
 		$map['id'] = (int)$id;
 		return $this->where($map)->find();
 	}
+
+	public function deleteById($id)
+	{
+		$id = (int)$id;
+		$map['id'] = $id;
+		$this->where($map)->delete();
+		return true;
+	}
 }

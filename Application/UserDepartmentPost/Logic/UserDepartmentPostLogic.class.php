@@ -34,4 +34,12 @@ class UserDepartmentPostLogic extends UserDepartmentPostModel
 		$this->where($map)->delete();
 		return true;
 	}
+
+	public function deleteByUserId($userId)
+	{
+		$userId = (int)$userId;
+		$map['user_id'] = $userId;
+		$this->where($map)->delete();
+		return true;
+	}
 }
