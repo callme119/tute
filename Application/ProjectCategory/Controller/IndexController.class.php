@@ -109,7 +109,7 @@ class IndexController extends AdminController
 			$dataModelDeatailIds = I('post.data_model_detail_id');
 			$ProjectCategoryRatioL->addListsByProjectCategoryIdDataModelDetailIds($projectCategoryId,$dataModelDeatailIds);
 
-			$this->success("操作成功",U('index' ,I('get.')));
+			$this->success("操作成功",U('index?id=&pid=' ,I('get.')));
 		}
 		catch(\Think\Exception $e)
 		{

@@ -3,7 +3,7 @@
     <div class="row box box-primary">  
         <div class="col-md-12 box-body">
             <!-- Date range -->
-            <form action="{:U('save')}" method = 'post'>
+            <form action="{:U('save',I('get.'))}" method = 'post'>
                 <neq name="projectDetail" value=""><input type="hidden" value="{$projectDetail[id]}" name="id" /></neq>
                 <input name="type" type="hidden" value="{:I('get.type')}" />
                 <div class="row select">
