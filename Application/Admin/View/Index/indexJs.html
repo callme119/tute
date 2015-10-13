@@ -9,7 +9,7 @@ var ScientificResearchDone, ScientificResearch, TeachingLoad, ServiceEducation;
             id: "ScientificResearchDone",
             value: {$totalDoneScore|get_default},
             min: 0,
-            max: {$task},
+            max: {$task|get_default},
             title: "教科研",
             label: "已审核"
         });
@@ -18,14 +18,14 @@ var ScientificResearchDone, ScientificResearch, TeachingLoad, ServiceEducation;
             id: "ScientificResearch",
             value: {$totalScore|get_default},
             min: 0,
-            max: {$task},
+            max: {$task|get_default},
             title: "教科研预期",
             label: "预期(含未审核)"
         });
 
         var TeachingLoad = new JustGage({
             id: "TeachingLoad",
-            value: {$baseTeachingScore},
+            value: {$baseTeachingScore|get_default},
             min: 0,
             max: {$baseTeachingTask|get_default},
             title: "教学工作量",
@@ -34,7 +34,7 @@ var ScientificResearchDone, ScientificResearch, TeachingLoad, ServiceEducation;
 
         var ServiceEducation = new JustGage({
             id: "ServiceEducation",
-            value: {$ServiceEducationScore},
+            value: {$ServiceEducationScore|get_default},
             min: 0,
             max: {$serviceEducationTask|get_default},
             title: "服务育人",
