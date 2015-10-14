@@ -12,7 +12,10 @@
 	<neq name="value['is_hidden']" value="0">
 		<label>{$value[title]}</label>
 		<p>
-			<eq name="value[type]" value="datatime">
+			<eq name="value[type]" value="datetime">
+				{$projectDetail[$value[name]]['value']|date="Y/m/d H:i",###}
+			</eq>
+			<eq name="value[type]" value="date">
 				{$projectDetail[$value[name]]['value']|date="Y/m/d",###}
 			</eq>
 			<eq name="value[type]" value="money">
