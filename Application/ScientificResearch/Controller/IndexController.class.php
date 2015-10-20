@@ -253,10 +253,19 @@ public function auditsuggestionAction() {
             //取项目基础信息
             $projectId = I('get.id');
             $ProjectM = new ProjectModel();
-            if( !$project = $ProjectM->getListByIdUserId($projectId , $userId) )
+            $project = $ProjectM->getListById($projectId);
+            if( $project == null )
             {
-                E("用户无权限查看该记录", 1);    
+                E("项目记录不存在", 1);    
             }    
+
+            //取用户分值分配信息
+            $ScoreL = new ScoreLogic();
+            $score = $ScoreL->getListByProjectIdUserId($projectId , $userId);
+            if($score == null)
+            {
+                E("您无权查看该记录", 1);    
+            }
 
             $this->assign("projectId",$projectId);
             $this->assign("YZBODY",$this->fetch('Index/detail'));
