@@ -6,7 +6,8 @@ $("#submit").click(function(){
 
 	<?php if($chain[next_id] != 0) : ?>
 	userId = $('input[type="radio"][name="user_id"]:checked').val();
-	if(userId === undefined)
+	type = $('input[type="radio"][name="type"]:checked').val();
+	if(userId === undefined && type == 0)
 	{
 		alertify.alert("您尚未选择审核人");
 		return false;
