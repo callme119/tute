@@ -13,6 +13,14 @@ class ScoreLogic extends ScoreModel
     {
         $this->order = $order;
     }
+
+    public function deleteByProjectId($projectId)
+    {
+        $map['project_id'] = (int)$projectId;
+        $data = $this->where($map)->delete();
+        return $data;
+    }
+
 	public function getAllListsByProjectId($projectId)
 	{
 		$map['project_id'] = (int)$projectId;
