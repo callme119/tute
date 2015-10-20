@@ -111,6 +111,14 @@ class ProjectModel extends Model{
         $map[user_id] = $userId;
         return $this->where($map)->find();
     }
+
+    public function getListById($id)
+    {
+        $map['id'] = (int)$id;
+        $data = $this->where($map)->find();
+        return $data;
+    }
+    
     public function save($userId,$cycleId)
      {
         $data = I('post.');
