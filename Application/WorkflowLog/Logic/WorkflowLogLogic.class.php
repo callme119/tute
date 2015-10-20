@@ -14,6 +14,14 @@ class WorkflowLogLogic extends Model
 {
 	private $id;
 	private $workflowLog;
+
+	public function deleteByWorkflowId($workflowId)
+	{
+		$map['workflow_id'] = (int)$workflowId;
+		$data = $this->where($map)->delete();
+		return $data;
+	}
+
 	/**
 	 * 存入 审核意见 并改变相关状态
 	 */
@@ -226,5 +234,25 @@ class WorkflowLogLogic extends Model
 
 		$count = $this->where($map)->count();
 		return $count;
+	}
+
+	/**
+	 * 获取项目的　待/在办　信息　
+	 * @param  int $projectId 
+	 * @return 
+	 */
+	public function getDoingListByProjectId($projectId)
+	{
+		$map['project_id'] = $projectId;
+		$map['is_commited'] = 0;
+		$data = $this->where($map)->find();
+		return $data;
+	}
+
+	public function getListById($id)
+	{
+		$map['id'] = (int)$id;
+		$data = $this->where($map)->find();
+		return $data;
 	}
 }
