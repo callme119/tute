@@ -6,6 +6,14 @@ namespace ProjectDetail\Logic;
 use ProjectDetail\Model\ProjectDetailModel;
 class ProjectDetailLogic extends ProjectDetailModel
 {
+
+	public function deleteByProjectId($projectId)
+	{
+		$map['project_id'] = (int)$projectId;
+		$data = $this->where($map)->delete();
+		return $data;
+	}
+	
 	/**
 	 * 获取某项目的所有设置数值。
 	 * @param  [type] $projectId [description]
