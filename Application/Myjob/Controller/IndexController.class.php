@@ -27,6 +27,8 @@ use DataModel\Logic\DataModelLogic;                     //数据模型
 use DataModelDetail\Model\DataModelDetailModel;         //数据模型扩展信息
 use ProjectDetail\Logic\ProjectDetailLogic;             //项目扩展数据
 use Workflow\Service\WorkflowService;                   //工作流
+use Workflow\Logic\WorkflowLogic;                       //工作流
+use Score\Logic\ScoreLogic;                             //项目分值分布
 class IndexController extends AdminController{
 
     public function testAction()
@@ -126,13 +128,18 @@ class IndexController extends AdminController{
             
             //获取该项目的下一结点审核人员
             $ChainL = new ChainLogic();
-
             $users = $ChainL->getNextExaminUsersByUserIdAndId($userId , $workflow['chain_id']); 
+        }
+
+        //判断是否满足删除条件
+        //项目申请人为当前用户　并且项目当前审核流程的当前状态为未办结
+        if($project['user_id'] == $userId && $workflowLog['is_commited'] == '0')
+        {
+            $isDelete = 1;
         }
         else
         {
-            //取在/待办人信息
-            $doUser = $WorkflowLogM->getListByWorkflowIdAndIsCommit($workflowId , '0');
+            $isDelete = 0;
         }
 
         //取审核链信息
@@ -153,6 +160,7 @@ class IndexController extends AdminController{
         $this->assign("workflowLog",$workflowLog);
         $this->assign("projectId",$projectId);
         $this->assign('chain',$chain);
+        $this->assign("isDelete",$isDelete);
         $this->assign('workflow',$workflow);
         $this->assign('YZBODY',$this->fetch('taskdetail'));
         $this->display(YZTemplate);
@@ -368,5 +376,74 @@ class IndexController extends AdminController{
         $this->assign('users',$users);
         $this->assign('detail',$PublicProjectDetails);
 
+    }
+
+    public function deleteAction()
+    {
+        try
+        {
+            $id = (int)I('get.id');
+            $userId = get_user_id();
+
+            //判断当前流程为当前用户
+            $WorkflowLogL = new WorkflowLogLogic();
+            $workflowLog = $WorkflowLogL->getListById($id);
+            if($workflowLog == null || $workflowLog['user_id'] != $userId)
+            {
+                E("该审核流程不存在，或当前审核结点$id的待/在办人$workflowLog[user_id]，并不是当前用户$userId");
+            }
+
+            //判断当用流程在当前用户下未提交
+            if($workflowLog['is_commited'] == 1)
+            {
+                E("当前用户$userId并不是当前审核结点$id的待在办人");
+            }
+
+            //取审核流信息
+            $workflowId = $workflowLog['workflow_id'];
+            $WorkflowL = new WorkflowLogic();
+            $workflow = $WorkflowL->getListById($workflowId);
+
+            //取项目信息
+            $projectId = $workflow['project_id'];
+            $ProjectL = new ProjectLogic();
+            $project = $ProjectL->getListById($projectId);
+
+            //判断申请人为当前用户
+            if($project['user_id'] != $userId)
+            {
+                E("当前项目的申请人$project[user_id]非当前用户$userId");
+            }
+
+            //删除项目基本信息
+            $ProjectL->deleteById($projectId);
+
+            //删除项目扩展数据
+            $ProjectDetailL = new ProjectDetailLogic();
+            $ProjectDetailL->deleteByProjectId($projectId);
+
+            //删除项目分数分布信息
+            $ScoreL = new ScoreLogic();
+            $ScoreL->deleteByProjectId($projectId);
+
+            //删除所有审核日志
+            $WorkflowL->deleteByProjectId($projectId);
+            
+            //删除审核链信息
+            $WorkflowLogL->deleteByWorkflowId($workflowId);
+
+            //根据请求来源，给出跳出值。
+            $from = I('get.from');
+
+            $url = U('Myjob/Index/' . $from . '?id=' , I('get.'));
+            $this->success("操作成功" , $url);
+
+        }
+        catch(\Think\Exception $e)
+        {
+            $this->error = $e;
+            $this->_empty();
+        }
+        
     }
 }
