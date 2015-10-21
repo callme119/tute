@@ -13,7 +13,6 @@
                                 <th class="type">项目类别</th>
                                 <th>提交人</th>
                                 <th class="time">提交时间</th>
-                                <th class="">审核状态</th>
                                 <th class="">待/在办人</th>
                                 <th class="job">操作</th>
                             </tr>
@@ -35,8 +34,7 @@
                                 </td>
                                 <td>
                                 {$value["time"]|date="Y/m/d h:i",###}</td>
-                                <td><eq name="status" value="0">审核中<else />已完成</eq></td>
-                                <td>{:W('Project/getTodoUserNameByProjectId',array($workflowLists[$value[workflow_id]][project_id]))}</td>
+                                <td><eq name="status" value="0">{:W('Project/getTodoUserNameByProjectId',array($workflowLists[$value[workflow_id]][project_id]))}<else /><span class="badge">已办结</span></eq></td>
                                 <td><a class="btn btn-sm btn-primary" href="{:U("taskDetail?id=$value[id]&from=". ACTION_NAME . "&p=" . I('get.p'))}"><i class="fa fa-pencil"></i>查看</a></td>
                             </tr>
                         </foreach>
