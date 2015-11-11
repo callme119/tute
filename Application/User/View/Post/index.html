@@ -6,7 +6,7 @@
 					<div class="panel-body">
 						<div class="row">
 							<div class="col-md-4">
-								<a href="{:U('Index/index', I('get.'))}" class="btn btn-primary">返回教工列表</a>
+								<a href="{:U('Index/index?user_id=', I('get.'))}" class="btn btn-primary">返回教工列表</a>
 							</div>
 							<div class="col-md-8 col-xs-4">
 								<h4>当前教工:{:W('User/getNameById',array($userId))}</h4>
