@@ -13,6 +13,13 @@ use Think\Model\RelationModel;
 class UserModel extends RelationModel{
 	protected $totalCount = 0; 	//记录总数
 	
+	protected $errors = array();
+
+	public function getErrors()
+	{
+		return $this->errors;
+	}
+
 	//继承主类方法，添加totalCount值
     public function __construct(){
         parent::__construct();
@@ -117,8 +124,18 @@ class UserModel extends RelationModel{
 	}
 	//添加教工
 	public function addStaff(){
-		$data['id'] = I('post.id');
-		$data['username'] = I('post.username');
+			
+		$username = trim(I('post.username'));
+		$map['username'] = $username;
+
+		$list = $this->where($map)->find();
+		if(count($list) !== 0)
+		{	
+			$this->errors[] = "存在相同的用户名，不能重复添加";
+			return false;
+		}
+
+		$data['username'] = $username;
 		$data['password'] = sha1(C(DEFAULT_PASSWORD));
 		$data['name'] = I('post.name');
 		$data['email'] = I('post.email');
