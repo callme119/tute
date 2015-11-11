@@ -35,7 +35,7 @@ class IndexController extends AdminController {
     //教工管理添加教工
     public function addAction(){
         //传值，前台进行处理
-        $url = U('save');
+        $url = U('save',I('get.'));
         $this->assign('url',$url);
 
         //传递角色列表（添加教工的角色复选框）
@@ -59,7 +59,7 @@ class IndexController extends AdminController {
         $this -> assign('hasRole',$staffInfo['Role']);
 
         //设置url
-        $url = U('update?id='.$id);
+        $url = U('update?id='.$id , I('get.'));
         $this->assign('url',$url);
 
         //传递该用户已有的职位
@@ -99,7 +99,7 @@ class IndexController extends AdminController {
             $UserL = new UserLogic();
             $UserL = $UserL->deleteById($userId);
             
-            $this->success('删除成功', U('index'));
+            $this->success('删除成功', U('index?id=',I('get.')));
         }
         catch(\Think\Exception $e)
         {
@@ -110,9 +110,18 @@ class IndexController extends AdminController {
     }
     //添加教工完成
     public function saveAction(){
+
         //添加教工信息（UserModel）
         $staffModel = new UserModel();
-        $state = $staffModel -> addStaff();
+        $staffModel -> addStaff();
+
+        if(count($errors = $staffModel->getErrors()) !== 0)
+        {
+            $error = implode('<br />' , $errors);
+            $this->error("新增错误,信息：$error" , 'index' );
+            return;
+        }
+
 
         //添加教工-角色信息(RoleUserModel)
         $roleUserModel = new UserRoleModel;
@@ -120,9 +129,7 @@ class IndexController extends AdminController {
         
         //添加教工-部门岗位信息(UserDepartmentPostModel)
         //
-        if($state){
-            $this->success('新增成功', 'index');
-        }
+        $this->success('新增成功', U('index',I('get.')));
     }
     //编辑教工完成
     public function updateAction(){
@@ -138,7 +145,7 @@ class IndexController extends AdminController {
 
         //保存教工-部门岗位信息(UserDepartmentPostModel)
         if($state){
-            $this->success('修改成功', U('index'));
+            $this->success('修改成功', U('index?id=', I('get.')));
         }
     }
 
@@ -152,9 +159,9 @@ class IndexController extends AdminController {
         $data = $array;
         foreach ($data as $key => $value) {
             $data[$key][$string] = array(
-                'edit'=>U('edit?id='.$value['id']),
-                'delete'=>U('delete?id='.$value['id']),
-                'resetPassword'=>U('resetPassword?id='.$value['id']),
+                'edit'=>U('edit?id='.$value['id'] , I('get.')),
+                'delete'=>U('delete?id='.$value['id'] , I('get.')),
+                'resetPassword'=>U('resetPassword?id='.$value['id'] , I('get.')),
                 );
         }
         return $data;
@@ -165,7 +172,7 @@ class IndexController extends AdminController {
         $userM = new UserModel;
         $state = $userM -> resetPassword($userId);
         if($state){
-            $url = U('index');
+            $url = U('index?id=',I('get.'));
             $this ->success('您的密码已重置，新密码为:'.C(DEFAULT_PASSWORD),$url);
         }
     }
