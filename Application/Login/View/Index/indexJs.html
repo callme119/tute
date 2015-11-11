@@ -16,81 +16,52 @@
             }
         })
         $("#login").click(function(){
-            var username=document.getElementById("username").value;
-            if(username.length < 4 || username.length > 20)
-            {
-                alertify.error("用户名长度不符合要求");
-                $("#username").focus();
-                return false;
+            login();
+        });
+        $(document).on('keyup',function(e){
+            if(e.keyCode === 13){
+                login();
             }
-            console.log(username);
-            var password=document.getElementById("password").value;
-            if(password.length < 6 || username.length > 20 )
-            {
-                alertify.error("密码长度不符合要求");
-                $("#password").focus();
-                return false;
-            }
-            var remember=$("#remember").is(':checked');
-            $.post(
-                "{:U('Login/Index/checkAjax')}",
-                {
-                    username:username,
-                    password:password,
-                    remember:remember
-                },
-                function(data){
-                    if(data.state == "error"){    
-                        alertify.error(data.msg);
-                        $("#password").focus();
-                        return false;
-                    }else
-                    {
-                        alertify.success("登陆成功,正在为您跳转")
-                        location = "{:U('Admin/Index/index')}";
-                    }
-                }
-            );
-        })
+        });
     });
-    $(document).on('keyup',function(e){
-          if(e.keyCode === 13){
-            var username=document.getElementById("username").value;
-            if(username.length < 4 || username.length > 20)
+
+    var login = function()
+    {
+        var username=document.getElementById("username").value;
+        if(username.length < 4 || username.length > 20)
+        {
+            alertify.error("用户名长度需要介于4至20位之间");
+            $("#username").focus();
+            return false;
+        }
+        console.log(username);
+        var password=document.getElementById("password").value;
+        if(password.length < 6 || username.length > 20 )
+        {
+            alertify.error("密码长度需要介于6至20位之间");
+            $("#password").focus();
+            return false;
+        }
+        var remember=$("#remember").is(':checked');
+        $.post(
+            "{:U('Login/Index/checkAjax')}",
             {
-                alertify.error("用户名长度不符合要求");
-                $("#username").focus();
-                return false;
-            }
-            console.log(username);
-            var password=document.getElementById("password").value;
-            if(password.length < 6 || username.length > 20 )
-            {
-                alertify.error("密码长度不符合要求");
-                $("#password").focus();
-                return false;
-            }
-            var remember=$("#remember").is(':checked');
-            $.post(
-                "{:U('Login/Index/checkAjax')}",
+                username:username,
+                password:password,
+                remember:remember
+            },
+            function(data){
+                if(data.state == "error"){    
+                    alertify.error(data.msg);
+                    $("#password").focus();
+                    return false;
+                }else
                 {
-                    username:username,
-                    password:password,
-                    remember:remember
-                },
-                function(data){
-                    if(data.state == "error"){    
-                        alertify.error(data.msg);
-                        $("#password").focus();
-                        return false;
-                    }else
-                    {
-                        alertify.success("登陆成功,正在为您跳转")
-                        location = "{:U('Admin/Index/index')}";
-                    }
+                    alertify.success("登陆成功,正在为您跳转")
+                    location = "{:U('Admin/Index/index')}";
                 }
-            );
-          }
-    });
+            }
+        ); 
+    };
 </script>
 
