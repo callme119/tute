@@ -27,6 +27,14 @@
 			<eq name="value[type]" value="text">
 				{$projectDetail[$value[name]]['value']}
 			</eq>
+			<eq name="value[type]" value="select">
+				<php> 
+				$name = $value['name'];
+				$key = $projectDetail[$name][value];
+				$title = $dataModelDetail[$key][title];
+				</php>
+				{$title}
+			</eq>
 		</p>
 	</neq>
 </eq>
