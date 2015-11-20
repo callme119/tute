@@ -180,4 +180,19 @@ class ProjectLogic extends ProjectModel
 		}
 		return $return;
 	}
+
+	public function deleteById($id)
+	{
+		$id = (int)$id;
+		$map['id'] = $id;
+
+		$return = $this->where($map)->find();
+		if($return == null)
+		{
+			$this->error = "ID为$id的纪录未找到";
+			return;
+		}
+		$this->where($map)->delete();
+		return;
+	}
 }
