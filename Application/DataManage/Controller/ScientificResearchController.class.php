@@ -11,7 +11,8 @@ use Cycle\Logic\CycleLogic;					//周期
 use Task\Logic\TaskLogic;					//任务量
 use User\Logic\UserLogic;					//用户
 use PHPExcel\Server\PHPExcelServer;			//PHPEXCEL
-use PHPExcel\Server\IOFactoryServer;//PHPEXCEL
+use PHPExcel\Server\IOFactoryServer;		//PHPEXCEL
+use ProjectCategoryRatio\Logic\ProjectCategoryRatioLogic;//项目类别系数
 class ScientificResearchController extends IndexController
 {
 	protected $cycleId;
@@ -76,7 +77,10 @@ class ScientificResearchController extends IndexController
 		$totalDoneScore = 0; //已完成总分
 		foreach($project as $key => $project)
 		{
-			$score = $project['score'];
+			//取个人得分
+			$ProjectCategoryRatioL = new ProjectCategoryRatioLogic();
+			$score = $ProjectCategoryRatioL->getScoreByProjectIdUserId($project['id'], $project['user_id']);
+
 			if($project['state'] == '0')
 			{
 				$userDatas[$project['user_id']]['doingScore'] +=  $score;
