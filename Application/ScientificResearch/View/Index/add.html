@@ -3,14 +3,15 @@
         <div class="col-md-12 box-body">
             <!-- Date range -->
             <form action="{:U('save')}" method = 'post'  id="demoForm">
+                <input type="hidden" id="project_id" name="project_id" value="{$AddM->getProjectId()}" />
                 <div class="row">
                     <div class="col-md-3 form-group">
                         <div class="input-group">
                             <span class="input-group-addon">项目类别</span>
                             <select name="project_category_id" id="projectCategory" class="selectpicker form-control select2">
                                 <option value="0">请选择</option>
-                                <foreach name="project" item="project">
-                                    <option data-type="<neq name="project[data_model_id]" value="0">category</neq>" value="{$project.id}"><php>for($j = 0 ; $j < $project[_level] ; $j++ ) : echo "|--"; endfor;</php><neq name="project[data_model_id]" value="0">[{$project.name}]<else/>{$project.name}</neq></option>
+                                <foreach name="projectCategorys" item="projectCategory">
+                                    <option data-type="<neq name="projectCategory[data_model_id]" value="0">category</neq>" value="{$projectCategory.id}" <eq name="AddM:isCurrentProjectCategory($projectCategory[id])" value="1">selected="selected"</eq>><php>for($j = 0 ; $j < $projectCategory[_level] ; $j++ ) : echo "|--"; endfor;</php><neq name="projectCategory[data_model_id]" value="0">[{$projectCategory.name}]<else/>{$projectCategory.name}</neq></option>
                                 </foreach>
                             </select><!-- /.input group -->
                         </div><!-- /.form group -->
@@ -19,57 +20,101 @@
                 <div class="row">
                     <div class="col-md-3 form-group">
                         <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">名称</span>
-                            <input type="text" id="title" name="title" value="" class="form-control"  aria-describedby="basic-addon1">
+                            <span class="input-group-addon">名称</span>
+                            <input type="text" id="title" name="title" value="{$AddM->getProjectTitle()}" class="form-control"  aria-describedby="basic-addon1">
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-12">
-                    <div id="dataModelDetail"></div>
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <div id="dataModelDetail"></div>
+                    </div>
                 </div>
-            </div>
-                <div class="row">
-                    <div class="col-md-3 form-group">
-                        <div class="input-group">
-                            <span class="input-group-addon" id="basic-addon1">请选择审核流程</span>
-                            <select name="examine_id" id="examine_id" class="selectpicker form-control">
-                               <option value="0">请选择</option>
-                               <foreach name="examineLists" item="value">
-                                   <option value="{$value[id]}">{$value[name]}</option></foreach>
-                               </select>
+                
+                <div id="is_team" style="display:none">
+                    <?php $j = 0; ?>
+                    <?php if (I('get.id') === '') : ?>
+                        <include file="Index/addTeamers" />
+                    <?php endif; ?>
+                    <foreach name="AddM:getScores()" item="score">
+                        <include file="Index/addTeamers" />
+                    </foreach>
+                </div><!--#is_team-->
+
+
+                <!--如果为新建或未曾提交过，则调用选择审核流程，且选择下一审核人-->
+                <?php if (I('get.id') === '' || $AddM->getIsUnsubmit() == 1) : ?>
+                    <div class="row">
+                        <div class="col-md-3 form-group">
+                            <div class="input-group">
+                                <span class="input-group-addon">请选择审核流程</span>
+                                <select name="examine_id" id="examine_id" class="selectpicker form-control">
+                                   <option value="0">请选择</option>
+                                   <foreach name="examineLists" item="value">
+                                       <option <eq name="AddM:getExamineId()" value="$value[id]">selected="selected"</eq>value="{$value[id]}">{$value[name]}</option></foreach>
+                                   </select>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="row">
+                        <div class="col-md-6 form-group">
+                            <div id="next_examiner" class="input-group">
+                               <!--ajax取出审核人信息后，填充至此，不能删！-->
                            </div>
                        </div>
                    </div>
-                   <div class="row">
-                    <div class="col-md-3 form-group">
-                        <div id="next_examiner" class="input-group">
-                           
+
+               <?php else : ?>
+
+                <div class="row">
+                    <div class="col-md-12 form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon" >审核意见：</span>
+                            <div class="">
+                                <foreach name="AddM:getSuggestions()" item="suggestion">
+                                    {:date("Y-m-d H:i", $suggestion[time])}&nbsp;{:$AddM->getUserNameByUserId($suggestion[user_id])}:{$suggestion[commit]} <br />                   
+                                </foreach>
+                            </div>
+                        </div>
+                    </div><!--form-group-->
+                </div><!--row-->
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">您的意见：</span>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <textarea name="commit" rows="3" class="form-control">同意</textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!--form-group-->
+                </div><!--row-->
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <div class="input-group">
+                            <span class="input-group-addon">一下审核人：</span>
+                            <div>
+                                <?php 
+                                $i = 0;
+                                if (count($AddM->getNextExamineUsers()) === 0) : 
+                                    ?>
+                                对不起，您所在的部门在该流程结点上未找到符合流程要求的审核人。<br />或<br />您近期的部门岗位发生变动，这将导致您不能继续原有流程。
+                            <?php else :  ?>
+                                <foreach name="AddM:getNextExamineUsers()" item="examineUser">
+                                    <input type="radio" value="{$examineUser[user_id]}" name="check_user_id" <eq name="i++" value="0">checked="checked" </eq> id="check_user_id_{$examineUser[user_id]}"><label for="check_user_id_{$examineUser[user_id]}">{:$AddM->getUserNameByUserId($examineUser[user_id])}</label></div>
+                                </foreach>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
-                <div id="is_team" style="display:none">
-                <div class="row team">
-                   <div class="col-md-3 form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon">团队人员姓名</span>
-                        <select name="name[]" class="selectpicker form-control select2">
-                            <option value="0">请选择</option>
-                            <foreach name="name" item="value" key="key">
-                                <option value="{$value.id}">{$value.name}</option>
-                            </foreach>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md-3 form-group">
-                    <div class="input-group">
-                        <span class="input-group-addon" id="basic-addon1">团队分数占比</span>
-                        <input name="score_percent[]" type="text" class="form-control" placeholder="" aria-describedby="basic-addon1">
-                    </div>
-                </div>
-                <div class="col-md-1"><span id="plus" onmouseover="this.style.backgroundColor='green';" onmouseout="this.style.backgroundColor='';" class="input-group-addon btn"><span class="glyphicon glyphicon-plus"></span></span></div>
-                <div class="col-md-1"><span id="minus" onmouseover="this.style.backgroundColor='red';" onmouseout="this.style.backgroundColor='';"  class="input-group-addon btn"><span class="glyphicon glyphicon-minus"></span></span></div>
-            </div></div>
+            </div>
+
+        <?php endif; ?>
+
             <!-- <div class="col-md-3 form-group">
                 <div class="input-group  date form_date" data-date="" data-date-format="" data-link-field="dtp_input2"  data-link-format="yyyy-mm-dd">
                     <span class="input-group-addon">发表时间</span>
@@ -80,8 +125,10 @@
                 <input type="hidden" id="dtp_input2" value="" />
             </div> -->
             <div class="row">
-                <div class="col-md-1 col-md-offset-3"><a id="submit" href="javascript:void(0);" class="btn btn-success disabled"><i class="fa fa-check "></i>确认</a></div>
-                <div class="col-md-1"><a href="" class="btn btn-warning" ><i class="fa fa-repeat "></i>重置</a></div>
+                <input type="hidden" id="type" name="type" value="save" />
+                <div class="col-md-1 col-md-offset-2"><button type="submit" class="btn btn-info"><i class="fa fa-save"></i>保存</button></div>
+                <div class="col-md-1"><a id="submit" href="javascript:void(0);" class="btn btn-success disabled"><i class="fa fa-check "></i>提交</a></div>
+                
             </div>
         </form>
     </div>

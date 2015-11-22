@@ -25,7 +25,7 @@ class ScoreLogic extends ScoreModel
 	{
 		$map['project_id'] = (int)$projectId;
 
-		return $this->field($field)->where($map)->select();
+		return $this->where($map)->select();
 
 	}
 

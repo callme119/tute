@@ -6,4 +6,6 @@ Runtime/
 nbproject/
 *.tags
 *.tags_sorted_by_file
-Application\Common\Conf\config.php
+Application/Common/Conf/config.php
+.phpintel/
+nbproject/

@@ -18,6 +18,7 @@
                                 <th>申请人</th>
                                 <th>待/在办人</th>
                                 <th>分值</th>
+                                <th>操作</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -31,6 +32,7 @@
                                 <td>{:W('User/getNameById',array($project['commit_user_id']))}</td>
                                 <td><eq name="project[is_finished]" value="1"><span class="badge">已办结</span><else />{:W('Project/getTodoUserNameByProjectId',array($project[id]))}</eq></td>
                                 <td>{:W("Project/getScoreByIdUserId",array($project[id] , $project[user_id]))}</td>
+                                <td><?php if($indexM->isEdit($project)) : ?><a href="{:U('add?id=' . $project[id] , I('get.'))}">编辑</a><?php endif;?></td>
                             </tr>
                         </foreach>
                         </tbody>

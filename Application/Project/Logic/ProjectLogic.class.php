@@ -177,6 +177,7 @@ class ProjectLogic extends ProjectModel
 		if($return == null)
 		{
 			$this->error = "ID为$id的纪录未找到";
+			return false;
 		}
 		return $return;
 	}

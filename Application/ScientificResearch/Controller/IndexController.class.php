@@ -4,6 +4,7 @@
  */
 namespace ScientificResearch\Controller;
 use Admin\Controller\AdminController;
+use Chain\Logic\ChainLogic;                             //审核链
 use ProjectCategory\Logic\ProjectCategoryLogic;         //项目类别
 use ProjectCategory\Model\ProjectCategoryModel;         //项目类别表
 use User\Model\UserModel;                               //用户表
@@ -20,14 +21,17 @@ use DataModelDetail\Logic\DataModelDetailLogic;         //数据模型详情
 use DataModelDetail\Model\DataModelDetailModel;         //数据模型扩展信息
 use ExamineDetail\Model\ExamineDetailModel;             //审核扩展信息
 use Workflow\Model\WorkflowModel;                       //工作流表
-use Workflow\Loigc\WorkflowLoigc;                       //工作流
+use Workflow\Logic\WorkflowLogic;                       //工作流
 use WorkflowLog\Model\WorkflowLogModel;                 //工作流扩展表
+use WorkflowLog\Logic\WorkflowLogLogic;                 //工作流扩展信息表
 use ProjectCategoryRatio\Model\ProjectCategoryRatioModel;//项目类别系数表
 use ProjectDetail\Logic\ProjectDetailLogic;             //项目扩展信息
 use ProjectDetail\Model\ProjectDetailModel;             //项目扩展信息
 use Workflow\Service\WorkflowService;                   //审核流程
 use Cycle\Logic\CycleLogic;                             //周期表
 use ProjectCategoryRatio\Logic\ProjectCategoryRatioLogic;            //项目类别系数
+use ScientificResearch\Model\Index\IndexModel;                //index 模型
+use ScientificResearch\Model\Index\AddModel;                //add 模型
 
 class IndexController extends AdminController {
     /**
@@ -49,7 +53,11 @@ class IndexController extends AdminController {
         $ScoreL = new ScoreLogic();
         $projects= $ScoreL->getListsJoinProjectCategoryByUserIdType($userId , $type);
         $totalCount = $ScoreL->getTotalCount();
+
+        $indexM = new IndexModel();
+
         //传值
+        $this->assign("indexM", $indexM);
         $this->assign("totalCount",$totalCount);
         $this->assign("projects",$projects);
         $this->assign('YZBODY',$this->fetch('Index/index'));
@@ -65,16 +73,74 @@ class IndexController extends AdminController {
      * 
      */
     public function saveAction() {
+        header("Content-type: text/html; charset=utf-8");
+        $userId = get_user_id();                //当前用户
+        $projectId = (int)I('post.project_id'); //项目ID
+        $checkUserId = I('post.check_user_id'); //传入下一审核人
 
-        $userId = get_user_id();
+        //判断用户是提交还是保存操作
+        $type = (I('post.type') === 'submit') ? "submit" : "save";
+
+        if ($type === 'submit')
+        {
+
+            //查询当前项目是否已经选过审核流程
+            $WorkflowL = new WorkflowLogic();
+            if ($workflow = $WorkflowL->getListByProjectId($projectId))
+            {
+                //取审核链信息，得到审核人员
+                $ChainL = new ChainLogic();
+                if ( !$checkUsers = $ChainL->getNextExaminUsersByUserIdAndId($userId , $workflow['chain_id']))
+                {
+                    $this->error = "取出审核人员信息发生错误，错误信息:" . $ChainL->getError();
+                    $this->_empty();
+                    return false;
+                } 
+
+                $isCheckUser = false;
+                foreach($checkUsers as $checkUser)
+                {
+                    if ($checkUser['user_id'] == $checkUserId)
+                    {
+                        $isCheckUser = true;
+                        break;
+                    }
+                }
+
+                if ($isCheckUser === false)
+                {
+                    $this->errors[] = "传入审核人员信息有误或未传入审核人信息";
+                    return false;
+                }
+            }
+        }
+        
+        //接收projectId, 如果存在。则进行合规验证
+        if( $projectId  )
+        {              
+            //查询当前project是否存在
+            $ProjectL = new ProjectLogic();
+            if( !$project = $ProjectL->getListbyId($projectId) )
+            {
+                $this->error = "当前记录不存在或已删除";
+                $this->_empty();
+            }
+           
+            //查询当前用户是否有当前project的修改权限
+            if ($userId != $project[user_id])
+            {
+                $this->error = "用户userId为" . $userId . "与项目申请用户"  . $project[user_id] . "不符";
+                $this->_empty();
+            }
+        }
 
         //取当前周期id
         $cycleLogicL = new CycleLogic();
         $cycleLogic = $cycleLogicL->getCurrentList();
         $cycleId = $cycleLogic['id'];
 
-        $projectCategoryId = I('post.project_category_id');
         //取项目类别信息
+        $projectCategoryId = I('post.project_category_id');
         $ProjectCategoryM = new ProjectCategoryModel();
         if( !$projectCategory = $ProjectCategoryM->getListById($projectCategoryId) )
         {
@@ -82,7 +148,7 @@ class IndexController extends AdminController {
             $this->_empty();
         }
 
-         //取数据模型扩展信息
+        //取数据模型扩展信息
         $dataModelId = (int)$projectCategory['data_model_id'];
         $DataModelDetailL = new DataModelDetailLogic();
         $dataModelDetailRoots = $DataModelDetailL->getRootListsByDataModelId($dataModelId);
@@ -92,29 +158,67 @@ class IndexController extends AdminController {
             $this->_empty();
         }
 
-        //存项目信息
+        //存项目信息.save方法实现的功能为：如果存在数据，则更新。不存在，则添加
         $ProjectM = new ProjectModel();
-        $projectId = $ProjectM->save($userId,$cycleId);
-        if($projectId === false)
+        if( !$projectId = $ProjectM->save($userId, $cycleId) )
         {
             $this->error = "数据添加发生错误，代码" . $this->getError();
             $this->_empty();
         }
 
-        // 存工作流信息
-        $examineId = (int)I('post.examine_id');
-        $checkUserId = (int)I('post.check_user_id');
-        $WorkflowS = new WorkflowService();
-        if(!$WorkflowS->add($userId , $examineId , $projectId, $checkUserId , $commit = "申请"))
+        //用户为提交操作
+        if($type === 'submit')
         {
-            //删除项目信息
-            $this->error = $WorkflowS->getError();
-            $this->_empty();
+            
+            
+            //存在当前工作流信息，则证明为退回项目后修改
+            if ( $workflow )
+            {
+                //获取当前审核结点信息
+                $WorkflowLogL = new WorkflowLogLogic();
+                $workflowLog = $WorkflowLogL->getCurrentListByWorkflowId($workflow[id]);
+
+                //进行权限判断，即用户现在是否有权限对该审核结点进行操作
+                if($workflowLog['user_id'] != $userId)
+                {
+                    $this->error = "对不起，无此操作权限";
+                    $this->_empty();
+                    return;
+                }
+                
+                //更新审核流程结点
+                if(!$WorkflowLogL->saveCommited($workflowLog[id], $checkUserId))
+                {
+                    $this->error = $WorkflowLogL->getError();
+                    $this->_empty();
+                    return;
+                }
+                
+            }        
+            //未选审核流程，则证明用户第一次提交.
+            else
+            {
+                // 存工作流信息
+                $examineId = (int)I('post.examine_id');
+                $checkUserId = (int)I('post.check_user_id');
+                $WorkflowS = new WorkflowService();
+                if(!$WorkflowS->add($userId , $examineId , $projectId, $checkUserId , $commit = "申请"))
+                {
+                    //删除项目信息
+                    $this->error = $WorkflowS->getError();
+                    $this->_empty();
+                }
+            }
+            
         }
+
+        //删除分值表
+        $ScoreL = new ScoreLogic();
+        $ScoreL->deleteByProjectId($projectId);
 
         //存分数信息,如果是团队信息，存团队，如果不是，存个人
         //团队的话还要判断是不是包含自己，不包含分值百分比变为零
-        $ScoreM = new ScoreModel();
+        $ScoreM = new ScoreModel();      
         $isTeam = $projectCategory['is_team'];
         if($isTeam == 1)
         {
@@ -131,7 +235,7 @@ class IndexController extends AdminController {
             }
             else{
 
-            //判断是否团队添加了同一个人两次
+                //判断是否团队添加了同一个人两次
                 if (count($name) != count(array_unique($name))) {
                     $this->error = "不能添加同一个人两次";
                     $this->_empty();
@@ -142,6 +246,7 @@ class IndexController extends AdminController {
                 if(!in_array($userId, $name)){
                     $addOneself = $ScoreM->addOneself($projectId,$userId);
                 }
+
                 $Score = $ScoreM->save($projectId);
                 if($Score === false)
                 {
@@ -160,36 +265,62 @@ class IndexController extends AdminController {
             }
         }
 
+        //删除项目扩展信息
+        $ProjectDetailL = new ProjectDetailLogic();
+        $ProjectDetailL->deleteByProjectId($projectId);
+
+        //存新的项目扩展信息
         if($dataModelId!==1){
             $projectDetailM = new projectDetailModel();
             $projectDetail = $projectDetailM->save($projectId,$dataModelDetailRoots);
             if($projectDetail === false)
             {
-             $this->error = "数据添加发生错误，代码" . $this->getError();
-             $this->_empty();
+                $this->error = "数据添加发生错误，代码" . $this->getError();
+                $this->_empty();
+            }
+        }
 
-         }
-     }
+        $this->success("操作成功",'index');
+    }
 
-     $this->success("操作成功",'index');
- }
- public function auditedAction() {
-    $this->assign('YZBODY',$this->fetch());
-    $this->display(YZTemplate);
-}
-public function addAction() {
+    public function auditedAction() {
+        $this->assign('YZBODY',$this->fetch());
+        $this->display(YZTemplate);
+    }
+    public function addAction() {
         //获取当前用户ID
-    $userId = get_user_id();
+        $userId = get_user_id();
+
+        //取项目信息
+        $projectId = (int)(I('get.id'));
+        $ProjectL = new ProjectLogic();
+        $project = $ProjectL->getListById($projectId);
+
+        $AddM = new AddModel();
+        //如果存在项目信息，则取出。
+        //不存在，则为添加
+        if($project !== false)
+        {
+
+            $AddM->setProject($project);
+            $AddM->setUserId($userId);
+
+            if( !$AddM->isEdit() )
+            {
+                E("记录" . $projectId . "失效：当前项目已提交或已删除");
+            }
+        }
 
     $ProjectCategoryL = new ProjectCategoryLogic();
     $projectCategoryTree = $ProjectCategoryL->getSonsTreeById($pid=0,$type=CONTROLLER_NAME);
-    $projectCategory = tree_to_list($projectCategoryTree , $id , '_son' );
+    $projectCategorys = tree_to_list($projectCategoryTree , $id , '_son' );
 
-        //获取当前用户部门岗位信息（数组）
+    //获取当前用户部门岗位信息（数组）
     $UserDepartmentPostM = new UserDepartmentPostModel();
     $userDepartmentPosts = $UserDepartmentPostM->getListsByUserId($userId);
-        // dump($userDepartmentPosts);
-        //获取当前岗位下，对应的可用审核流程
+    
+    // dump($userDepartmentPosts);
+    //获取当前岗位下，对应的可用审核流程
     $ExamineM = new ExamineModel();
     $examineLists = $ExamineM->getListsByNowPosts($userDepartmentPosts);
 
@@ -199,7 +330,8 @@ public function addAction() {
         //传值
     $this->assign("examineLists",$examineLists);
     $this->assign('name',$name);
-    $this->assign('project',$projectCategory);
+    $this->assign("AddM",$AddM);
+    $this->assign('projectCategorys',$projectCategorys);
     $this->assign("js",$this->fetch('Index/addJs'));
     $this->assign('YZBODY',$this->fetch('Index/add'));
     $this->display(YZTemplate);
@@ -317,9 +449,16 @@ public function auditsuggestionAction() {
         $ProjectCategoryRatioM = new ProjectCategoryRatioModel();
         $ProjectCategoryRatios = $ProjectCategoryRatioM->getListsByProjectCategoryId($projectCategoryId);
         
-
+        //判断是否传入项目ID
+        $projectId = (int)I('get.projectId');
+        
+        //取项目数据详情
+        $ProjectDetailL = new ProjectDetailLogic();
+        $projectDetail = $ProjectDetailL->getListsByProjectId($projectId);
+        // dump($projectDetail);
 
         //assign
+        $this->assign("projectDetail",$projectDetail);
         $this->assign("dataModelId",$dataModelId);
         $this->assign("dataModelDetailRoots",$dataModelDetailRoots);
         $this->assign("dataModelDetailSons",$dataModelDetailSons);
@@ -327,8 +466,24 @@ public function auditsuggestionAction() {
         $data['status'] = "success";
         $data['isTeam'] = $projectCategory['is_team'];
         $data['message'] = $this->fetch('Index/dataModelDetail');
+        // header("Content-type:text/html;charset=utf-8");
+        // echo $data[message];
+        // die();
         $this->ajaxReturn($data);
         
+    }
+
+    /**
+     * 删除项目的扩展信息
+     * @param  [type] $projectid [description]
+     * @return [type]            [description]
+     */
+    private function deleteExtendsDatas($projectid)
+    {
+
+        //删除工作流表
+        //删除工作流详情表
+        //删除分值记录表
     }
 }
 

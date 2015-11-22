@@ -15,6 +15,12 @@ class WorkflowLogLogic extends Model
 	private $id;
 	private $workflowLog;
 
+	public function getListsByWorkflowId($workflowId)
+	{
+		$map[workflow_id] = (int)$workflowId;
+		return $this->where($map)->select();
+	}
+
 	public function deleteByWorkflowId($workflowId)
 	{
 		$map['workflow_id'] = (int)$workflowId;
@@ -25,9 +31,9 @@ class WorkflowLogLogic extends Model
 	/**
 	 * 存入 审核意见 并改变相关状态
 	 */
-	public function saveCommited($id)
+	public function saveCommited($id = null, $userId = null)
 	{
-		if(!$this->_validate())
+		if(!$this->_validate($id))
 		{
 			return false;
 		} 
@@ -54,7 +60,7 @@ class WorkflowLogLogic extends Model
 		if($chain['next_id'] != '0')
 		{
 			//则查看是否传入user_id。该user_id是否在可选的userid列表中
-			$userId = I('post.user_id');
+			$userId = isset($userId) ? $userId : I('post.user_id');
 			if(!is_numeric($userId))
 			{
 				$this->error = "未传入审核人员信息";
@@ -181,12 +187,16 @@ class WorkflowLogLogic extends Model
 	/**
 	 * 进行权限审核。看是否为在办、待办
 	 * */
-	public function _validate()
+	public function _validate($id = null)
 	{
-		$id = I('post.id');
+		if( !isset($id) )
+		{
+			$id = I('post.id');
+		}
+		
 		if(!is_numeric($id))
 		{
-			$this->error = "未传入正确的id值";
+			$this->error = "wrokflowlogic数据验证发生错误：未传入正确的id值";
 			return false;
 		}
 
@@ -254,5 +264,12 @@ class WorkflowLogLogic extends Model
 		$map['id'] = (int)$id;
 		$data = $this->where($map)->find();
 		return $data;
+	}
+
+	public function getCurrentListByWorkflowId($workflowId)
+	{
+		$map[workflow_id] = $workflowId;
+		$map[is_commited] = 0;
+		return $this->where($map)->find();
 	}
 }

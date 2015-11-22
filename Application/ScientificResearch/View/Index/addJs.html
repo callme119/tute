@@ -2,6 +2,7 @@
 
 //增加团队人数
 var data = "<div class='row team'><div class='col-md-3 form-group'><div class='input-group'><span class='input-group-addon'>团队人员姓名</span><select name='name[]' class='selectpicker form-control select2'><option value='0'>请选择</option><foreach name='name' item='value' key='key'><option value='{$value.id}'>{$value.name}</option></foreach></select></div></div><div class='col-md-3 form-group'><div class='input-group'><span class='input-group-addon' id='basic-addon1'>团队分数占比</span><input name='score_percent[]' type='text' class='form-control' aria-describedby='basic-addon1'></div></div></div>";
+
 $("#plus").click(function(){
     $(".team:last").after(data);
     $(".select2").select2();
@@ -61,6 +62,9 @@ $("#minus").click(function(){
             return false;
         }
 
+        //更改表单提交类型为submit
+        $("#type").val("submit");
+
         //表单提交
         $("form").submit();
 
@@ -70,6 +74,7 @@ $("#minus").click(function(){
     var get_project_category_id_select = function($this){
         //找到谁被点击了
         var selected = $this.children('option:selected');
+        var projectId = $("#project_id").val();
         var type = selected.attr("data-type");
         console.log("前项TYPE值"+type);
         if(type == 'category')
@@ -89,7 +94,7 @@ $("#minus").click(function(){
         }
         else
         {
-            var url = "{:U('dataModelDetailAjax')}"+"?projectCategoryId="+projectCategoryId;
+            var url = "{:U('dataModelDetailAjax')}"+"?projectCategoryId="+projectCategoryId+"&projectId="+projectId;
             $.get(
                 url,
                 function(data){
@@ -154,6 +159,9 @@ $("#minus").click(function(){
     
     //表单验证
     $(document).ready(function(){
+        //防提交后刷新，将表单类型重置为
+        $("#type").val("save");
+
         $("#demoForm").validate({
             rules:{
                 project_category_id:{
