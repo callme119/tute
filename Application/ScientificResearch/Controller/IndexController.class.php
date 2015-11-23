@@ -154,8 +154,8 @@ class IndexController extends AdminController {
         }
 
         //存项目信息.save方法实现的功能为：如果存在数据，则更新。不存在，则添加
-        $ProjectM = new ProjectModel();
-        if( !$projectId = $ProjectM->save($userId, $cycleId) )
+        $ProjectL = new ProjectLogic();
+        if( !$projectId = $ProjectL->savePost($userId, $cycleId) )
         {
             $this->error = "数据添加发生错误，代码" . $this->getError();
             $this->_empty();

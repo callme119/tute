@@ -196,4 +196,41 @@ class ProjectLogic extends ProjectModel
 		$this->where($map)->delete();
 		return;
 	}
+
+	public function savePost($userId, $cycleId)
+    {
+        try
+        {
+            $data = array();
+            $data['id'] = (int)I('post.project_id');
+            $data['project_category_id'] = I('post.project_category_id');
+            $data['title'] = I('post.title');
+            $data['user_id'] = $userId;
+            $data['cycle_id'] = $cycleId;
+            if($this->create($data)) //将time字段自动存入
+            {
+            	if($data['id'] !== 0)
+            	{
+            		$this->save();
+            		return $data['id'];
+            	}
+            	else
+            	{
+            		return $this->add(); 
+            	}
+                              
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+        catch(\Think\Exception $e)
+        {
+            $this->error = $e->getMessage();
+            return false;
+        }
+        
+     } 
 }
