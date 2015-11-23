@@ -5,13 +5,13 @@ return array(
     'TAGLIB_PRE_LOAD'       =>  'Yunzhi',   // 需要额外加载的标签库(须指定标签库名称)，多个以逗号分隔 
     'DEFAULT_PASSWORD' => 'mengyunzhi',
     /* 数据库配置 */
-
     'DB_TYPE'   => 'mysqli', // 数据库类型
     'DB_HOST'   => 'callme119.mysql.rds.aliyuncs.com', 
     'DB_NAME'   => 'performancems', // 数据库名performancems
     'DB_USER'   => 'tute_per', // 用户名performancems
     'DB_PWD'    => 'pSckmkEYT83XN6xJdG3u9Xa28MGqn6mW',  // 密码b2408cac49ed15d67c390dd08a8b0158
     'DB_PORT'   => '3633', // 端口3306
+
 
 
     // 'DB_TYPE'   => 'mysqli', // 数据库类型

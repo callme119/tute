@@ -15,7 +15,6 @@ class WorkflowLogLogic extends Model
 	private $id;
 	private $workflowLog;
 
-
 	public function deleteById($id)
 	{
 		$map[id] = (int)$id;

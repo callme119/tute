@@ -6,7 +6,6 @@ namespace Workflow\Logic;
 use Workflow\Model\WorkflowModel;
 class WorkflowLogic extends WorkflowModel
 {
-
 	public function setListByIdChainId($id, $chainId)
 	{
 		$data[id] = (int)$id;
