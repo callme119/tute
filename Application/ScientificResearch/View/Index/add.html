@@ -96,6 +96,7 @@
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <div class="input-group">
+                        <input type="hidden" name="examine_id" value="{$AddM->getExamineId()}"/>
                             <span class="input-group-addon">一下审核人：</span>
                             <div>
                                 <?php 
@@ -126,7 +127,7 @@
             </div> -->
             <div class="row">
                 <input type="hidden" id="type" name="type" value="save" />
-                <div class="col-md-1 col-md-offset-2"><button type="submit" class="btn btn-info"><i class="fa fa-save"></i>保存</button></div>
+                <div class="col-md-1 col-md-offset-2"><a id="save" href="javascript:void(0);" class="btn btn-info"><i class="fa fa-save"></i>保存</a></div>
                 <div class="col-md-1"><a id="submit" href="javascript:void(0);" class="btn btn-success disabled"><i class="fa fa-check "></i>提交</a></div>
                 
             </div>

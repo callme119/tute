@@ -30,6 +30,7 @@ class ScientificResearchController extends IndexController
 	{
 		try
 		{
+
 			//计算数值.只所以将其分离,原因是在数据导出中,也需要该信息
 			$this->index($action = "index");
 			//TODO:将数值写入缓存（每点一次就查一次，这受不了呀）

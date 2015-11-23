@@ -46,8 +46,9 @@
      * @param number $examineId             审核流程ID
      * @param num $projectId 项目ID
      * @param num $checkUserId           用户选择的工作流审核人员
+     * @param bool $isSelf            将下一审核人置为自己，true .
      */
-    public function add($userId , $examineId , $projectId, $checkUserId , $commit = "申请")
+    public function add($userId , $examineId , $projectId, $checkUserId , $commit = "申请", $isSelf = false)
     {
     	//取审核流程信息
     	$ExamineM = new ExamineModel();
@@ -92,7 +93,15 @@
     	//添加工作流数据
     	$data = array();
     	$data['examine_id'] = $examineId;
-    	$data['chain_id']	= $chain['next_id']; //既然用户已经提交了，那好。就应该是下一结点。
+        if ($isSelf)
+        {
+            $data['chain_id']   = $chain[id]; //用户的选择仅是保存，那么，本节点 
+        }
+        else
+        {
+            $data['chain_id']    = $chain['next_id']; //既然用户已经提交了，那好。就应该是下一结点。 
+        }
+    	
     	$data['project_id'] 	= $projectId;
     	$WorkflowM = new WorkflowModel();
     	if(!$WorkflowM->create($data))
@@ -103,13 +112,22 @@
     	$workflowId = $WorkflowM->add();
 
     	//存工作流结点表
-        //当前用户增加已办信息
+        //当前用户增加已办/在办信息信息
         $data   = array();
         $data['workflow_id']    = $workflowId;
         $data['pre_id'] = '0';
         $data['user_id'] = $userId;
-        $data['is_clicked'] = "1";
-        $data['is_commited'] = "1";
+        if ($isSelf)
+        {
+            $data['is_clicked'] = "0";
+            $data['is_commited'] = "0"; 
+        }
+        else
+        {
+            $data['is_clicked'] = "1";
+            $data['is_commited'] = "1"; 
+        }
+        
         $data['commit'] = $commit;
         $WorkflowLogM = new WorkflowLogModel();
         if(!$WorkflowLogM->create($data))
@@ -120,19 +138,24 @@
         }
         $preId = $WorkflowLogM->add();
 
-        //下一用户增加待办信息
-    	$data 	= array();
-    	$data['workflow_id']	= $workflowId;
-    	$data['pre_id'] = $preId;
-    	$data['user_id'] = $checkUserId;
-    	$WorkflowLogM = new WorkflowLogModel();
-    	if(!$WorkflowLogM->create($data))
-    	{
-    		$this->error = $WorkflowLogM->getError();
-    		$this->error .= "工作流表数据已经写进去了……，郁闷的，就这样吧。";
-    		return false;
-    	}
-    	$WorkflowLogM->add();
+        //如果用户选择的是保存，而非提交
+        if (!$isSelf)
+        {
+            //下一用户增加待办信息
+            $data   = array();
+            $data['workflow_id']    = $workflowId;
+            $data['pre_id'] = $preId;
+            $data['user_id'] = $checkUserId;
+            $WorkflowLogM = new WorkflowLogModel();
+            if(!$WorkflowLogM->create($data))
+            {
+                $this->error = $WorkflowLogM->getError();
+                $this->error .= "工作流表数据已经写进去了……，郁闷的，就这样吧。";
+                return false;
+            }
+            $WorkflowLogM->add();
+        }
+        
 
     	return true;
     }

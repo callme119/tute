@@ -404,6 +404,16 @@ class IndexController extends AdminController{
             $WorkflowL = new WorkflowLogic();
             $workflow = $WorkflowL->getListById($workflowId);
 
+            //当前项目的审核结点，是否为根结点
+            $ChainL = new ChainLogic();
+            $chain = $ChainL->getListById($workflow[chain_id]);
+            if ($chain[pre_id] != 0)
+            {
+                $this->error = "错误：当前结点非起始结点。";
+                $this->_empty();
+                return;
+            }
+            
             //取项目信息
             $projectId = $workflow['project_id'];
             $ProjectL = new ProjectLogic();

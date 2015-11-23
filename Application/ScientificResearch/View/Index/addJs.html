@@ -22,10 +22,8 @@ $("#minus").click(function(){
         get_project_category_id_select($(this));
     });
 
-    //绑定　确定　点击事件
-    $("#submit").click(function(){
-        
-        //取标题值　
+    var formSubmit = function(){
+         //取标题值　
         var title = $("#title").val();
 
         //取项目类型值
@@ -62,12 +60,21 @@ $("#minus").click(function(){
             return false;
         }
 
-        //更改表单提交类型为submit
-        $("#type").val("submit");
-
         //表单提交
         $("form").submit();
+    };
+    //绑定　确定　点击事件
+    $("#submit").click(function(){
+        //更改表单提交类型为submit
+        $("#type").val("submit"); 
+        formSubmit(); 
+    });
 
+    //绑定　保存　点击事件
+    $("#save").click(function(){
+        //更改表单提交类型为submit
+        $("#type").val("save");  
+        formSubmit();
     });
 
     //项目类别改变时，获取项目类别的信息

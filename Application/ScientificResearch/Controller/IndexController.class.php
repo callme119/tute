@@ -73,7 +73,6 @@ class IndexController extends AdminController {
      * 
      */
     public function saveAction() {
-        header("Content-type: text/html; charset=utf-8");
         $userId = get_user_id();                //当前用户
         $projectId = (int)I('post.project_id'); //项目ID
         $checkUserId = I('post.check_user_id'); //传入下一审核人
@@ -81,37 +80,33 @@ class IndexController extends AdminController {
         //判断用户是提交还是保存操作
         $type = (I('post.type') === 'submit') ? "submit" : "save";
 
-        if ($type === 'submit')
+        //查询当前项目是否已经选过审核流程.
+        $WorkflowL = new WorkflowLogic();
+        if ($workflow = $WorkflowL->getListByProjectId($projectId))
         {
-
-            //查询当前项目是否已经选过审核流程
-            $WorkflowL = new WorkflowLogic();
-            if ($workflow = $WorkflowL->getListByProjectId($projectId))
+            //取审核链信息，得到审核人员
+            $ChainL = new ChainLogic();
+            if ( !$checkUsers = $ChainL->getNextExaminUsersByUserIdAndId($userId , $workflow['chain_id']))
             {
-                //取审核链信息，得到审核人员
-                $ChainL = new ChainLogic();
-                if ( !$checkUsers = $ChainL->getNextExaminUsersByUserIdAndId($userId , $workflow['chain_id']))
-                {
-                    $this->error = "取出审核人员信息发生错误，错误信息:" . $ChainL->getError();
-                    $this->_empty();
-                    return false;
-                } 
+                $this->error = "取出审核人员信息发生错误，错误信息:" . $ChainL->getError();
+                $this->_empty();
+                return false;
+            } 
 
-                $isCheckUser = false;
-                foreach($checkUsers as $checkUser)
+            $isCheckUser = false;
+            foreach($checkUsers as $checkUser)
+            {
+                if ($checkUser['user_id'] == $checkUserId)
                 {
-                    if ($checkUser['user_id'] == $checkUserId)
-                    {
-                        $isCheckUser = true;
-                        break;
-                    }
+                    $isCheckUser = true;
+                    break;
                 }
+            }
 
-                if ($isCheckUser === false)
-                {
-                    $this->errors[] = "传入审核人员信息有误或未传入审核人信息";
-                    return false;
-                }
+            if ($isCheckUser === false)
+            {
+                $this->errors[] = "传入审核人员信息有误或未传入审核人信息";
+                return false;
             }
         }
         
@@ -166,51 +161,61 @@ class IndexController extends AdminController {
             $this->_empty();
         }
 
-        //用户为提交操作
-        if($type === 'submit')
-        {
-            
-            
+        //用户为提交操作，且有工作流信息，则更新工作流
+        if($type === 'submit' && $workflow)
+        {          
             //存在当前工作流信息，则证明为退回项目后修改
-            if ( $workflow )
-            {
-                //获取当前审核结点信息
-                $WorkflowLogL = new WorkflowLogLogic();
-                $workflowLog = $WorkflowLogL->getCurrentListByWorkflowId($workflow[id]);
+            
+            //获取当前审核结点信息
+            $WorkflowLogL = new WorkflowLogLogic();
+            $workflowLog = $WorkflowLogL->getCurrentListByWorkflowId($workflow[id]);
 
-                //进行权限判断，即用户现在是否有权限对该审核结点进行操作
-                if($workflowLog['user_id'] != $userId)
-                {
-                    $this->error = "对不起，无此操作权限";
-                    $this->_empty();
-                    return;
-                }
-                
-                //更新审核流程结点
-                if(!$WorkflowLogL->saveCommited($workflowLog[id], $checkUserId))
-                {
-                    $this->error = $WorkflowLogL->getError();
-                    $this->_empty();
-                    return;
-                }
-                
-            }        
-            //未选审核流程，则证明用户第一次提交.
-            else
+            //进行权限判断，即用户现在是否有权限对该审核结点进行操作
+            if($workflowLog['user_id'] != $userId)
             {
-                // 存工作流信息
-                $examineId = (int)I('post.examine_id');
-                $checkUserId = (int)I('post.check_user_id');
+                $this->error = "对不起，无此操作权限";
+                $this->_empty();
+                return;
+            }
+            
+            //更新审核流程结点
+            if(!$WorkflowLogL->saveCommited($workflowLog[id], $checkUserId))
+            {
+                $this->error = $WorkflowLogL->getError();
+                $this->_empty();
+                return;
+            }
+        }
+        else
+        {
+            // 存工作流信息
+            $examineId = (int)I('post.examine_id');
+            $checkUserId = (int)I('post.check_user_id');
+            $isSelf = true;
+            
+            //用户无论是保存，还是提交，无工作流时，新建工作流
+            if (!$workflow)
+            {
+                $isSelf = true; 
+                //添加工作流信息 。 isSelf为 true，则将下一审核人设置为自己。为false,则添加下一审核人 
                 $WorkflowS = new WorkflowService();
-                if(!$WorkflowS->add($userId , $examineId , $projectId, $checkUserId , $commit = "申请"))
+                if(!$WorkflowS->add($userId , $examineId , $projectId, $checkUserId , $commit = "申请", $isSelf))
                 {
                     //删除项目信息
                     $this->error = $WorkflowS->getError();
                     $this->_empty();
                 }
             }
+            //原来存了工作流信息
+            else
+            {
+                //如果原来的工作流信息只有一条。也就是说pre_id=0.则允许用户修改
+                //删除原有的工作流。增加新的工作流信息。
+                //暂时我们什么也不做。   
+            }
+
             
-        }
+        }     
 
         //删除分值表
         $ScoreL = new ScoreLogic();
@@ -484,6 +489,79 @@ public function auditsuggestionAction() {
         //删除工作流表
         //删除工作流详情表
         //删除分值记录表
+    }
+
+    public function deleteAction()
+    {
+        //是否存在当前项目
+        $projectId = (int)I('get.id');
+        $ProjectL = new ProjectLogic();
+        if( !$project = $ProjectL->getListById($projectId) )
+        {
+            $this->error = "当前项目不存在,projectId= $projectId";
+            $this->_empty();
+            return;
+        }
+
+        //当前项目的申请人是否为当前人员
+        $userId = get_user_id();
+        if ($userId != $project['user_id'])
+        {
+            $this->error = "当前项目的审核人ID".$userId."与当前人员的ID".$project[user_id]."不匹配";
+            $this->_empty();
+            return;
+        }
+        
+        //取当前项目的审核信息.无审核信息，则证明为新建未提交，当然可以直接删了。
+        $WorkflowL = new WorkflowLogic();
+
+        //存在工作流信息，则证明用户已经提交过。直接删除项目信息即可
+        if ($workflow = $WorkflowL->getListByProjectId($project[id]))
+        {
+            //当前项目的审核结点，是否为根结点
+            $ChainL = new ChainLogic();
+            $chain = $ChainL->getListById($workflow[chain_id]);
+            if ($chain[pre_id] != 0)
+            {
+                $this->error = "错误：当前结点非起始结点。";
+                $this->_empty();
+                return;
+            }
+
+            //取工作流详情表
+            $WorkflowLogL = new WorkflowLogLogic();
+            $workflowLog = $WorkflowLogL->getListByWorkflowId($workflow[id]);
+            if($workflowLog == null || $workflowLog['user_id'] != $userId)
+            {
+                E("该审核流程不存在，或当前审核结点$id的待/在办人$workflowLog[user_id]，并不是当前用户$userId");
+            }
+
+            //判断当用流程在当前用户下未提交
+            if($workflowLog['is_commited'] == 1)
+            {
+                E("当前用户$userId并不是当前审核结点$id的待在办人");
+            }
+
+            //删除项目扩展数据
+            $ProjectDetailL = new ProjectDetailLogic();
+            $ProjectDetailL->deleteByProjectId($projectId);
+
+            //删除项目分数分布信息
+            $ScoreL = new ScoreLogic();
+            $ScoreL->deleteByProjectId($projectId);
+
+            //删除所有审核日志
+            $WorkflowL->deleteByProjectId($projectId);
+            
+            //删除审核链信息
+            $WorkflowLogL->deleteByWorkflowId($workflowId);
+        }    
+
+        //删除项目基本信息
+        $ProjectL->deleteById($projectId);
+
+        $url = U('Index?id=', I('get.'));
+        $this->success("操作成功" , $url);
     }
 }
 

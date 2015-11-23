@@ -41,20 +41,21 @@ class IndexModel
             return false;
         }
 
-        //查看该项目是否为未提交项目
-        $WorkflowL = new WorkflowLogic();
-        if (!$WorkflowL->getListByProjectId($project[id]))
-        {
-            return true;
-        }
-
-        //查看当前项目审核人，是否为当前用户
+        //查看当前项目申请人，是否为当前用户
         $userId = get_user_id();
         if($userId !== $project['commit_user_id'])
         {
             $this->tips[] = '当前用户$userId,当前项目申请人ID' . $project[commit_user_id];
             return false;
         }
+
+        //查看该项目是否为未提交项目
+        $WorkflowL = new WorkflowLogic();
+        if (!$WorkflowL->getListByProjectId($project[id]))
+        {
+            return true;
+        }
+        
 
         if (!$this->getWorkflowStatus($project[id]))
         {
