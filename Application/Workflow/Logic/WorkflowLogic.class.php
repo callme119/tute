@@ -15,7 +15,6 @@ class WorkflowLogic extends WorkflowModel
 			$this->error = "数据创建错误，错误信息：" . $this->getError();
 			return false;
 		}
-
 		$this->save();
 	}
 	
@@ -30,7 +29,6 @@ class WorkflowLogic extends WorkflowModel
 		}
 		return $list;
 	}
-
 	public function deleteByProjectId($projectId)
 	{
 		$map['project_id'] = (int)$projectId;

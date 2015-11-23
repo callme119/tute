@@ -6,7 +6,7 @@
 			<yunzhi:user id="$value['user_id']" name="yunzhiuser">{$yunzhiuser[name]}</yunzhi:user>:{:floor(($value['score_percent']*$sumScore/100)+0.5)}分<br />
 		</foreach>
 	</p>
-<label>状态</label><p><eq name="workflow['is_finished']" value="0">审核中<else/>已审核</eq></p>
+<label>状态</label><?php if ($workflow === null) : ?>已保存<?php else : ?><eq name="workflow['is_finished']" value="0">审核中<else/>已审核</eq><?php endif; ?></p>
 <foreach name="dataModelDetail" item="value">
 <eq name="value['pid']" value="0">
 	<neq name="value['is_hidden']" value="0">

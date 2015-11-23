@@ -11,7 +11,7 @@ use Think\Model;
 class ProjectModel extends Model{
 	
     protected $_auto = array(
-            array('time','time',3,'function'),
+            array('time','time',1,'function'),
         );
     protected $_validate = array();
     
@@ -119,19 +119,38 @@ class ProjectModel extends Model{
         return $data;
     }
     
-    public function save($userId,$cycleId)
+    public function save($userId, $cycleId)
      {
-        $data = I('post.');
-        $data[user_id] = $userId;
-        $data[cycle_id] = $cycleId;
-        if($this->create($data)) //将time字段自动存入
+        try
         {
-            return $this->add();
+            $data = I('post.');
+            $data[id] = (int)I('post.project_id');
+            $data[user_id] = $userId;
+            $data[cycle_id] = $cycleId;
+            if($this->create($data)) //将time字段自动存入
+            {
+                if($data['id'] !== 0)
+                {
+                    parent::save();
+                    return $data[id];
+                }
+                else
+                {
+                    return $this->add();
+                }
+                
+            }
+            else
+            {
+                return false;
+            }
+
         }
-        else
+        catch(\Think\Exception $e)
         {
-            
+            $this->error = $e->getMessage();
             return false;
         }
+        
      } 
 }

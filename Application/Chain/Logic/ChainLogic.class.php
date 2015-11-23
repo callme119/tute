@@ -9,6 +9,41 @@ use Department\Model\DepartmentModel;//部门表
 use DepartmentPost\Model\DepartmentPostModel;//部门 岗位 对应表
 class ChainLogic EXTENDS Model
 {
+
+    public function getListById($id)
+    {
+        $map['id'] = (int)$id;
+        $list = $this->where($map)->find();
+
+        if($list === null)
+        {
+            $this->error = "ID为$id的记录未找到";
+            return false;
+        }
+
+        return $list;
+    }
+
+    /**
+     * 找到该审核流的首结点
+     * @param  int $id [description]
+     * @return list     
+     */
+    public function getFirstListById($id)
+    {
+        do{
+            $map[id] = (int)$id;
+            $list = $this->where($map)->find();
+            if($list === null)
+            {
+                $this->error = "ID为$id的记录未找到";
+                return false;
+            }
+            $id = $list[pre_id];
+        }while($id !== '0');
+
+        return $list;
+    }
 	/**
 	 * 通过用户ID和审核名细ID，获取下一审核结点的人员信息。
 	 * @param  string $userId   用户ID
