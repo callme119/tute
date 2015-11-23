@@ -35,7 +35,9 @@
                                 <td>
                                 {$value["time"]|date="Y/m/d h:i",###}</td>
                                 <td><eq name="status" value="0">{:W('Project/getTodoUserNameByProjectId',array($workflowLists[$value[workflow_id]][project_id]))}<else /><span class="badge">已办结</span></eq></td>
-                                <td><a class="btn btn-sm btn-primary" href="{:U("taskDetail?id=$value[id]&from=". ACTION_NAME . "&p=" . I('get.p'))}"><i class="fa fa-pencil"></i>查看</a></td>
+                                <td><a class="btn btn-sm btn-primary" href="{:U("taskDetail?id=$value[id]&from=". ACTION_NAME . "&p=" . I('get.p'))}"><i class="fa fa-pencil"></i>&nbsp;查看</a>&nbsp;&nbsp;<eq name="Think.ACTION_NAME" value="finished">
+                                <eq name="Model:getIsBack($value[id])" value="1"><a class="btn btn-sm btn-info" href="{:U('back?id=' . $value[id], I('get.'))}"><i class="glyphicon glyphicon-retweet"></i>&nbsp;取回</a></eq></eq>
+                                </td>
                             </tr>
                         </foreach>
                         </tbody>

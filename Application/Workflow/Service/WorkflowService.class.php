@@ -117,14 +117,14 @@
         $data['workflow_id']    = $workflowId;
         $data['pre_id'] = '0';
         $data['user_id'] = $userId;
+        $data['is_clicked'] = "1";
         if ($isSelf)
         {
-            $data['is_clicked'] = "0";
+            
             $data['is_commited'] = "0"; 
         }
         else
         {
-            $data['is_clicked'] = "1";
             $data['is_commited'] = "1"; 
         }
         

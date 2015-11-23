@@ -6,6 +6,19 @@ namespace Workflow\Logic;
 use Workflow\Model\WorkflowModel;
 class WorkflowLogic extends WorkflowModel
 {
+	public function setListByIdChainId($id, $chainId)
+	{
+		$data[id] = (int)$id;
+		$data[chain_id]	= (int)$chainId;
+		if (!$this->create($data))
+		{
+			$this->error = "数据创建错误，错误信息：" . $this->getError();
+			return false;
+		}
+
+		$this->save();
+	}
+	
 	public function getListByProjectId($projectId)
 	{
 		$map[project_id] = (int)$projectId;
@@ -31,4 +44,6 @@ class WorkflowLogic extends WorkflowModel
 		$data = $this->where($map)->find();
 		return $data;
 	}
+
+
 }
