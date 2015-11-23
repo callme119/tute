@@ -29,7 +29,52 @@ use ProjectDetail\Logic\ProjectDetailLogic;             //项目扩展数据
 use Workflow\Service\WorkflowService;                   //工作流
 use Workflow\Logic\WorkflowLogic;                       //工作流
 use Score\Logic\ScoreLogic;                             //项目分值分布
+use Myjob\Model\Index\FinishedModel;                    //已办工作模型
+
 class IndexController extends AdminController{
+
+    public function backAction()
+    {
+        $workflowLogId = (int)I('get.id');
+        $userId = get_user_id();
+
+        //判断当前流程当前用户是否可以取回
+        $FinishedM = new FinishedModel();
+
+        if (!$FinishedM->getIsBack($workflowLogId, $userId))
+        {
+            $this->error = "当前流程下一审核人已点选，不可取回";
+            $this->_empty();
+        }
+
+        //取出本审核流程详情信息
+        $WorkflowLogL = new WorkflowLogLogic();
+        $workflowLog = $WorkflowLogL->getListById($workflowLogId);
+
+        //取出本审核流程的待办信息。
+        $currentWorkflowLog = $WorkflowLogL->getCurrentListByWorkflowId($workflowLog[workflow_id]);
+
+        //置本条信息为『待办』
+        $WorkflowLogL->setListByIdIsCommitedIsClicked($workflowLogId, 0, 0);
+
+        //删除本审核流程的下一条审核详情
+        $WorkflowLogL->deleteById($currentWorkflowLog[id]);
+
+        //更改审核链，为上一结点。
+        //取审核信息
+        $WorkflowL = new WorkflowLogic();
+        $workflow = $WorkflowL->getListById($workflowLog['workflow_id']);
+
+        //取审核链信息
+        $ChainL = new ChainLogic();
+        $chain = $ChainL->getListById($workflow[chain_id]);
+
+        //更新审核流
+        $WorkflowL->setListByIdChainId($workflow[id], $chain[pre_id]);
+
+        $this->success("操作成功", U('finished', I('get.')));
+    }
+
 
     public function testAction()
     {
@@ -54,7 +99,7 @@ class IndexController extends AdminController{
         //获取当前用户下的待办信息
         $map['isClicked'] = '0';
         $this->getMyJobByUserIdIsClickedIsCommitedIsShelved($userId, $map);
-
+        
         $this->assign('YZBODY',$this->fetch('unfinished'));
         $this->display(YZTemplate);
     }
@@ -302,11 +347,13 @@ class IndexController extends AdminController{
     public function  finishedAction(){
         $userId = get_user_id();
 
-        //获取当前用户下的待办信息
-        $map['isClicked'] = '1';    //已点击
+        //获取当前用户下的在办信息
         $map['isCommited'] = '1';   //已提交
         $this->getMyJobByUserIdIsClickedIsCommitedIsShelved($userId, $map);
 
+        $Model = new FinishedModel();
+        
+        $this->assign("Model",$Model);
         $this->assign('YZBODY',$this->fetch('unfinished'));
         $this->display(YZTemplate);
     }

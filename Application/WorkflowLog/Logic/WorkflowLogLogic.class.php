@@ -15,6 +15,19 @@ class WorkflowLogLogic extends Model
 	private $id;
 	private $workflowLog;
 
+
+	public function deleteById($id)
+	{
+		$map[id] = (int)$id;
+		return $this->where($map)->delete();
+	}
+	
+	public function getListsByWorkflowId($workflowId)
+	{
+		$map[workflow_id] = (int)$workflowId;
+		return $this->where($map)->select();
+	}
+
 	public function deleteByWorkflowId($workflowId)
 	{
 		$map['workflow_id'] = (int)$workflowId;
@@ -254,5 +267,25 @@ class WorkflowLogLogic extends Model
 		$map['id'] = (int)$id;
 		$data = $this->where($map)->find();
 		return $data;
+	}
+
+	public function getCurrentListByWorkflowId($workflowId)
+	{
+		$map[workflow_id] = $workflowId;
+		$map[is_commited] = 0;
+		return $this->where($map)->find();
+	}
+
+	public function setListByIdIsCommitedIsClicked($id, $isCommited, $isClicked)
+	{
+		$data[id] = (int)$id;
+		$data[is_commited] = ($isCommited == 1) ? 1 : 0;
+		$data[is_clicked] = ($isClicked == 1) ? 1 : 0;
+		if (!$this->create($data))
+		{
+			$this->error = "数据创建错误，信息：" . $this->getError();
+			return false;
+		}
+		$this->save();
 	}
 }
