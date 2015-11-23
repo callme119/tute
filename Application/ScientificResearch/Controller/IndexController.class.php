@@ -515,47 +515,48 @@ public function auditsuggestionAction() {
         //取当前项目的审核信息.无审核信息，则证明为新建未提交，当然可以直接删了。
         $WorkflowL = new WorkflowLogic();
 
-        //存在工作流信息，则证明用户已经提交过。直接删除项目信息即可
-        if ($workflow = $WorkflowL->getListByProjectId($project[id]))
+        //取工作流信息
+        $workflow = $WorkflowL->getListByProjectId($project[id]);
+
+        //当前项目的审核结点，是否为根结点
+        $ChainL = new ChainLogic();
+        $chain = $ChainL->getListById($workflow[chain_id]);
+        if ($chain[pre_id] != 0)
         {
-            //当前项目的审核结点，是否为根结点
-            $ChainL = new ChainLogic();
-            $chain = $ChainL->getListById($workflow[chain_id]);
-            if ($chain[pre_id] != 0)
-            {
-                $this->error = "错误：当前结点非起始结点。";
-                $this->_empty();
-                return;
-            }
+            $this->error = "错误：当前结点非起始结点。";
+            $this->_empty();
+            return;
+        }
 
-            //取工作流详情表
-            $WorkflowLogL = new WorkflowLogLogic();
-            $workflowLog = $WorkflowLogL->getListByWorkflowId($workflow[id]);
-            if($workflowLog == null || $workflowLog['user_id'] != $userId)
-            {
-                E("该审核流程不存在，或当前审核结点$id的待/在办人$workflowLog[user_id]，并不是当前用户$userId");
-            }
+        //取工作流详情表
+        $WorkflowLogL = new WorkflowLogLogic();
+        $workflowLog = $WorkflowLogL->getCurrentListByWorkflowId($workflow[id]);
+        if($workflowLog == null || $workflowLog['user_id'] != $userId)
+        {
+            $this->error = "该审核流程不存在，或当前审核结点$id的待/在办人$workflowLog[user_id]，并不是当前用户$userId";
+            $this->_empty();
+        }
 
-            //判断当用流程在当前用户下未提交
-            if($workflowLog['is_commited'] == 1)
-            {
-                E("当前用户$userId并不是当前审核结点$id的待在办人");
-            }
+        //判断当用流程在当前用户下未提交
+        if($workflowLog['is_commited'] == 1)
+        {
+            $this->error = "当前用户$userId并不是当前审核结点$id的待在办人";
+            $this->_empty();
+        }
 
-            //删除项目扩展数据
-            $ProjectDetailL = new ProjectDetailLogic();
-            $ProjectDetailL->deleteByProjectId($projectId);
+        //删除项目扩展数据
+        $ProjectDetailL = new ProjectDetailLogic();
+        $ProjectDetailL->deleteByProjectId($projectId);
 
-            //删除项目分数分布信息
-            $ScoreL = new ScoreLogic();
-            $ScoreL->deleteByProjectId($projectId);
+        //删除项目分数分布信息
+        $ScoreL = new ScoreLogic();
+        $ScoreL->deleteByProjectId($projectId);
 
-            //删除所有审核日志
-            $WorkflowL->deleteByProjectId($projectId);
-            
-            //删除审核链信息
-            $WorkflowLogL->deleteByWorkflowId($workflowId);
-        }    
+        //删除所有审核日志
+        $WorkflowL->deleteByProjectId($projectId);
+        
+        //删除审核链信息
+        $WorkflowLogL->deleteByWorkflowId($workflow[id]);
 
         //删除项目基本信息
         $ProjectL->deleteById($projectId);
