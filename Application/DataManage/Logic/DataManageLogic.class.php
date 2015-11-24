@@ -74,67 +74,6 @@ class DataManageLogic
 		// echo $ProjectL->getLastSql();	 
 		// dump($projects);
 
-		$ProjectDetailL = new ProjectDetailLogic();		//项目扩展信息
-		$DataModelDetailL = new DataModelDetailLogic();	//数据模型扩展信息
-		$ProjectCategoryRatioL = new ProjectCategoryRatioLogic();//项目类别系数
-		$ScoreL = new ScoreLogic();					//初始化分值占比表
-
-		//取所有涉及到项目模型的可以设置系数的信息
-		$roots = array();
-		$tempArray = array(); //换KEY的临时文件
-		$totalScores = array();	//分数表
-		foreach($projects as $key => $project)
-		{
-			//取出项目ID及项目模型ID
-			$projectId = $project['id'];
-			$dataModelId = $project['data_model_id'];
-
-			//取出需要计算的系数字段，相关系数对应的ID
-			$type = 'select';
-			if(!isset($roots[$dataModelId]))
-			{
-				$roots[$dataModelId] = $DataModelDetailL->getRootListsByDataModelIdType($dataModelId,$type);
-			}
-
-			//取项目扩展信息,取出系数进行乘法运算。
-			$ratios = 100;
-			foreach($roots[$dataModelId] as $root)
-			{
-				$name = $root['name'];
-
-				//根据NAME值，去项目扩展数据库里取数
-				$projectDetail = $ProjectDetailL->getListByProjectIdName($projectId , $name);
-				$dataModelDetailId = $projectDetail['value'];
-
-				//取出该VALUE在系数表中的系数值
-				$projetcCategoryId = $project['category_id'];
-				$projectCategoryRatio = $ProjectCategoryRatioL->getListByProjectCategoryIdDataModelDetailId($projetcCategoryId,$dataModelDetailId);
-				// dump($projectCategoryRatio);
-				$ratios *= $projectCategoryRatio['ratio']/100;
-				$ratios = (int)ceil($ratios);
-			}
-
-			//设置总系数
-			$project['ratios'] = $ratios;	
-
-			//取当前项目下的团队用户信息
-			$scores  = $ScoreL->getAllListsByProjectId($projectId);
-			
-			//$sumPercent = $ScoreL->getSumPercentByProjectId($projectId);
-			//计算分值占比总和
-			$sumPercent = 0;
-			foreach($scores as $score)
-			{
-				$sumPercent += (int)$score['score_percent'];
-			}
-
-			//计算当前用户的占比
-			$projects[$key][sum_percent] = $sumPercent;
-			$projects[$key][score] = (int)ceil($project['project_category_score']*$project['score_percent']/$sumPercent);
-
-			// echo "接拼后";
-			// dump($totalScores);	
-		}
 
 		return $projects;
 	}
