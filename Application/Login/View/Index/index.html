@@ -42,10 +42,12 @@
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default">
+
                     <div class="panel-heading">
                         <h3 class="panel-title">请登录&nbsp;&nbsp;<span class="small"><a href="http://www.mengyunzhi.com/projects/tute-per/82-guide.html" target="_blank" style="color:red;">点击查看帮助文档</a></span></h3>
                     </div>
                     <div class="panel-body">
+                    <form name="loginFrom" id="loginform" method="post">
                         <!-- <form role="form"  id="loginform" method = 'post' action="{:U('Login/Index/login')}"> -->
                             <fieldset>
                                 <div class="form-group">
@@ -61,7 +63,7 @@
                                     </label>
                                 </div>
                                 <!-- Change this to a button or input when using this as a form -->
-                                <button class="btn btn-lg btn-success btn-block" id="login">登录</button>
+                                <a class="btn btn-lg btn-success btn-block" id="login">登录</a>
                                 <php>if (APP_DEBUG==true): </php>
                                 <a href="{:U('Login/Index/loginDirect')}"  class="btn btn-lg btn-success btn-block">直接登录</a>
                                 <php>endif</php>
@@ -89,6 +91,7 @@
     <script src="{:add_root_path("/SBAdmin2/js/sb-admin-2.js")}"></script>
     <script src="{:add_root_path("/SBAdmin2/js/jquery.validate.js")}"></script>
     <script src="{:add_root_path("/SBAdmin2/js/alertify.min.js")}"></script>
+    <script src="{:add_root_path("/SBAdmin2/js/jquery.isloading.min.js")}"></script>
     {$js}
 
 </body>
