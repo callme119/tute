@@ -76,10 +76,12 @@ class ScientificResearchController extends IndexController
 		$userDatas = array();
 		$totalScore	= 0 ;  //预期完成总分（已审核 + 未审核）
 		$totalDoneScore = 0; //已完成总分
+		
+		//取个人得分
+		$ProjectCategoryRatioL = new ProjectCategoryRatioLogic();
 		foreach($project as $key => $project)
 		{
-			//取个人得分
-			$ProjectCategoryRatioL = new ProjectCategoryRatioLogic();
+			
 			$score = $ProjectCategoryRatioL->getScoreByProjectIdUserId($project['id'], $project['user_id']);
 
 			if($project['state'] == '0')
