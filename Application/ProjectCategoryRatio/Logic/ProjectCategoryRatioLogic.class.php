@@ -13,6 +13,7 @@ use ProjectCategoryRatio\Logic\ProjectCategoryRatioLogic;	//项目类别系数�
 use ProjectCategory\Logic\ProjectCategoryLogic;		//项目类别 逻辑
 use ProjectDetail\Logic\ProjectDetailLogic;			//项目扩展信息
 use Score\Logic\ScoreLogic;							//团队开发分值分配
+
 class ProjectCategoryRatioLogic extends ProjectCategoryRatioModel
 {
 	/**

@@ -5,6 +5,11 @@
 namespace Score\Logic;
 use Score\Model\ScoreModel;		       //分值 占比表
 use Score\Model\ScoreViewModel;        //分值 占比表
+use ProjectDetail\Logic\ProjectDetailLogic;            //项目详情表
+use DataModelDetail\Logic\DataModelDetailLogic;            //数据模型详情
+use ProjectCategoryRatio\Logic\ProjectCategoryRatioLogic;            //
+
+
 class ScoreLogic extends ScoreModel
 {
     protected $order = "time desc";
@@ -167,17 +172,104 @@ class ScoreLogic extends ScoreModel
      */
     public function getScoresByUserIdCycleIdType($userId ,$cycleId ,$type)
     {
-        $scores = $this->getListsByUserIdCycleIdType($userId ,$cycleId ,$type);
-        $totalDoneScore = 0;
-        $totalScore = 0;
-        foreach($scores as $key => $score)
+
+        //取周期值
+        $cycleId = (int)$cycleId;
+        if($cycleId == 0)
         {
-            if($score['state'] == 1)
+            $this->error = "cycleId接收值为0，这是一个错误的请求ID";
+            return false;
+        }
+
+        //取项目类型
+        $type = trim($type);
+
+        //查看是否有缓存
+        //todo:
+        
+        //初始化分值分布表
+        $ScoreL = new ScoreLogic();
+
+        //选择条件
+        $map['project.cycle_id']            =   $cycleId;
+        $map['project_category.type']       =   $type;
+        $map['score.user_id']               =   $userId;
+
+        // //
+        // $field['score.user_id']                      =   'user_id';          //用户ID
+        // $field['score.score_percent']                =   'score_percent';    //分值占比
+        $field['score.user_id']                     =   'user_id';          //用户
+        $field['score.score_percent']               =   'score_percent';    //用户分值占比
+        $field['project.id']                        =   'id';               //项目ID
+        $field['project.title']                     =   'title';            //项目名称      
+        $field['project.user_id']                   =   'commit_user_id';   //提交用户ID
+        $field['project_category.score']            =   'project_category_score';           //项目总分
+        $field['project_category.is_team']          =   'is_team';          //是否为团队项目
+        $field['project_category.data_model_id']    =   'data_model_id';    //数据模型ID
+        $field['project_category.type']             =   'type';             //数据所属类型（科研、育人）
+        $field['project_category.id']               =   'category_id';      //
+        $field['workflow.state']                    =   'state';            //是否审核完成
+
+        //先取项目信息
+        $ScoreL->alias("score");
+        $projects = $ScoreL->field($field)->join("
+            left join __PROJECT__ as project on score.project_id = project.id
+            left join __PROJECT_CATEGORY__ as project_category on project.project_category_id = project_category.id
+            left join __WORKFLOW__ as workflow on project.id = workflow.project_id
+            ")->where($map)->select();  
+        // echo $ScoreL->getLastSql();
+        // echo $ProjectL->getLastSql();     
+        // dump($projects);
+
+        $ProjectDetailL = new ProjectDetailLogic();     //项目扩展信息
+        $DataModelDetailL = new DataModelDetailLogic(); //数据模型扩展信息
+        $ProjectCategoryRatioL = new ProjectCategoryRatioLogic();//项目类别系数
+
+        //取所有涉及到项目模型的可以设置系数的信息
+        $roots = array();
+        $tempArray = array(); //换KEY的临时文件
+        $totalScores = array(); //分数表
+        $totalScore = 0;
+
+        foreach($projects as $key => $project)
+        {
+
+            //取出项目ID及项目模型ID
+            $projectId = $project['id'];
+            $dataModelId = $project['data_model_id'];
+
+            //取出需要计算的系数字段，相关系数对应的ID
+            $type = 'select';
+            if(!isset($roots[$dataModelId]))
             {
-                $totalDoneScore += (int)ceil($score['score_percent']*$score['project_category_score']/100);
+                $roots[$dataModelId] = $DataModelDetailL->getRootListsByDataModelIdType($dataModelId,$type);
             }
-            $totalScore += (int)ceil($score['score_percent']*$score['project_category_score']/100);
-        } 
+
+            //取项目扩展信息,取出系数进行乘法运算。
+            $ratios = 100;
+            foreach($roots[$dataModelId] as $root)
+            {
+                $name = $root['name'];
+
+                //根据NAME值，去项目扩展数据库里取数
+                $projectDetail = $ProjectDetailL->getListByProjectIdName($projectId , $name);
+                $dataModelDetailId = $projectDetail['value'];
+
+                //取出该VALUE在系数表中的系数值
+                $projetcCategoryId = $project['category_id'];
+                $projectCategoryRatio = $ProjectCategoryRatioL->getListByProjectCategoryIdDataModelDetailId($projetcCategoryId,$dataModelDetailId);
+                // dump($projectCategoryRatio);
+                $ratios *= $projectCategoryRatio['ratio']/100;
+                $ratios = (int)floor($ratios + 0.5);
+            }
+
+            $score = (int)floor($project['project_category_score']*$ratios/100 + 0.5);
+            if ($project["state"] == 1)
+            {
+                $totalDoneScore +=  $score;
+            }
+            $totalScore += $score;
+        }
 
         $return['total_score'] = $totalScore;
         $return['total_done_score'] = $totalDoneScore;
