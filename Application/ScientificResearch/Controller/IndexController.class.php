@@ -192,11 +192,15 @@ class IndexController extends AdminController {
             $examineId = (int)I('post.examine_id');
             $checkUserId = (int)I('post.check_user_id');
             $isSelf = true;
+
+            if ($type == "submit")
+            {
+                $isSelf = false; 
+            }
             
             //用户无论是保存，还是提交，无工作流时，新建工作流
             if (!$workflow)
             {
-                $isSelf = true; 
                 //添加工作流信息 。 isSelf为 true，则将下一审核人设置为自己。为false,则添加下一审核人 
                 $WorkflowS = new WorkflowService();
                 if(!$WorkflowS->add($userId , $examineId , $projectId, $checkUserId , $commit = "申请", $isSelf))
