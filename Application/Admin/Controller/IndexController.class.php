@@ -7,6 +7,7 @@ use Score\Logic\ScoreLogic;		//得分
 use Cycle\Logic\CycleLogic;		//周期
 use Task\Logic\TaskLogic;		//任务
 use BaseTeaching\Logic\BaseTeachingLogic;		//教学工作量
+
 class IndexController extends AdminController
 {
     public function indexAction()
