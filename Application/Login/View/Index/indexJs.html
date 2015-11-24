@@ -63,5 +63,25 @@
             }
         ); 
     };
+
+    //为ajax增加showloading
+    loadingShowDefaults = {
+        'position': "right",        // right | inside | overlay
+        'text': "努力加载中...",                 // Text to display next to the loader
+        'class': "icon-refresh",    // loader CSS class
+        'tpl': '<span class="isloading-wrapper %wrapper%">%text%<i class="%class% icon-spin"></i></span>',
+        'disableSource': true,      // true | false
+        'disableOthers': []
+    };
+
+    //ajax开始
+    $(document).ajaxStart(function(){
+        $.isLoading(loadingShowDefaults);
+    });
+
+    //ajax结束
+    $(document).ajaxStop(function(){
+        $.isLoading('hide');
+    });
 </script>
 
