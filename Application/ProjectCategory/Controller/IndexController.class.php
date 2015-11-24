@@ -170,6 +170,8 @@ public function appendAction()
               $dataModelDetails[$key][_ratio] = $projectCategoryRatios[$dataModelDetail[id]][ratio];
           } 
       }
+      // header("Content-type: text/html; charset=utf-8");
+      $dataModelDetails = $this->_detailSort($dataModelDetails);
       $return['dataModelDetails'] = $dataModelDetails;
       $return['state'] = success;
       return $this->ajaxReturn($return);
@@ -182,6 +184,31 @@ public function appendAction()
       return $this->ajaxReturn($return);
     }
     
+  }
+
+  /**
+   * 按前台显示顺序，排下序。
+   * @param  array $lists 二维数组
+   * @return array        lists
+   */
+  private function _detailSort($lists)
+  {
+    $return = array();
+    foreach ($lists as $key => $value)
+    {
+        if ($value['pid'] == 0)
+        {
+            $return[] = $value;
+            foreach ($lists as $k => $v)
+            {
+                if ($v['pid'] == $value['id'])
+                {
+                    $return[] = $v;
+                }
+            }
+        }
+    }
+    return $return;
   }
 
   public function deleteAction()
