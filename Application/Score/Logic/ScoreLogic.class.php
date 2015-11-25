@@ -230,40 +230,12 @@ class ScoreLogic extends ScoreModel
         $tempArray = array(); //换KEY的临时文件
         $totalScores = array(); //分数表
         $totalScore = 0;
-
+        $totalDoneScore = 0;
+        
         foreach($projects as $key => $project)
         {
+            $score = $ProjectCategoryRatioL->getScoreByProjectIdUserId($project['id'], $userId);
 
-            //取出项目ID及项目模型ID
-            $projectId = $project['id'];
-            $dataModelId = $project['data_model_id'];
-
-            //取出需要计算的系数字段，相关系数对应的ID
-            $type = 'select';
-            if(!isset($roots[$dataModelId]))
-            {
-                $roots[$dataModelId] = $DataModelDetailL->getRootListsByDataModelIdType($dataModelId,$type);
-            }
-
-            //取项目扩展信息,取出系数进行乘法运算。
-            $ratios = 100;
-            foreach($roots[$dataModelId] as $root)
-            {
-                $name = $root['name'];
-
-                //根据NAME值，去项目扩展数据库里取数
-                $projectDetail = $ProjectDetailL->getListByProjectIdName($projectId , $name);
-                $dataModelDetailId = $projectDetail['value'];
-
-                //取出该VALUE在系数表中的系数值
-                $projetcCategoryId = $project['category_id'];
-                $projectCategoryRatio = $ProjectCategoryRatioL->getListByProjectCategoryIdDataModelDetailId($projetcCategoryId,$dataModelDetailId);
-                // dump($projectCategoryRatio);
-                $ratios *= $projectCategoryRatio['ratio']/100;
-                $ratios = (int)floor($ratios + 0.5);
-            }
-
-            $score = (int)floor($project['project_category_score']*$ratios/100 + 0.5);
             if ($project["state"] == 1)
             {
                 $totalDoneScore +=  $score;
