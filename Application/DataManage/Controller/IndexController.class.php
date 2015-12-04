@@ -572,10 +572,13 @@ class IndexController extends AdminController
 		//初始化用户数据
 		$userDatas = array();
 
-		//计算当前项目的完成总分数及审核中的总分数
+		//取个人得分
+		$ProjectCategoryRatioL = new ProjectCategoryRatioLogic();
 		foreach($projects as $key => $project)
 		{
-			$score = (int)floor($project['score_percent']*$project['score']/100+0.5);
+			
+			$score = $ProjectCategoryRatioL->getScoreByProjectIdUserId($project['id'], $project['user_id']);
+
 			if($project['state'] == '0')
 			{
 				$userDatas[$project['user_id']]['doingScore'] +=  $score;
@@ -583,10 +586,12 @@ class IndexController extends AdminController
 			else
 			{
 				$userDatas[$project['user_id']]['doneScore'] +=  $score;
+				$totalDoneScore += $score;
 			}
 			$userDatas[$project['user_id']]['score'] +=  $score;
+			$totalScore += $score;
 		}
-		
+                
 		//拼接use_name字段，同时，将userDatas表中没有的用户信息补入
 		foreach($users as $key => $value)
 		{
