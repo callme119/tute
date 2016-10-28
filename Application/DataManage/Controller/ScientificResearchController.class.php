@@ -60,7 +60,7 @@ class ScientificResearchController extends IndexController
 		parent::init();
 		$cycleId = $this->cycleId;
 		$cycles = $this->cycles;			//取考核周期数据
-		$project = $this->projects;	//取用户项目得分信息
+		$projects = $this->projects;	//取用户项目得分信息
 		$users = $this->users;				//用户信息
 
 		//进行数据缓存
@@ -79,7 +79,7 @@ class ScientificResearchController extends IndexController
 		
 		//取个人得分
 		$ProjectCategoryRatioL = new ProjectCategoryRatioLogic();
-		foreach($project as $key => $project)
+		foreach($projects as $key => $project)
 		{
 			
 			$score = $ProjectCategoryRatioL->getScoreByProjectIdUserId($project['id'], $project['user_id']);
