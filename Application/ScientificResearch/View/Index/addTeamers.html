@@ -5,7 +5,7 @@
             <select name="name[]" class="selectpicker form-control select2">
                 <option value="0">请选择</option>
                 <foreach name="name" item="value" key="key">
-                    <option value="{$value.id}" <eq name="score[user_id]" value="$value[id]">selected="selected"</eq>>{$value.name}</option>
+                    <option value="{$value.id}" <eq name="score['user_id']" value="$value['id']">selected="selected"</eq>>{$value.name}</option>
                 </foreach>
             </select>
         </div>
@@ -13,7 +13,7 @@
     <div class="col-md-3 form-group">
         <div class="input-group">
             <span class="input-group-addon" id="basic-addon1">团队分数占比</span>
-            <input name="score_percent[]" type="text" value="{$score[score_percent]}" class="form-control" placeholder="" aria-describedby="basic-addon1">
+            <input name="score_percent[]" type="text" value="{$score['score']}" class="form-control" placeholder="" aria-describedby="basic-addon1">
         </div>
     </div>
 
