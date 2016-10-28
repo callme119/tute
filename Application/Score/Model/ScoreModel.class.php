@@ -34,8 +34,9 @@ class ScoreModel extends Model{
 			//添加数据
 		foreach ($userId as $key => $value)
 		{
-				//计算分值
-			$data[score_percent] = (int)floor($scorePercent[$key]*100/$sumPercent + 0.5);
+			//计算分值
+			$data['score_percent'] = (int)floor($scorePercent[$key] * 10000 / $sumPercent + 0.5);
+			$data['score'] = (int)$scorePercent[$key];
 			$data['user_id'] = $value;
 			if($this->create($data)){
 				$this->add();
