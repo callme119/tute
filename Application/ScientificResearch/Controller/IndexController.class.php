@@ -250,8 +250,8 @@ class IndexController extends AdminController {
                     $this->_empty();
                 }   
 
-            //判断团队中是否有提交人本人
-            //如果没有加入，他的占比为0
+                //判断团队中是否有提交人本人
+                //如果没有加入，他的占比为0
                 if(!in_array($userId, $name)){
                     $addOneself = $ScoreM->addOneself($projectId,$userId);
                 }
@@ -280,8 +280,8 @@ class IndexController extends AdminController {
 
         //存新的项目扩展信息
         if($dataModelId!==1){
-            $projectDetailM = new projectDetailModel();
-            $projectDetail = $projectDetailM->save($projectId,$dataModelDetailRoots);
+            $ProjectDetailM = new ProjectDetailModel();
+            $projectDetail = $ProjectDetailM->save($projectId,$dataModelDetailRoots);
             if($projectDetail === false)
             {
                 $this->error = "数据添加发生错误，代码" . $this->getError();
@@ -320,48 +320,49 @@ class IndexController extends AdminController {
             }
         }
 
-    $ProjectCategoryL = new ProjectCategoryLogic();
-    $projectCategoryTree = $ProjectCategoryL->getSonsTreeById($pid=0,$type=CONTROLLER_NAME);
-    $projectCategorys = tree_to_list($projectCategoryTree , $id , '_son' );
+        $ProjectCategoryL = new ProjectCategoryLogic();
+        $projectCategoryTree = $ProjectCategoryL->getSonsTreeById($pid=0,$type=CONTROLLER_NAME);
+        $projectCategorys = tree_to_list($projectCategoryTree , $id , '_son' );
 
-    //获取当前用户部门岗位信息（数组）
-    $UserDepartmentPostM = new UserDepartmentPostModel();
-    $userDepartmentPosts = $UserDepartmentPostM->getListsByUserId($userId);
+        //获取当前用户部门岗位信息（数组）
+        $UserDepartmentPostM = new UserDepartmentPostModel();
+        $userDepartmentPosts = $UserDepartmentPostM->getListsByUserId($userId);
+        
+        // dump($userDepartmentPosts);
+        //获取当前岗位下，对应的可用审核流程
+        $ExamineM = new ExamineModel();
+        $examineLists = $ExamineM->getListsByNowPosts($userDepartmentPosts);
+
+        $nameM = new UserModel();
+        $name = $nameM->getAllName();
+
+            //传值
+        $this->assign("examineLists",$examineLists);
+        $this->assign('name',$name);
+        $this->assign("AddM",$AddM);
+        $this->assign('projectCategorys',$projectCategorys);
+        $this->assign("js",$this->fetch('Index/addJs'));
+        $this->assign('YZBODY',$this->fetch('Index/add'));
+        $this->display(YZTemplate);
+    }
+    public function auditprocessAction() {
+        $this->assign('YZBODY',$this->fetch());
+        $this->display(YZTemplate);
+    }
+    public function submittedAction() {
+        $this->assign('YZBODY',$this->fetch());
+        $this->display(YZTemplate);
+    }
+    public function auditsuggestionAction() {
+        $this->assign('YZBODY',$this->fetch());
+        $this->display(YZTemplate);
+    }
     
-    // dump($userDepartmentPosts);
-    //获取当前岗位下，对应的可用审核流程
-    $ExamineM = new ExamineModel();
-    $examineLists = $ExamineM->getListsByNowPosts($userDepartmentPosts);
-
-    $nameM = new UserModel();
-    $name = $nameM->getAllName();
-
-        //传值
-    $this->assign("examineLists",$examineLists);
-    $this->assign('name',$name);
-    $this->assign("AddM",$AddM);
-    $this->assign('projectCategorys',$projectCategorys);
-    $this->assign("js",$this->fetch('Index/addJs'));
-    $this->assign('YZBODY',$this->fetch('Index/add'));
-    $this->display(YZTemplate);
-}
-public function auditprocessAction() {
-    $this->assign('YZBODY',$this->fetch());
-    $this->display(YZTemplate);
-}
-public function submittedAction() {
-    $this->assign('YZBODY',$this->fetch());
-    $this->display(YZTemplate);
-}
-public function auditsuggestionAction() {
-    $this->assign('YZBODY',$this->fetch());
-    $this->display(YZTemplate);
-}
     /**
- *  通过js传过来id，追加select的内容
- *  1.判断穿过来的id的type是否为0（如果为0还有子项目）
- *  2.如果type为0，pid=id取库 
- */
+     *  通过js传过来id，追加select的内容
+     *  1.判断穿过来的id的type是否为0（如果为0还有子项目）
+     *  2.如果type为0，pid=id取库 
+     */
     public function appendAction()
     {
         $return = array('status' =>"" ,'data'=>"" );
@@ -370,15 +371,15 @@ public function auditsuggestionAction() {
         $projectM = new ProjectCategoryModel();
         $type = $projectM->getTypeById($id);
 
-    $pid = $id;//id作为pid取值
-    $res = $projectM->append($pid);
-    $this->assign('data',$res);
-    $return['data'] = $this->fetch(T('ScientificParameter@Index/append'));
-    $return['status'] = $type['type'];
-    //echo $data;
-    $this->ajaxReturn($return);
+        $pid = $id;//id作为pid取值
+        $res = $projectM->append($pid);
+        $this->assign('data',$res);
+        $return['data'] = $this->fetch(T('ScientificParameter@Index/append'));
+        $return['status'] = $type['type'];
+        //echo $data;
+        $this->ajaxReturn($return);
 
-}
+    }
 
     /**
      * 查看项目详情
