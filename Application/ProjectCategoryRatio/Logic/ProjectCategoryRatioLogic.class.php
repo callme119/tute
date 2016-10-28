@@ -76,12 +76,12 @@ class ProjectCategoryRatioLogic extends ProjectCategoryRatioModel
 	public function getScoreByProjectIdUserId($projectId , $userId)
 	{
 		$projectScore = $this->getScoreByProjectId($projectId);
-			//取分值表
+		//取分值表
 		$ScoreL = new ScoreLogic();
 		$score = $ScoreL->getListsByProjectIdUserId($projectId , $userId);
 
 		//通过百分比计算出分数
-		$return = (int)ceil($projectScore*$score['score_percent']/100);
+		$return = (int)ceil($projectScore * $score['score_percent'] / 10000);
 		return $return;
 	}
 
