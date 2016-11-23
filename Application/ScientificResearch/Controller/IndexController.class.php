@@ -122,9 +122,9 @@ class IndexController extends AdminController {
             }
            
             //查询当前用户是否有当前project的修改权限
-            if ($userId != $project[user_id])
+            if ($userId != $project['user_id'])
             {
-                $this->error = "用户userId为" . $userId . "与项目申请用户"  . $project[user_id] . "不符";
+                $this->error = "用户userId为" . $userId . "与项目申请用户"  . $project['user_id'] . "不符";
                 $this->_empty();
             }
         }
@@ -233,16 +233,16 @@ class IndexController extends AdminController {
         {
             $name = I('post.name');
 
-            //判断团队成员只有自己
-            //name为空时，存操作人自己
+            // 团队中只有自己
             if((count(array_unique($name))<2 && array_unique($name)[0]==0) || (count($name)<2 && in_array($userId, $name))){
                 $ScoreL = new ScoreLogic();
                 if(!$ScoreL->addByUserIdProjectIdScorePercent($userId , $projectId))
                 {
                     E("添加分数信息时发生错误，错误信息：" . $ScoreL->getError());
                 }
-            }
-            else{
+
+            // 存在其它团队人员
+            } else {
 
                 //判断是否团队添加了同一个人两次
                 if (count($name) != count(array_unique($name))) {
@@ -264,9 +264,8 @@ class IndexController extends AdminController {
                 }
             }
 
-        }
-        else
-        {
+        // 个人项目
+        } else {
             $ScoreL = new ScoreLogic();
             if(!$ScoreL->addByUserIdProjectIdScorePercent($userId , $projectId))
             {
