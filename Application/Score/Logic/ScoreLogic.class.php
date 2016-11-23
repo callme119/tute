@@ -48,7 +48,16 @@ class ScoreLogic extends ScoreModel
 		return $data;
 	}
 
-	public function addByUserIdProjectIdScorePercent($userId, $projectId , $scorePercent = 100)
+    /**
+     * 添加 用户 项目 分值占比 用户添加分值 信息至数据表
+     * @param    int                   $userId       用户id
+     * @param    int                   $projectId    项目id
+     * @param    integer                  $scorePercent 分值占比
+     * @param    integer                  $score        用户添加的分值
+     * @author 梦云智 http://www.mengyunzhi.com
+     * @DateTime 2016-11-23T08:59:17+0800
+     */
+	public function addByUserIdProjectIdScorePercent($userId, $projectId , $scorePercent = 10000, $score = 100)
 	{
 		if( !$data['user_id'] = (int)$userId )
 		{
@@ -63,7 +72,7 @@ class ScoreLogic extends ScoreModel
 		}
 
 		$data['score_percent'] = (int)$scorePercent;
-
+        $data['score'] = $score;
 		if($this->create($data))
 		{
 			$this->add();
