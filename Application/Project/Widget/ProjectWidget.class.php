@@ -15,6 +15,7 @@ use WorkflowLog\Model\WorkflowLogModel;							//工作流日志
 use ProjectCategoryRatio\Logic\ProjectCategoryRatioLogic;		//类目类别系数
 use Score\Logic\ScoreLogic;										//分值分布
 use User\Logic\UserLogic;		//用户信息
+use Model\ProjectCategory;										// 项目类别
 
 class ProjectWidget extends Controller
 {
@@ -61,6 +62,9 @@ class ProjectWidget extends Controller
 	        $ProjectDetailL = new ProjectDetailLogic();
 	        $projectDetail = $ProjectDetailL->getListsByProjectId($projectId);
 
+	        // 取项目类别信息
+	        $ProjectCategory = new ProjectCategory($project['project_category_id']);
+
 	        //取审核信息
 	        $WorkflowM = new WorkflowModel();
 	        $workflow = $WorkflowM->where("project_id = $projectId")->find();
@@ -92,6 +96,7 @@ class ProjectWidget extends Controller
             $this->assign("projectDetail",$projectDetail);
             $this->assign("workflowLog",$workflowLog);
             $this->assign("todoList",$todoList);
+            $this->assign("ProjectCategory", $ProjectCategory);
 
             $tpl = T("Project@Widget/getDetailById");
            	return $this->fetch($tpl);
