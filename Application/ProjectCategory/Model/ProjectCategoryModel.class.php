@@ -82,7 +82,7 @@ class ProjectCategoryModel extends Model{
 
 		$data['type'] = $post['type'];
 		$data['id'] = $post['id'];
-		// $data['pid'] = !is_numeric($post['pid']) ? 0 : $post['pid'];
+		$data['pid'] = !is_numeric($post['pid']) ? 0 : $post['pid'];
 		$data['score'] = !is_numeric($post['score']) ? 0 : $post['score'];
 		$data['data_model_id'] = !is_numeric($post['data_model_id']) ? 0 : $post['data_model_id'];
 		$data['name'] = trim($post['name']);
