@@ -8,7 +8,7 @@
                 <input name="type" type="hidden" value="{:I('get.type')}" />
                 <div class="row select">
                     <div class="col-md-3 form-group">
-                     <select <php>if(ACTION_NAME == 'edit') echo "disabled";</php> class="selectpicker form-control project" name="pid">
+                     <select class="selectpicker form-control project" name="pid">
                         <option>请选择</option>
                         <foreach name="projectCategory" item="project">
                             <option value="{$project.id}" <php>if($project[id] == I('get.pid')) echo 'selected="selected"';
