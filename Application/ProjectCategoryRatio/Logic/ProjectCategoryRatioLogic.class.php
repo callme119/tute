@@ -148,7 +148,12 @@ class ProjectCategoryRatioLogic extends ProjectCategoryRatioModel
 			if( isset($projectDetails[$key]['value']))
 			{
 				$value = $projectDetails[$key]['value'];
-				$score = $score*$projectCategoryRatios[$value]['ratio']/100;	
+
+				// 防止在项目类别建立后，再进行系数的增加，这样将导致历史的项目中该项无数据。
+				// 进行判断后，再计算，则在计算历史项目分值时，默认将新加入的参数按系数1计算。
+				if (isset($projectCategoryRatios[$value]['ratio'])) {
+					$score = $score*$projectCategoryRatios[$value]['ratio']/100;
+				}
 			}
 		}
 
@@ -172,6 +177,7 @@ class ProjectCategoryRatioLogic extends ProjectCategoryRatioModel
 		}
 		
 		//输出(4舍5入)
-		return (int)floor($score+0.5);
+		$score = (int)floor($score+0.5);
+		return $score;
 	}
 }
