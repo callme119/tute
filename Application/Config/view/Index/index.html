@@ -1,0 +1,6 @@
+<form action={:U('save')} method="post">
+        <label for="begin_date" class="control-label" >系统关闭时间：</label>
+        <input class="span2 datetime" name="closing_time" size="16" type="text" value="{$Config->getData('value') | date='Y-m-d H:00', ###}">
+    <button type="submit" class="btn btn-sm btn-success">确定</button>
+</form>
+<include file="index.js" />

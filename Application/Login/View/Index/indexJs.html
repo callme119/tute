@@ -1,6 +1,16 @@
 
 <script>
+    // 系统是否开放
+    var isSystemOpen = {:boolean_to_string($System->checkSystemIsOpen())};
+
     $(document).ready(function(){
+
+        // 系统处于关闭状态，则隐藏form表单
+        if (!isSystemOpen) {
+            $("#systemColseInfo").show();
+            $("#loginform").hide();
+        }
+
         $("#loginform").validate({
             rules:{
                 username:{
@@ -23,6 +33,12 @@
                 login();
             }
         });
+
+        // 注册 显示登陆表单 事件
+        $("#showForm").on('click', function(){
+            $("#systemColseInfo").hide();
+            $("#loginform").show();
+        })
     });
 
     var login = function()
@@ -67,9 +83,9 @@
     //为ajax增加showloading
     loadingShowDefaults = {
         'position': "right",        // right | inside | overlay
-        'text': "努力加载中...",                 // Text to display next to the loader
+        'text': "加载中，请稍后...",                 // Text to display next to the loader
         'class': "icon-refresh",    // loader CSS class
-        'tpl': '<span class="isloading-wrapper %wrapper%">%text%<i class="%class% icon-spin"></i></span>',
+        'tpl': '<div style="text-align:center;padding-top:240px;color:#ffffff" class="isloading-wrapper %wrapper%">%text%<i class="%class% icon-spin"></i></div>',
         'disableSource': true,      // true | false
         'disableOthers': []
     };
@@ -78,7 +94,6 @@
     $(document).ajaxStart(function(){
         $.isLoading(loadingShowDefaults);
     });
-
     //ajax结束
     $(document).ajaxStop(function(){
         $.isLoading('hide');

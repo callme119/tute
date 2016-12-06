@@ -2,8 +2,13 @@
 namespace Login\Controller;
 use Think\Controller;
 use User\Model\UserModel;
+use Model\System;               // 配置信息
 class IndexController extends Controller {
     public function indexAction(){
+        // 获取系统设置
+        $System = new System;
+        $this->assign('System', $System);
+
         $this->assign('remember',cookie('remember'));
         $this->assign('psw',cookie('password'));
         $this->assign('username',cookie('username'));
@@ -11,7 +16,6 @@ class IndexController extends Controller {
         $this->assign('js',$this->fetch(T('indexJs')));
         $login = $this->fetch(T('index'));
         $this->show($index);
-
     }
 
     //对用户名密码进行判断

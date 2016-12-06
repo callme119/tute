@@ -10,7 +10,9 @@ use Think\Controller;
 use Menu\Model\MenuModel;
 use User\Model\UserModel;
 use Admin\Logic\AdminLogic;
-use WorkflowLog\Logic\WorkflowLogLogic;        //工作流日志
+use WorkflowLog\Logic\WorkflowLogLogic;         //工作流日志
+use Model\System;                               // 系统是否关闭
+use Model\User;                                 // 用户
 class AdminController extends Controller{
     private $cssArr = null; //css
     private $jsArr = null; //js
@@ -83,6 +85,20 @@ class AdminController extends Controller{
             //获取用户基础信息
             $userM = new UserModel;
             $user = $userM->getUserById($userId);
+
+            // 设置用户对象
+            $User = new User;
+            $User->setData($user);
+
+            // 系统如果关装，则判断用户是否为管理员
+            $System = new System;
+            if ($System->checkSystemIsOpen()) {
+                if (!$User->isAdmin()) {
+                    User::logout();
+                    $this->error('系统已关闭', U('Login\index\index'));
+                    return;
+                }
+            }
 
             //开始进行菜单访问权限判断
             //1.获取用户点击或输入的url

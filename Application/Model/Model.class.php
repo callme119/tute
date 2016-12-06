@@ -25,4 +25,16 @@ class Model {
             return '';
         }
     }
+
+    /**
+     * 设置data数据
+     * @param    array                   $data 
+     * @author 梦云智 http://www.mengyunzhi.com
+     * @DateTime 2016-12-06T13:22:48+0800
+     */
+    public function setData($data) {
+        if (is_array($data)) {
+            $this->data = $data;
+        }
+    }
 }

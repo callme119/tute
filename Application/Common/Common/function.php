@@ -1034,3 +1034,18 @@ function union_array($arr1,$arr2){
     $res_array = array_merge($arr2,$intersection);
     return $res_array;
 }
+
+/**
+ * 将布尔类型的值，转化为字符串输入，用于在JS中判断变量的直假
+ * @param    boolean                  $boolean 
+ * @return   'true' | 'false'                            
+ * @author 梦云智 http://www.mengyunzhi.com
+ * @DateTime 2016-12-06T09:32:47+0800
+ */
+function boolean_to_string($boolean = true) {
+    if ($boolean) {
+        return 'true';
+    } else {
+        return 'false';
+    }
+}
