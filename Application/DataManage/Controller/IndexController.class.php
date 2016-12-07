@@ -417,8 +417,8 @@ class IndexController extends AdminController
 			$status = $workflow['is_finished'] ? "已审核" : "审核中";
 			$this->projects[$key]['status'] = $status;
 
-			//取分数
-			$score = $ProjectCategoryRatioL->getScoreByProjectIdUserId($projectId,$userId);
+			//取当前用户的得分
+			$score = $ProjectCategoryRatioL->getScoreByProjectIdUserId($projectId, $this->userId);
 			$this->projects[$key]['score'] = $score;
 			$this->projects[$key]['donScore'] = $workflow['is_finished'] ? $score : 0;
 		}
