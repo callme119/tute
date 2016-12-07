@@ -92,7 +92,7 @@ class AdminController extends Controller{
 
             // 系统如果关装，则判断用户是否为管理员
             $System = new System;
-            if ($System->checkSystemIsOpen()) {
+            if (!$System->checkSystemIsOpen()) {
                 if (!$User->isAdmin()) {
                     User::logout();
                     $this->error('系统已关闭', U('Login\index\index'));
