@@ -62,4 +62,36 @@ class WorkflowModel extends Model{
 		return $return;
 	}
 
+	/**
+	 * 更新上一个审核链信息
+	 * @param    int                   $id         
+	 * @param    integer                  $preChainId 审核链ID
+	 * @return                                  
+	 * @author 梦云智 http://www.mengyunzhi.com
+	 * @DateTime 2016-12-08T10:59:50+0800
+	 */
+	public function updatePreChainIdById($id, $preChainId = 0) {
+		$data = array('id'=> $id, 'pre_chain_id' => $preChainId);
+		if (!$this->create($data)) {
+			$this->error = "数据创建错误，信息：" . $this->getError();
+			return false;
+		}
+		$this->save();
+	}
+
+	/**
+	 * 将审核链回跳到上一个结点
+	 * @param    int                   $id KEY
+	 * @return                          
+	 * @author 梦云智 http://www.mengyunzhi.com
+	 * @DateTime 2016-12-08T12:22:01+0800
+	 */
+	public function backToPreChainId($id) {
+		$data = $this->getListById($id);
+		$data['chain_id'] = $data['pre_chain_id'];
+		if (!$this->create($data)) {
+			return false;
+		}
+		$this->save();
+	}
 }

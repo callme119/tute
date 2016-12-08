@@ -36,8 +36,14 @@ class WorkflowLogLogic extends Model
 
 	/**
 	 * 存入 审核意见 并改变相关状态
+	 * @param    int                   $id     KEY
+	 * @param    int                   $userId 用户ID
+	 * @param    string                   $commit 评论信息
+	 * @return   boolean                           
+	 * @author 梦云智 http://www.mengyunzhi.com
+	 * @DateTime 2016-12-08T09:28:04+0800
 	 */
-	public function saveCommited($id = null, $userId = null)
+	public function saveCommited($id = null, $userId = null, $commit = null)
 	{
 		if(!$this->_validate($id))
 		{
@@ -121,8 +127,17 @@ class WorkflowLogLogic extends Model
 		$data = array();
 		$data['id'] = $id;
 		$data['is_commited'] = '1';
-		$data['commit'] = I('post.commit');
+		if (is_null($commit)) {
+			$data['commit'] = I('post.commit');
+		} else {
+			$data['commit'] = $commit;
+		}
+		
+		// 保存数据
 		$WorkflowLogM->data($data)->save();	
+
+		// 更新审核节点的上一审核链信息
+		$WorkflowM->updatePreChainIdById($workflowId, $chainId);
 		return true;
 	}
 
@@ -153,6 +168,7 @@ class WorkflowLogLogic extends Model
 		$map['id'] = $workflowId;
 		$WorkflowM = new WorkflowModel();
 		$workflow = $WorkflowM->where($map)->find();
+		$preChainId = (int)$workflow['chain_id'];
 
 		//查找对应审核流程的，第一个审核链接值
 		$examineId = $workflow['examine_id'];
@@ -186,6 +202,9 @@ class WorkflowLogLogic extends Model
 		$data['id'] = $workflowId;
 		$data['chain_id'] = $chainId;
 		$WorkflowM->data($data)->save();
+
+		// 更新审核节点的上一审核链信息
+		$WorkflowM->updatePreChainIdById($workflowId, $preChainId);
 
 		return true;
 	}
@@ -274,16 +293,16 @@ class WorkflowLogLogic extends Model
 
 	public function getCurrentListByWorkflowId($workflowId)
 	{
-		$map[workflow_id] = $workflowId;
-		$map[is_commited] = 0;
+		$map['workflow_id'] = $workflowId;
+		$map['is_commited'] = 0;
 		return $this->where($map)->find();
 	}
 
 	public function setListByIdIsCommitedIsClicked($id, $isCommited, $isClicked)
 	{
-		$data[id] = (int)$id;
-		$data[is_commited] = ($isCommited == 1) ? 1 : 0;
-		$data[is_clicked] = ($isClicked == 1) ? 1 : 0;
+		$data['id'] = (int)$id;
+		$data['is_commited'] = ($isCommited == 1) ? 1 : 0;
+		$data['is_clicked'] = ($isClicked == 1) ? 1 : 0;
 		if (!$this->create($data))
 		{
 			$this->error = "数据创建错误，信息：" . $this->getError();

@@ -65,12 +65,8 @@ class IndexController extends AdminController{
         $WorkflowL = new WorkflowLogic();
         $workflow = $WorkflowL->getListById($workflowLog['workflow_id']);
 
-        //取审核链信息
-        $ChainL = new ChainLogic();
-        $chain = $ChainL->getListById($workflow[chain_id]);
-
         //更新审核流
-        $WorkflowL->setListByIdChainId($workflow[id], $chain[pre_id]);
+        $WorkflowL->setListByIdChainId($workflow['id'], $workflow['pre_chain_id']);
 
         $this->success("操作成功", U('finished', I('get.')));
     }

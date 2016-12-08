@@ -19,8 +19,9 @@
 </div>
 <div class="form-group">
     <label class="col-sm-2 control-label">下一审核人:</label>
+    {:var_dump($users)}
     <php>
-        if($users === false || ( count($users) == 0 && $chain[next_id] != 0 )) echo "<h5 class='col-sm-8'>对不起，您所在的部门在该流程结点上未找到符合流程要求的审核人。<br />或<br />您近期的部门岗位发生变动，这将导致您不能继续原有流程。</h5>";
+        if($users === false || ( count($users) == 0 && $chain['next_id'] != 0 )) echo "<h5 class='col-sm-8'>对不起，您所在的部门在该流程结点上未找到符合流程要求的审核人。<br />或<br />您近期的部门岗位发生变动，这将导致您不能继续原有流程。</h5>";
         if($chain[next_id] == 0)
         {
         echo "<h5>流程将办结</h5>";
